@@ -5,23 +5,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-//import { HttpModule } from '@angular/http';
-import { NetworkModule } from './network/network.module';
-import { RESTService } from './network/rest.service';
-import { AppComponent } from './app.component';
-var AppModule = (function () {
-    function AppModule() {
+import { HttpModule } from '@angular/http';
+import { RESTService } from './rest.service';
+var NetworkModule = (function () {
+    function NetworkModule() {
     }
-    return AppModule;
+    return NetworkModule;
 }());
-AppModule = __decorate([
+NetworkModule = __decorate([
     NgModule({
-        imports: [BrowserModule, NetworkModule],
-        declarations: [AppComponent],
-        bootstrap: [AppComponent],
+        imports: [HttpModule],
         providers: [RESTService]
     })
-], AppModule);
-export { AppModule };
-//# sourceMappingURL=app.module.js.map
+], NetworkModule);
+export { NetworkModule };
+//# sourceMappingURL=network.module.js.map
