@@ -22,6 +22,6 @@ public interface SQLAdapter {
 	 * 
 	 * @return: the listing-object
 	 * */
-	Listing getListingById(int listingId) throws ListingNotFoundException;
+	Listing getListingById(long listingId) throws ListingNotFoundException;
 
 }
