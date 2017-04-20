@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Listing } from '../model/listing.model';
 import 'rxjs/add/operator/map';
@@ -10,7 +10,7 @@ export class RESTService {
   /**
    * the base server url
    */
-  private baseServerURL : string = 'http://localhost:3500';
+  private baseServerURL : string = 'http://localhost';
 
   constructor(private http: Http) {
 
@@ -42,4 +42,23 @@ export class RESTService {
   getListing(id : number) : Observable<Listing> {
     return this.http.get(this.baseServerURL + '/listings?id=' + id).map(response => response.json());
   }
+
+  setBaseUrl(baseUrl : string) {
+    this.baseServerURL = baseUrl;
+  }
+
+  setPort(port : number) {
+    this.baseServerURL += ':' + port;
+  }
+
+  get(url: string) : Observable<Response> {
+    return this.http.get(this.baseServerURL + url);
+  }
+
+  post(url: string, body?: any) : Observable<Response> {
+    return this.http.post(this.baseServerURL + url, body);
+  }
+
+
+
 }

@@ -16,7 +16,7 @@ var RESTService = (function () {
         /**
          * the base server url
          */
-        this.baseServerURL = 'http://localhost:3500';
+        this.baseServerURL = 'http://localhost';
     }
     /**
      * creates a listing on the server
@@ -41,6 +41,18 @@ var RESTService = (function () {
      */
     RESTService.prototype.getListing = function (id) {
         return this.http.get(this.baseServerURL + '/listings?id=' + id).map(function (response) { return response.json(); });
+    };
+    RESTService.prototype.setBaseUrl = function (baseUrl) {
+        this.baseServerURL = baseUrl;
+    };
+    RESTService.prototype.setPort = function (port) {
+        this.baseServerURL += ':' + port;
+    };
+    RESTService.prototype.get = function (url) {
+        return this.http.get(this.baseServerURL + url);
+    };
+    RESTService.prototype.post = function (url, body) {
+        return this.http.post(this.baseServerURL + url, body);
     };
     return RESTService;
 }());
