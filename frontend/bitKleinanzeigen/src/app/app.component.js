@@ -9,10 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { Listing } from './model/listing.model';
+import { ListingRequest } from './network/listing.controller';
+import { NetworkRequest } from './network/network.controller';
 import { RESTService } from './network/rest.service';
 var AppComponent = (function () {
-    function AppComponent(restService) {
-        this.restService = restService;
+    function AppComponent(network) {
+        this.network = network;
         this.name = 'Angular';
         this.listings = [];
     }
@@ -21,10 +23,12 @@ var AppComponent = (function () {
      * is not necessary for the app
      */
     AppComponent.prototype.updateListings = function () {
-        this.restService.postListing('SellItem', new Listing()).subscribe(function (res) {
+        /*  this.restService.postListing('SellItem', new Listing()).subscribe(res => {
             console.log(res);
-        });
-        this.restService.getListings().subscribe(function (res) { console.log(res); });
+          });
+          this.restService.getListings().subscribe(res => {console.log(res)});*/
+        //    this.network.postListing('aa', new Listing());
+        this.network.postListing('aa', new Listing()).subscribe(function (res) { return console.log(res); });
     };
     ;
     return AppComponent;
@@ -33,9 +37,9 @@ AppComponent = __decorate([
     Component({
         selector: 'bITKleinanzeigen',
         template: "<h1 (click)=\"updateListings()\">Hello {{name}}</h1>",
-        providers: [RESTService]
+        providers: [ListingRequest, RESTService, NetworkRequest]
     }),
-    __metadata("design:paramtypes", [RESTService])
+    __metadata("design:paramtypes", [ListingRequest])
 ], AppComponent);
 export { AppComponent };
 //# sourceMappingURL=app.component.js.map
