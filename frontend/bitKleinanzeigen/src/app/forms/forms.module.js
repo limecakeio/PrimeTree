@@ -6,23 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NetworkModule } from './network/network.module';
-import { AppComponent } from './app.component';
-import { RESTService } from './network/rest.service';
-import { FormsModule } from '@angular/forms';
-import { ListingFormsModule } from './forms/forms.module';
-var AppModule = (function () {
-    function AppModule() {
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CreateListingFormComponent } from './CreateListingForm.component';
+var ListingFormsModule = (function () {
+    function ListingFormsModule() {
     }
-    return AppModule;
+    return ListingFormsModule;
 }());
-AppModule = __decorate([
+ListingFormsModule = __decorate([
     NgModule({
-        imports: [BrowserModule, FormsModule, NetworkModule, ListingFormsModule],
-        declarations: [AppComponent],
-        bootstrap: [AppComponent],
-        providers: [RESTService]
+        imports: [BrowserModule, FormsModule, ReactiveFormsModule],
+        declarations: [CreateListingFormComponent],
+        exports: [CreateListingFormComponent],
+        providers: []
     })
-], AppModule);
-export { AppModule };
-//# sourceMappingURL=app.module.js.map
+], ListingFormsModule);
+export { ListingFormsModule };
+//# sourceMappingURL=forms.module.js.map

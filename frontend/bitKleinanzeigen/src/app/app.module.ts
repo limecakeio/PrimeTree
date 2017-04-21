@@ -6,9 +6,11 @@ import { ListingRequest } from './network/listing.controller';
 import { NetworkRequest } from './network/network.controller';
 import { RESTService } from './network/rest.service';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
+import { ListingFormsModule } from './forms/forms.module';
 
 @NgModule({
-  imports:      [ BrowserModule, NetworkModule],
+  imports:      [ BrowserModule, FormsModule, NetworkModule, ListingFormsModule ],
   declarations: [ AppComponent ],
   bootstrap:    [ AppComponent ],
   providers: [ RESTService ]

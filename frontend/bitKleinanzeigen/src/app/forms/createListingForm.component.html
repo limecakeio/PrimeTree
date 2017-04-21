@@ -1,0 +1,51 @@
+<style>
+  input.ng-dirty.ng-invalid { border: 2px solid #ff0000 }
+  input.ng-dirty.ng-valid { border: 2px solid #6bc502 }
+</style>
+
+<section id="listing-form-section" class="listing-form-wrapper listing-form">
+  <div class="form-container jumbotron">
+    <form id="listing-form"
+    novalidate
+    [formGroup]="form"
+    (ngSubmit)="submitListing(form)">
+      <div class="form-group">
+        <div class="form-title">
+          <h2>Verkaufsinserat erstellen...</h2>
+        </div>
+        <div class="input-group"><!-- Überschrift form element -->
+          <span>Überschrift</span>
+          <input type="text"
+          name="title"
+          [(ngModel)]="listing.title"
+          formControlName="title"
+          class="form-control"
+          aria-label="Titel (des Inserates)">
+
+        </div>
+        <div class="input-group"><!-- Verkaufspreis form element -->
+          <span>Preis</span>
+          <input type="text"
+          name="price"
+          [(ngModel)]="listing.price"
+          formControlName="price"
+          class="form-control"
+          aria-label="Verkaufspreis">
+        </div>
+        <div class="input-group"><!-- Verkaufspreis form element -->
+          <span>Verkaufsbeschreibung</span>
+          <textarea type="text"
+          class="form-control"
+          [(ngModel)]="listing.description"
+          formControlName="description"
+          name="description"
+          aria-label="Inseratbeschreibung"
+          placeholder="Beschreibe den zu verkaufenden Gegenstand."></textarea>
+        </div>
+        <button type="submit"
+        [disabled]="formSubmitted || form.invalid"
+        class="btn btn-primary">Inserat erstellen</button>
+      </div>
+    </form>
+  </div>
+</section>
