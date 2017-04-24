@@ -27,7 +27,7 @@ export class NetworkRequest {
   private body : any;
 
   constructor(private networkService : RESTService) {
-    this.networkService.setBaseUrl('http://localhost');
+    this.networkService.setBaseUrl('http://141.19.145.175');
   }
 
   addQuery(key : string, value : string) : NetworkRequest {

@@ -49,9 +49,12 @@ var RESTService = (function () {
         this.baseServerURL += ':' + port;
     };
     RESTService.prototype.get = function (url) {
+        console.log(this.baseServerURL + url);
         return this.http.get(this.baseServerURL + url);
     };
     RESTService.prototype.post = function (url, body) {
+        console.log(this.baseServerURL + url);
+        console.log(body);
         return this.http.post(this.baseServerURL + url, body);
     };
     return RESTService;
