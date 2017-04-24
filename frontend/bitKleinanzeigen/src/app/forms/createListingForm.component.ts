@@ -14,9 +14,9 @@ export class CreateListingFormComponent implements OnInit {
   formSubmitted : boolean = false;
 
   constructor(private network : ListingRequest) {
-  //  this.listing.title = 'Erik';
-  //  this.listing.description = 'Ist ein Mensch';
-  //  this.listing.price = 5000;
+    this.listing.title = 'efeag';
+    this.listing.description = 'Ist ein Mensch';
+    this.listing.price = 5000;
   }
 
   ngOnInit() {
@@ -28,9 +28,11 @@ export class CreateListingFormComponent implements OnInit {
   }
 
   submitListing(form?: any) : void {
+    console.log('aaa')
     console.log(this.form.controls);
     if (this.form.valid) {
       this.network.postListing('SellItem', this.listing).subscribe(res => console.log(res));
+    //this.network.test();
       this.formSubmitted = true;
     }
   }

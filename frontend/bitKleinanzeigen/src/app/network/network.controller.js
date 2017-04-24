@@ -25,7 +25,7 @@ var NetworkRequest = (function () {
         this.hasPath = false;
         this.baseUrl = '';
         this.hasPort = false;
-        this.networkService.setBaseUrl('http://localhost');
+        this.networkService.setBaseUrl('http://141.19.145.175');
     }
     NetworkRequest.prototype.addQuery = function (key, value) {
         if (this.hasQuery) {
