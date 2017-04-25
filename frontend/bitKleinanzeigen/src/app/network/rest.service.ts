@@ -57,7 +57,9 @@ export class RESTService {
   }
 
   post(url: string, body?: any) : Observable<Response> {
-    console.log(this.baseServerURL + url);
+    console.log('POST:');
+    console.log('URL: ' + this.baseServerURL + url);
+    console.log('Body:');
     console.log(body);
     return this.http.post(this.baseServerURL + url, body);
   }

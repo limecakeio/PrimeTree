@@ -16,9 +16,9 @@ var CreateListingFormComponent = (function () {
         this.network = network;
         this.listing = new SellItem();
         this.formSubmitted = false;
-        this.listing.title = 'efeag';
-        this.listing.description = 'Ist ein Mensch';
-        this.listing.price = 5000;
+        //  this.listing.title = 'efeag';
+        //  this.listing.description = 'Ist ein Mensch';
+        //  this.listing.price = 5000;
     }
     CreateListingFormComponent.prototype.ngOnInit = function () {
         this.form = new FormGroup({
@@ -28,13 +28,14 @@ var CreateListingFormComponent = (function () {
         });
     };
     CreateListingFormComponent.prototype.submitListing = function (form) {
-        console.log('aaa');
-        console.log(this.form.controls);
         if (this.form.valid) {
             this.network.postListing('SellItem', this.listing).subscribe(function (res) { return console.log(res); });
-            //this.network.test();
             this.formSubmitted = true;
         }
+    };
+    CreateListingFormComponent.prototype.test = function (form) {
+        console.log('Inserat get test');
+        this.network.getListing().subscribe(function (res) { return console.log(res); });
     };
     return CreateListingFormComponent;
 }());

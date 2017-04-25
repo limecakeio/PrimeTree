@@ -53,7 +53,9 @@ var RESTService = (function () {
         return this.http.get(this.baseServerURL + url);
     };
     RESTService.prototype.post = function (url, body) {
-        console.log(this.baseServerURL + url);
+        console.log('POST:');
+        console.log('URL: ' + this.baseServerURL + url);
+        console.log('Body:');
         console.log(body);
         return this.http.post(this.baseServerURL + url, body);
     };

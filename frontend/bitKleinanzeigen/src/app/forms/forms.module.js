@@ -5,7 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateListingFormComponent } from './CreateListingForm.component';
 var ListingFormsModule = (function () {
@@ -15,7 +15,7 @@ var ListingFormsModule = (function () {
 }());
 ListingFormsModule = __decorate([
     NgModule({
-        imports: [BrowserModule, FormsModule, ReactiveFormsModule],
+        imports: [CommonModule, FormsModule, ReactiveFormsModule],
         declarations: [CreateListingFormComponent],
         exports: [CreateListingFormComponent],
         providers: []
