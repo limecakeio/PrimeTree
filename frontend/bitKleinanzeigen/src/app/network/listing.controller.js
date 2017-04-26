@@ -25,14 +25,6 @@ var ListingRequest = (function () {
                 listingDescription: listing.description,
                 price: listing.price,
                 listingType: listingType
-            },
-            message: {
-                newListingData: {
-                    title: listing.title,
-                    listingDescription: listing.description,
-                    price: listing.price,
-                    listingType: listingType
-                }
             }
         })
             .sendRequest()
@@ -41,8 +33,9 @@ var ListingRequest = (function () {
     ListingRequest.prototype.getListing = function () {
         return this.networkRequest.
             setHttpMethod(HttpMethod.GET)
-            .addPath('listings')
-            .addQuery('id', '5')
+            .setPort(8080)
+            .addPath('listing/get')
+            .addQuery('listingId', '1')
             .sendRequest()
             .map(function (response) { return response.json(); });
     };

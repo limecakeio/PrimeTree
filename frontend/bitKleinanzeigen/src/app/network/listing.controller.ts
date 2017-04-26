@@ -21,15 +21,8 @@ export class ListingRequest {
         listingDescription : listing.description,
         price: listing.price,
         listingType: listingType
-    },
-  message : {
-    newListingData: {
-      title : listing.title,
-      listingDescription : listing.description,
-      price: listing.price,
-      listingType: listingType
-  }
-  }})
+      }
+    })
     .sendRequest()
     .map(response => response.json());
   }
@@ -37,8 +30,9 @@ export class ListingRequest {
   getListing() : Observable<Listing> {
     return this.networkRequest.
     setHttpMethod(HttpMethod.GET)
-    .addPath('listings')
-    .addQuery('id', '5')
+    .setPort(8080)
+    .addPath('listing/get')
+    .addQuery('listingId', '1')
     .sendRequest()
     .map(response => response.json());
   }
