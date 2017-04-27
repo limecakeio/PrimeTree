@@ -16,7 +16,7 @@ public class SQLAdapterImpl implements SQLAdapter {
 		return getListingControllerWithTheRightType(newListingData).createAndPersistNewInstance(newListingData, creatorId);
 	}
 
-	public Listing getListingById(int listingId) throws ListingNotFoundException {
+	public Listing getListingById(long listingId) throws ListingNotFoundException {
 		return Constants.listingRepository.findOne((long) listingId);
 	}
 	
