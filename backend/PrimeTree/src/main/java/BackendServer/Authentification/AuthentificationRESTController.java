@@ -1,6 +1,7 @@
 package BackendServer.Authentification;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
 import org.json.JSONObject;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import BackendServer.Exceptions.WrongFormatException;
 
@@ -18,13 +20,13 @@ import BackendServer.Exceptions.WrongFormatException;
 public class AuthentificationRESTController {
 	
 	@CrossOrigin
-	@RequestMapping(value = "/login", method=RequestMethod.POST)
-    public @ResponseBody Session login(@RequestBody String body, HttpServletRequest req){
-		return null;
+	@RequestMapping(value = "/login", method=RequestMethod.GET)
+    public @ResponseBody String login(@RequestBody String body, HttpServletRequest req){
+		return "/login";
     }
 	
 	@CrossOrigin
-	@RequestMapping(value = "/logout", method=RequestMethod.POST)
+	@RequestMapping(value = "/logout", method=RequestMethod.GET)
     public @ResponseBody void logout(@RequestBody String body, HttpServletRequest req){
 		return;
     }
