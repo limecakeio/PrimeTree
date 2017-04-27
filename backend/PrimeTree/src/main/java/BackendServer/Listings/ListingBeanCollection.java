@@ -26,7 +26,7 @@ import BackendServer.Listings.ObjectControllers.SellItemObjectController;
 @Configuration
 @PropertySource({ "classpath:application.properties" })
 @EnableJpaRepositories(
-		basePackages = "BackendServer.Listings.ListingRepositories",
+		basePackages = "BackendServer.Listings.Repositories",
 		entityManagerFactoryRef = "listingEntityManager", 
 	    transactionManagerRef = "listingTransactionManager"
 		)
@@ -42,7 +42,7 @@ public class ListingBeanCollection {
           = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(listingDataSource());
         em.setPackagesToScan(
-          new String[] { "BackendServer.ListingEntities" });
+          new String[] { "BackendServer.Listings.Entities" });
  
         HibernateJpaVendorAdapter vendorAdapter
           = new HibernateJpaVendorAdapter();

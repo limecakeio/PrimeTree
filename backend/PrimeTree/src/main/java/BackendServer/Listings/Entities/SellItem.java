@@ -13,7 +13,6 @@ import BackendServer.Listings.Constants;
 @Entity
 @Table(name="SellItem")
 @PrimaryKeyJoinColumn(referencedColumnName="id")
-@Inheritance( strategy = InheritanceType.JOINED )
 public class SellItem extends Offering{
 	private int price;
 	

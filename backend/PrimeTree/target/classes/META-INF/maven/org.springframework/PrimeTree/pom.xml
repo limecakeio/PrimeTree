@@ -26,8 +26,6 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-<<<<<<< HEAD
 <!--		<dependency>-->
 <!--			<groupId>org.springframework.security</groupId>-->
 <!--			<artifactId>spring-security-web</artifactId>-->
@@ -39,19 +37,6 @@
 <!--			<artifactId>spring-security-config</artifactId>-->
  <!--    	    <version>4.2.2.RELEASE</version>-->
 <!--		</dependency>-->
-=======
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-<!--			<version>4.2.2.RELEASE</version> -->
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-     	    <version>4.2.2.RELEASE</version>
-		</dependency>
->>>>>>> 06e17b98c00ea46aaa1435dbf453cd3c9c74163e
 		
 		<dependency>
         	<groupId>org.springframework.boot</groupId>
@@ -92,9 +77,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-<<<<<<< HEAD
 </project>
-=======
-</project>
->>>>>>> 06e17b98c00ea46aaa1435dbf453cd3c9c74163e
