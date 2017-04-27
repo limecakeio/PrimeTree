@@ -5,22 +5,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
-import { ListingRequest } from './listing.controller';
-import { RESTService } from './rest.service';
-import { NetworkService } from './network.service';
-var NetworkModule = NetworkModule_1 = (function () {
-    function NetworkModule() {
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './login.component';
+var LoginModul = (function () {
+    function LoginModul() {
     }
-    return NetworkModule;
+    return LoginModul;
 }());
-NetworkModule = NetworkModule_1 = __decorate([
+LoginModul = __decorate([
     NgModule({
-        imports: [HttpModule],
-        providers: [NetworkModule_1, ListingRequest, RESTService, NetworkService],
-        exports: [HttpModule]
+        imports: [CommonModule, FormsModule, ReactiveFormsModule],
+        declarations: [LoginComponent],
+        providers: [],
+        exports: [LoginComponent]
     })
-], NetworkModule);
-export { NetworkModule };
-var NetworkModule_1;
-//# sourceMappingURL=network.module.js.map
+], LoginModul);
+export { LoginModul };
+//# sourceMappingURL=login.module.js.map

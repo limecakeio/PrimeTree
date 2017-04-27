@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateListingFormComponent } from './CreateListingForm.component';
+import { NetworkService } from '../network/network.service';
 var ListingFormsModule = (function () {
     function ListingFormsModule() {
     }
@@ -18,7 +19,7 @@ ListingFormsModule = __decorate([
         imports: [CommonModule, FormsModule, ReactiveFormsModule],
         declarations: [CreateListingFormComponent],
         exports: [CreateListingFormComponent],
-        providers: []
+        providers: [NetworkService]
     })
 ], ListingFormsModule);
 export { ListingFormsModule };

@@ -8,17 +8,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Injectable } from '@angular/core';
-import { NetworkRequest, HttpMethod } from './network.controller';
+import { RequestMethod } from '@angular/http';
+import { NetworkRequest } from './network.request';
 import 'rxjs/add/operator/map';
+import { NetworkService } from './network.service';
 var ListingRequest = (function () {
-    function ListingRequest(networkRequest) {
-        this.networkRequest = networkRequest;
+    function ListingRequest(/*private networkRequest : NetworkRequest, */ networkService) {
+        this.networkService = networkService;
     }
     ListingRequest.prototype.postListing = function (listingType, listing) {
-        return this.networkRequest
-            .setHttpMethod(HttpMethod.POST)
+        /*  return this.networkRequest
+          .setHttpMethod(HttpMethod.POST)
+          .setPort(8080)
+          .addPath('listing/create')
+          .setBody({
+            newListingData: {
+              title : listing.title,
+              listingDescription : listing.description,
+              price: listing.price,
+              listingType: listingType
+            }
+          })
+          .sendRequest()
+          .map(response => response.json());*/
+        var request = new NetworkRequest();
+        request.
+            setHttpMethod(RequestMethod.Post)
             .setPort(8080)
-            .addPath('listing/create')
+            .addPath('listing')
+            .addPath('create')
             .setBody({
             newListingData: {
                 title: listing.title,
@@ -26,47 +44,40 @@ var ListingRequest = (function () {
                 price: listing.price,
                 listingType: listingType
             }
-        })
-            .sendRequest()
-            .map(function (response) { return response.json(); });
+        });
+        return this.networkService.send(request).map(function (response) { return response.json(); });
     };
     ListingRequest.prototype.getListing = function () {
-        return this.networkRequest.
-            setHttpMethod(HttpMethod.GET)
+        /*  return this.networkRequest.
+          setHttpMethod(HttpMethod.GET)
+          .setPort(8080)
+          .addPath('listing/get')
+          .addQuery('listingId', '1')
+          .sendRequest()
+          .map(response => response.json());*/
+        var request = new NetworkRequest();
+        request.setHttpMethod(RequestMethod.Get)
             .setPort(8080)
-            .addPath('listing/get')
-            .addQuery('listingId', '1')
-            .sendRequest()
-            .map(function (response) { return response.json(); });
+            .addPath('listing')
+            .addPath('get')
+            .addQuery('listingId', '1');
+        return this.networkService.send(request).map(function (response) { return response.json(); });
     };
     ListingRequest.prototype.getAllListings = function () {
-        return this.networkRequest.
-            setHttpMethod(HttpMethod.GET)
-            .addPath('listings')
-            .sendRequest()
-            .map(function (response) { return response.json(); });
-    };
-    Object.defineProperty(ListingRequest.prototype, "request", {
-        get: function () {
-            return this.networkRequest;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ListingRequest.prototype.test = function () {
-        return this.networkRequest
-            .setHttpMethod(HttpMethod.GET)
-            .setPort(8080)
-            .addPath('listings/get')
-            .setBody({ listingId: 500 })
-            .sendRequest()
-            .map(function (response) { return response.json(); });
+        /*  return this.networkRequest.
+          setHttpMethod(HttpMethod.GET)
+          .addPath('listings')
+          .sendRequest()
+          .map(response => response.json());*/
+        var request = new NetworkRequest();
+        request.setHttpMethod(RequestMethod.Get);
+        return this.networkService.send(request).map(function (response) { return response.json(); });
     };
     return ListingRequest;
 }());
 ListingRequest = __decorate([
     Injectable(),
-    __metadata("design:paramtypes", [NetworkRequest])
+    __metadata("design:paramtypes", [NetworkService])
 ], ListingRequest);
 export { ListingRequest };
 //# sourceMappingURL=listing.controller.js.map
