@@ -1,4 +1,4 @@
-package BackendServer;
+package BackendServer.ListingEntities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,23 +10,25 @@ import javax.persistence.Table;
 
 import org.json.JSONObject;
 
+import BackendServer.Constants;
+
 @Entity
 @Table(name="Listing")
 @Inheritance( strategy = InheritanceType.JOINED )
 public abstract class Listing {
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    private long id;
 	private String title;
 	private String description;
 	
-	
-	public Listing(JSONObject listingData, int creatorId){
+	/***/
+	public void fillFields(JSONObject listingData, int creatorId){
 		this.setTitle(listingData.getString(Constants.listingDataFieldNameTitle));
 		this.setDescription(listingData.getString(Constants.listingDataFieldNameDescription));
 	}
 
-	public int getListingId() {
+	public long getListingId() {
 		return this.id;
 	}
 
@@ -45,7 +47,6 @@ public abstract class Listing {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-    
     
 }
 

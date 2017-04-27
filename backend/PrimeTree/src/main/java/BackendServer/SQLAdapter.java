@@ -1,6 +1,10 @@
 package BackendServer;
 import org.json.JSONObject;
 
+import BackendServer.Exceptions.ListingNotFoundException;
+import BackendServer.Exceptions.WrongFormatException;
+import BackendServer.ListingEntities.Listing;
+
 public interface SQLAdapter {
 	
 	/**This method takes the data for a new listing in a single object and creates a persisted entry in the ListingDatabase.

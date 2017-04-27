@@ -1,4 +1,4 @@
-package BackendServer;
+package BackendServer.Exceptions;
 
 public class WrongFormatException extends Exception {
 
