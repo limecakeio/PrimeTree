@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Listing, Offering, SellItem } from '../model/listing.model';
 import { ListingRequest } from '../network/listing.controller';
-import { NetworkService } from '../network/network.service';
 
 @Component({
   selector: 'createListingForm',
-  providers: [ NetworkService ],
   templateUrl: 'createListingForm.component.html',
   styleUrls: ['createListingForm.component.css']
 })

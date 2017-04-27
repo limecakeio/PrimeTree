@@ -26,7 +26,7 @@ export class NetworkService {
       method: request.getHttpMethod(),
       url: request.getUrl(),
       body: request.getBody(),
-      withCredentials: true
+      withCredentials: false
     }));
   }
 
@@ -35,7 +35,7 @@ export class NetworkService {
       method: request.getHttpMethod(),
       url: request.getUrl(),
       body: request.getBody(),
-      withCredentials: true,
+      withCredentials: false,
       headers: headers
     }));
   }

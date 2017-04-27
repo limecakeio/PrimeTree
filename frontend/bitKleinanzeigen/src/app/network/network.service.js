@@ -31,7 +31,7 @@ var NetworkService = (function () {
             method: request.getHttpMethod(),
             url: request.getUrl(),
             body: request.getBody(),
-            withCredentials: true
+            withCredentials: false
         }));
     };
     NetworkService.prototype.sendRequestWithHeaders = function (request, headers) {
@@ -39,7 +39,7 @@ var NetworkService = (function () {
             method: request.getHttpMethod(),
             url: request.getUrl(),
             body: request.getBody(),
-            withCredentials: true,
+            withCredentials: false,
             headers: headers
         }));
     };

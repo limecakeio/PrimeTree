@@ -1,7 +1,7 @@
 var NetworkRequest = (function () {
     function NetworkRequest() {
         this.headers = [];
-        this.hostname = '141.19.145.175';
+        this.hostname = 'localhost';
         this.hasPort = false;
         this.query = '';
         this.hasQuery = false;

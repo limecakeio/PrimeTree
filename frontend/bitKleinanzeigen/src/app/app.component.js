@@ -6,8 +6,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { Component } from '@angular/core';
 import { ListingRequest } from './network/listing.controller';
-import { NetworkRequest } from './network/network.controller';
-import { RESTService } from './network/rest.service';
 import { NetworkService } from './network/network.service';
 var AppComponent = (function () {
     function AppComponent() {
@@ -19,7 +17,7 @@ AppComponent = __decorate([
         selector: 'bITKleinanzeigen',
         templateUrl: 'app.component.html',
         styleUrls: ['app.component.css'],
-        providers: [ListingRequest, RESTService, NetworkRequest, NetworkService]
+        providers: [ListingRequest, NetworkService]
     })
 ], AppComponent);
 export { AppComponent };

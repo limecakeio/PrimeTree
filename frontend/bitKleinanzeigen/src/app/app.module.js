@@ -8,7 +8,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NetworkModule } from './network/network.module';
 import { AppComponent } from './app.component';
-import { RESTService } from './network/rest.service';
 import { FormsModule } from '@angular/forms';
 import { ListingFormsModule } from './forms/forms.module';
 import { LoginModul } from './login/login.module';
@@ -23,7 +22,7 @@ AppModule = __decorate([
         imports: [BrowserModule, FormsModule, NetworkModule, ListingFormsModule, LoginModul],
         declarations: [AppComponent],
         bootstrap: [AppComponent],
-        providers: [RESTService, NetworkService]
+        providers: [NetworkService]
     })
 ], AppModule);
 export { AppModule };

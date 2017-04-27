@@ -7,20 +7,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { ListingRequest } from './listing.controller';
-import { RESTService } from './rest.service';
 import { NetworkService } from './network.service';
-var NetworkModule = NetworkModule_1 = (function () {
+var NetworkModule = (function () {
     function NetworkModule() {
     }
     return NetworkModule;
 }());
-NetworkModule = NetworkModule_1 = __decorate([
+NetworkModule = __decorate([
     NgModule({
         imports: [HttpModule],
-        providers: [NetworkModule_1, ListingRequest, RESTService, NetworkService],
+        providers: [ListingRequest, NetworkService],
         exports: [HttpModule]
     })
 ], NetworkModule);
 export { NetworkModule };
-var NetworkModule_1;
 //# sourceMappingURL=network.module.js.map

@@ -13,28 +13,13 @@ import { NetworkRequest } from './network.request';
 import 'rxjs/add/operator/map';
 import { NetworkService } from './network.service';
 var ListingRequest = (function () {
-    function ListingRequest(/*private networkRequest : NetworkRequest, */ networkService) {
+    function ListingRequest(networkService) {
         this.networkService = networkService;
     }
     ListingRequest.prototype.postListing = function (listingType, listing) {
-        /*  return this.networkRequest
-          .setHttpMethod(HttpMethod.POST)
-          .setPort(8080)
-          .addPath('listing/create')
-          .setBody({
-            newListingData: {
-              title : listing.title,
-              listingDescription : listing.description,
-              price: listing.price,
-              listingType: listingType
-            }
-          })
-          .sendRequest()
-          .map(response => response.json());*/
         var request = new NetworkRequest();
-        request.
-            setHttpMethod(RequestMethod.Post)
-            .setPort(8080)
+        request.setHttpMethod(RequestMethod.Post)
+            .setPort(3500)
             .addPath('listing')
             .addPath('create')
             .setBody({
@@ -48,13 +33,6 @@ var ListingRequest = (function () {
         return this.networkService.send(request).map(function (response) { return response.json(); });
     };
     ListingRequest.prototype.getListing = function () {
-        /*  return this.networkRequest.
-          setHttpMethod(HttpMethod.GET)
-          .setPort(8080)
-          .addPath('listing/get')
-          .addQuery('listingId', '1')
-          .sendRequest()
-          .map(response => response.json());*/
         var request = new NetworkRequest();
         request.setHttpMethod(RequestMethod.Get)
             .setPort(8080)
@@ -64,14 +42,15 @@ var ListingRequest = (function () {
         return this.networkService.send(request).map(function (response) { return response.json(); });
     };
     ListingRequest.prototype.getAllListings = function () {
-        /*  return this.networkRequest.
-          setHttpMethod(HttpMethod.GET)
-          .addPath('listings')
-          .sendRequest()
-          .map(response => response.json());*/
         var request = new NetworkRequest();
         request.setHttpMethod(RequestMethod.Get);
         return this.networkService.send(request).map(function (response) { return response.json(); });
+    };
+    ListingRequest.prototype.getRequest = function () {
+        return new NetworkRequest();
+    };
+    ListingRequest.prototype.sendRequest = function (request) {
+        return this.networkService.send(request);
     };
     return ListingRequest;
 }());

@@ -11,7 +11,6 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SellItem } from '../model/listing.model';
 import { ListingRequest } from '../network/listing.controller';
-import { NetworkService } from '../network/network.service';
 var CreateListingFormComponent = (function () {
     function CreateListingFormComponent(network) {
         this.network = network;
@@ -43,7 +42,6 @@ var CreateListingFormComponent = (function () {
 CreateListingFormComponent = __decorate([
     Component({
         selector: 'createListingForm',
-        providers: [NetworkService],
         templateUrl: 'createListingForm.component.html',
         styleUrls: ['createListingForm.component.css']
     }),
