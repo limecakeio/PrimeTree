@@ -9,6 +9,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NetworkModule } from './network/network.module';
 import { AppComponent } from './app.component';
 import { RESTService } from './network/rest.service';
+import { FormsModule } from '@angular/forms';
+import { ListingFormsModule } from './forms/forms.module';
 var AppModule = (function () {
     function AppModule() {
     }
@@ -16,7 +18,7 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     NgModule({
-        imports: [BrowserModule, NetworkModule],
+        imports: [BrowserModule, FormsModule, NetworkModule, ListingFormsModule],
         declarations: [AppComponent],
         bootstrap: [AppComponent],
         providers: [RESTService]

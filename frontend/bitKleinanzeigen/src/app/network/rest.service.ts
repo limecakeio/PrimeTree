@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Listing } from '../model/listing.model';
 import 'rxjs/add/operator/map';
@@ -52,10 +52,15 @@ export class RESTService {
   }
 
   get(url: string) : Observable<Response> {
+    console.log(this.baseServerURL + url);
     return this.http.get(this.baseServerURL + url);
   }
 
   post(url: string, body?: any) : Observable<Response> {
+    console.log('POST:');
+    console.log('URL: ' + this.baseServerURL + url);
+    console.log('Body:');
+    console.log(body);
     return this.http.post(this.baseServerURL + url, body);
   }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { NetworkRequest, HttpMethod } from './network.controller';
-import { Listing } from '../model/listing.model';
+import { Listing, SellItem } from '../model/listing.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
@@ -10,12 +10,19 @@ export class ListingRequest {
 
   constructor(private networkRequest : NetworkRequest) { }
 
-  postListing(listingType : string, listing : Listing) : Observable<any> {
+  postListing(listingType : string, listing : SellItem) : Observable<any> {
     return this.networkRequest
     .setHttpMethod(HttpMethod.POST)
-    .setPort(3500)
-    .addPath('listings')
-    .setBody({type: listingType, listing: listing})
+    .setPort(8080)
+    .addPath('listing/create')
+    .setBody({
+      newListingData: {
+        title : listing.title,
+        listingDescription : listing.description,
+        price: listing.price,
+        listingType: listingType
+      }
+    })
     .sendRequest()
     .map(response => response.json());
   }
@@ -23,8 +30,9 @@ export class ListingRequest {
   getListing() : Observable<Listing> {
     return this.networkRequest.
     setHttpMethod(HttpMethod.GET)
-    .addPath('listings')
-    .addQuery('id', '5')
+    .setPort(8080)
+    .addPath('listing/get')
+    .addQuery('listingId', '1')
     .sendRequest()
     .map(response => response.json());
   }
@@ -39,6 +47,16 @@ export class ListingRequest {
 
   get request() : NetworkRequest {
     return this.networkRequest;
+  }
+
+  test() : Observable<Response> {
+    return this.networkRequest
+    .setHttpMethod(HttpMethod.GET)
+    .setPort(8080)
+    .addPath('listings/get')
+    .setBody({listingId: 500})
+    .sendRequest()
+    .map(response => response.json());
   }
 
 }

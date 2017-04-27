@@ -17,17 +17,25 @@ var ListingRequest = (function () {
     ListingRequest.prototype.postListing = function (listingType, listing) {
         return this.networkRequest
             .setHttpMethod(HttpMethod.POST)
-            .setPort(3500)
-            .addPath('listings')
-            .setBody({ type: listingType, listing: listing })
+            .setPort(8080)
+            .addPath('listing/create')
+            .setBody({
+            newListingData: {
+                title: listing.title,
+                listingDescription: listing.description,
+                price: listing.price,
+                listingType: listingType
+            }
+        })
             .sendRequest()
             .map(function (response) { return response.json(); });
     };
     ListingRequest.prototype.getListing = function () {
         return this.networkRequest.
             setHttpMethod(HttpMethod.GET)
-            .addPath('listings')
-            .addQuery('id', '5')
+            .setPort(8080)
+            .addPath('listing/get')
+            .addQuery('listingId', '1')
             .sendRequest()
             .map(function (response) { return response.json(); });
     };
@@ -45,6 +53,15 @@ var ListingRequest = (function () {
         enumerable: true,
         configurable: true
     });
+    ListingRequest.prototype.test = function () {
+        return this.networkRequest
+            .setHttpMethod(HttpMethod.GET)
+            .setPort(8080)
+            .addPath('listings/get')
+            .setBody({ listingId: 500 })
+            .sendRequest()
+            .map(function (response) { return response.json(); });
+    };
     return ListingRequest;
 }());
 ListingRequest = __decorate([
