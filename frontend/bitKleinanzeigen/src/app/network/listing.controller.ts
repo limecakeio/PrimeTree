@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
-import { NetworkRequest, HttpMethod } from './network.controller';
+import { Response, RequestMethod } from '@angular/http';
+// import { NetworkRequest, HttpMethod } from './network.controller';
 import { Listing, SellItem } from '../model/listing.model';
 import { Observable } from 'rxjs/Observable';
+import { NetworkRequest } from './network.request';
 import 'rxjs/add/operator/map';
+import { NetworkService } from './network.service';
 
 @Injectable()
 export class ListingRequest {
 
-  constructor(private networkRequest : NetworkRequest) { }
+  constructor(/*private networkRequest : NetworkRequest, */private networkService : NetworkService) { }
 
   postListing(listingType : string, listing : SellItem) : Observable<any> {
-    return this.networkRequest
+  /*  return this.networkRequest
     .setHttpMethod(HttpMethod.POST)
     .setPort(8080)
     .addPath('listing/create')
@@ -24,32 +26,57 @@ export class ListingRequest {
       }
     })
     .sendRequest()
-    .map(response => response.json());
+    .map(response => response.json());*/
+    let request = new NetworkRequest();
+    request.
+    setHttpMethod(RequestMethod.Post)
+    .setPort(8080)
+    .addPath('listing')
+    .addPath('create')
+    .setBody({
+      newListingData: {
+        title : listing.title,
+        listingDescription : listing.description,
+        price: listing.price,
+        listingType: listingType
+      }
+    });
+    return this.networkService.send(request).map(response => response.json());
   }
 
   getListing() : Observable<Listing> {
-    return this.networkRequest.
+  /*  return this.networkRequest.
     setHttpMethod(HttpMethod.GET)
     .setPort(8080)
     .addPath('listing/get')
     .addQuery('listingId', '1')
     .sendRequest()
-    .map(response => response.json());
+    .map(response => response.json());*/
+    let request = new NetworkRequest();
+    request.setHttpMethod(RequestMethod.Get)
+    .setPort(8080)
+    .addPath('listing')
+    .addPath('get')
+    .addQuery('listingId', '1');
+    return this.networkService.send(request).map(response => response.json());
   }
 
   getAllListings() : Observable<Listing[]> {
-    return this.networkRequest.
+  /*  return this.networkRequest.
     setHttpMethod(HttpMethod.GET)
     .addPath('listings')
     .sendRequest()
-    .map(response => response.json());
+    .map(response => response.json());*/
+    let request = new NetworkRequest();
+    request.setHttpMethod(RequestMethod.Get);
+    return this.networkService.send(request).map(response => response.json());
   }
 
-  get request() : NetworkRequest {
+/*  get request() : NetworkRequest {
     return this.networkRequest;
   }
 
-  test() : Observable<Response> {
+/*  test() : Observable<Response> {
     return this.networkRequest
     .setHttpMethod(HttpMethod.GET)
     .setPort(8080)
@@ -57,6 +84,6 @@ export class ListingRequest {
     .setBody({listingId: 500})
     .sendRequest()
     .map(response => response.json());
-  }
+  }*/
 
 }
