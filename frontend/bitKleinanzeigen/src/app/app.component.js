@@ -5,8 +5,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { Component } from '@angular/core';
-import { ListingRequest } from './network/listing.controller';
-import { NetworkService } from './network/network.service';
 var AppComponent = (function () {
     function AppComponent() {
     }
@@ -17,7 +15,7 @@ AppComponent = __decorate([
         selector: 'bITKleinanzeigen',
         templateUrl: 'app.component.html',
         styleUrls: ['app.component.css'],
-        providers: [ListingRequest, NetworkService]
+        providers: []
     })
 ], AppComponent);
 export { AppComponent };

@@ -95,6 +95,10 @@ export class NetworkRequest {
     return this.body;
   }
 
+  getJSONBody() : string {
+    return JSON.stringify(this.body);
+  }
+
   getHttpMethod() : RequestMethod {
     return this.verb;
   }

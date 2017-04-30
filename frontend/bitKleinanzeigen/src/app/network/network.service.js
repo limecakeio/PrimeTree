@@ -9,17 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Injectable } from '@angular/core';
 import { Http, Request, Headers } from '@angular/http';
+import { NetworkRequest } from './network.request';
+import { SecurityModel } from '../security/security.model';
 var NetworkService = (function () {
-    function NetworkService(http) {
+    function NetworkService(http, security) {
         this.http = http;
+        this.security = security;
     }
     NetworkService.prototype.send = function (request) {
-        if (request.hasHeaders()) {
+        if (request.hasHeaders() || this.security.isAuthenticated()) {
             var headers_1 = new Headers();
             var headerArray = request.getHeaders();
             headerArray.forEach(function (header) {
                 headers_1.append(header.key, header.value);
             });
+            headers_1.append(this.security.getKey(), this.security.getSecret());
             return this.sendRequestWithHeaders(request, headers_1);
         }
         else {
@@ -43,11 +47,14 @@ var NetworkService = (function () {
             headers: headers
         }));
     };
+    NetworkService.prototype.networkRequest = function () {
+        return new NetworkRequest();
+    };
     return NetworkService;
 }());
 NetworkService = __decorate([
     Injectable(),
-    __metadata("design:paramtypes", [Http])
+    __metadata("design:paramtypes", [Http, SecurityModel])
 ], NetworkService);
 export { NetworkService };
 //# sourceMappingURL=network.service.js.map

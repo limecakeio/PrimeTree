@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login.component';
+import { LoginService } from './network/login.service';
 var LoginModul = (function () {
     function LoginModul() {
     }
@@ -17,7 +18,7 @@ LoginModul = __decorate([
     NgModule({
         imports: [CommonModule, FormsModule, ReactiveFormsModule],
         declarations: [LoginComponent],
-        providers: [],
+        providers: [LoginService],
         exports: [LoginComponent]
     })
 ], LoginModul);

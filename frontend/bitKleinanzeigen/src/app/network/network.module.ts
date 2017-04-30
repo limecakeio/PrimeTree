@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { ListingRequest } from './listing.controller';
 import { NetworkService } from './network.service';
+import { SecurityModule } from '../security/security.module';
+import { SecurityModel } from '../security/security.model';
 
 @NgModule({
-  imports: [ HttpModule ],
-  providers: [ ListingRequest, NetworkService ],
+  imports: [ HttpModule, SecurityModule ],
+  declarations: [  ],
+  providers: [ NetworkService, SecurityModel ],
   exports: [ HttpModule ]
 })
 

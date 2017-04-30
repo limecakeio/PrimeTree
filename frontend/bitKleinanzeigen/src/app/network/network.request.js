@@ -76,6 +76,9 @@ var NetworkRequest = (function () {
     NetworkRequest.prototype.getBody = function () {
         return this.body;
     };
+    NetworkRequest.prototype.getJSONBody = function () {
+        return JSON.stringify(this.body);
+    };
     NetworkRequest.prototype.getHttpMethod = function () {
         return this.verb;
     };
