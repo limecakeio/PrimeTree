@@ -1,7 +1,7 @@
 var NetworkRequest = (function () {
     function NetworkRequest() {
         this.headers = [];
-        this.hostname = '141.19.145.175';
+        this.hostname = 'localhost';
         this.hasPort = false;
         this.query = '';
         this.hasQuery = false;
@@ -75,6 +75,9 @@ var NetworkRequest = (function () {
     };
     NetworkRequest.prototype.getBody = function () {
         return this.body;
+    };
+    NetworkRequest.prototype.getJSONBody = function () {
+        return JSON.stringify(this.body);
     };
     NetworkRequest.prototype.getHttpMethod = function () {
         return this.verb;

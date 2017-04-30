@@ -3,12 +3,30 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class SecurityModel {
 
-  private token : string;
+  private key : string;
+  private secret : string;
+  private authenticated : boolean = false;
 
-  isAuthenticated : boolean = false;
-
-  setToken(token : string) {
-    this.token = token;
+  public setKey(key : string) : void {
+    this.authenticated = true;
+    this.key = key;
   }
-  
+
+  public setSecret(secret : string) : void {
+    this.authenticated = true;
+    this.secret = secret;
+  }
+
+  public isAuthenticated() : boolean {
+    return this.authenticated;
+  }
+
+  public getKey() : string {
+    return this.key;
+  }
+
+  public getSecret() : string {
+    return this.secret;
+  }
+
 }

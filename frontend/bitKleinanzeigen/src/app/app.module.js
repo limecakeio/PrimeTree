@@ -6,13 +6,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { SecurityModule } from './security/security.module';
 import { NetworkModule } from './network/network.module';
+import { ListingModule } from './model/listings/listing.modul';
 import { AppComponent } from './app.component';
-import { RESTService } from './network/rest.service';
-import { FormsModule } from '@angular/forms';
-import { ListingFormsModule } from './forms/forms.module';
 import { LoginModul } from './login/login.module';
-import { NetworkService } from './network/network.service';
+import { SecurityModel } from './security/security.model';
 var AppModule = (function () {
     function AppModule() {
     }
@@ -20,10 +19,10 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     NgModule({
-        imports: [BrowserModule, FormsModule, NetworkModule, ListingFormsModule, LoginModul],
+        imports: [BrowserModule, SecurityModule, NetworkModule, ListingModule, LoginModul],
         declarations: [AppComponent],
         bootstrap: [AppComponent],
-        providers: [RESTService, NetworkService]
+        providers: [SecurityModel]
     })
 ], AppModule);
 export { AppModule };

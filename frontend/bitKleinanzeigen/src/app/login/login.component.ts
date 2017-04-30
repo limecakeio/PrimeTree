@@ -1,17 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { ListingRequest } from '../network/listing.controller';
-import { User } from './login.model';
+import { Response } from '@angular/http';
 import { Form, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { User } from '../model/user/user.model';
+import { LoginService } from './network/login.service';
+import { SecurityModel } from '../security/security.model';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'login',
   templateUrl: 'login.component.html',
-  providers: []
+  providers: [  ]
 })
 export class LoginComponent implements OnInit {
   user : User = new User();
   form : FormGroup;
   formSubmitted : boolean = false;
+
+  constructor(private login : LoginService, private securityService : SecurityModel) {  }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -20,9 +26,13 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  authenticate(loginForm? : FormGroup) {
+  authenticate() {
     if (this.form.valid) {
-      console.log(this.form.controls);
+      this.login.login(this.user).subscribe((response : Response) => {
+        console.log(response.json());
+        this.securityService.setKey('x-author');
+        this.securityService.setSecret('nein');
+      })
     }
   }
 

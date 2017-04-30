@@ -4,7 +4,7 @@ export class NetworkRequest {
 
   private headers : any[] = [];
 
-  private hostname : string = '141.19.145.175';
+  private hostname : string = 'localhost';
 
   private port : number;
   private hasPort : boolean = false;
@@ -93,6 +93,10 @@ export class NetworkRequest {
 
   getBody() : any {
     return this.body;
+  }
+
+  getJSONBody() : string {
+    return JSON.stringify(this.body);
   }
 
   getHttpMethod() : RequestMethod {
