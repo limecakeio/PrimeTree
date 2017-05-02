@@ -24,7 +24,12 @@ export class SellItemCreateFormComponent {
   submit() {
     if (this.form.valid) {
       console.log('sellitem create form');
-      this.listingNetworkService.postListing('SellItem', this.listing);
+      this.listingNetworkService.postListing('SellItem', this.listing, [this.listing.imageObj]).subscribe(res => {
+        console.log(res);
+        this.listingNetworkService.postImage(5, this.listing.imageObj).subscribe(res => {
+          console.log(res);
+        });
+      });
     }
   }
 }

@@ -42,6 +42,9 @@ export class NetworkService {
     }));
   }
 
+  /* Returns a new instance of @class NetworkRequest
+   * @return { NetworkRequest } a new instance of NetworkRequest
+   */
   public networkRequest() : NetworkRequest {
     return new NetworkRequest();
   }

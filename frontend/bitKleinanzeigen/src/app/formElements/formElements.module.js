@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DescriptionFormComponent } from './description/description.component';
 import { TitleFormComponent } from './title/title.component';
 import { PriceFormComponent } from './price/price.component';
+import { ImageFormComponent } from './image/image.component';
 import { FormElementsService } from './formElements.service';
 var FormElementsModule = (function () {
     function FormElementsModule() {
@@ -19,8 +20,14 @@ var FormElementsModule = (function () {
 FormElementsModule = __decorate([
     NgModule({
         imports: [CommonModule, FormsModule, ReactiveFormsModule],
-        declarations: [DescriptionFormComponent, TitleFormComponent, PriceFormComponent],
-        exports: [CommonModule, FormsModule, ReactiveFormsModule, DescriptionFormComponent, TitleFormComponent, PriceFormComponent],
+        declarations: [DescriptionFormComponent, TitleFormComponent, PriceFormComponent, ImageFormComponent],
+        exports: [CommonModule,
+            FormsModule,
+            ReactiveFormsModule,
+            DescriptionFormComponent,
+            TitleFormComponent,
+            PriceFormComponent,
+            ImageFormComponent],
         providers: [FormElementsService]
     })
 ], FormElementsModule);

@@ -47,6 +47,9 @@ var NetworkService = (function () {
             headers: headers
         }));
     };
+    /* Returns a new instance of @class NetworkRequest
+     * @return { NetworkRequest } a new instance of NetworkRequest
+     */
     NetworkService.prototype.networkRequest = function () {
         return new NetworkRequest();
     };
