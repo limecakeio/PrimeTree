@@ -12,7 +12,6 @@ import org.json.JSONObject;
 
 import BackendServer.Listings.Constants;
 
-/**This abstract class defines the Entity of listings in general*/
 @Entity
 @Table(name="Listing")
 @Inheritance( strategy = InheritanceType.JOINED )
@@ -23,7 +22,7 @@ public abstract class Listing {
 	private String title;
 	private String description;
 	
-	/**Fills the Fields of this Object with the data in listingData and the creatorId*/
+	/***/
 	public void fillFields(JSONObject listingData, int creatorId){
 		this.setTitle(listingData.getString(Constants.listingDataFieldNameTitle));
 		this.setDescription(listingData.getString(Constants.listingDataFieldNameDescription));

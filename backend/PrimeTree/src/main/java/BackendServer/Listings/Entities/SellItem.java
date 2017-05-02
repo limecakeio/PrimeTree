@@ -10,14 +10,12 @@ import org.json.JSONObject;
 
 import BackendServer.Listings.Constants;
 
-/**This class defines the Entity of SellItem-listings*/
 @Entity
 @Table(name="SellItem")
 @PrimaryKeyJoinColumn(referencedColumnName="id")
 public class SellItem extends Offering{
 	private int price;
 	
-	/**Fills the Fields of this Object with the data in listingData and the creatorId*/
 	public void fillFields(JSONObject listingData, int creatorId) {
 		super.fillFields(listingData, creatorId);
 		this.setPrice(listingData.getInt(Constants.listingDataFieldNamePrice));
