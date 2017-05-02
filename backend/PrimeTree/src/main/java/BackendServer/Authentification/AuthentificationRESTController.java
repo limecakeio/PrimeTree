@@ -19,14 +19,14 @@ import BackendServer.Exceptions.WrongFormatException;
 @RequestMapping(value = "/authentification")
 public class AuthentificationRESTController {
 	
-	@CrossOrigin
-	@RequestMapping(value = "/login", method=RequestMethod.GET)
+//	@CrossOrigin
+	@RequestMapping(value = "/login", method=RequestMethod.POST)
     public @ResponseBody String login(@RequestBody String body, HttpServletRequest req){
 		return "/login";
     }
 	
-	@CrossOrigin
-	@RequestMapping(value = "/logout", method=RequestMethod.GET)
+//	@CrossOrigin
+	@RequestMapping(value = "/logout", method=RequestMethod.POST)
     public @ResponseBody void logout(@RequestBody String body, HttpServletRequest req){
 		return;
     }
