@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,9 +31,12 @@ public class ListingRESTController {
 	@Autowired
 	SQLAdapter sqlAdapter;
 	
-	@CrossOrigin
+	/**Creates a new Listing with the data in the body.
+	 * @return id of the new listing
+	 * @throws WrongFormatException if the newListingData cannot be read*/
+//	@CrossOrigin
 	@RequestMapping(value = "/create", method=RequestMethod.POST)
-    public @ResponseBody int newListingData(@RequestBody String body, HttpServletRequest req) throws WrongFormatException {
+    public @ResponseBody int newListing(@RequestBody String body, HttpServletRequest req) throws WrongFormatException {
 		System.out.println("create-Aufruf");
 		System.out.println(req.getSession());
 		JSONObject obj = new JSONObject(body);
@@ -41,20 +45,19 @@ public class ListingRESTController {
 		return sqlAdapter.persistNewListing(newListingData, 1);
     }
 	
-	@CrossOrigin
+	/**Reads the listing with the listingId out of the database and returns the found listing
+	 * @return Data of the found listing
+	 * @throws ListingNotFoundException if the id doesn't exist*/
+//	@CrossOrigin
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
-	public @ResponseBody Listing getListingById(@RequestParam int listingId, HttpServletRequest req){
+	public @ResponseBody Listing getListingById(@RequestParam int listingId, HttpServletRequest req) throws ListingNotFoundException{
 		System.out.println("get-Aufruf");
 		System.out.println("listingId: " + listingId);
 		System.out.println(req.getSession());
-		try{
-			return sqlAdapter.getListingById(listingId);
-		}catch(ListingNotFoundException e){
-//			return Response.notModified().status(404).build();
-			return null;
-		}
+		return sqlAdapter.getListingById(listingId);
 	}
 	
+	/**A dummy method for testing the configuration*/
 	@RequestMapping("/")
 	public @ResponseBody String helloWorld(){
 		System.out.println("Hello World");
