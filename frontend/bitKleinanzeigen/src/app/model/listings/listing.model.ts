@@ -6,6 +6,7 @@ export interface Listing {
   lifetimeInDays : number;
   active : boolean;
   image : string;
+  imageObj : File;
 }
 
 export class Offering implements Listing {
@@ -14,4 +15,5 @@ export class Offering implements Listing {
   lifetimeInDays : number = 0;
   active : boolean = true;
   image : string = '';
+  imageObj : File;
 }

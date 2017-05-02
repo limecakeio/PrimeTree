@@ -12,17 +12,36 @@ export class ListingController {
 
   constructor(private networkService : NetworkService ) {  }
 
-  postListing(listingType : string, listing : Listing) : Observable<Response> {
+  postListing(listingType : string, listing : Listing, images? : File[]) : Observable<Response> {
     let request = new NetworkRequest();
     request.setHttpMethod(RequestMethod.Post)
+    .setHostname('localhost')
     .setPort(3500)
     .addPath('listing')
     .addPath('create')
     .setBody({
       type: listingType,
-      listing: listing
+      listing: listing,
+      files: images
     });
     return this.networkService.send(request).map(response => response.json());
+  }
+
+  public postImage(listingId : number, image : File) : Observable<Response> {
+    let formData : FormData = new FormData();
+    formData.append('file[]', image);
+    let request = this.networkService.networkRequest();
+    request.setHttpMethod(RequestMethod.Post)
+    .setHostname('localhost')
+    .setPort(3500)
+    .addPath('listing')
+    .addPath('image')
+    .setBody({
+      id : listingId,
+      image: formData
+    });
+    console.log(formData);
+    return this.networkService.send(request);
   }
 
 }

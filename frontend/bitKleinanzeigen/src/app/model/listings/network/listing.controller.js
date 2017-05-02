@@ -16,17 +16,35 @@ var ListingController = (function () {
     function ListingController(networkService) {
         this.networkService = networkService;
     }
-    ListingController.prototype.postListing = function (listingType, listing) {
+    ListingController.prototype.postListing = function (listingType, listing, images) {
         var request = new NetworkRequest();
         request.setHttpMethod(RequestMethod.Post)
+            .setHostname('localhost')
             .setPort(3500)
             .addPath('listing')
             .addPath('create')
             .setBody({
             type: listingType,
-            listing: listing
+            listing: listing,
+            files: images
         });
         return this.networkService.send(request).map(function (response) { return response.json(); });
+    };
+    ListingController.prototype.postImage = function (listingId, image) {
+        var formData = new FormData();
+        formData.append('file[]', image);
+        var request = this.networkService.networkRequest();
+        request.setHttpMethod(RequestMethod.Post)
+            .setHostname('localhost')
+            .setPort(3500)
+            .addPath('listing')
+            .addPath('image')
+            .setBody({
+            id: listingId,
+            image: formData
+        });
+        console.log(formData);
+        return this.networkService.send(request);
     };
     return ListingController;
 }());

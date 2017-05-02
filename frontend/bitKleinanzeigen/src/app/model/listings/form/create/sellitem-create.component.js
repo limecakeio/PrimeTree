@@ -22,9 +22,15 @@ var SellItemCreateFormComponent = (function () {
         this.listing = this.service.model;
     }
     SellItemCreateFormComponent.prototype.submit = function () {
+        var _this = this;
         if (this.form.valid) {
             console.log('sellitem create form');
-            this.listingNetworkService.postListing('SellItem', this.listing);
+            this.listingNetworkService.postListing('SellItem', this.listing, [this.listing.imageObj]).subscribe(function (res) {
+                console.log(res);
+                _this.listingNetworkService.postImage(5, _this.listing.imageObj).subscribe(function (res) {
+                    console.log(res);
+                });
+            });
         }
     };
     return SellItemCreateFormComponent;
