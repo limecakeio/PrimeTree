@@ -5,7 +5,7 @@ export class SecurityModel {
 
   private key : string;
   private secret : string;
-  private authenticated : boolean = false;
+  authenticated : boolean = false;
 
   public setKey(key : string) : void {
     this.authenticated = true;

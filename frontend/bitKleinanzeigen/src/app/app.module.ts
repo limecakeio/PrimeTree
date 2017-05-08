@@ -6,9 +6,10 @@ import { ListingModule  } from './model/listings/listing.modul';
 import { AppComponent } from './app.component';
 import { LoginModul  } from './login/login.module';
 import { SecurityModel } from './security/security.model';
+import { routing } from './app.routing';
 
 @NgModule({
-  imports:      [ BrowserModule, SecurityModule, NetworkModule, ListingModule, LoginModul ],
+  imports:      [ BrowserModule, SecurityModule, NetworkModule, ListingModule, LoginModul, routing ],
   declarations: [ AppComponent ],
   bootstrap:    [ AppComponent ],
   providers: [ SecurityModel ]
