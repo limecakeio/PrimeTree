@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Component } from '@angular/core';
-import { FormElementsService } from '../formElements.service';
+var core_1 = require("@angular/core");
+var formElements_service_1 = require("../formElements.service");
 var ImageFormComponent = (function () {
     function ImageFormComponent(formElementsService) {
         this.formElementsService = formElementsService;
@@ -36,12 +37,12 @@ var ImageFormComponent = (function () {
     return ImageFormComponent;
 }());
 ImageFormComponent = __decorate([
-    Component({
+    core_1.Component({
         selector: 'input-image',
         templateUrl: 'image.component.html',
         styleUrls: ['../elements.form.css']
     }),
-    __metadata("design:paramtypes", [FormElementsService])
+    __metadata("design:paramtypes", [formElements_service_1.FormElementsService])
 ], ImageFormComponent);
-export { ImageFormComponent };
+exports.ImageFormComponent = ImageFormComponent;
 //# sourceMappingURL=image.component.js.map

@@ -29,11 +29,21 @@ export class LoginComponent implements OnInit {
   authenticate() {
     if (this.form.valid) {
       this.login.login(this.user).subscribe((response : Response) => {
-        console.log(response.json());
         this.securityService.setKey('x-author');
         this.securityService.setSecret('nein');
       })
     }
+  }
+
+  logout() {
+    // if (this.securityService.isAuthenticated()) {
+      console.log('logout');
+      this.login.logout().subscribe(res => {
+        console.log('logout');
+        console.log(res);
+        console.log('logout');
+      });
+    // }
   }
 
 }
