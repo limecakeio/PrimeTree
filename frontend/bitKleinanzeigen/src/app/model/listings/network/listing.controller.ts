@@ -12,18 +12,24 @@ export class ListingController {
 
   constructor(private networkService : NetworkService ) {  }
 
-  postListing(listingType : string, listing : Listing, images? : File[]) : Observable<Response> {
+  postListing(listingType : string, listing : any, images? : File[]) : Observable<Response> {
     let request = new NetworkRequest();
     request.setHttpMethod(RequestMethod.Post)
-    .setHostname('localhost')
-    .setPort(3500)
+    .setHostname('141.19.145.175')
+    .setPort(8080)
     .addPath('listing')
     .addPath('create')
     .setBody({
-      type: listingType,
+    /*  type: listingType,
       listing: listing,
-      files: images
-    });
+      files: images*/
+      newListingData: {
+        title : listing.title,
+        listingDescription: listing.description,
+        price: listing.price,
+        listingType: 'SellItem'
+      }
+    }).addHeader('Content-Type', 'application/json');
     return this.networkService.send(request).map(response => response.json());
   }
 
@@ -41,6 +47,42 @@ export class ListingController {
       image: formData
     });
     console.log(formData);
+    return this.networkService.send(request);
+  }
+
+  public getAll() : Observable<Response> {
+    console.log('getall');
+    let request = this.networkService.networkRequest();
+    request.setHttpMethod(RequestMethod.Get)
+    .setHostname('141.19.145.175')
+    .setPort(8080)
+    .addPath('listing')
+    .addPath('getall');
+    return this.networkService.send(request);
+  }
+
+  public getListing(id : number) : Observable<Response> {
+    console.log('getone');
+    let request = this.networkService.networkRequest();
+    request.setHttpMethod(RequestMethod.Get)
+    .setHostname('141.19.145.175')
+    .setPort(8080)
+    .addPath('listing')
+    .addPath('getone')
+    .addPath(id + '');
+    return this.networkService.send(request);
+  }
+
+  public removeListing(id : number) : Observable<Response> {
+    console.log('delete');
+    let request = this.networkService.networkRequest();
+    request.setHttpMethod(RequestMethod.Delete)
+    .setHostname('141.19.145.175')
+    .setPort(8080)
+    .addPath('listing')
+    .addPath('delete')
+    .addPath(id + '');
+    // .addPath(id + '');
     return this.networkService.send(request);
   }
 

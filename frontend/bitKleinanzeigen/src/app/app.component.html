@@ -11,7 +11,9 @@
       </button>
       <a class="navbar-brand" href="#">bIT Kleinanzeigen</a>
     </div>
-
+    <button type="button" class="btn btn-default navbar-btn" routerLink="/create/sellitem">+</button>
+    <button type="button" class="btn btn-default navbar-btn" routerLink="/repo">Alle</button>
+    <button type="button" class="btn btn-default navbar-btn" [disabled]="isAuthentificated">Auslogen</button>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
@@ -55,5 +57,6 @@
 <!-- EOF NAVBAR -->
 <!-- BOF HIDDEN ELEMENTS -->
 <!-- <login></login> -->
-<form-create-sellitem></form-create-sellitem> 
+<!-- <form-create-sellitem></form-create-sellitem> -->
+<router-outlet></router-outlet>
 <!-- EOF HIDDEN ELEMENTS -->

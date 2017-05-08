@@ -12,13 +12,16 @@ export class LoginService {
 
   public login(user : User) : Observable<Response> {
     let request : NetworkRequest = this.network.networkRequest();
+    let formdata = new FormData();
+    formdata.append('username', user.username);
+    formdata.append('password', user.password);
     request
     .setHttpMethod(RequestMethod.Post)
-    .setPort(3500)
-    .addPath('listing')
-    .addPath('user')
+    .setHostname('141.19.145.175')
+    .setPort(8080)
     .addPath('login')
-    .setBody(user);
+    .setBody(formdata);
+    // request.addHeader('Content-Type', 'application/x-www-form-urlencoded');
     return this.network.send(request);
   }
 
@@ -26,9 +29,10 @@ export class LoginService {
     let request : NetworkRequest = this.network.networkRequest();
     request
     .setHttpMethod(RequestMethod.Post)
-    .setPort(3500)
-    .addPath('user')
-    .addPath('logout')
+    .setHostname('141.19.145.175')
+    .setPort(8080)
+    .addPath('logout');
+    // .addHeader('Access-Control-Request-Headers', 'POST');
     return this.network.send(request);
   }
 

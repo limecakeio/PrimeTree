@@ -43,6 +43,7 @@ public class ListingBeanCollection {
         em.setDataSource(listingDataSource());
         em.setPackagesToScan(
           new String[] { "BackendServer.Listings.Entities" });
+        em.setPersistenceUnitName("Listing");
  
         HibernateJpaVendorAdapter vendorAdapter
           = new HibernateJpaVendorAdapter();
