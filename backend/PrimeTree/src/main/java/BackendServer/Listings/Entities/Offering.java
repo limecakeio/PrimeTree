@@ -8,12 +8,14 @@ import javax.persistence.Table;
 
 import org.json.JSONObject;
 
+/**This abstract class represents listings that are Offerings*/
 @Entity
 @Table(name="Offering")
 @PrimaryKeyJoinColumn(referencedColumnName="id")
-@Inheritance( strategy = InheritanceType.JOINED )
+//@Inheritance( strategy = InheritanceType.JOINED )
 public abstract class Offering extends Listing{
 	
+	/**This method fills the Object-fields except id with the data in listingData and the creatorId*/
 	public void fillFields(JSONObject listingData, int creatorId) {
 		super.fillFields(listingData, creatorId);
 	}

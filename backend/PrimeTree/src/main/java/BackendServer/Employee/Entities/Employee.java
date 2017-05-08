@@ -38,9 +38,6 @@ public class Employee implements UserDetails{
 	
 	@Column(name="locationId")
 	private Long locationId;
-	
-	@Column(name="password")
-	private String password;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -51,12 +48,13 @@ public class Employee implements UserDetails{
 
 	@Override
 	public String getPassword() {
-		return password;
+		return "123";
 	}
 
 	@Override
 	public String getUsername() {
 		return firstname.charAt(0) + "." + surname;
+//		return "user";
 	}
 
 	@Override

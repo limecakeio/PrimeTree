@@ -1,5 +1,7 @@
 package BackendServer.Listings.ObjectControllers;
 
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,6 +9,7 @@ import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Constants;
 import BackendServer.Listings.Entities.Listing;
+import BackendServer.Listings.Entities.SellItem;
 
 /**This abstract class is made so sub-classes can control the listings with the individual listingType.
  * Controlling means checking, whether a listingData-JSONObject matches the individual listingType. */
@@ -29,4 +32,8 @@ public abstract class ListingObjectController {
 	public abstract long createAndPersistNewInstance(JSONObject listingData, int creatorId)throws WrongFormatException;
 
 	public abstract Listing getListingById(long id) throws ListingNotFoundException;
+
+	public abstract List<? extends Listing> getAll();
+
+	public abstract Long deleteListing(Long listingId) throws ListingNotFoundException;
 }
