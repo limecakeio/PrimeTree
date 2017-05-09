@@ -8,6 +8,7 @@ export interface Listing {
   image : string;
   imageObj : File;
   id: number;
+  owner : string;
 }
 
 export class Offering implements Listing {
@@ -18,4 +19,5 @@ export class Offering implements Listing {
   image : string = '';
   imageObj : File;
   id: number;
+  owner : string;
 }

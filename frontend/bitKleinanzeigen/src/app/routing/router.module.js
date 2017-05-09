@@ -6,17 +6,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require("@angular/core");
-var SecurityModel = (function () {
-    function SecurityModel() {
-        this.authenticated = false;
+var RouterModule = (function () {
+    function RouterModule() {
     }
-    SecurityModel.prototype.isAuthenticated = function () {
-        return this.authenticated;
-    };
-    return SecurityModel;
+    return RouterModule;
 }());
-SecurityModel = __decorate([
-    core_1.Injectable()
-], SecurityModel);
-exports.SecurityModel = SecurityModel;
-//# sourceMappingURL=security.model.js.map
+RouterModule = __decorate([
+    core_1.NgModule({
+        imports: [],
+        exports: [],
+        declarations: [],
+        providers: []
+    })
+], RouterModule);
+exports.RouterModule = RouterModule;
+//# sourceMappingURL=router.module.js.map

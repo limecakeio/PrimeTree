@@ -13,11 +13,12 @@ var forms_1 = require("@angular/forms");
 var user_model_1 = require("../model/user/user.model");
 var login_service_1 = require("./network/login.service");
 var security_model_1 = require("../security/security.model");
-require("rxjs/add/operator/map");
+var router_1 = require("@angular/router");
 var LoginComponent = (function () {
-    function LoginComponent(login, securityService) {
+    function LoginComponent(login, securityService, router) {
         this.login = login;
         this.securityService = securityService;
+        this.router = router;
         this.user = new user_model_1.User();
         this.formSubmitted = false;
     }
@@ -30,21 +31,22 @@ var LoginComponent = (function () {
     LoginComponent.prototype.authenticate = function () {
         var _this = this;
         if (this.form.valid) {
+            this.securityService.username = this.user.username;
             this.login.login(this.user).subscribe(function (response) {
-                _this.securityService.setKey('x-author');
-                _this.securityService.setSecret('nein');
+                // console.log('next')
+                _this.securityService.authenticated = true;
+            }, function (error) {
+                // console.log('error')
+                _this.securityService.authenticated = false;
+            }, function () {
+                // console.log('complete')
+                _this.router.navigate(['home']);
             });
         }
     };
     LoginComponent.prototype.logout = function () {
-        // if (this.securityService.isAuthenticated()) {
-        console.log('logout');
         this.login.logout().subscribe(function (res) {
-            console.log('logout');
-            console.log(res);
-            console.log('logout');
         });
-        // }
     };
     return LoginComponent;
 }());
@@ -54,7 +56,7 @@ LoginComponent = __decorate([
         templateUrl: 'login.component.html',
         providers: []
     }),
-    __metadata("design:paramtypes", [login_service_1.LoginService, security_model_1.SecurityModel])
+    __metadata("design:paramtypes", [login_service_1.LoginService, security_model_1.SecurityModel, router_1.Router])
 ], LoginComponent);
 exports.LoginComponent = LoginComponent;
 //# sourceMappingURL=login.component.js.map

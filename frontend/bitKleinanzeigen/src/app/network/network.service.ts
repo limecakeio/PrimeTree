@@ -14,14 +14,12 @@ export class NetworkService {
    * @return {Observable<Response>}
    */
   send(request : NetworkRequest) : Observable<Response> {
-    console.log('send')
-    if (request.hasHeaders() || this.security.isAuthenticated()) {
+    if (request.hasHeaders()) {
       let headers = new Headers();
       let headerArray = request.getHeaders();
       headerArray.forEach(header => {
         headers.append(header.key, header.value);
       });
-      headers.append(this.security.getKey(), this.security.getSecret());
       return this.sendRequestWithHeaders(request, headers);
     } else {
       return this.sendRequest(request);
@@ -29,7 +27,7 @@ export class NetworkService {
   }
 
   private sendRequest(request : NetworkRequest) : Observable<Response> {
-    console.log(request);
+    // console.log(request);
     return this.http.request(new Request({
       method: request.getHttpMethod(),
       url: request.getUrl(),
@@ -39,9 +37,9 @@ export class NetworkService {
   }
 
   private sendRequestWithHeaders(request : NetworkRequest, headers : Headers) : Observable<Response> {
-    console.log('headers');
-    console.log(request);
-    console.log(headers);
+    // console.log('headers');
+    // console.log(request);
+    // console.log(headers);
     return this.http.request(new Request({
       method: request.getHttpMethod(),
       url: request.getUrl(),

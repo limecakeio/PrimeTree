@@ -1,7 +1,16 @@
-<div class="jumbotron">
-  <h1>{{listing.title}}</h1>
-  <h2>{{listing.description}}</h2>
-  <h3>{{listing.price}}</h3>
-  <h4>{{listing.id}}</h4>
-  <button type="button" class="btn btn-danger" name="button" (click)="remove()">Löschen</button>
+<div class="col-sm-4">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{listing.title}}</h3>
+      <p>Erstellt durch: <i>{{listing.owner}}</i></p>
+    </div>
+    <div class="panel-body">{{listing.description}}</div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-sm-6"><p>Preis: {{listing.price}}</p></div>
+        <div class="col-sm-6"><p>Inserat-ID: {{listing.id}}</p></div>
+        <div *ngIf="isOwner" class="col-sm-12 text-center"><button type="button" class="btn btn-danger" name="button" (click)="remove()">Löschen</button></div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -6,17 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require("@angular/core");
-var SecurityModel = (function () {
-    function SecurityModel() {
-        this.authenticated = false;
+var user_navigation_component_1 = require("./user-navigation.component");
+var common_1 = require("@angular/common");
+var UserNavigationModule = (function () {
+    function UserNavigationModule() {
     }
-    SecurityModel.prototype.isAuthenticated = function () {
-        return this.authenticated;
-    };
-    return SecurityModel;
+    return UserNavigationModule;
 }());
-SecurityModel = __decorate([
-    core_1.Injectable()
-], SecurityModel);
-exports.SecurityModel = SecurityModel;
-//# sourceMappingURL=security.model.js.map
+UserNavigationModule = __decorate([
+    core_1.NgModule({
+        imports: [common_1.CommonModule],
+        exports: [user_navigation_component_1.UserNavigationComponent],
+        declarations: [user_navigation_component_1.UserNavigationComponent],
+        providers: []
+    })
+], UserNavigationModule);
+exports.UserNavigationModule = UserNavigationModule;
+//# sourceMappingURL=user-navigation.module.js.map
