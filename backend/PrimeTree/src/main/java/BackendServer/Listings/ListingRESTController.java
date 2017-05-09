@@ -1,10 +1,13 @@
 package BackendServer.Listings;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.NotAllowedException;
 import javax.ws.rs.core.Context;
 
 import org.json.JSONObject;
@@ -37,41 +40,48 @@ public class ListingRESTController {
 	@CrossOrigin
 	@RequestMapping(value = "/create", method=RequestMethod.POST)
     public @ResponseBody int newListing(@RequestBody String body, HttpServletRequest req) throws WrongFormatException {
-    	Authentication a=SecurityContextHolder.getContext().getAuthentication();
-    	System.out.println(a.getName());
-		System.out.println(req.getSession().getId());
-		System.out.println("create-Aufruf");
-		System.out.println(req.getSession());
+    	Authentication authenticationObject=SecurityContextHolder.getContext().getAuthentication();
+		System.out.println("create-Aufruf von " + SecurityContextHolder.getContext().getAuthentication().getName());
 		JSONObject obj = new JSONObject(body);
 		System.out.println(obj);
 		JSONObject newListingData = obj.optJSONObject("newListingData");
-		return sqlAdapter.persistNewListing(newListingData, 1);
+		return sqlAdapter.persistNewListing(newListingData, authenticationObject.getName());
     }
 	
 	@CrossOrigin
 	@RequestMapping(value = "/delete/{id}", method=RequestMethod.DELETE)
-    public @ResponseBody Long delete(@PathVariable(value="id") int listingId, HttpServletRequest req) throws ListingNotFoundException {
-		return sqlAdapter.deleteListingById(listingId);
+    public @ResponseBody void delete(@PathVariable(value="id") int listingId, HttpServletRequest request) throws ListingNotFoundException, IOException {
+		System.out.println("delete() aufgerufen");
+		if(sqlAdapter.isOwnerOfListing(listingId, SecurityContextHolder.getContext().getAuthentication().getName())){
+			sqlAdapter.deleteListingById(listingId);
+		}else{
+//			response.addHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
+//			response.addHeader("Access-Control-Allow-Credentials", "true");
+//			response.addHeader("Access-Control-Allow-Headers", "x-authors");
+//			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+//			response.getWriter().write("Only the Owner of this listing can delete the listing");
+			throw new NotAllowedException("Only the owner of this listing can delete this listing.");
+		}
     }
 	
 	@CrossOrigin
 	@RequestMapping(value = "/getone/{id}", method = RequestMethod.GET)
 	public @ResponseBody Listing getListingById(@PathVariable(value="id") int listingId, HttpServletRequest req) throws ListingNotFoundException{
-		System.out.println("get-Aufruf");
-		System.out.println("listingId: " + listingId);
-		System.out.println(req.getSession());
+		System.out.println("getone-Aufruf mit listingId: " + listingId);
 		return sqlAdapter.getListingById(listingId);
 	}
 	
 	@CrossOrigin
 	@RequestMapping(value = "/getall", method = RequestMethod.GET)
 	public @ResponseBody LinkedList<Integer> getAllListings(HttpServletRequest req){
+		System.out.println("getall- Aufruf");
 		return sqlAdapter.getAllListings();
 	}
 	
 	@CrossOrigin
 	@RequestMapping(value = "/getmultiple", method = RequestMethod.GET)
 	public @ResponseBody Listing[] getListingArrayByIdArray(@RequestParam int[] listingIds, HttpServletRequest req) throws ListingNotFoundException{
+		System.out.println("getmultiple- Aufruf");
 		return sqlAdapter.getListingArrayByIdArray(listingIds);
 	}
 }
