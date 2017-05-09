@@ -22,9 +22,9 @@ export class ListingReposetory {
           this.listings.splice(i, 1);
           isRemoved = true;
           this.controller.removeListing(id).subscribe(res => {
-            console.log('listing removed');
-            console.log(res);
-            console.log('listing removed');
+            // console.log('listing removed');
+            // console.log(res);
+            // console.log('listing removed');
           })
         }
     }
@@ -33,25 +33,17 @@ export class ListingReposetory {
 
   update() : void {
     this.listings = [];
-    this.controller.getAll().subscribe(res => {
-      let caster : any = res.json();
-      caster.forEach((id : number) => {
-          this.controller.getListing(id).subscribe(res => {
-            let casterios : any = res.json();
-            console.log('casterios');
-            console.log(res);
-            console.log('casterios');
-            let listing : SellItem = new SellItem();
-            listing.title = casterios.title;
-            listing.description = casterios.description;
-            listing.id = id;
-            listing.price = listing.price;
-            this.listings.push(casterios);
+    this.controller.getAllListings().subscribe((ids : number[]) => {
+      ids.forEach((id : number) => {
+          this.controller.getListing(id).subscribe((listing : Listing) => {
+            this.listings.push(listing);
           });
       });
-      console.log('getall');
-      console.log(res);
-      console.log('getall');
+    }, (error : any) => {
+      // console.log('getall - error')
+      // console.log(error);
+    }, () => {
+      // console.log('getall - complete')
     });
   }
 

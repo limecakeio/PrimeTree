@@ -12,14 +12,21 @@ var core_1 = require("@angular/core");
 var sellitem_model_1 = require("./sellitem.model");
 var listing_controller_1 = require("../network/listing.controller");
 var listing_reposetory_1 = require("../listing.reposetory");
+var security_model_1 = require("../../../security/security.model");
 var SellItemComponent = (function () {
-    function SellItemComponent(listingController, repo) {
+    function SellItemComponent(listingController, repo, securityModel) {
         this.listingController = listingController;
         this.repo = repo;
+        this.securityModel = securityModel;
+        this.isOwner = false;
     }
     SellItemComponent.prototype.remove = function () {
         this.repo.removeListing(this.listing.id);
-        // this.repo.update();
+    };
+    SellItemComponent.prototype.ngOnInit = function () {
+        if (this.listing.owner === this.securityModel.username) {
+            this.isOwner = true;
+        }
     };
     return SellItemComponent;
 }());
@@ -32,7 +39,9 @@ SellItemComponent = __decorate([
         selector: 'sellitem',
         templateUrl: 'sellitem.component.html'
     }),
-    __metadata("design:paramtypes", [listing_controller_1.ListingController, listing_reposetory_1.ListingReposetory])
+    __metadata("design:paramtypes", [listing_controller_1.ListingController,
+        listing_reposetory_1.ListingReposetory,
+        security_model_1.SecurityModel])
 ], SellItemComponent);
 exports.SellItemComponent = SellItemComponent;
 //# sourceMappingURL=sellitem.component.js.map

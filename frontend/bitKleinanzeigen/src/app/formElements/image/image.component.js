@@ -32,7 +32,7 @@ var ImageFormComponent = (function () {
         var reader = e.target;
         this.imagesrc = reader.result;
         this.model.image = this.imagesrc;
-        console.log(this.model);
+        // console.log(this.model);
     };
     return ImageFormComponent;
 }());

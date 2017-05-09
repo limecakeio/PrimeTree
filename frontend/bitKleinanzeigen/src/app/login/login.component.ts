@@ -5,7 +5,7 @@ import { User } from '../model/user/user.model';
 import { LoginService } from './network/login.service';
 import { SecurityModel } from '../security/security.model';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'login',
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   form : FormGroup;
   formSubmitted : boolean = false;
 
-  constructor(private login : LoginService, private securityService : SecurityModel) {  }
+  constructor(private login : LoginService, private securityService : SecurityModel, private router : Router) {  }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -28,22 +28,24 @@ export class LoginComponent implements OnInit {
 
   authenticate() {
     if (this.form.valid) {
-      this.login.login(this.user).subscribe((response : Response) => {
-        this.securityService.setKey('x-author');
-        this.securityService.setSecret('nein');
+      this.securityService.username = this.user.username;
+      this.login.login(this.user).subscribe((response : boolean) => {
+        // console.log('next')
+        this.securityService.authenticated = true;
+      }, (error : any) => {
+        // console.log('error')
+        this.securityService.authenticated = false;
+      }, () => {
+        // console.log('complete')
+        this.router.navigate(['home']);
       })
     }
   }
 
   logout() {
-    // if (this.securityService.isAuthenticated()) {
-      console.log('logout');
-      this.login.logout().subscribe(res => {
-        console.log('logout');
-        console.log(res);
-        console.log('logout');
-      });
-    // }
+    this.login.logout().subscribe(res => {
+
+    });
   }
 
 }

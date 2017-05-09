@@ -6,17 +6,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require("@angular/core");
-var SecurityModel = (function () {
-    function SecurityModel() {
-        this.authenticated = false;
+var UserNavigationComponent = (function () {
+    function UserNavigationComponent() {
     }
-    SecurityModel.prototype.isAuthenticated = function () {
-        return this.authenticated;
-    };
-    return SecurityModel;
+    return UserNavigationComponent;
 }());
-SecurityModel = __decorate([
-    core_1.Injectable()
-], SecurityModel);
-exports.SecurityModel = SecurityModel;
-//# sourceMappingURL=security.model.js.map
+UserNavigationComponent = __decorate([
+    core_1.Component({
+        selector: 'user-nav',
+        templateUrl: 'user-navigation.component.html'
+    })
+], UserNavigationComponent);
+exports.UserNavigationComponent = UserNavigationComponent;
+//# sourceMappingURL=usernavigation.component.js.map
