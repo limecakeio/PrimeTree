@@ -28,6 +28,7 @@ var UserNavigationComponent = (function () {
     UserNavigationComponent.prototype.logout = function () {
         var _this = this;
         this.loginService.logout().subscribe(function (res) {
+            _this.securityModel.authenticated = false;
             _this.router.navigate(['']);
         });
     };
