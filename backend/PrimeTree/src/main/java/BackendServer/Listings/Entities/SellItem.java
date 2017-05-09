@@ -18,8 +18,8 @@ public class SellItem extends Offering{
 	private int price;
 	
 	/**This method fills the Object-fields except id with the data in listingData and the creatorId*/
-	public void fillFields(JSONObject listingData, int creatorId) {
-		super.fillFields(listingData, creatorId);
+	public void fillFields(JSONObject listingData, String creator) {
+		super.fillFields(listingData, creator);
 		this.setPrice(listingData.getInt(Constants.listingDataFieldNamePrice));
 	}
 

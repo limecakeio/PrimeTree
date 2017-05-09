@@ -32,11 +32,11 @@ public class SellItemObjectController extends OfferingObjectController {
 	public SellItemRepository sellItemRepository;
 
 	@Override
-	public long createAndPersistNewInstance(JSONObject listingData, int creatorId) throws WrongFormatException {
+	public long createAndPersistNewInstance(JSONObject listingData, String creator) throws WrongFormatException {
 		try{
 			
 			SellItem newInstance=new SellItem();
-			newInstance.fillFields(listingData, creatorId);
+			newInstance.fillFields(listingData, creator);
 		    
 			sellItemRepository.save(newInstance);
 			return newInstance.getListingId();

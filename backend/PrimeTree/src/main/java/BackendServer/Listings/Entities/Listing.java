@@ -22,11 +22,13 @@ public abstract class Listing {
     private long id;
 	private String title;
 	private String description;
+	private String owner;
 	
 	/**This method fills the Object-fields except id with the data in listingData and the creatorId*/
-	public void fillFields(JSONObject listingData, int creatorId){
+	public void fillFields(JSONObject listingData, String creator){
 		this.setTitle(listingData.getString(Constants.listingDataFieldNameTitle));
 		this.setDescription(listingData.getString(Constants.listingDataFieldNameDescription));
+		this.setOwner(creator);
 	}
 
 	public long getListingId() {
@@ -47,6 +49,14 @@ public abstract class Listing {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
     
 }

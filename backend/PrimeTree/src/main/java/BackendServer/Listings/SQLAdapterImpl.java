@@ -32,10 +32,9 @@ public class SQLAdapterImpl implements SQLAdapter {
 	}
 
 	@Override
-	public int persistNewListing(JSONObject newListingData, int creatorId) throws WrongFormatException{
-		System.out.println("persistNewListing-Aufruf");
+	public int persistNewListing(JSONObject newListingData, String creator) throws WrongFormatException{
 		return (int) getListingControllerWithTheRightType(newListingData).
-				createAndPersistNewInstance(newListingData, creatorId);
+				createAndPersistNewInstance(newListingData, creator);
 	}
 
 	@Override
@@ -62,7 +61,6 @@ public class SQLAdapterImpl implements SQLAdapter {
 		
 		for(int controllerIndex=0;controllerIndex<listingControllers.length;controllerIndex++){
 			if(listingControllers[controllerIndex].isThisListingType(listingData)){
-				System.out.println("ListingType Confirmed");
 				return listingControllers[controllerIndex];
 			}
 		}
@@ -113,5 +111,12 @@ public class SQLAdapterImpl implements SQLAdapter {
 			}
 		}
 		throw new ListingNotFoundException("Listing with id " + listingId + " did not exist.");
+	}
+
+	@Override
+	public boolean isOwnerOfListing(int listingId, String name) throws ListingNotFoundException {
+		return name.equals(
+				this.getListingById(listingId).getOwner()
+				);
 	}
 }

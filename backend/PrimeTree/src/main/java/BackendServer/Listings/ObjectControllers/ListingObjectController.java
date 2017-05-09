@@ -29,7 +29,7 @@ public abstract class ListingObjectController {
 	}
 	
 	/**This method creates and persists a new Listing-Object with the data of thelistingData and the creatorId.*/
-	public abstract long createAndPersistNewInstance(JSONObject listingData, int creatorId)throws WrongFormatException;
+	public abstract long createAndPersistNewInstance(JSONObject listingData, String creator)throws WrongFormatException;
 
 	public abstract Listing getListingById(long id) throws ListingNotFoundException;
 

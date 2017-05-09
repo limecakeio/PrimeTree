@@ -19,7 +19,7 @@ public interface SQLAdapter {
 	 * @throws WrongFormatException
 	 * 	if newListingData cannot be read
 	 * */
-	int persistNewListing(JSONObject newListingData, int creatorId) throws WrongFormatException;
+	int persistNewListing(JSONObject newListingData, String creator) throws WrongFormatException;
 	
 	/**This method searches for the listing with the listingId and returns the Object
 	 * 
@@ -61,5 +61,7 @@ public interface SQLAdapter {
 	 * @return: An array of all listingId of all Listings
 	 * */
 	Long deleteListingById(int listingId) throws ListingNotFoundException;
+
+	boolean isOwnerOfListing(int listingId, String name) throws ListingNotFoundException;
 
 }
