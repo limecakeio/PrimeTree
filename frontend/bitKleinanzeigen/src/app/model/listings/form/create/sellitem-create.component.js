@@ -53,6 +53,7 @@ var SellItemCreateFormComponent = (function () {
 SellItemCreateFormComponent = __decorate([
     core_1.Component({
         selector: 'form-create-sellitem',
+
         templateUrl: './sellitem-create.component.html',
         // styleUrls: [ '../global.form.css' ],
         providers: [formElements_service_1.FormElementsService]

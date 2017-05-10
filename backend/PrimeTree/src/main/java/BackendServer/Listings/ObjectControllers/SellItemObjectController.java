@@ -1,5 +1,7 @@
 package BackendServer.Listings.ObjectControllers;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -30,15 +32,14 @@ public class SellItemObjectController extends OfferingObjectController {
 	public SellItemRepository sellItemRepository;
 
 	@Override
-	public long createAndPersistNewInstance(JSONObject listingData, int creatorId) throws WrongFormatException {
+	public long createAndPersistNewInstance(JSONObject listingData, String creator) throws WrongFormatException {
 		try{
 			
 			SellItem newInstance=new SellItem();
-			newInstance.fillFields(listingData, creatorId);
+			newInstance.fillFields(listingData, creator);
 		    
 			sellItemRepository.save(newInstance);
 			return newInstance.getListingId();
-			
 			
 		}catch(JSONException e){
 			throw new WrongFormatException(e.toString());
@@ -46,15 +47,21 @@ public class SellItemObjectController extends OfferingObjectController {
 	}
 
 	@Override
-	public Listing getListingById(long id) throws ListingNotFoundException {
-		SellItem foundItem = sellItemRepository.findOne(id);
+	public Listing getListingById(long listingId) throws ListingNotFoundException {
+		SellItem foundItem = sellItemRepository.findOne(listingId);
 		if(foundItem==null){
-			throw new ListingNotFoundException("Listing with id " + id + " does not exist.");
+			throw new ListingNotFoundException("Listing with id " + listingId + " does not exist.");
 		}else{
 			return foundItem;
 		}
 	}
 	
+	/**Checks whether listingData is in the format of SellItem
+	 * Does not check whether all required fields of SellItem are represented in listingData
+	 * 
+	 * @return true, if listingData is in the format of SellItem
+	 * 
+	 * @throws WrongFormatException if no listingType is found in listingData*/
 	@Override
 	public boolean isThisListingType(JSONObject listingData)throws WrongFormatException{
 		try{
@@ -62,6 +69,22 @@ public class SellItemObjectController extends OfferingObjectController {
 //			return true;
 		}catch(JSONException e){
 			throw new WrongFormatException("The listingType is missing.");
+		}
+	}
+
+	@Override
+	public List<? extends Listing> getAll() {
+		return sellItemRepository.findAll();
+	}
+
+	@Override
+	public Long deleteListing(Long listingId) throws ListingNotFoundException {
+		SellItem foundItem = sellItemRepository.findOne(listingId);
+		if(foundItem==null){
+			throw new ListingNotFoundException("Listing with id " + listingId + " does not exist.");
+		}else{
+			sellItemRepository.delete(listingId);
+			return listingId;
 		}
 	}
 

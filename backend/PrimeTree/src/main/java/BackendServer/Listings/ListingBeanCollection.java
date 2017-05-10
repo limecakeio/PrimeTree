@@ -34,10 +34,17 @@ public class ListingBeanCollection {
 	
 	@Autowired
     private Environment env;
+	
+	public ListingBeanCollection(){
+		System.out.println("ListingBeanCollection()");
+	}
     
     @Bean
-    @Primary
+//    @Primary
     public LocalContainerEntityManagerFactoryBean listingEntityManager() {
+    	
+    	System.out.println("listingEntityManager() aufgerufen");
+    	
         LocalContainerEntityManagerFactoryBean em
           = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(listingDataSource());
@@ -48,9 +55,9 @@ public class ListingBeanCollection {
         HibernateJpaVendorAdapter vendorAdapter
           = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
-        HashMap<String, Object> properties = new HashMap<>();
+        HashMap<String, Object> properties = new HashMap<String, Object>();
         properties.put("hibernate.hbm2ddl.auto",
-          env.getProperty("hibernate.hbm2ddl.auto"));
+          env.getProperty("listings.hbm2ddl.auto"));
         properties.put("hibernate.dialect",
           env.getProperty("hibernate.dialect"));
         em.setJpaPropertyMap(properties);
@@ -58,9 +65,11 @@ public class ListingBeanCollection {
         return em;
     }
  
-    @Primary
+//    @Primary
     @Bean
     public DataSource listingDataSource() {
+    	
+    	System.out.println("listingDataSource() aufgerufen");
   
         DriverManagerDataSource dataSource
           = new DriverManagerDataSource();
@@ -76,6 +85,8 @@ public class ListingBeanCollection {
     @Primary
     @Bean
     public PlatformTransactionManager listingTransactionManager() {
+    	
+    	System.out.println("listingTransactionManager() aufgerufen");
   
         JpaTransactionManager transactionManager
           = new JpaTransactionManager();
