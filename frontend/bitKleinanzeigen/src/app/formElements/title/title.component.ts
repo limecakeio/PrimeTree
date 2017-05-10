@@ -4,8 +4,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'input-title',
-  templateUrl: './title.component.html',
-  styleUrls: ['../elements.form.css']
+  templateUrl: './title.component.html'
+  // styleUrls: ['../elements.form.css']
 })
 export class TitleFormComponent implements OnInit {
   model : any;

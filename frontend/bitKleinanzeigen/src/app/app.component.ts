@@ -3,8 +3,8 @@ import { SecurityModel } from './security/security.model';
 
 @Component({
   selector: 'bITKleinanzeigen',
-  templateUrl: 'app.component.html',
-  styleUrls: [ 'app.component.css' ],
+  templateUrl: './app.component.html',
+  // styleUrls: [ 'app.component.css' ],
   providers: [  ]
 })
 export class AppComponent  {

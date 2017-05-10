@@ -25,8 +25,7 @@ var TitleFormComponent = (function () {
 TitleFormComponent = __decorate([
     core_1.Component({
         selector: 'input-title',
-        templateUrl: './title.component.html',
-        styleUrls: ['../elements.form.css']
+        templateUrl: './title.component.html'
     }),
     __metadata("design:paramtypes", [formElements_service_1.FormElementsService])
 ], TitleFormComponent);

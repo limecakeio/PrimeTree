@@ -25,8 +25,7 @@ var DescriptionFormComponent = (function () {
 DescriptionFormComponent = __decorate([
     core_1.Component({
         selector: 'input-description',
-        templateUrl: './description.component.html',
-        styleUrls: ['../elements.form.css']
+        templateUrl: './description.component.html'
     }),
     __metadata("design:paramtypes", [formElements_service_1.FormElementsService])
 ], DescriptionFormComponent);

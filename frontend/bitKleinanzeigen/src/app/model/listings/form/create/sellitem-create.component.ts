@@ -10,8 +10,8 @@ import { SecurityModel } from '../../../../security/security.model';
 
 @Component({
   selector: 'form-create-sellitem',
-  templateUrl: 'sellitem-create.component.html',
-  styleUrls: [ '../global.form.css' ],
+  templateUrl: './sellitem-create.component.html',
+  // styleUrls: [ '../global.form.css' ],
   providers: [ FormElementsService ]
 })
 export class SellItemCreateFormComponent {

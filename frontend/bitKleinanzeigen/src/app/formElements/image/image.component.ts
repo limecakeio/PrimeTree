@@ -4,8 +4,8 @@ import { FormElementsService } from '../formElements.service';
 
 @Component({
   selector: 'input-image',
-  templateUrl: 'image.component.html',
-  styleUrls: ['../elements.form.css']
+  templateUrl: './image.component.html'
+  // styleUrls: ['../elements.form.css']
 })
 export class ImageFormComponent {
   model : any;

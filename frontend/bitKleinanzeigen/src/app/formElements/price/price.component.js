@@ -25,8 +25,7 @@ var PriceFormComponent = (function () {
 PriceFormComponent = __decorate([
     core_1.Component({
         selector: 'input-price',
-        templateUrl: './price.component.html',
-        styleUrls: ['../elements.form.css']
+        templateUrl: './price.component.html'
     }),
     __metadata("design:paramtypes", [formElements_service_1.FormElementsService])
 ], PriceFormComponent);

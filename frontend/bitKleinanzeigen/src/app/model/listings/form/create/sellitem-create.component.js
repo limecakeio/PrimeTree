@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var sellitem_model_1 = require("../../sellItem/sellitem.model");
+var sellitem_model_1 = require("../../sellitem/sellitem.model");
 var forms_1 = require("@angular/forms");
 var formElements_service_1 = require("../../../../formElements/formElements.service");
 var listing_controller_1 = require("../../network/listing.controller");
@@ -53,8 +53,9 @@ var SellItemCreateFormComponent = (function () {
 SellItemCreateFormComponent = __decorate([
     core_1.Component({
         selector: 'form-create-sellitem',
-        templateUrl: 'sellitem-create.component.html',
-        styleUrls: ['../global.form.css'],
+
+        templateUrl: './sellitem-create.component.html',
+        // styleUrls: [ '../global.form.css' ],
         providers: [formElements_service_1.FormElementsService]
     }),
     __metadata("design:paramtypes", [formElements_service_1.FormElementsService,

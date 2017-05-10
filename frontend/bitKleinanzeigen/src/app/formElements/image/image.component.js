@@ -39,8 +39,7 @@ var ImageFormComponent = (function () {
 ImageFormComponent = __decorate([
     core_1.Component({
         selector: 'input-image',
-        templateUrl: 'image.component.html',
-        styleUrls: ['../elements.form.css']
+        templateUrl: './image.component.html'
     }),
     __metadata("design:paramtypes", [formElements_service_1.FormElementsService])
 ], ImageFormComponent);
