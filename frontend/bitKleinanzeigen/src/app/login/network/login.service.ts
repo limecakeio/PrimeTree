@@ -10,25 +10,33 @@ export class LoginService {
 
   constructor(private network : NetworkService) {  }
 
-  public login(user : User) : Observable<Response> {
+  public login(user : User) : Observable<boolean> {
     let request : NetworkRequest = this.network.networkRequest();
+    let formdata = new FormData();
+    formdata.append('username', user.username);
+    formdata.append('password', user.password);
     request
     .setHttpMethod(RequestMethod.Post)
-    .setPort(3500)
-    .addPath('listing')
-    .addPath('user')
+    .setHostname('141.19.145.175')
+    .setPort(8080)
     .addPath('login')
-    .setBody(user);
-    return this.network.send(request);
+    .setBody(formdata);
+    return this.network.send(request).map((response : Response) => {
+      if (response.status !== 200) {
+        return false;
+      }
+      return true;
+    });
   }
 
   public logout() : Observable<Response> {
     let request : NetworkRequest = this.network.networkRequest();
     request
     .setHttpMethod(RequestMethod.Post)
-    .setPort(3500)
-    .addPath('user')
-    .addPath('logout')
+    .setHostname('141.19.145.175')
+    .setPort(8080)
+    .addPath('logout');
+    // .addHeader('Access-Control-Request-Headers', 'POST');
     return this.network.send(request);
   }
 

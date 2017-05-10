@@ -4,8 +4,8 @@ import { FormElementsService } from '../formElements.service';
 
 @Component({
   selector: 'input-image',
-  templateUrl: 'image.component.html',
-  styleUrls: ['../elements.form.css']
+  templateUrl: './image.component.html'
+  // styleUrls: ['../elements.form.css']
 })
 export class ImageFormComponent {
   model : any;
@@ -34,6 +34,6 @@ export class ImageFormComponent {
     let reader = e.target;
     this.imagesrc = reader.result;
     this.model.image = this.imagesrc;
-    console.log(this.model);
+    // console.log(this.model);
   }
 }

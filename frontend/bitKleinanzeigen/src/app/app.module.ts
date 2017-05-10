@@ -6,9 +6,20 @@ import { ListingModule  } from './model/listings/listing.modul';
 import { AppComponent } from './app.component';
 import { LoginModul  } from './login/login.module';
 import { SecurityModel } from './security/security.model';
+import { RouterModule } from '@angular/router';
+import { RoutingModule } from './routing/routing.module';
+import { UserNavigationModule } from './usernavigation/user-navigation.module';
 
 @NgModule({
-  imports:      [ BrowserModule, SecurityModule, NetworkModule, ListingModule, LoginModul ],
+  imports: [ 
+    BrowserModule,
+    SecurityModule,
+    NetworkModule,
+    ListingModule,
+    LoginModul,
+    RouterModule,
+    RoutingModule,
+    UserNavigationModule ],
   declarations: [ AppComponent ],
   bootstrap:    [ AppComponent ],
   providers: [ SecurityModel ]

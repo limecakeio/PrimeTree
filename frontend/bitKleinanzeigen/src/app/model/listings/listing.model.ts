@@ -7,6 +7,8 @@ export interface Listing {
   active : boolean;
   image : string;
   imageObj : File;
+  id: number;
+  owner : string;
 }
 
 export class Offering implements Listing {
@@ -16,4 +18,6 @@ export class Offering implements Listing {
   active : boolean = true;
   image : string = '';
   imageObj : File;
+  id: number;
+  owner : string;
 }

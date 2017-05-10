@@ -1,3 +1,4 @@
+"use strict";
 var Offering = (function () {
     function Offering() {
         this.title = '';
@@ -8,5 +9,5 @@ var Offering = (function () {
     }
     return Offering;
 }());
-export { Offering };
+exports.Offering = Offering;
 //# sourceMappingURL=listing.model.js.map
