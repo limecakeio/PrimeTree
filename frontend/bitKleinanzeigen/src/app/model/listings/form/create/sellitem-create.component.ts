@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SellItem } from '../../sellItem/sellitem.model';
+import { SellItem } from '../../sellitem/sellitem.model';
 import { FormGroup } from '@angular/forms';
 import { FormElementsService } from '../../../../formElements/formElements.service';
 import { ListingController } from '../../network/listing.controller';
