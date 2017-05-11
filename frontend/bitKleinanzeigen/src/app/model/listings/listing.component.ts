@@ -4,7 +4,7 @@ import { Listing } from './listing.model';
 
 @Component({
   selector: 'listings',
-  templateUrl: 'listing.component.html'
+  templateUrl: './listing.component.html'
 })
 export class ListingComponent {
 
