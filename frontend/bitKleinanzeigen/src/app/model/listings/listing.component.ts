@@ -4,11 +4,7 @@ import { Listing } from './listing.model';
 
 @Component({
   selector: 'listings',
-<<<<<<< HEAD
   templateUrl: './listing.component.html'
-=======
-  templateUrl: 'listing.component.html'
->>>>>>> a0cfd9909733ece4b2bb3755c28934ced8d430ec
 })
 export class ListingComponent {
 

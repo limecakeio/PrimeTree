@@ -6,11 +6,7 @@ import { SecurityModel } from '../../../security/security.model';
 
 @Component({
   selector: 'sellitem',
-<<<<<<< HEAD
   templateUrl: './sellitem.component.html'
-=======
-  templateUrl: 'sellitem.component.html'
->>>>>>> a0cfd9909733ece4b2bb3755c28934ced8d430ec
 })
 export class SellItemComponent implements OnInit {
 
