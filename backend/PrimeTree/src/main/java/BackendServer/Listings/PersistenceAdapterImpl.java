@@ -47,7 +47,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 
 	@Override
 	public Listing getListingById(long listingId) throws ListingNotFoundException {
-		return (Listing) performActionWithListingIdOnAlllistingControllers(listingId,
+		return (Listing) performActionOnAlllistingControllers(listingId,
 				new ListingObjectControllerActionPerformer(){
 
 					@Override
@@ -98,7 +98,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 
 	@Override
 	public void deleteListingById(int listingId) throws ListingNotFoundException {
-		performActionWithListingIdOnAlllistingControllers(listingId,
+		performActionOnAlllistingControllers(listingId,
 				new ListingObjectControllerActionPerformer(){
 
 					@Override
@@ -109,7 +109,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		});
 	}
 	
-	private Object performActionWithListingIdOnAlllistingControllers(long listingId, ListingObjectControllerActionPerformer action) throws ListingNotFoundException{
+	private Object performActionOnAlllistingControllers(long listingId, ListingObjectControllerActionPerformer action) throws ListingNotFoundException{
 		for(int controllerIndex=0;controllerIndex<listingControllers.length;controllerIndex++){
 			try{
 				action.setListingObjectController(listingControllers[controllerIndex]);
