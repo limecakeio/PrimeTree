@@ -18,17 +18,24 @@ import org.springframework.transaction.PlatformTransactionManager;
 @PropertySource({ "classpath:application.properties" })
 @EnableJpaRepositories(
 		basePackages = "BackendServer.Employee.Repositories",
-		entityManagerFactoryRef = "EmployeeEntityManager", 
-	    transactionManagerRef = "EmployeeTransactionManager"
+		entityManagerFactoryRef = "employeeEntityManager", 
+	    transactionManagerRef = "employeeTransactionManager"
 		)
 public class EmployeeBeanCollection {
 	
 	@Autowired
     private Environment env;
+	
+	public EmployeeBeanCollection(){
+		System.out.println("EmployeeBeanCollection()");
+	}
     
     @Bean
     @Primary
     public LocalContainerEntityManagerFactoryBean employeeEntityManager() {
+    	
+    	System.out.println("employeeEntityManager() aufgerufen");
+    	
         LocalContainerEntityManagerFactoryBean em
           = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(employeeDataSource());
@@ -39,9 +46,9 @@ public class EmployeeBeanCollection {
         HibernateJpaVendorAdapter vendorAdapter
           = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
-        HashMap<String, Object> properties = new HashMap<>();
+        HashMap<String, Object> properties = new HashMap<String, Object>();
         properties.put("hibernate.hbm2ddl.auto",
-          env.getProperty("hibernate.hbm2ddl.auto"));
+          env.getProperty("employee.hbm2ddl.auto"));
         properties.put("hibernate.dialect",
           env.getProperty("hibernate.dialect"));
         em.setJpaPropertyMap(properties);
@@ -52,6 +59,8 @@ public class EmployeeBeanCollection {
     @Primary
     @Bean
     public DataSource employeeDataSource() {
+    	
+    	System.out.println("employeeDataSource() aufgerufen");
   
         DriverManagerDataSource dataSource
           = new DriverManagerDataSource();
@@ -66,7 +75,9 @@ public class EmployeeBeanCollection {
  
     @Primary
     @Bean
-    public PlatformTransactionManager CoworkerTransactionManager() {
+    public PlatformTransactionManager employeeTransactionManager() {
+    	
+    	System.out.println("employeeTransactionManager() aufgerufen");
   
         JpaTransactionManager transactionManager
           = new JpaTransactionManager();

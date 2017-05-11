@@ -23,7 +23,7 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
 		Iterator<Employee> userIterator=employeeRepository.findAll().iterator();
 		Employee actualemployee;
 		Employee foundemployee=null;
-		while(foundemployee!=null && userIterator.hasNext()){
+		while(userIterator.hasNext()){
 			actualemployee=userIterator.next();
 			if(actualemployee.getUsername().equals(username)){
 				foundemployee=actualemployee;
