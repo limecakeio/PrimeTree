@@ -23,17 +23,17 @@ import BackendServer.Listings.Entities.SellItem;
 import BackendServer.Listings.ObjectControllers.ListingObjectController;
 
 public class PersistenceAdapterImpl implements PersistenceAdapter {
-
+	
 	//This is an Array containing Instances of all non-abstract classes extending ListingObjectController
 	@Autowired
 	ListingObjectController[] listingControllers;
-
+	
 	private abstract class ListingObjectControllerActionPerformer {
-
+		
 		protected ListingObjectController listingObjectController;
-
+		
 		public abstract Object performAction(long listingId) throws ListingNotFoundException;
-
+		
 		public void setListingObjectController(ListingObjectController listingObjectController) {
 			this.listingObjectController = listingObjectController;
 		}
@@ -47,17 +47,17 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 
 	@Override
 	public Listing getListingById(long listingId) throws ListingNotFoundException {
-		return (Listing) performActionWithListingIdOnAlllistingControllers(listingId,
+		return (Listing) performActionOnAlllistingControllers(listingId,
 				new ListingObjectControllerActionPerformer(){
 
 					@Override
 					public Object performAction(long listingId) throws ListingNotFoundException {
 						return listingObjectController.getListingById(listingId);
 					}
-
+			
 		});
 	}
-
+	
 	/**This method returns a ListingObjectController-instance, whose listingType matches the one of the listingData.
 	 * If listingData contains no field with the listingType a WrongFormatException is thrown.*/
 	private ListingObjectController getListingControllerWithTheRightType(JSONObject listingData) throws WrongFormatException{
@@ -66,7 +66,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		}catch(NullPointerException e){
 			throw new WrongFormatException("ListingData is null");
 		}
-
+		
 		for(int controllerIndex=0;controllerIndex<listingControllers.length;controllerIndex++){
 			if(listingControllers[controllerIndex].isThisListingType(listingData)){
 				return listingControllers[controllerIndex];
@@ -98,18 +98,18 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 
 	@Override
 	public void deleteListingById(int listingId) throws ListingNotFoundException {
-		performActionWithListingIdOnAlllistingControllers(listingId,
+		performActionOnAlllistingControllers(listingId,
 				new ListingObjectControllerActionPerformer(){
 
 					@Override
 					public Object performAction(long listingId) throws ListingNotFoundException {
 						return listingObjectController.deleteListing((long) listingId);
 					}
-
+			
 		});
 	}
-
-	private Object performActionWithListingIdOnAlllistingControllers(long listingId, ListingObjectControllerActionPerformer action) throws ListingNotFoundException{
+	
+	private Object performActionOnAlllistingControllers(long listingId, ListingObjectControllerActionPerformer action) throws ListingNotFoundException{
 		for(int controllerIndex=0;controllerIndex<listingControllers.length;controllerIndex++){
 			try{
 				action.setListingObjectController(listingControllers[controllerIndex]);
@@ -148,9 +148,8 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	private String makeFilePath(int listingId) {
 		return "assets/listings/" + listingId + "/main-image.png";
 	}
-
+	
 	private String makeDirectoryPath(int listingId) {
 		return "assets/listings/" + listingId;
 	}
-
 }
