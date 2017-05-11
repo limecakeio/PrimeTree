@@ -1,5 +1,13 @@
 package BackendServer.Listings;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.AccessDeniedException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -14,18 +22,18 @@ import BackendServer.Listings.Entities.Listing;
 import BackendServer.Listings.Entities.SellItem;
 import BackendServer.Listings.ObjectControllers.ListingObjectController;
 
-public class SQLAdapterImpl implements SQLAdapter {
-	
+public class PersistenceAdapterImpl implements PersistenceAdapter {
+
 	//This is an Array containing Instances of all non-abstract classes extending ListingObjectController
 	@Autowired
 	ListingObjectController[] listingControllers;
-	
+
 	private abstract class ListingObjectControllerActionPerformer {
-		
+
 		protected ListingObjectController listingObjectController;
-		
+
 		public abstract Object performAction(long listingId) throws ListingNotFoundException;
-		
+
 		public void setListingObjectController(ListingObjectController listingObjectController) {
 			this.listingObjectController = listingObjectController;
 		}
@@ -46,10 +54,10 @@ public class SQLAdapterImpl implements SQLAdapter {
 					public Object performAction(long listingId) throws ListingNotFoundException {
 						return listingObjectController.getListingById(listingId);
 					}
-			
+
 		});
 	}
-	
+
 	/**This method returns a ListingObjectController-instance, whose listingType matches the one of the listingData.
 	 * If listingData contains no field with the listingType a WrongFormatException is thrown.*/
 	private ListingObjectController getListingControllerWithTheRightType(JSONObject listingData) throws WrongFormatException{
@@ -58,7 +66,7 @@ public class SQLAdapterImpl implements SQLAdapter {
 		}catch(NullPointerException e){
 			throw new WrongFormatException("ListingData is null");
 		}
-		
+
 		for(int controllerIndex=0;controllerIndex<listingControllers.length;controllerIndex++){
 			if(listingControllers[controllerIndex].isThisListingType(listingData)){
 				return listingControllers[controllerIndex];
@@ -89,18 +97,18 @@ public class SQLAdapterImpl implements SQLAdapter {
 	}
 
 	@Override
-	public Long deleteListingById(int listingId) throws ListingNotFoundException {
-		return (Long) performActionWithListingIdOnAlllistingControllers(listingId,
+	public void deleteListingById(int listingId) throws ListingNotFoundException {
+		performActionWithListingIdOnAlllistingControllers(listingId,
 				new ListingObjectControllerActionPerformer(){
 
 					@Override
 					public Object performAction(long listingId) throws ListingNotFoundException {
 						return listingObjectController.deleteListing((long) listingId);
 					}
-			
+
 		});
 	}
-	
+
 	private Object performActionWithListingIdOnAlllistingControllers(long listingId, ListingObjectControllerActionPerformer action) throws ListingNotFoundException{
 		for(int controllerIndex=0;controllerIndex<listingControllers.length;controllerIndex++){
 			try{
@@ -119,4 +127,30 @@ public class SQLAdapterImpl implements SQLAdapter {
 				this.getListingById(listingId).getOwner()
 				);
 	}
+
+	@Override
+	public void uploadImage(byte[] imageData, int listingId) throws FileNotFoundException, IOException {
+		String filePath=makeFilePath(listingId);
+		try{
+			Files.deleteIfExists(Paths.get(filePath));
+			Files.createDirectories(Paths.get(makeDirectoryPath(listingId)));
+			Files.createFile(Paths.get(filePath));
+		}catch(FileAlreadyExistsException e){
+			//do nothing and continue
+		}catch(AccessDeniedException e){
+			System.out.println(e.getMessage());
+		}
+		FileOutputStream outputStream=new FileOutputStream(filePath);
+		outputStream.write(imageData);
+		outputStream.close();
+	}
+
+	private String makeFilePath(int listingId) {
+		return "assets/listings/" + listingId + "/main-image.png";
+	}
+
+	private String makeDirectoryPath(int listingId) {
+		return "assets/listings/" + listingId;
+	}
+
 }

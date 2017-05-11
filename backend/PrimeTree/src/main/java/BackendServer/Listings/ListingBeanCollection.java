@@ -96,8 +96,8 @@ public class ListingBeanCollection {
     }
 	
 	@Bean 
-	public SQLAdapter sqlAdapter(){
-	   return new SQLAdapterImpl();
+	public PersistenceAdapter persistenceAdapter(){
+	   return new PersistenceAdapterImpl();
 	}
 	
 	@Bean

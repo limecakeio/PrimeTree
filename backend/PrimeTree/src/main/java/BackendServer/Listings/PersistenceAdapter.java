@@ -1,4 +1,6 @@
 package BackendServer.Listings;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 
 import org.json.JSONObject;
@@ -7,7 +9,7 @@ import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Entities.Listing;
 
-public interface SQLAdapter {
+public interface PersistenceAdapter {
 	
 	/**This method takes the data for a new listing in a single object and creates a persisted entry in the ListingDatabase.
 	 * 
@@ -56,11 +58,22 @@ public interface SQLAdapter {
 	/**This method deletes the listing with the listingId listingId
 	 * 
 	 * @param:
-	 * listingId:
-	 * 
-	 * @return: An array of all listingId of all Listings
+	 * listingId: the id of the listing
 	 * */
-	Long deleteListingById(int listingId) throws ListingNotFoundException;
+	void deleteListingById(int listingId) throws ListingNotFoundException;
+	
+	/**This method checks whether the user with username username is the
+	 *  creator/owner of the listing with listingId listingId.
+	 *  
+	 *  @param:
+	 *  listingId: the id of the listing
+	 *  username: username of the user
+	 *  
+	 *  @return:
+	 *  true:*/
+	boolean isOwnerOfListing(int listingId, String username) throws ListingNotFoundException;
+	
+	void uploadImage(byte[] imageData, int listingId) throws FileNotFoundException, IOException;
 
 	boolean isOwnerOfListing(int listingId, String name) throws ListingNotFoundException;
 
