@@ -16,4 +16,4 @@ var SellItem = (function (_super) {
     return SellItem;
 }(listing_model_1.Offering));
 exports.SellItem = SellItem;
-//# sourceMappingURL=sellItem.model.js.map
+//# sourceMappingURL=sellitem.model.js.map

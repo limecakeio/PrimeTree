@@ -4,8 +4,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'input-description',
-  templateUrl: './description.component.html',
-  styleUrls: ['../elements.form.css']
+  templateUrl: './description.component.html'
+  // styleUrls: ['../elements.form.css']
 })
 export class DescriptionFormComponent implements OnInit {
   model : any;

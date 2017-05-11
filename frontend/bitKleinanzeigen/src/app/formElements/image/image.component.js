@@ -32,15 +32,14 @@ var ImageFormComponent = (function () {
         var reader = e.target;
         this.imagesrc = reader.result;
         this.model.image = this.imagesrc;
-        console.log(this.model);
+        // console.log(this.model);
     };
     return ImageFormComponent;
 }());
 ImageFormComponent = __decorate([
     core_1.Component({
         selector: 'input-image',
-        templateUrl: 'image.component.html',
-        styleUrls: ['../elements.form.css']
+        templateUrl: './image.component.html'
     }),
     __metadata("design:paramtypes", [formElements_service_1.FormElementsService])
 ], ImageFormComponent);

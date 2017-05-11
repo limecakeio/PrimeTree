@@ -9,7 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var sellitem_model_1 = require("./sellitem/sellitem.model");
 var listing_controller_1 = require("./network/listing.controller");
 var ListingReposetory = (function () {
     function ListingReposetory(controller) {
@@ -27,9 +26,9 @@ var ListingReposetory = (function () {
                 this.listings.splice(i, 1);
                 isRemoved = true;
                 this.controller.removeListing(id).subscribe(function (res) {
-                    console.log('listing removed');
-                    console.log(res);
-                    console.log('listing removed');
+                    // console.log('listing removed');
+                    // console.log(res);
+                    // console.log('listing removed');
                 });
             }
         }
@@ -38,25 +37,17 @@ var ListingReposetory = (function () {
     ListingReposetory.prototype.update = function () {
         var _this = this;
         this.listings = [];
-        this.controller.getAll().subscribe(function (res) {
-            var caster = res.json();
-            caster.forEach(function (id) {
-                _this.controller.getListing(id).subscribe(function (res) {
-                    var casterios = res.json();
-                    console.log('casterios');
-                    console.log(res);
-                    console.log('casterios');
-                    var listing = new sellitem_model_1.SellItem();
-                    listing.title = casterios.title;
-                    listing.description = casterios.description;
-                    listing.id = id;
-                    listing.price = listing.price;
-                    _this.listings.push(casterios);
+        this.controller.getAllListings().subscribe(function (ids) {
+            ids.forEach(function (id) {
+                _this.controller.getListing(id).subscribe(function (listing) {
+                    _this.listings.push(listing);
                 });
             });
-            console.log('getall');
-            console.log(res);
-            console.log('getall');
+        }, function (error) {
+            // console.log('getall - error')
+            // console.log(error);
+        }, function () {
+            // console.log('getall - complete')
         });
     };
     return ListingReposetory;

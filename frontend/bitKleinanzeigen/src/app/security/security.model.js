@@ -10,22 +10,8 @@ var SecurityModel = (function () {
     function SecurityModel() {
         this.authenticated = false;
     }
-    SecurityModel.prototype.setKey = function (key) {
-        this.authenticated = true;
-        this.key = key;
-    };
-    SecurityModel.prototype.setSecret = function (secret) {
-        this.authenticated = true;
-        this.secret = secret;
-    };
     SecurityModel.prototype.isAuthenticated = function () {
         return this.authenticated;
-    };
-    SecurityModel.prototype.getKey = function () {
-        return this.key;
-    };
-    SecurityModel.prototype.getSecret = function () {
-        return this.secret;
     };
     return SecurityModel;
 }());

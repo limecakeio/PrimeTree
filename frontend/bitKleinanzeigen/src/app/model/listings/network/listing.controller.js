@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var sellitem_model_1 = require("../sellitem/sellitem.model");
 var network_service_1 = require("../../../network/network.service");
 var network_request_1 = require("../../../network/network.request");
 var http_1 = require("@angular/http");
@@ -50,21 +51,20 @@ var ListingController = (function () {
             id: listingId,
             image: formData
         });
-        console.log(formData);
         return this.networkService.send(request);
     };
-    ListingController.prototype.getAll = function () {
-        console.log('getall');
+    ListingController.prototype.getAllListings = function () {
         var request = this.networkService.networkRequest();
         request.setHttpMethod(http_1.RequestMethod.Get)
             .setHostname('141.19.145.175')
             .setPort(8080)
             .addPath('listing')
             .addPath('getall');
-        return this.networkService.send(request);
+        return this.networkService.send(request).map(function (response) {
+            return response.json();
+        });
     };
     ListingController.prototype.getListing = function (id) {
-        console.log('getone');
         var request = this.networkService.networkRequest();
         request.setHttpMethod(http_1.RequestMethod.Get)
             .setHostname('141.19.145.175')
@@ -72,10 +72,18 @@ var ListingController = (function () {
             .addPath('listing')
             .addPath('getone')
             .addPath(id + '');
-        return this.networkService.send(request);
+        return this.networkService.send(request).map(function (response) {
+            var body = response.json();
+            var listing = new sellitem_model_1.SellItem();
+            listing.title = body.title;
+            listing.description = body.description;
+            listing.id = body.listingId;
+            listing.owner = body.owner;
+            listing.price = body.price;
+            return listing;
+        });
     };
     ListingController.prototype.removeListing = function (id) {
-        console.log('delete');
         var request = this.networkService.networkRequest();
         request.setHttpMethod(http_1.RequestMethod.Delete)
             .setHostname('141.19.145.175')
@@ -83,7 +91,6 @@ var ListingController = (function () {
             .addPath('listing')
             .addPath('delete')
             .addPath(id + '');
-        // .addPath(id + '');
         return this.networkService.send(request);
     };
     return ListingController;

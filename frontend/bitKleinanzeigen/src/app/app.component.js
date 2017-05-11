@@ -21,8 +21,8 @@ var AppComponent = (function () {
 AppComponent = __decorate([
     core_1.Component({
         selector: 'bITKleinanzeigen',
-        templateUrl: 'app.component.html',
-        styleUrls: ['app.component.css'],
+        templateUrl: './app.component.html',
+        // styleUrls: [ 'app.component.css' ],
         providers: []
     }),
     __metadata("design:paramtypes", [security_model_1.SecurityModel])

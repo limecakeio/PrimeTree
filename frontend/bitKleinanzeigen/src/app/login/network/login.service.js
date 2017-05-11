@@ -26,8 +26,12 @@ var LoginService = (function () {
             .setPort(8080)
             .addPath('login')
             .setBody(formdata);
-        // request.addHeader('Content-Type', 'application/x-www-form-urlencoded');
-        return this.network.send(request);
+        return this.network.send(request).map(function (response) {
+            if (response.status !== 200) {
+                return false;
+            }
+            return true;
+        });
     };
     LoginService.prototype.logout = function () {
         var request = this.network.networkRequest();

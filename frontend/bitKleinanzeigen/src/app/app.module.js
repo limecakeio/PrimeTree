@@ -13,7 +13,9 @@ var listing_modul_1 = require("./model/listings/listing.modul");
 var app_component_1 = require("./app.component");
 var login_module_1 = require("./login/login.module");
 var security_model_1 = require("./security/security.model");
-var app_routing_1 = require("./app.routing");
+var router_1 = require("@angular/router");
+var routing_module_1 = require("./routing/routing.module");
+var user_navigation_module_1 = require("./usernavigation/user-navigation.module");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -21,7 +23,16 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule, security_module_1.SecurityModule, network_module_1.NetworkModule, listing_modul_1.ListingModule, login_module_1.LoginModul, app_routing_1.routing],
+        imports: [
+            platform_browser_1.BrowserModule,
+            security_module_1.SecurityModule,
+            network_module_1.NetworkModule,
+            listing_modul_1.ListingModule,
+            login_module_1.LoginModul,
+            router_1.RouterModule,
+            routing_module_1.RoutingModule,
+            user_navigation_module_1.UserNavigationModule
+        ],
         declarations: [app_component_1.AppComponent],
         bootstrap: [app_component_1.AppComponent],
         providers: [security_model_1.SecurityModel]

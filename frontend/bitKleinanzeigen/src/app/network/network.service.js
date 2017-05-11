@@ -22,14 +22,12 @@ var NetworkService = (function () {
      * @return {Observable<Response>}
      */
     NetworkService.prototype.send = function (request) {
-        console.log('send');
-        if (request.hasHeaders() || this.security.isAuthenticated()) {
+        if (request.hasHeaders()) {
             var headers_1 = new http_1.Headers();
             var headerArray = request.getHeaders();
             headerArray.forEach(function (header) {
                 headers_1.append(header.key, header.value);
             });
-            headers_1.append(this.security.getKey(), this.security.getSecret());
             return this.sendRequestWithHeaders(request, headers_1);
         }
         else {
@@ -37,7 +35,7 @@ var NetworkService = (function () {
         }
     };
     NetworkService.prototype.sendRequest = function (request) {
-        console.log(request);
+        // console.log(request);
         return this.http.request(new http_1.Request({
             method: request.getHttpMethod(),
             url: request.getUrl(),
@@ -46,9 +44,9 @@ var NetworkService = (function () {
         }));
     };
     NetworkService.prototype.sendRequestWithHeaders = function (request, headers) {
-        console.log('headers');
-        console.log(request);
-        console.log(headers);
+        // console.log('headers');
+        // console.log(request);
+        // console.log(headers);
         return this.http.request(new http_1.Request({
             method: request.getHttpMethod(),
             url: request.getUrl(),

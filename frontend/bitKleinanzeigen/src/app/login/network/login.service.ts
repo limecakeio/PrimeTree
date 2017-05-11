@@ -10,7 +10,7 @@ export class LoginService {
 
   constructor(private network : NetworkService) {  }
 
-  public login(user : User) : Observable<Response> {
+  public login(user : User) : Observable<boolean> {
     let request : NetworkRequest = this.network.networkRequest();
     let formdata = new FormData();
     formdata.append('username', user.username);
@@ -21,8 +21,12 @@ export class LoginService {
     .setPort(8080)
     .addPath('login')
     .setBody(formdata);
-    // request.addHeader('Content-Type', 'application/x-www-form-urlencoded');
-    return this.network.send(request);
+    return this.network.send(request).map((response : Response) => {
+      if (response.status !== 200) {
+        return false;
+      }
+      return true;
+    });
   }
 
   public logout() : Observable<Response> {

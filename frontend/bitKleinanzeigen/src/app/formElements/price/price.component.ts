@@ -5,8 +5,8 @@ import { FormElementsService } from '../formElements.service';
 
 @Component({
   selector: 'input-price',
-  templateUrl: './price.component.html',
-  styleUrls: ['../elements.form.css']
+  templateUrl: './price.component.html'
+  // styleUrls: ['../elements.form.css']
 })
 export class PriceFormComponent implements OnInit {
   form : FormGroup;
