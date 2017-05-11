@@ -12,11 +12,13 @@ public class Constants {
 	
 	//The following Strings are the names of the required fields in all JSONObjects representing listingData
 	public static final String
-	listingDataFieldNameTitle="title",
-	listingDataFieldNameDescription="listingDescription",
-	//listingDataFieldNamePictures="pictures",
-	//listingDataFieldNameDeadLine="deadLine",
+	listingDataFieldNameCondition="condition",
+	listingDataFieldNameDescription="description",
+	listingDataFieldNameDeadLine="expiryDate",
+	listingDataFieldNameLocation="location",
 	listingDataFieldNamePrice="price",
-	listingDataFieldNameListingType="listingType";
+	listingDataFieldNameTitle="title",
+	listingDataFieldNameListingType="type",
+	listingDataFieldNameCreateDate="createDate";
 	
 }

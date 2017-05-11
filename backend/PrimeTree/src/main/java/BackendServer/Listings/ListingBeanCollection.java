@@ -19,6 +19,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import BackendServer.Listings.ObjectControllers.ListingObjectController;
 import BackendServer.Listings.ObjectControllers.SellItemObjectController;
+import BackendServer.Listings.ObjectControllers.ServiceOfferingObjectController;
 
 
 /**This class defines all beans relevant for the implementation of the Listing-REST-methods 
@@ -103,7 +104,8 @@ public class ListingBeanCollection {
 	@Bean
 	public ListingObjectController[] listingObjectControllerArray(){
 		ListingObjectController[] returnValue={
-				new SellItemObjectController()
+				new SellItemObjectController(),
+				new ServiceOfferingObjectController()
 		};
 		return returnValue;
 	}

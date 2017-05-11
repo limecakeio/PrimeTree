@@ -66,7 +66,6 @@ public class SellItemObjectController extends OfferingObjectController {
 	public boolean isThisListingType(JSONObject listingData)throws WrongFormatException{
 		try{
 			return "SellItem".equals(listingData.getString(Constants.listingDataFieldNameListingType));
-//			return true;
 		}catch(JSONException e){
 			throw new WrongFormatException("The listingType is missing.");
 		}

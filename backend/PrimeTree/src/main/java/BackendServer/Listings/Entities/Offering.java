@@ -15,7 +15,6 @@ import org.json.JSONObject;
 //@Inheritance( strategy = InheritanceType.JOINED )
 public abstract class Offering extends Listing{
 	
-	/**This method fills the Object-fields except id with the data in listingData and the creatorId*/
 	public void fillFields(JSONObject listingData, String creator) {
 		super.fillFields(listingData, creator);
 	}
