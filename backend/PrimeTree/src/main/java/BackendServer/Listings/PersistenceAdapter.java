@@ -75,6 +75,4 @@ public interface PersistenceAdapter {
 	
 	void uploadImage(byte[] imageData, int listingId) throws FileNotFoundException, IOException;
 
-	boolean isOwnerOfListing(int listingId, String name) throws ListingNotFoundException;
-
 }

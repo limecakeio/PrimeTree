@@ -2,9 +2,7 @@ package BackendServer.Employee.Entities;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,32 +14,28 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name="employee")
-public class Employee implements UserDetails{
+@Table(name = "employee")
+public class Employee implements UserDetails {
 
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="employeeid")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	@Column(name="firstname")
-	private String firstname;
-	
-	@Column(name="sirname")
-	private String surname;
-	
-	@Column(name="email")
-	private String email;
-	
-	@Column(name="imagelocation")
-	private String imagelocation;
-	
-	@Column(name="locationId")
-	private Long locationId;
+
+	private String Vorname;
+
+	private String Nachname;
+
+	private String Login;
+
+	private String Standort;
+
+	private String SkillLevel;
+
+	private String Foto;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Collection<GrantedAuthority> collection=new LinkedList<GrantedAuthority>();
+		Collection<GrantedAuthority> collection = new LinkedList<GrantedAuthority>();
 		collection.add(new SimpleGrantedAuthority("USER"));
 		return collection;
 	}
@@ -53,8 +47,32 @@ public class Employee implements UserDetails{
 
 	@Override
 	public String getUsername() {
-		return firstname.charAt(0) + "." + surname;
-//		return "user";
+		return Login;
+		// return "user";
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getLogin() {
+		return Login;
+	}
+
+	public void setLogin(String login) {
+		Login = login;
+	}
+
+	public String getFoto() {
+		return Foto;
+	}
+
+	public void setFoto(String foto) {
+		Foto = foto;
 	}
 
 	@Override
@@ -74,8 +92,39 @@ public class Employee implements UserDetails{
 
 	@Override
 	public boolean isEnabled() {
-		return  true;
+		return true;
 	}
-	
-	
+
+	public String getVorname() {
+		return Vorname;
+	}
+
+	public void setVorname(String vorname) {
+		Vorname = vorname;
+	}
+
+	public String getNachname() {
+		return Nachname;
+	}
+
+	public void setNachname(String nachname) {
+		Nachname = nachname;
+	}
+
+	public String getStandort() {
+		return Standort;
+	}
+
+	public void setStandort(String standort) {
+		Standort = standort;
+	}
+
+	public String getSkillLevel() {
+		return SkillLevel;
+	}
+
+	public void setSkillLevel(String skillLevel) {
+		SkillLevel = skillLevel;
+	}
+
 }

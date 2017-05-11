@@ -33,15 +33,15 @@ import BackendServer.Listings.Entities.Listing;
 @Controller
 @RequestMapping(value = "/listing")
 public class ListingRESTController {
-
+	
 	@Autowired
 	PersistenceAdapter persistenceAdapter;
-
-
+	
+	
 	/**
 	 * this method creates a listing in a Database
 	 * @param body new listing data
-	 * @param req
+	 * @param req 
 	 * @return id of the new listing
 	 * @throws WrongFormatException
 	 */
@@ -53,21 +53,17 @@ public class ListingRESTController {
 		JSONObject obj = new JSONObject(body);
 		System.out.println(obj);
 		JSONObject newListingData = obj.optJSONObject("newListingData");
-
 		return persistenceAdapter.persistNewListing(newListingData, authenticationObject.getName());
-
     }
-
-
-
+	
+	
+	
 	@CrossOrigin
 	@RequestMapping(value = "/delete/{id}", method=RequestMethod.DELETE)
     public @ResponseBody void delete(@PathVariable(value="id") int listingId, HttpServletRequest request) throws ListingNotFoundException, IOException {
 		System.out.println("delete() aufgerufen");
-
 		if(persistenceAdapter.isOwnerOfListing(listingId, SecurityContextHolder.getContext().getAuthentication().getName())){
 			persistenceAdapter.deleteListingById(listingId);
-
 		}else{
 //			response.addHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
 //			response.addHeader("Access-Control-Allow-Credentials", "true");
@@ -77,24 +73,21 @@ public class ListingRESTController {
 			throw new NotAllowedException("Only the owner of this listing can delete this listing.");
 		}
     }
-
+	
 	@CrossOrigin
 	@RequestMapping(value = "/getone/{id}", method = RequestMethod.GET)
 	public @ResponseBody Listing getListingById(@PathVariable(value="id") int listingId, HttpServletRequest req) throws ListingNotFoundException{
 		System.out.println("getone-Aufruf mit listingId: " + listingId);
-
 		return persistenceAdapter.getListingById(listingId);
-
 	}
-
+	
 	@CrossOrigin
 	@RequestMapping(value = "/getall", method = RequestMethod.GET)
 	public @ResponseBody LinkedList<Integer> getAllListings(HttpServletRequest req){
 		System.out.println("getall- Aufruf");
 		return persistenceAdapter.getAllListings();
-
 	}
-
+	
 	@CrossOrigin
 	@RequestMapping(value = "/getmultiple", method = RequestMethod.GET)
 	public @ResponseBody Listing[] getListingArrayByIdArray(@RequestParam int[] listingIds, HttpServletRequest req) throws ListingNotFoundException{
