@@ -40,20 +40,25 @@ public class ListingRESTController {
 	
 	/**
 	 * this method creates a listing in a Database
-	 * @param body new listing data
-	 * @param req 
-	 * @return id of the new listing
-	 * @throws WrongFormatException
+	 * @param the body contains all data for the new listing
+	 * @return A JSONObject with id of the new listing
+	 * @throws IOException
 	 */
 	@CrossOrigin
 	@RequestMapping(value = "/create", method=RequestMethod.POST)
-    public @ResponseBody int newListing(@RequestBody String body, HttpServletRequest req) throws WrongFormatException {
+    public @ResponseBody JSONObject createListing(@RequestBody String body, HttpServletRequest request, HttpServletResponse response) throws IOException{
     	Authentication authenticationObject=SecurityContextHolder.getContext().getAuthentication();
 		System.out.println("create-Aufruf von " + SecurityContextHolder.getContext().getAuthentication().getName());
-		JSONObject obj = new JSONObject(body);
-		System.out.println(obj);
-		JSONObject newListingData = obj.optJSONObject("newListingData");
-		return persistenceAdapter.persistNewListing(newListingData, authenticationObject.getName());
+		JSONObject newListingData = new JSONObject(body);
+		JSONObject returnValue=new JSONObject();
+		System.out.println(newListingData);
+		try {
+			returnValue.put("id", persistenceAdapter.persistNewListing(newListingData, authenticationObject.getName()));
+		} catch (WrongFormatException thrownException) {
+			returnValue.put("status", HttpServletResponse.SC_BAD_REQUEST);
+			returnValue.put("message", thrownException.getMessage());
+		}
+		return returnValue;
     }
 	
 	

@@ -1,5 +1,7 @@
 package BackendServer.Listings.Entities;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,15 +22,19 @@ public abstract class Listing {
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
-	private String title;
+	private double createDate;
+	private String creator;
 	private String description;
-	private String owner;
+	private double expiryDate;
+	private String title;
 	
 	/**This method fills the Object-fields except id with the data in listingData and the creatorId*/
 	public void fillFields(JSONObject listingData, String creator){
-		this.setTitle(listingData.getString(Constants.listingDataFieldNameTitle));
-		this.setDescription(listingData.getString(Constants.listingDataFieldNameDescription));
+		this.setCreateDate(listingData.getDouble(Constants.listingDataFieldNameCreateDate));
 		this.setOwner(creator);
+		this.setDescription(listingData.getString(Constants.listingDataFieldNameDescription));
+		this.setExpiryDate(listingData.getDouble(Constants.listingDataFieldNameDeadLine));
+		this.setTitle(listingData.getString(Constants.listingDataFieldNameTitle));
 	}
 
 	public long getListingId() {
@@ -52,11 +58,27 @@ public abstract class Listing {
 	}
 
 	public String getOwner() {
-		return owner;
+		return creator;
 	}
 
 	public void setOwner(String owner) {
-		this.owner = owner;
+		this.creator = owner;
+	}
+
+	public double getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(double createDate) {
+		this.createDate = createDate;
+	}
+
+	public double getExpiryDate() {
+		return expiryDate;
+	}
+
+	public void setExpiryDate(double expiryDate) {
+		this.expiryDate = expiryDate;
 	}
     
 }
