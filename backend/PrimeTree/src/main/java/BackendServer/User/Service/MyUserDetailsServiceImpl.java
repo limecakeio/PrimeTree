@@ -20,11 +20,9 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println("loadUserByUsername() aufgerufen");
 		Iterator<Employee> userIterator=employeeRepository.findAll().iterator();
 		Employee actualemployee;
 		Employee foundemployee=null;
-		System.out.println(username);
 		while(userIterator.hasNext()){
 			actualemployee=userIterator.next();
 			if(actualemployee.getUsername().equals(username)){
