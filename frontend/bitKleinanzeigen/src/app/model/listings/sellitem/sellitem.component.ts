@@ -25,7 +25,7 @@ export class SellItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.listing.owner === this.securityModel.username) {
+    if (this.listing.creator === this.securityModel.username) {
       this.isOwner = true;
     }
   }

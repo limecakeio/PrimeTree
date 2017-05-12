@@ -3,10 +3,11 @@ import { SellItem } from '../../sellitem/sellitem.model';
 import { FormGroup } from '@angular/forms';
 import { FormElementsService } from '../../../../formElements/formElements.service';
 import { ListingController } from '../../network/listing.controller';
-import { Response } from '@angular/http';
 import { ListingReposetory } from '../../listing.reposetory';
 import { Router } from '@angular/router';
 import { SecurityModel } from '../../../../security/security.model';
+
+import { ListingCreateForm } from './listingCreateForm.model';
 
 @Component({
   selector: 'form-create-sellitem',
@@ -27,24 +28,19 @@ export class SellItemCreateFormComponent {
     this.service.model = new SellItem();
     this.form = this.service.form;
     this.listing = this.service.model;
-    this.listing.owner = this.securityModel.username;
+    this.listing.creator = this.securityModel.username;
   }
 
   submit() {
     if (this.form.valid) {
-      console.log('sellitem create form');
-      this.listingNetworkService.postListing('SellItem', this.listing, [this.listing.imageObj]).subscribe(res => {
-        // console.log(res);
-        let num : any = res;
-        this.listing.id = num;
-        // this.listingNetworkService.postImage(5, this.listing.imageObj).subscribe(res => {
-          // console.log(res);
-        // });
-        // this.listingNetworkService.getAll().subscribe((response : Response) => {
-        //   console.log(response.json());
-        // });
+      this.listingNetworkService.postListing('SellItem', this.listing).subscribe((id : number) => {
+
+
+
         this.repo.addListing(this.listing);
         this.router.navigate(['home']);
+      }, (error : Error) => {
+        console.log(error.message);
       });
     }
   }
