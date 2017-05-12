@@ -6,6 +6,7 @@ import { NetworkService } from '../../../network/network.service';
 import { NetworkRequest } from '../../../network/network.request';
 import { RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { ListingRequest } from './listing.request';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -13,84 +14,126 @@ export class ListingController {
 
   constructor(private networkService : NetworkService ) {  }
 
-  postListing(listingType : string, listing : any, images? : File[]) : Observable<Response> {
+  postListing(listingType : string, listing : any) : Observable<number> {
     let request = new NetworkRequest();
     request.setHttpMethod(RequestMethod.Post)
-    .setHostname('141.19.145.175')
-    .setPort(8080)
     .addPath('listing')
     .addPath('create')
-    .setBody({
-    /*  type: listingType,
-      listing: listing,
-      files: images*/
-      newListingData: {
-        title : listing.title,
-        listingDescription: listing.description,
-        price: listing.price,
-        listingType: 'SellItem'
+    .setBody(listing)
+    .addHeader('Content-Type', 'application/json');
+    return this.networkService.send(request).map((response : Response) => {
+      let body : any = response.json();
+      if (body.status !== null || body.id) {
+        throw new Error(body.message);
       }
-    }).addHeader('Content-Type', 'application/json');
+      return body.id;
+    });
+  }
+
+  public putImage(listingId : number, image : File) : Observable<Response> {
+
+    let request = this.networkService.networkRequest();
+    request.setHttpMethod(RequestMethod.Put)
+    .addPath('upload')
+    .addPath('listing-image')
+    .addPath(listingId + '')
+    .setBody({});
     return this.networkService.send(request).map(response => response.json());
   }
 
-  public postImage(listingId : number, image : File) : Observable<Response> {
-    let formData : FormData = new FormData();
-    formData.append('file[]', image);
-    let request = this.networkService.networkRequest();
-    request.setHttpMethod(RequestMethod.Post)
-    .setHostname('localhost')
-    .setPort(3500)
-    .addPath('listing')
-    .addPath('image')
-    .setBody({
-      id : listingId,
-      image: formData
-    });
-    return this.networkService.send(request);
-  }
-
-  public getAllListings() : Observable<number[]> {
+  public getAllActiveListings() : Observable<number[]> {
     let request = this.networkService.networkRequest();
     request.setHttpMethod(RequestMethod.Get)
-    .setHostname('141.19.145.175')
-    .setPort(8080)
-    .addPath('listing')
-    .addPath('getall');
+    .addPath('listings')
+    .addPath('active');
     return this.networkService.send(request).map((response : Response) => {
-      return response.json();
+      let body : any = response.json();
+      if (body.status !== null) {
+        return body.ids;
+      } else {
+        console.log(body.message);
+      }
+      return [];
+    });
+  }
+
+  public getActiveListings(listingRequest : ListingRequest) : Observable<number[]> {
+    let request = listingRequest.getRequest();
+    request.setHttpMethod(RequestMethod.Get)
+    .addPath('listings')
+    .addPath('active');
+    return this.networkService.send(request).map((response : Response) => {
+      let body : any = response.json();
+      if (body.status !== null) {
+        return body.ids;
+      } else {
+        console.log(body.message);
+      }
+      return [];
+    });
+  };
+
+  public getAllInactiveListings() : Observable<number[]> {
+    let request = this.networkService.networkRequest();
+    request.setHttpMethod(RequestMethod.Get)
+    .addPath('listings')
+    .addPath('inactive');
+    return this.networkService.send(request).map((response : Response) => {
+      let body : any = response.json();
+      if (body.status !== null) {
+        return body.ids;
+      } else {
+        console.log(body.message);
+      }
+      return [];
+    });
+  }
+
+  public getInactiveListings(listingRequest : ListingRequest) : Observable<number[]> {
+    let request : NetworkRequest = listingRequest.getRequest();
+    request.setHttpMethod(RequestMethod.Get)
+    .addPath('listings')
+    .addPath('inactive');
+    return this.networkService.send(request).map((response : Response) => {
+      let body : any = response.json();
+      if (body.status !== null) {
+        return body.ids;
+      } else {
+        console.log(body.message);
+      }
+      return [];
     });
   }
 
   public getListing(id : number) : Observable<Listing> {
     let request = this.networkService.networkRequest();
     request.setHttpMethod(RequestMethod.Get)
-    .setHostname('141.19.145.175')
-    .setPort(8080)
     .addPath('listing')
     .addPath('getone')
     .addPath(id + '');
     return this.networkService.send(request).map((response : Response) => {
       let body = response.json();
       let listing = new SellItem();
-      listing.title = body.title;
-      listing.description = body.description;
-      listing.id = body.listingId;
-      listing.owner = body.owner;
-      listing.price = body.price;
+
       return listing;
     });
   }
 
-  public removeListing(id : number) : Observable<Response> {
+  public removeListing(id : number) : Observable<boolean> {
     let request = this.networkService.networkRequest();
     request.setHttpMethod(RequestMethod.Delete)
-    .setHostname('141.19.145.175')
-    .setPort(8080)
     .addPath('listing')
     .addPath('delete')
     .addPath(id + '');
-    return this.networkService.send(request);
+    return this.networkService.send(request).map((response : Response) => {
+      let body : any = response.json();
+      let message : string = body.message;
+      if (message === 'OK') {
+        return true;
+      } else {
+        return false;
+      }
+    });
   }
 
 }

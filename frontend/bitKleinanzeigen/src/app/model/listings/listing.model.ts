@@ -1,23 +1,25 @@
-
+export enum Location {
+  HD, MA
+}
 
 export interface Listing {
-  title : string;
+  createDate : Date;
+  creator : string;
   description : string;
-  lifetimeInDays : number;
-  active : boolean;
-  image : string;
-  imageObj : File;
+  expiryDate : Date;
+  location : Location;
+  title : string;
   id: number;
-  owner : string;
+  mainImage : string;
 }
 
 export class Offering implements Listing {
-  title : string = '';
-  description : string = '';
-  lifetimeInDays : number = 0;
-  active : boolean = true;
-  image : string = '';
-  imageObj : File;
+  createDate : Date;
+  creator : string;
+  description : string;
+  expiryDate : Date;
+  location : Location;
+  title : string;
   id: number;
-  owner : string;
+  mainImage : string;
 }

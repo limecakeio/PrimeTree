@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Listing } from './listing.model';
 import { SellItem } from './sellitem/sellitem.model'
 import { ListingController } from './network/listing.controller';
+import { ListingRequest } from './network/listing.request';
 
 @Injectable()
 export class ListingReposetory {
@@ -21,10 +22,8 @@ export class ListingReposetory {
         if (this.listings[i].id === id) {
           this.listings.splice(i, 1);
           isRemoved = true;
-          this.controller.removeListing(id).subscribe(res => {
-            // console.log('listing removed');
-            // console.log(res);
-            // console.log('listing removed');
+          this.controller.removeListing(id).subscribe((response : boolean) => {
+            console.log('DEL: ' + id + ' ' + response);
           })
         }
     }
@@ -33,7 +32,7 @@ export class ListingReposetory {
 
   update() : void {
     this.listings = [];
-    this.controller.getAllListings().subscribe((ids : number[]) => {
+    this.controller.getActiveListings(new ListingRequest()).subscribe((ids : number[]) => {
       ids.forEach((id : number) => {
           this.controller.getListing(id).subscribe((listing : Listing) => {
             this.listings.push(listing);

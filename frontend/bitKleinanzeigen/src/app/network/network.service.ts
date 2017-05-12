@@ -53,7 +53,10 @@ export class NetworkService {
    * @return { NetworkRequest } a new instance of NetworkRequest
    */
   public networkRequest() : NetworkRequest {
-    return new NetworkRequest();
+    let request : NetworkRequest = new NetworkRequest();
+    request.setHostname('141.19.145.175')
+    .setPort(8080);
+    return request;
   }
 
 
