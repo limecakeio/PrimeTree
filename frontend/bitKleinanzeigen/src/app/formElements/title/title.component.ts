@@ -14,6 +14,9 @@ export class TitleFormComponent implements OnInit {
   constructor(private service : FormElementsService) {
     this.form = this.service.form;
     this.model = this.service.model;
+    if (typeof this.model.title === 'undefined') {
+      this.model.title = '';
+    }
   }
 
   ngOnInit() {

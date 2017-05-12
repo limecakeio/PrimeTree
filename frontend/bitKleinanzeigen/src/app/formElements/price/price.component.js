@@ -16,6 +16,9 @@ var PriceFormComponent = (function () {
         this.service = service;
         this.form = this.service.form;
         this.model = this.service.model;
+        if (typeof this.model.price === 'undefined') {
+            this.model.price = null;
+        }
     }
     PriceFormComponent.prototype.ngOnInit = function () {
         this.form.addControl('price', new forms_1.FormControl('', forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern("^[0-9\.]+$")])));

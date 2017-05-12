@@ -32,7 +32,7 @@ var SellItemCreateFormComponent = (function () {
     SellItemCreateFormComponent.prototype.submit = function () {
         var _this = this;
         if (this.form.valid) {
-            this.listingNetworkService.postListing('SellItem', this.listing).subscribe(function (id) {
+            this.listingNetworkService.postListing({}).subscribe(function (id) {
                 _this.repo.addListing(_this.listing);
                 _this.router.navigate(['home']);
             }, function (error) {

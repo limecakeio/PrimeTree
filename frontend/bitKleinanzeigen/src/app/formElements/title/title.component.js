@@ -16,6 +16,9 @@ var TitleFormComponent = (function () {
         this.service = service;
         this.form = this.service.form;
         this.model = this.service.model;
+        if (typeof this.model.title === 'undefined') {
+            this.model.title = '';
+        }
     }
     TitleFormComponent.prototype.ngOnInit = function () {
         this.service.addFormControl('title', new forms_1.FormControl('title', forms_1.Validators.required));

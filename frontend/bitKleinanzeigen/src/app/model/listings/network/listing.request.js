@@ -4,6 +4,8 @@ var ListingRequest = (function () {
     function ListingRequest() {
         this.locations = ['HD', 'MA'];
         this.networkRequest = new network_request_1.NetworkRequest();
+        this.networkRequest.setHostname('141.19.145.175');
+        this.networkRequest.setPort(8080);
     }
     ListingRequest.prototype.getRequest = function () {
         return this.networkRequest;

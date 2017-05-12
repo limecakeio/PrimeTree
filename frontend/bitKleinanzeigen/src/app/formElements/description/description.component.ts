@@ -14,6 +14,9 @@ export class DescriptionFormComponent implements OnInit {
   constructor(private service : FormElementsService) {
     this.form = this.service.form;
     this.model = this.service.model;
+    if (typeof this.model.description === 'undefined') {
+      this.model.description = '';
+    }
   }
 
   ngOnInit() {
