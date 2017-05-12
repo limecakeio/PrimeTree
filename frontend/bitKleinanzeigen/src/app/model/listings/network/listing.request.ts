@@ -5,7 +5,13 @@ export class ListingRequest {
   private parameters : any[];
   private locations : string[] = ['HD', 'MA'];
 
-  private networkRequest : NetworkRequest = new NetworkRequest();
+  private networkRequest : NetworkRequest;
+
+  constructor() {
+    this.networkRequest = new NetworkRequest();
+    this.networkRequest.setHostname('141.19.145.175');
+    this.networkRequest.setPort(8080);
+  }
 
   public getRequest() : NetworkRequest {
     return this.networkRequest;

@@ -14,8 +14,8 @@ export class ListingController {
 
   constructor(private networkService : NetworkService ) {  }
 
-  postListing(listingType : string, listing : any) : Observable<number> {
-    let request = new NetworkRequest();
+  postListing(listing : any) : Observable<number> {
+    let request = this.networkService.networkRequest();
     request.setHttpMethod(RequestMethod.Post)
     .addPath('listing')
     .addPath('create')
@@ -46,6 +46,7 @@ export class ListingController {
     request.setHttpMethod(RequestMethod.Get)
     .addPath('listings')
     .addPath('active');
+    console.log(request);
     return this.networkService.send(request).map((response : Response) => {
       let body : any = response.json();
       if (body.status !== null) {

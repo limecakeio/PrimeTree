@@ -15,6 +15,9 @@ export class PriceFormComponent implements OnInit {
   constructor(private service : FormElementsService) {
     this.form = this.service.form;
     this.model = this.service.model;
+    if (typeof this.model.price === 'undefined') {
+      this.model.price = null;
+    }
   }
 
   ngOnInit() {

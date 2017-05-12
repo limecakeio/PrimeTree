@@ -6,7 +6,7 @@ import { ListingController } from '../../network/listing.controller';
 import { ListingReposetory } from '../../listing.reposetory';
 import { Router } from '@angular/router';
 import { SecurityModel } from '../../../../security/security.model';
-
+import { Observable } from 'rxjs/Observable';
 import { ListingCreateForm } from './listingCreateForm.model';
 
 @Component({
@@ -33,9 +33,7 @@ export class SellItemCreateFormComponent {
 
   submit() {
     if (this.form.valid) {
-      this.listingNetworkService.postListing('SellItem', this.listing).subscribe((id : number) => {
-
-
+      this.listingNetworkService.postListing({}).subscribe((id : number) => {
 
         this.repo.addListing(this.listing);
         this.router.navigate(['home']);

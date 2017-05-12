@@ -11,15 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var sellitem_model_1 = require("../sellitem/sellitem.model");
 var network_service_1 = require("../../../network/network.service");
-var network_request_1 = require("../../../network/network.request");
 var http_1 = require("@angular/http");
 require("rxjs/add/operator/map");
 var ListingController = (function () {
     function ListingController(networkService) {
         this.networkService = networkService;
     }
-    ListingController.prototype.postListing = function (listingType, listing) {
-        var request = new network_request_1.NetworkRequest();
+    ListingController.prototype.postListing = function (listing) {
+        var request = this.networkService.networkRequest();
         request.setHttpMethod(http_1.RequestMethod.Post)
             .addPath('listing')
             .addPath('create')
@@ -47,6 +46,7 @@ var ListingController = (function () {
         request.setHttpMethod(http_1.RequestMethod.Get)
             .addPath('listings')
             .addPath('active');
+        console.log(request);
         return this.networkService.send(request).map(function (response) {
             var body = response.json();
             if (body.status !== null) {
