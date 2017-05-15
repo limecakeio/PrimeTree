@@ -17,6 +17,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import BackendServer.Listings.Repositories.SellItemRepository;
 import BackendServer.Security.Configuration.WebSecurityConfig;
 
+/**This Main Class launches the BackendServer and customizes HttpOnly on true*/
 @SpringBootApplication
 @Configuration
 @ComponentScan
@@ -28,6 +29,9 @@ public class Main implements EmbeddedServletContainerCustomizer{
         SpringApplication.run(Main.class, args);
     }
 
+    /**This method customizes httpOnly on true. True is also the default-value of httpOnly,
+     *  but we don't know, whether the user of this Server stays with requiring true on httpOnly and if not, 
+     *  we can easily change it in this code segment.*/
 	@Override
 	public void customize(ConfigurableEmbeddedServletContainer container) {
 		{

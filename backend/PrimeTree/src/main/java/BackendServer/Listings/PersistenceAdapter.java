@@ -41,7 +41,7 @@ public interface PersistenceAdapter {
 	 * 
 	 * @return: An array of all listingId of all Listings
 	 * */
-	LinkedList<Integer> getAllListings();
+	int[] getAllActiveListings();
 
 	/**This method searches for all listings which listingId is present in the listingIds Array
 	 * 
@@ -70,9 +70,15 @@ public interface PersistenceAdapter {
 	 *  username: username of the user
 	 *  
 	 *  @return:
-	 *  true:*/
+	 *  true: if the user is the creator/owner of the listing*/
 	boolean isOwnerOfListing(int listingId, String username) throws ListingNotFoundException;
 	
-	void uploadImage(byte[] imageData, int listingId) throws FileNotFoundException, IOException;
+	/**This method creates a .png file for a listing
+	 *  
+	 *  @param:
+	 *  listingId: the id of the listing the .png file belongs to
+	 *  imageData: the imageData represented in a byte-Array
+	 * @throws IOException if the method has a mistake in the implementation*/
+	void uploadImage(byte[] imageData, int listingId) throws IOException;
 
 }

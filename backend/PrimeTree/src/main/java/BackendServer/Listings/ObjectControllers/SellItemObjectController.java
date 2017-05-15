@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Exceptions.WrongFormatException;
-import BackendServer.Listings.Constants;
+import BackendServer.Listings.ConstantsAndSimpleMethods;
 import BackendServer.Listings.Entities.Listing;
 import BackendServer.Listings.Entities.SellItem;
 import BackendServer.Listings.Repositories.SellItemRepository;
@@ -65,7 +65,7 @@ public class SellItemObjectController extends OfferingObjectController {
 	@Override
 	public boolean isThisListingType(JSONObject listingData)throws WrongFormatException{
 		try{
-			return "SellItem".equals(listingData.getString(Constants.listingDataFieldNameListingType));
+			return "SellItem".equals(listingData.getString(ConstantsAndSimpleMethods.listingDataFieldNameListingType));
 		}catch(JSONException e){
 			throw new WrongFormatException("The listingType is missing.");
 		}

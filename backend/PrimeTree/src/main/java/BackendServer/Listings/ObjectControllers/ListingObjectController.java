@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Exceptions.WrongFormatException;
-import BackendServer.Listings.Constants;
+import BackendServer.Listings.ConstantsAndSimpleMethods;
 import BackendServer.Listings.Entities.Listing;
 import BackendServer.Listings.Entities.SellItem;
 
@@ -21,7 +21,7 @@ public abstract class ListingObjectController {
 	 * If the JSONObject contains no data about the listingType a WrongFormatException is thrown.*/
 	public boolean isThisListingType(JSONObject listingData)throws WrongFormatException{
 		try{
-			return this.listingType.equals(listingData.getString(Constants.listingDataFieldNameListingType));
+			return this.listingType.equals(listingData.getString(ConstantsAndSimpleMethods.listingDataFieldNameListingType));
 //			return true;
 		}catch(JSONException e){
 			throw new WrongFormatException("The listingType is missing.");
