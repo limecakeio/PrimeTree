@@ -13,6 +13,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**This class represents a user with all userdata the client has in his database
+ * It does not have fields exclusively relevant for the bIT Kleinanzeigen project*/
 @Entity
 @Table(name = "employee")
 public class Employee implements UserDetails {

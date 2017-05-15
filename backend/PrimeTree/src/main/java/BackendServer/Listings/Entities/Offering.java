@@ -19,4 +19,8 @@ public abstract class Offering extends Listing{
 		super.fillFields(listingData, creator);
 	}
 	
+	public String toString(){
+		return super.toString();
+	}
+	
 }

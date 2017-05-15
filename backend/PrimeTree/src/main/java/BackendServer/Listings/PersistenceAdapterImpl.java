@@ -38,6 +38,8 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 			this.listingObjectController = listingObjectController;
 		}
 	}
+	
+	private ListingExpiringChecker listingExpiringChecker=new ListingExpiringChecker(this, 60000);
 
 	@Override
 	public int persistNewListing(JSONObject newListingData, String creator) throws WrongFormatException{
@@ -72,19 +74,21 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 				return listingControllers[controllerIndex];
 			}
 		}
-		throw new WrongFormatException("ListingType " + listingData.getString(Constants.listingDataFieldNameListingType) + " does not exist.");
+		throw new WrongFormatException("ListingType " + listingData.getString(ConstantsAndSimpleMethods.listingDataFieldNameListingType) + " does not exist.");
 	}
 
 	@Override
-	public LinkedList<Integer> getAllListings() {
-		LinkedList<Integer> results=new LinkedList<Integer>();
+	public int[] getAllActiveListings() {
+		LinkedList<Integer> resultList=new LinkedList<Integer>();
 		for(int controllerIndex=0;controllerIndex<listingControllers.length;controllerIndex++){
 			Iterator<? extends Listing> listingIterator = listingControllers[controllerIndex].getAll().iterator();
 			while(listingIterator.hasNext()){
-				results.add((int) listingIterator.next().getListingId());
+				resultList.add((int) listingIterator.next().getListingId());
 			}
 		}
-		return results;
+		Integer[] resultArray=new Integer[resultList.size()];
+		resultList.toArray(resultArray);
+		return ConstantsAndSimpleMethods.castIntegerArrayToIntArray(resultArray);
 	}
 
 	@Override
@@ -93,7 +97,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		for(int IdArrayIndex=0;IdArrayIndex<listingIds.length;IdArrayIndex++){
 			results.add(getListingById(listingIds[IdArrayIndex]));
 		}
-		return (Listing[]) results.toArray();
+		return ConstantsAndSimpleMethods.parseObjectArrayToListingArray(results.toArray());
 	}
 
 	@Override
@@ -129,7 +133,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	}
 
 	@Override
-	public void uploadImage(byte[] imageData, int listingId) throws FileNotFoundException, IOException {
+	public void uploadImage(byte[] imageData, int listingId) throws IOException{
 		String filePath=makeFilePath(listingId);
 		try{
 			Files.deleteIfExists(Paths.get(filePath));
@@ -144,11 +148,15 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		outputStream.write(imageData);
 		outputStream.close();
 	}
-
+	
+	/** This method creates the filepath for a .png file belonging to the listing with id listingId
+	 * returns: "assets/listings/" + listingId + "/main-image.png"*/
 	private String makeFilePath(int listingId) {
 		return "assets/listings/" + listingId + "/main-image.png";
 	}
 	
+	/** This method creates the directorypath for a directory belonging to the listing with id listingId
+	 * returns: "assets/listings/" + listingId*/
 	private String makeDirectoryPath(int listingId) {
 		return "assets/listings/" + listingId;
 	}

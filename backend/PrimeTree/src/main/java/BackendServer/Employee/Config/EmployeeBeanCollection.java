@@ -14,6 +14,10 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
+/**This class defines all beans required for the entity "Employee"
+ * It is neccessary because the entity "employee lies in a different database than listing and user and needs to
+ * get its properties defined like this. This class is inspired by this tutorial for accessing multiple databases 
+ * in one Spring-Application using JPA: http://www.baeldung.com/spring-data-jpa-multiple-databases*/
 @Configuration
 @PropertySource({ "classpath:application.properties" })
 @EnableJpaRepositories(
@@ -25,10 +29,6 @@ public class EmployeeBeanCollection {
 	
 	@Autowired
     private Environment env;
-	
-	public EmployeeBeanCollection(){
-		System.out.println("EmployeeBeanCollection()");
-	}
     
     @Bean
     @Primary
