@@ -23,21 +23,21 @@ export class ListingController {
     .addHeader('Content-Type', 'application/json');
     return this.networkService.send(request).map((response : Response) => {
       let body : any = response.json();
-      if (body.status !== null || body.id) {
+      if (body.status) {
         throw new Error(body.message);
       }
       return body.id;
     });
   }
 
-  public putImage(listingId : number, image : File) : Observable<Response> {
+  public putImage(listingId : number, image : Uint8Array) : Observable<Response> {
 
     let request = this.networkService.networkRequest();
     request.setHttpMethod(RequestMethod.Put)
     .addPath('upload')
-    .addPath('listing-image')
+    .addPath('main-image')
     .addPath(listingId + '')
-    .setBody({});
+    .setBody(image);
     return this.networkService.send(request).map(response => response.json());
   }
 
@@ -46,7 +46,7 @@ export class ListingController {
     request.setHttpMethod(RequestMethod.Get)
     .addPath('listings')
     .addPath('active');
-    console.log(request);
+    // console.log(request);
     return this.networkService.send(request).map((response : Response) => {
       let body : any = response.json();
       if (body.status !== null) {
@@ -65,6 +65,7 @@ export class ListingController {
     .addPath('active');
     return this.networkService.send(request).map((response : Response) => {
       let body : any = response.json();
+      // console.log(body);
       if (body.status !== null) {
         return body.ids;
       } else {
@@ -110,12 +111,22 @@ export class ListingController {
     let request = this.networkService.networkRequest();
     request.setHttpMethod(RequestMethod.Get)
     .addPath('listing')
-    .addPath('getone')
     .addPath(id + '');
     return this.networkService.send(request).map((response : Response) => {
-      let body = response.json();
-      let listing = new SellItem();
-
+      let body : any = response.json();
+      if (body.message) {
+        throw new Error(body.message);
+      }
+      let listing : SellItem = new SellItem();
+      listing.createDate = body.createDate;
+      listing.creator = body.creator;
+      listing.description = body.description;
+      listing.expiryDate = body.expiryDate;
+      listing.location = body.location;
+      listing.title = body.title;
+      listing.price = body.price;
+      listing.id = body.id;
+      listing.mainImage = body.image;
       return listing;
     });
   }
@@ -128,12 +139,10 @@ export class ListingController {
     .addPath(id + '');
     return this.networkService.send(request).map((response : Response) => {
       let body : any = response.json();
-      let message : string = body.message;
-      if (message === 'OK') {
+      if (body.message === 'OK') {
         return true;
-      } else {
-        return false;
       }
+      throw new Error(body.status);
     });
   }
 

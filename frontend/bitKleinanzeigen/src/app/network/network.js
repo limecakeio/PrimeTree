@@ -4,4 +4,6 @@ function __export(m) {
 }
 __export(require("./network.service"));
 __export(require("./network.request"));
+__export(require("./restNetwork.service"));
+__export(require("./mockNetwork.service"));
 //# sourceMappingURL=network.js.map

@@ -1,5 +1,5 @@
 <div [formGroup]="form">
-<div class="input-group uploader">
+<!-- <div class="input-group uploader">
   <span>Bild</span>
   <img [src]="imagesrc">
   <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
@@ -9,5 +9,12 @@
   aria-label="Bild"
   (change)="submitImage($event)"
   accept="image/*">
+</div> -->
+<div class="input-group">
+  <div class="image-box">
+    <input type="file" name="image" class="image-box-input" accept="image/*">
+    <label for="file">Lege ein Bild ab!</label>
+    <img [src]="imagesrc" alt="">
+  </div>
 </div>
 </div>

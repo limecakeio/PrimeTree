@@ -23,7 +23,7 @@ export class LoginService {
     .setBody(formdata);
     return this.network.send(request).map((response : Response) => {
       if (response.status !== 200) {
-        return false;
+        throw new Error('NOT OK');
       }
       return true;
     });

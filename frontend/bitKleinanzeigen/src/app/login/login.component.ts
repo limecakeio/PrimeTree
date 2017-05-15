@@ -28,10 +28,14 @@ export class LoginComponent implements OnInit {
 
   authenticate() {
     if (this.form.valid) {
+      // this.securityService.username = this.user.username;
       this.securityService.username = this.user.username;
+      this.securityService.password = this.user.password; // BUG: Remove it, only for mock backend
       this.login.login(this.user).subscribe((response : boolean) => {
         // console.log('next')
+        this.securityService.username = this.user.username;
         this.securityService.authenticated = true;
+        this.router.navigate(['home']);
       }, (error : any) => {
         // console.log('error')
         this.securityService.authenticated = false;

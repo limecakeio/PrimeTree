@@ -9,7 +9,7 @@ import { Listing } from './listing.model';
 export class ListingComponent {
 
   listings : Listing[];
-  constructor(private repo : ListingReposetory) {
+  constructor(public repo : ListingReposetory) {
     this.listings = this.repo.listings;
   }
 

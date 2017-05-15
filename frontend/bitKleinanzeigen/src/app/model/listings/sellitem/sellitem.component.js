@@ -13,17 +13,27 @@ var sellitem_model_1 = require("./sellitem.model");
 var listing_controller_1 = require("../network/listing.controller");
 var listing_reposetory_1 = require("../listing.reposetory");
 var security_model_1 = require("../../../security/security.model");
+var platform_browser_1 = require("@angular/platform-browser");
 var SellItemComponent = (function () {
-    function SellItemComponent(listingController, repo, securityModel) {
+    function SellItemComponent(listingController, repo, securityModel, domSanitizer) {
         this.listingController = listingController;
         this.repo = repo;
         this.securityModel = securityModel;
+        this.domSanitizer = domSanitizer;
         this.isOwner = false;
     }
     SellItemComponent.prototype.remove = function () {
-        this.repo.removeListing(this.listing.id);
+        var _this = this;
+        // this.repo.removeListing(this.listing.id);
+        this.listingController.removeListing(this.listing.id).subscribe(function (removed) {
+            _this.repo.update();
+        }, function (error) {
+            console.log(error.message);
+        }, function () {
+        });
     };
     SellItemComponent.prototype.ngOnInit = function () {
+        console.log(this.listing.creator === this.securityModel.username);
         if (this.listing.creator === this.securityModel.username) {
             this.isOwner = true;
         }
@@ -41,7 +51,8 @@ SellItemComponent = __decorate([
     }),
     __metadata("design:paramtypes", [listing_controller_1.ListingController,
         listing_reposetory_1.ListingReposetory,
-        security_model_1.SecurityModel])
+        security_model_1.SecurityModel,
+        platform_browser_1.DomSanitizer])
 ], SellItemComponent);
 exports.SellItemComponent = SellItemComponent;
 //# sourceMappingURL=sellitem.component.js.map

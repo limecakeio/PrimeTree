@@ -26,9 +26,10 @@
           class="form-control"
           aria-label="Kennworteingabe">
         </div>
-        <button type="submit"
+        <button type="button"
         [disabled]="formSubmitted || form.invalid"
-        class="btn btn-primary">Login</button>
+        class="btn btn-primary"
+        (click)="authenticate()">Login</button>
       </div>
     </form>
   </div>

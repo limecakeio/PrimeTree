@@ -28,7 +28,7 @@ var LoginService = (function () {
             .setBody(formdata);
         return this.network.send(request).map(function (response) {
             if (response.status !== 200) {
-                return false;
+                throw new Error('NOT OK');
             }
             return true;
         });

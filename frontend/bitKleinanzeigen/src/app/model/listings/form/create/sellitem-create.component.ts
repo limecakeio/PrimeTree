@@ -17,7 +17,8 @@ import { ListingCreateForm } from './listingCreateForm.model';
 })
 export class SellItemCreateFormComponent {
   form : FormGroup;
-  listing : SellItem;
+  listing : any;
+  data : any;
 
   constructor(private service : FormElementsService,
     private listingNetworkService : ListingController,
@@ -25,21 +26,48 @@ export class SellItemCreateFormComponent {
     private router : Router,
     private securityModel : SecurityModel) {
     this.service.form = new FormGroup({});
-    this.service.model = new SellItem();
+    this.service.model = {};
     this.form = this.service.form;
     this.listing = this.service.model;
     this.listing.creator = this.securityModel.username;
+    this.data = this.service.data;
   }
 
   submit() {
     if (this.form.valid) {
-      this.listingNetworkService.postListing({}).subscribe((id : number) => {
+      // console.log('sellitem-create');
+      let date : Date = new Date();
+      let listingRequestBody : any = {};
+      listingRequestBody.title = this.listing.title;
+      listingRequestBody.createDate = date.getTime();
+      listingRequestBody.description = this.listing.description;
+      listingRequestBody.expiryDate = null;
+      listingRequestBody.location = 'mannheim';
+      listingRequestBody.price = this.listing.price;
+      listingRequestBody.type = 'SellItem';
+      listingRequestBody.condition = 'bad';
+      this.listingNetworkService.postListing(listingRequestBody).subscribe((id : number) => {
 
-        this.repo.addListing(this.listing);
+        if (typeof this.data.imageAsByteArray !== 'undefined') {
+          this.listingNetworkService.putImage(id, this.data.imageAsByteArray).subscribe((response) => {
+            console.log('image upload success', response);
+          }, (error : Error) => {
+            console.log(error.message);
+          }, () => {
+            console.log('image upload finished');
+          })
+        }
+
+        this.repo.update();
         this.router.navigate(['home']);
       }, (error : Error) => {
         console.log(error.message);
       });
     }
+  }
+
+  private byteToFile(byteArray : Uint8Array[]) : File {
+    let file : File = new File(byteArray, (Math.random()*1000) +'.jpg', 'image/jpg');
+    return file;
   }
 }

@@ -26,7 +26,7 @@ var ListingController = (function () {
             .addHeader('Content-Type', 'application/json');
         return this.networkService.send(request).map(function (response) {
             var body = response.json();
-            if (body.status !== null || body.id) {
+            if (body.status) {
                 throw new Error(body.message);
             }
             return body.id;
@@ -36,9 +36,9 @@ var ListingController = (function () {
         var request = this.networkService.networkRequest();
         request.setHttpMethod(http_1.RequestMethod.Put)
             .addPath('upload')
-            .addPath('listing-image')
+            .addPath('main-image')
             .addPath(listingId + '')
-            .setBody({});
+            .setBody(image);
         return this.networkService.send(request).map(function (response) { return response.json(); });
     };
     ListingController.prototype.getAllActiveListings = function () {
@@ -46,7 +46,7 @@ var ListingController = (function () {
         request.setHttpMethod(http_1.RequestMethod.Get)
             .addPath('listings')
             .addPath('active');
-        console.log(request);
+        // console.log(request);
         return this.networkService.send(request).map(function (response) {
             var body = response.json();
             if (body.status !== null) {
@@ -65,6 +65,7 @@ var ListingController = (function () {
             .addPath('active');
         return this.networkService.send(request).map(function (response) {
             var body = response.json();
+            // console.log(body);
             if (body.status !== null) {
                 return body.ids;
             }
@@ -111,11 +112,22 @@ var ListingController = (function () {
         var request = this.networkService.networkRequest();
         request.setHttpMethod(http_1.RequestMethod.Get)
             .addPath('listing')
-            .addPath('getone')
             .addPath(id + '');
         return this.networkService.send(request).map(function (response) {
             var body = response.json();
+            if (body.message) {
+                throw new Error(body.message);
+            }
             var listing = new sellitem_model_1.SellItem();
+            listing.createDate = body.createDate;
+            listing.creator = body.creator;
+            listing.description = body.description;
+            listing.expiryDate = body.expiryDate;
+            listing.location = body.location;
+            listing.title = body.title;
+            listing.price = body.price;
+            listing.id = body.id;
+            listing.mainImage = body.image;
             return listing;
         });
     };
@@ -127,13 +139,10 @@ var ListingController = (function () {
             .addPath(id + '');
         return this.networkService.send(request).map(function (response) {
             var body = response.json();
-            var message = body.message;
-            if (message === 'OK') {
+            if (body.message === 'OK') {
                 return true;
             }
-            else {
-                return false;
-            }
+            throw new Error(body.status);
         });
     };
     return ListingController;
