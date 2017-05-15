@@ -36,17 +36,19 @@ var ListingReposetory = (function () {
     ListingReposetory.prototype.update = function () {
         var _this = this;
         this.listings = [];
+        // console.log('update');
         this.controller.getActiveListings(new listing_request_1.ListingRequest()).subscribe(function (ids) {
+            // console.log(ids)
             ids.forEach(function (id) {
                 _this.controller.getListing(id).subscribe(function (listing) {
                     _this.listings.push(listing);
                 });
             });
         }, function (error) {
-            // console.log('getall - error')
-            // console.log(error);
+            console.log('getall - error');
+            console.log(error);
         }, function () {
-            // console.log('getall - complete')
+            console.log('getall - complete');
         });
     };
     return ListingReposetory;

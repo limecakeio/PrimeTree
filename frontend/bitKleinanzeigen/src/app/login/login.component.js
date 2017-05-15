@@ -31,10 +31,14 @@ var LoginComponent = (function () {
     LoginComponent.prototype.authenticate = function () {
         var _this = this;
         if (this.form.valid) {
+            // this.securityService.username = this.user.username;
             this.securityService.username = this.user.username;
+            this.securityService.password = this.user.password; // BUG: Remove it, only for mock backend
             this.login.login(this.user).subscribe(function (response) {
                 // console.log('next')
+                _this.securityService.username = _this.user.username;
                 _this.securityService.authenticated = true;
+                _this.router.navigate(['home']);
             }, function (error) {
                 // console.log('error')
                 _this.securityService.authenticated = false;

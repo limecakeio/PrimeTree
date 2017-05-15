@@ -32,17 +32,19 @@ export class ListingReposetory {
 
   update() : void {
     this.listings = [];
+    // console.log('update');
     this.controller.getActiveListings(new ListingRequest()).subscribe((ids : number[]) => {
+      // console.log(ids)
       ids.forEach((id : number) => {
           this.controller.getListing(id).subscribe((listing : Listing) => {
             this.listings.push(listing);
           });
       });
     }, (error : any) => {
-      // console.log('getall - error')
-      // console.log(error);
+      console.log('getall - error')
+      console.log(error);
     }, () => {
-      // console.log('getall - complete')
+      console.log('getall - complete')
     });
   }
 

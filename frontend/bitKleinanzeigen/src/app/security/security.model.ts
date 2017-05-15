@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 export class SecurityModel {
 
   username : string;
-
+  password : string;
   authenticated : boolean = false;
 
   public isAuthenticated() : boolean {

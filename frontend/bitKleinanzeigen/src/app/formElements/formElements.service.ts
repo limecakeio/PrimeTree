@@ -4,8 +4,14 @@ import { Listing } from '../model/listings/listing.model';
 
 @Injectable()
 export class FormElementsService {
-  public form : FormGroup = new FormGroup({});
+  public form : FormGroup;
   public model : any;
+  public data : any;
+
+  constructor() {
+    this.form = new FormGroup({});
+    this.data = {};
+  }
 
   public addFormControl(name : string, control : FormControl) {
     this.form.addControl(name, control);

@@ -29,6 +29,7 @@ var UserNavigationComponent = (function () {
         var _this = this;
         this.loginService.logout().subscribe(function (res) {
             _this.securityModel.authenticated = false;
+            _this.securityModel.username = '';
             _this.router.navigate(['']);
         });
     };

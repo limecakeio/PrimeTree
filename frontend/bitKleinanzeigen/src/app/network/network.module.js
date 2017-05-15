@@ -10,6 +10,7 @@ var http_1 = require("@angular/http");
 var network_service_1 = require("./network.service");
 var security_module_1 = require("../security/security.module");
 var security_model_1 = require("../security/security.model");
+var mockNetwork_service_1 = require("./mockNetwork.service");
 var NetworkModule = (function () {
     function NetworkModule() {
     }
@@ -19,7 +20,10 @@ NetworkModule = __decorate([
     core_1.NgModule({
         imports: [http_1.HttpModule, security_module_1.SecurityModule],
         declarations: [],
-        providers: [network_service_1.NetworkService, security_model_1.SecurityModel],
+        providers: [{
+                provide: network_service_1.NetworkService,
+                useClass: mockNetwork_service_1.MockNetworkService
+            }, security_model_1.SecurityModel],
         exports: [http_1.HttpModule]
     })
 ], NetworkModule);

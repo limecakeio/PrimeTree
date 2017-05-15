@@ -28,6 +28,7 @@ export class UserNavigationComponent {
   logout() : void {
     this.loginService.logout().subscribe(res => {
       this.securityModel.authenticated = false;
+      this.securityModel.username = '';
       this.router.navigate(['']);
     });
   }
