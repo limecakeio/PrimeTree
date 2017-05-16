@@ -49,7 +49,7 @@ export class SellItemCreateFormComponent {
       this.listingNetworkService.postListing(listingRequestBody).subscribe((id : number) => {
 
         if (typeof this.data.imageAsByteArray !== 'undefined') {
-          this.listingNetworkService.putImage(id, this.data.imageAsByteArray).subscribe((response) => {
+          this.listingNetworkService.putImage(id, this.data.imageAsFile).subscribe((response) => {
             console.log('image upload success', response);
           }, (error : Error) => {
             console.log(error.message);

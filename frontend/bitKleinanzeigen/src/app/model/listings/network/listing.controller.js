@@ -26,19 +26,24 @@ var ListingController = (function () {
             .addHeader('Content-Type', 'application/json');
         return this.networkService.send(request).map(function (response) {
             var body = response.json();
-            if (body.status) {
+            if (body.status === 'NOT OK') {
                 throw new Error(body.message);
             }
             return body.id;
         });
     };
     ListingController.prototype.putImage = function (listingId, image) {
+        console.log(image, 'image');
         var request = this.networkService.networkRequest();
+        var form = new FormData();
+        form.append('file', image);
         request.setHttpMethod(http_1.RequestMethod.Put)
+            .addPath('listing')
             .addPath('upload')
             .addPath('main-image')
             .addPath(listingId + '')
-            .setBody(image);
+            .setBody(form);
+        // .addHeader('Content-Type', 'undefined');
         return this.networkService.send(request).map(function (response) { return response.json(); });
     };
     ListingController.prototype.getAllActiveListings = function () {
@@ -115,6 +120,7 @@ var ListingController = (function () {
             .addPath(id + '');
         return this.networkService.send(request).map(function (response) {
             var body = response.json();
+            console.log(body);
             if (body.message) {
                 throw new Error(body.message);
             }
@@ -127,7 +133,9 @@ var ListingController = (function () {
             listing.title = body.title;
             listing.price = body.price;
             listing.id = body.id;
-            listing.mainImage = body.image;
+            listing.mainImage = body.mainImage;
+            listing.condition = body.condition;
+            console.log(body, 'body');
             return listing;
         });
     };
@@ -136,7 +144,8 @@ var ListingController = (function () {
         request.setHttpMethod(http_1.RequestMethod.Delete)
             .addPath('listing')
             .addPath('delete')
-            .addPath(id + '');
+            .addPath(id + '')
+            .addHeader('Content-Type', 'application/octet-stream');
         return this.networkService.send(request).map(function (response) {
             var body = response.json();
             if (body.message === 'OK') {

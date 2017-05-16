@@ -9,19 +9,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var security_model_1 = require("../security/security.model");
 var CanActivateUser = (function () {
-    function CanActivateUser(securityModel) {
+    function CanActivateUser(securityModel, router) {
         this.securityModel = securityModel;
+        this.router = router;
     }
     CanActivateUser.prototype.canActivate = function () {
+        // if (this.securityModel.authenticated) {
+        //   return true;
+        // }
+        // this.router.navigate(['/login']);
+        // return false;
         return this.securityModel.isAuthenticated();
     };
     return CanActivateUser;
 }());
 CanActivateUser = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [security_model_1.SecurityModel])
+    __metadata("design:paramtypes", [security_model_1.SecurityModel,
+        router_1.Router])
 ], CanActivateUser);
 exports.CanActivateUser = CanActivateUser;
 //# sourceMappingURL=canActivateUser.model.js.map
