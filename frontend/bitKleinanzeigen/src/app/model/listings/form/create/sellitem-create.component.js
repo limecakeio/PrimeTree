@@ -45,7 +45,7 @@ var SellItemCreateFormComponent = (function () {
             listingRequestBody.condition = 'bad';
             this.listingNetworkService.postListing(listingRequestBody).subscribe(function (id) {
                 if (typeof _this.data.imageAsByteArray !== 'undefined') {
-                    _this.listingNetworkService.putImage(id, _this.data.imageAsByteArray).subscribe(function (response) {
+                    _this.listingNetworkService.putImage(id, _this.data.imageAsFile).subscribe(function (response) {
                         console.log('image upload success', response);
                     }, function (error) {
                         console.log(error.message);

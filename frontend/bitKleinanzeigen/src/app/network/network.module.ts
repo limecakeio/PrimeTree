@@ -4,13 +4,14 @@ import { NetworkService } from './network.service';
 import { SecurityModule } from '../security/security.module';
 import { SecurityModel } from '../security/security.model';
 import { MockNetworkService } from './mockNetwork.service';
+import { RESTNetworkService } from './restNetwork.service';
 
 @NgModule({
   imports: [ HttpModule, SecurityModule ],
   declarations: [  ],
   providers: [ {
     provide: NetworkService,
-    useClass: MockNetworkService
+    useClass: RESTNetworkService
   }, SecurityModel ],
   exports: [ HttpModule ]
 })
