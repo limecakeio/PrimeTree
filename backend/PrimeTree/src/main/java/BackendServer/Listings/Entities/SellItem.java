@@ -19,6 +19,7 @@ public class SellItem extends Offering{
 	public void fillFields(JSONObject listingData, String creator) {
 		super.fillFields(listingData, creator);
 		this.setPrice(listingData.getInt(ConstantsAndSimpleMethods.listingDataFieldNamePrice));
+		this.setItemCondition(listingData.getString(ConstantsAndSimpleMethods.listingDataFieldNameCondition));
 	}
 
 	public String getItemCondition() {
@@ -43,6 +44,19 @@ public class SellItem extends Offering{
 		json.accumulate(ConstantsAndSimpleMethods.listingDataFieldNamePrice, this.getPrice());
 		json.accumulate(ConstantsAndSimpleMethods.listingDataFieldNameListingType, ConstantsAndSimpleMethods.listingTypeNameSellItem);
 		return json;
+	}
+	
+	public boolean matchFilterOptions(JSONObject filter) {
+		boolean stillAMatch=super.matchFilterOptions(filter);
+		if(!filter.isNull(ConstantsAndSimpleMethods.filterOptionMinPrice) && 
+			filter.getInt(ConstantsAndSimpleMethods.filterOptionMinPrice)>this.getPrice()){
+			stillAMatch=false;
+		}
+		if(!filter.isNull(ConstantsAndSimpleMethods.filterOptionMaxPrice) && 
+				filter.getInt(ConstantsAndSimpleMethods.filterOptionMaxPrice)<this.getPrice()){
+				stillAMatch=false;
+			}
+		return stillAMatch;
 	}
 	
 }
