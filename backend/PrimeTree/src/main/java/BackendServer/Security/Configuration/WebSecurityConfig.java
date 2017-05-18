@@ -9,14 +9,10 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import BackendServer.User.Service.MyUserDetailsServiceImpl;
@@ -36,15 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private LogoutSuccessHandler logoutSuccessHandler;
 	@Autowired
-	private AccessDeniedHandler accessDeniedHandler;
-	@Autowired
 	private AuthenticationEntryPoint authenticationEntryPoint;
-//	@Autowired
-//	private UserDetailsService userDetailsService;
-//	
-//	public WebSecurityConfig(){
-//		System.out.println("WebSecurityConfig()");
-//	}
+
 
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -104,11 +93,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     LogoutSuccessHandler logoutSuccessHandler(){
     	return new MyLogoutSuccessHandler();
-    }
-    
-    @Bean
-    AccessDeniedHandler accessDeniedHandler(){
-    	return new MyAccessDeniedHandler();
     }
     
     @Bean

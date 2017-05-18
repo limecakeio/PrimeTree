@@ -1,9 +1,13 @@
 package BackendServer.Listings;
 
 import BackendServer.Exceptions.ListingNotFoundException;
+import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Entities.Listing;
-import BackendServer.Listings.ObjectControllers.ListingObjectController;
 
+/**This thread deactivates all expired listings
+ * 
+ * @author Florian Kutz
+ * */
 public class ListingExpiringChecker extends Thread{
 	
 	PersistenceAdapter persistenceAdapter;
@@ -15,6 +19,7 @@ public class ListingExpiringChecker extends Thread{
 		this.start();
 	}
 	
+	/**This thread waits until periodBetweenChecks is over, calls checkExpiringOfListings(), and starts anew.*/
 	public void run(){
 		while(true){
 			try {
@@ -25,7 +30,7 @@ public class ListingExpiringChecker extends Thread{
 			}
 			try {
 				this.checkExpiringOfListings();
-			} catch (ListingNotFoundException e1) {
+			} catch (ListingNotFoundException e1){
 				e1.printStackTrace();
 				System.out.println(e1.getMessage());
 			}
@@ -33,12 +38,19 @@ public class ListingExpiringChecker extends Thread{
 		
 	}
 
+	/**This thread checks all Listings of being expired and sets their active attribute*/
 	private void checkExpiringOfListings() throws ListingNotFoundException {
-		System.out.println("checkExpiringDates");
-		Listing[] allListings=persistenceAdapter.getListingArrayByIdArray(persistenceAdapter.getAllActiveListings());
+//		System.out.println("checkExpiringDates");
+		Listing[] allListings=persistenceAdapter.getListingArrayByIdArray(persistenceAdapter.getAllActiveListingIds());
 		for(int i=0;i<allListings.length;i++){
-			allListings[i].setActive(!allListings[i].isExpired());
-			System.out.println(allListings[i].getListingId() + " : " + allListings[i].isActive());
+			if(allListings[i].isActive()&&allListings[i].isExpired()){
+				try {
+					persistenceAdapter.edit(allListings[i].getListingId(), allListings[i].toJSON().accumulate(ConstantsAndSimpleMethods.listingDataFieldNameActive, false));
+				} catch (WrongFormatException e) {
+					System.out.println("Uncommon and unexpected error at deactivating expired Listing.");
+				}
+			}
+//			System.out.println(allListings[i].getListingId() + " : " + allListings[i].isActive());
 		}
 	}
 

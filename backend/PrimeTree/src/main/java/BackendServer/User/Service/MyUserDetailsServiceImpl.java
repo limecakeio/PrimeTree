@@ -1,39 +1,54 @@
 package BackendServer.User.Service;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import BackendServer.Employee.Entities.Employee;
-import BackendServer.Employee.Repositories.EmployeeRepository;
+import BackendServer.ClientDatabaseAccess.Entities.EmployeeData;
+import BackendServer.ClientDatabaseAccess.Repositories.EmployeeDataRepository;
+import BackendServer.User.User;
+import BackendServer.UserData.Entities.UserData;
+import BackendServer.UserData.Repositories.UserDataRepository;
 
 public class MyUserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-	private EmployeeRepository employeeRepository;
+	private EmployeeDataRepository employeeDataRepository;
+	
+	@Autowired
+	private UserDataRepository userDataRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Iterator<Employee> userIterator=employeeRepository.findAll().iterator();
-		Employee actualemployee;
-		Employee foundemployee=null;
-		while(userIterator.hasNext()){
-			actualemployee=userIterator.next();
-			if(actualemployee.getUsername().equals(username)){
-				foundemployee=actualemployee;
-			}
+		EmployeeData employeeData=employeeDataRepository.findByLogin(username);
+		if(employeeData==null){
+			throw new UsernameNotFoundException("No user with username " + username + " can be found");
 		}
-		if(foundemployee!=null){
-			return foundemployee;
-		}else{
-			throw new UsernameNotFoundException(username);
+		UserData userData=userDataRepository.findOne(employeeData.getId());
+		if(userData==null){
+			System.out.println("Neuer Nutzer");
+			userData=new UserData();
+			userData.setId(employeeData.getId());
+			userData.setInAdminRole(false);
+			userDataRepository.save(userData);
 		}
+		User user=new User(employeeData, userData);
+		return user;
 	}
+	
+	private List<GrantedAuthority> getGrantedAuthorities(User user){
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        if(user.isAdmin()){
+        	authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
+        return authorities;
+    }
 
 }

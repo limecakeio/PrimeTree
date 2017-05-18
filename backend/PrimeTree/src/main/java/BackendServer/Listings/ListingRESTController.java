@@ -1,14 +1,12 @@
 package BackendServer.Listings;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,11 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Exceptions.WrongFormatException;
-import BackendServer.Listings.Entities.Listing;
 
+/**
+ * @author Florian Kutz
+ *
+ */
 @Controller
 @RequestMapping(value = "")
 public class ListingRESTController {
@@ -31,12 +33,6 @@ public class ListingRESTController {
 	@Autowired
 	PersistenceAdapter persistenceAdapter;
 	
-	
-	/**
-	 * this method creates a listing in a Database
-	 * @param the body contains all data for the new listing
-	 * @return A JSONObject with id of the new listing
-	 */
 	@CrossOrigin
 	@RequestMapping(value = "listing/create", method=RequestMethod.POST)
     public @ResponseBody String createListing(@RequestBody String body, HttpServletRequest request, HttpServletResponse response){
@@ -45,49 +41,46 @@ public class ListingRESTController {
 		JSONObject newListingData = new JSONObject(body);
 		System.out.println(newListingData);
 		JSONObject result=new JSONObject();
+		result.put("status", "OK");
 		try {
 			int newId = persistenceAdapter.persistNewListing(newListingData, authenticationObject.getName());
 			result.put("id", newId);
+			result.put("status", "OK");
 		} catch (WrongFormatException thrownException) {
-			result.put("status", HttpServletResponse.SC_BAD_REQUEST);
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			result.put("status", "NOT_OK");
 			result.put("message", thrownException.getMessage());
 		}
 		return result.toString();
     }
 	
 	@CrossOrigin
-	@RequestMapping(value= "listing/upload/mainImage/{id}", method=RequestMethod.PUT)
-	public String listingMainImageUpload(@PathVariable(value="id") int listingId, HttpServletRequest request, HttpServletResponse response) throws IOException{
-		System.out.println("delete() aufgerufen");
-		JSONObject result=new JSONObject();
-		try {
-			if(persistenceAdapter.isOwnerOfListing(listingId, SecurityContextHolder.getContext().getAuthentication().getName())){
-				InputStream inputStream=request.getInputStream();
-				byte[] imageData=new byte[inputStream.available()];
-				inputStream.read(imageData);
-				persistenceAdapter.uploadImage(imageData, listingId);
-				result.put("status", HttpServletResponse.SC_OK);
-			}else{
-				result.put("status", HttpServletResponse.SC_FORBIDDEN);
-				result.put("message", "Only the Owner of this listing can put a image for this listing");
+	@RequestMapping(value= "listing/upload/main-image/{id}", method=RequestMethod.PUT)
+	public @ResponseBody String listingMainImageUpload(@PathVariable(value="id") final int listingId, 
+			HttpServletRequest request, HttpServletResponse response, @RequestParam("file") final MultipartFile file){
+		System.out.println("uploadImage() aufgerufen");
+		return checkIfRequestComesFromOwnerAndPerform(response, listingId, new ActionPerformer(){
+
+			@Override
+			void perform() throws WrongFormatException, ListingNotFoundException, IOException {
+				persistenceAdapter.uploadImage(file.getBytes(), listingId, file.getOriginalFilename());
 			}
-		} catch (ListingNotFoundException thrownException) {
-			result.put("status", HttpServletResponse.SC_NOT_FOUND);
-			result.put("message", thrownException.getMessage());
-		}
-		return result.toString();
+			
+		});
 	}
 	
 	@CrossOrigin
 	@RequestMapping(value = "listings/active", method = RequestMethod.GET)
-	public @ResponseBody String getActiveListings(HttpServletRequest request, HttpServletResponse response){
+	public @ResponseBody String getActiveListings(@RequestBody String body, HttpServletRequest request, HttpServletResponse response){
 		System.out.println("getall- Aufruf");
-//		request.getParameter("location");
-//		request.getParameter("priceFrom");
-//		request.getParameter("priceTo");
-//		request.getParameter("sortBy");
 		JSONObject result=new JSONObject();
-		result.put("ids", persistenceAdapter.getAllActiveListings());
+		JSONObject filter=new JSONObject(body).getJSONObject("filter");
+		String sortOption=new JSONObject(body).getString("sortOption");
+		if(filter.isNull(ConstantsAndSimpleMethods.filterOptionActive)){
+			filter.put(ConstantsAndSimpleMethods.filterOptionActive, true);
+		}
+		result.put("ids", persistenceAdapter.getAllListingIdsThatMatchFilterSortedWithSortOption(filter, sortOption));
+		result.put("status", "OK");
 		return result.toString();
 	}
 	
@@ -96,10 +89,11 @@ public class ListingRESTController {
 	public @ResponseBody String getListing(@PathVariable(value="id") int listingId, HttpServletRequest request, HttpServletResponse response) throws IOException{
 		System.out.println("getone-Aufruf mit listingId: " + listingId);
 		try {
-			return persistenceAdapter.getListingById(listingId).toString(); 
+			return persistenceAdapter.getListingById(listingId).toJSON().accumulate("status", "OK").toString();
 		} catch (ListingNotFoundException thrownException) {
 			JSONObject result=new JSONObject();
-			result.put("status", HttpServletResponse.SC_NOT_FOUND);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			result.put("status", "NOT_OK");
 			result.put("message", thrownException.getMessage());
 			return result.toString();
 		}
@@ -107,82 +101,106 @@ public class ListingRESTController {
 	
 	@CrossOrigin
 	@RequestMapping(value = "listing/{id}", method = RequestMethod.POST)
-	public @ResponseBody String editListing(@PathVariable(value="id") int listingId, HttpServletRequest request, HttpServletResponse response) throws IOException{
-		JSONObject result=new JSONObject();
-		try {
-			if(persistenceAdapter.isOwnerOfListing(listingId, SecurityContextHolder.getContext().getAuthentication().getName())){
-				//Funktion einfügen!!!
-			}else{
-				result.put("status", HttpServletResponse.SC_FORBIDDEN);
-				result.put("message", "Only the Owner of this listing can put a image for this listing");
+	public @ResponseBody String editListing(@RequestBody final String body, @PathVariable(value="id") final int listingId, HttpServletRequest request, HttpServletResponse response) throws IOException{
+		return checkIfRequestComesFromOwnerAndPerform(response, listingId, new ActionPerformer(){
+
+			@Override
+			void perform() throws WrongFormatException, ListingNotFoundException {
+				persistenceAdapter.edit(listingId, new JSONObject(body));
 			}
-		} catch (ListingNotFoundException thrownException) {
-			result.put("status", HttpServletResponse.SC_NOT_FOUND);
-			result.put("message", thrownException.getMessage());
-		}
-		return result.toString();
+			
+		});
 	}
 	
 	@CrossOrigin
 	@RequestMapping(value = "listing/delete/{id}", method=RequestMethod.DELETE)
-    public @ResponseBody String delete(@PathVariable(value="id") int listingId, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public @ResponseBody String delete(@PathVariable(value="id") final int listingId, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		System.out.println("delete() aufgerufen");
-		JSONObject result=new JSONObject();
-		try {
-			if(persistenceAdapter.isOwnerOfListing(listingId, SecurityContextHolder.getContext().getAuthentication().getName())){
+		return checkIfRequestComesFromOwnerAndPerform(response, listingId, new ActionPerformer(){
+
+			@Override
+			void perform() throws WrongFormatException, ListingNotFoundException {
 				persistenceAdapter.deleteListingById(listingId);
-			}else{
-				result.put("status", HttpServletResponse.SC_FORBIDDEN);
-				result.put("message", "Only the Owner of this listing can delete the listing");
 			}
-		}catch(ListingNotFoundException thrownException) {
-			result.put("status", HttpServletResponse.SC_NOT_FOUND);
-			result.put("message", thrownException.getMessage());
-		}
-		System.out.println(result.toString());
-		return result.toString();
+			
+		});
     }
 	
 	@CrossOrigin
 	@RequestMapping(value = "listing/{id}/activate", method=RequestMethod.POST)
-    public @ResponseBody String activateListing(@PathVariable(value="id") int listingId, HttpServletRequest request, HttpServletResponse response) throws IOException{
-		JSONObject result=new JSONObject();
-		try {
-			if(persistenceAdapter.isOwnerOfListing(listingId, SecurityContextHolder.getContext().getAuthentication().getName())){
-				//Funktion einfügen!!!
-			}else{
-				result.put("status", HttpServletResponse.SC_FORBIDDEN);
-				result.put("message", "Only the Owner of this listing can activate the listing");
+    public @ResponseBody String activateListing(@PathVariable(value="id") final int listingId, HttpServletRequest request, HttpServletResponse response) throws IOException{
+		return checkIfRequestComesFromOwnerAndPerform(response, listingId, new ActionPerformer(){
+
+			@Override
+			void perform() throws WrongFormatException, ListingNotFoundException {
+				persistenceAdapter.edit(listingId, persistenceAdapter.getListingById(listingId).toJSON().accumulate(ConstantsAndSimpleMethods.listingDataFieldNameActive, true));
 			}
-		}catch(ListingNotFoundException thrownException) {
-			result.put("status", HttpServletResponse.SC_NOT_FOUND);
-			result.put("message", thrownException.getMessage());
-		}
-		return result.toString();
+			
+		});
+		
 	}
 	
 	@CrossOrigin
 	@RequestMapping(value = "listing/{id}/deactivate", method=RequestMethod.POST)
-    public @ResponseBody String deactivateListing(@PathVariable(value="id") int listingId, HttpServletRequest request, HttpServletResponse response) throws IOException{
+    public @ResponseBody String deactivateListing(@PathVariable(value="id") final int listingId, HttpServletRequest request, HttpServletResponse response) throws IOException{
+		return checkIfRequestComesFromOwnerAndPerform(response, listingId, new ActionPerformer(){
+
+			@Override
+			void perform() throws WrongFormatException, ListingNotFoundException {
+				persistenceAdapter.edit(listingId, persistenceAdapter.getListingById(listingId).toJSON().accumulate(ConstantsAndSimpleMethods.listingDataFieldNameActive, false));
+			}
+			
+		});
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "listings/getmultiple", method = RequestMethod.GET)
+	public @ResponseBody String getListingArrayByIdArray(@RequestParam int[] listingIds, HttpServletRequest request,HttpServletResponse response){
+		System.out.println("getmultiple- Aufruf");
 		JSONObject result=new JSONObject();
 		try {
-			if(persistenceAdapter.isOwnerOfListing(listingId, SecurityContextHolder.getContext().getAuthentication().getName())){
-				//Funktion einfügen!!!
-			}else{
-				result.put("status", HttpServletResponse.SC_FORBIDDEN);
-				result.put("message", "Only the Owner of this listing can deactivate the listing");
-			}
-		}catch(ListingNotFoundException thrownException) {
-			result.put("status", HttpServletResponse.SC_NOT_FOUND);
+			result.put("listings", persistenceAdapter.getListingArrayByIdArray(listingIds));
+			result.put("status", "OK");
+		} catch (ListingNotFoundException thrownException) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			result.put("status", "NOT_OK");
 			result.put("message", thrownException.getMessage());
 		}
 		return result.toString();
 	}
 	
-	@CrossOrigin
-	@RequestMapping(value = "listings/getmultiple", method = RequestMethod.GET)
-	public @ResponseBody Listing[] getListingArrayByIdArray(@RequestParam int[] listingIds, HttpServletRequest req) throws ListingNotFoundException{
-		System.out.println("getmultiple- Aufruf");
-		return persistenceAdapter.getListingArrayByIdArray(listingIds);
+	/**
+	 * @author Florian Kutz
+	 *
+	 */
+	private abstract class ActionPerformer{
+
+		abstract void perform() throws WrongFormatException, ListingNotFoundException, IOException;
+		
+	}
+	
+	private String checkIfRequestComesFromOwnerAndPerform(HttpServletResponse response, int listingId, ActionPerformer performer){
+		JSONObject result=new JSONObject();
+		try {
+			if(persistenceAdapter.isOwnerOfListing(listingId, SecurityContextHolder.getContext().getAuthentication().getName())){
+				performer.perform();
+				result.put("status", "OK");
+			}else{
+				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+				result.put("status", "NOT_OK");
+				result.put("message", "Only the Owner of this listing can deactivate the listing");
+			}
+		}catch(ListingNotFoundException thrownException) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			result.put("status", "NOT_OK");
+			result.put("message", thrownException.getMessage());
+		} catch (WrongFormatException e) {
+			System.out.println("Unexpected and uncommon error at deactivating a listing.");
+		} catch (IOException thrownException) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			result.put("status", "NOT_OK");
+			result.put("message", thrownException.getMessage());
+		}
+		return result.toString();
 	}
 }
