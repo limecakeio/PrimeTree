@@ -1,19 +1,17 @@
-<div class="col-sm-4">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">{{listing.title}}</h3>
-      <p>Erstellt durch: <i>{{listing.creator}}</i></p>
+<div class="listing-preview">
+  <div class="listing-header">
+    <p>Biete / Verkauf</p> <!-- Requires dynamic population -->
+  </div>
+  <div class="listing-image">
+    <div class="listing-price">
+      <p>{{listing.price}} €</p>
     </div>
-    <div class="panel-body">{{listing.description}}</div>
-    <!-- <div class="panel-body">
-      <img [src]="imagesrc" alt="" id="image">
-    </div> -->
-    <div class="panel-footer">
-      <div class="row">
-        <div class="col-sm-6"><p>Preis: {{listing.price}}</p></div>
-        <div class="col-sm-6"><p>Inserat-ID: {{listing.id}}</p></div>
-        <div *ngIf="isOwner" class="col-sm-12 text-center"><button type="button" class="btn btn-danger" name="button" (click)="remove()">Löschen</button></div>
-      </div>
-    </div>
+  </div>
+  <div class="listing-heading">
+    <h3 class="listing-title">{{listing.title}}</h3>
+  </div>
+
+  <div class="listing-footer">
+    <!-- INSERT FAVOURITE ICON IN HERE ETC -->
   </div>
 </div>

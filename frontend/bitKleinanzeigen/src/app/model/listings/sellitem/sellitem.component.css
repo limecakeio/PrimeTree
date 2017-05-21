@@ -1,0 +1,62 @@
+.listing-preview {
+min-width: 300px;
+min-height: 300px;
+background-color: #dddedf;
+margin: 10pt;
+}
+
+.listing-header p, .listing-title {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.listing-header {
+  background-color: #ca5f05; /*TODO DYNAMICALLY SET INLINE*/
+  padding: 2pt;
+  text-align: center;
+}
+
+.listing-header p {
+  color: #fff;
+  margin:0;
+}
+
+.listing-image { /**TODO THESE SETTINGS ARE PRIOR TO IMAGES BEING ABLE TO LOAD*/
+  display:block;
+  width: 100%;
+  height: 158px; /*CONTAINER IS 300px wide so we are emulating the og-image size*/
+  background-color: #eeefef;
+}
+
+.listing-price {
+  position: relative;
+  display: block;
+  height:100%;
+}
+
+.listing-price p {
+  position: absolute;
+  bottom:0pt;
+  font-size: 13px;
+  right: 10pt;
+  display: block;
+  margin:0;
+  border: 3pt solid #fff;
+  padding: 7pt;
+  background-color: #e5143f;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  -ms-transform: rotate(-15deg); /* IE 9 */
+  -webkit-transform: rotate(-15deg); /* Chrome, Safari, Opera */
+  transform: rotate(-15deg);
+}
+
+.listing-title {
+  color: #58585a;
+}
+
+/**TABLET SETTINGS*/
+@media (min-width: 480px) {
+
+}

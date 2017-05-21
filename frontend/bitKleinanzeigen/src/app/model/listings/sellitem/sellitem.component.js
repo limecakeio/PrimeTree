@@ -47,7 +47,8 @@ __decorate([
 SellItemComponent = __decorate([
     core_1.Component({
         selector: 'sellitem',
-        templateUrl: './sellitem.component.html'
+        templateUrl: './sellitem.component.html',
+        styleUrls: ['./sellitem.component.css']
     }),
     __metadata("design:paramtypes", [listing_controller_1.ListingController,
         listing_reposetory_1.ListingReposetory,

@@ -38,7 +38,8 @@ var UserNavigationComponent = (function () {
 UserNavigationComponent = __decorate([
     core_1.Component({
         selector: 'user-nav',
-        templateUrl: './user-navigation.component.html'
+        templateUrl: './user-navigation.component.html',
+        styleUrls: ['./user-navigation.component.css']
     }),
     __metadata("design:paramtypes", [security_model_1.SecurityModel,
         router_1.Router,
