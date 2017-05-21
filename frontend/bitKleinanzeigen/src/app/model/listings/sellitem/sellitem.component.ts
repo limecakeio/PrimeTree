@@ -7,7 +7,8 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'sellitem',
-  templateUrl: './sellitem.component.html'
+  templateUrl: './sellitem.component.html',
+  styleUrls: ['./sellitem.component.css']
 })
 export class SellItemComponent implements OnInit {
 

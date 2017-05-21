@@ -45,7 +45,112 @@ exports.MockNetworkService = MockNetworkService;
 var MockServer = (function () {
     function MockServer(securityModel) {
         this.securityModel = securityModel;
-        this.listingReposetory = [];
+        this.listingReposetory = [
+            {
+                title: "Test Listing 1",
+                createDate: 1494837196787,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 3000,
+                type: "SellItem",
+                condition: "bad",
+                id: 1,
+                active: true,
+                creator: "akessler"
+            },
+            {
+                title: "Test Listing 2",
+                createDate: 1494837196787,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 5000,
+                type: "SellItem",
+                condition: "bad",
+                id: 2,
+                active: true,
+                creator: "akessler"
+            },
+            {
+                title: "Test Listing 3",
+                createDate: 1494837196787,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 1000,
+                type: "SellItem",
+                condition: "bad",
+                id: 3,
+                active: true,
+                creator: "akessler"
+            },
+            {
+                title: "Test Listing 4",
+                createDate: 1494837196790,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 3000,
+                type: "SellItem",
+                condition: "bad",
+                id: 4,
+                active: true,
+                creator: "akessler"
+            },
+            {
+                title: "Test Listing 5",
+                createDate: 1494837196790,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 3000,
+                type: "SellItem",
+                condition: "bad",
+                id: 5,
+                active: true,
+                creator: "mmustermann"
+            },
+            {
+                title: "Test Listing 6",
+                createDate: 1494837196790,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 3000,
+                type: "SellItem",
+                condition: "bad",
+                id: 6,
+                active: true,
+                creator: "npilch"
+            },
+            {
+                title: "Test Listing 7",
+                createDate: 1494837196790,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 3000,
+                type: "SellItem",
+                condition: "bad",
+                id: 7,
+                active: true,
+                creator: "rvladimirskij"
+            },
+            {
+                title: "Test Listing 8",
+                createDate: 1494837196790,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 3000,
+                type: "SellItem",
+                condition: "bad",
+                id: 8,
+                active: true,
+                creator: "fkutz"
+            }
+        ];
         this.userReposetory = [{
                 username: 'wschramm',
                 password: '123'
@@ -176,6 +281,7 @@ var MockServer = (function () {
             body.id = this.listingReposetory.length + 1;
             body.active = true;
             body.creator = this.securityModel.username;
+            console.log(body); // For testing purposes
             this.listingReposetory.push(body);
             // console.log(this.listingReposetory);
             options.status = 201;
