@@ -3,8 +3,8 @@ package BackendServer.Listings;
 import java.util.HashMap;
 
 import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -18,12 +18,17 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import BackendServer.Listings.ObjectControllers.ListingObjectController;
+import BackendServer.Listings.ObjectControllers.RideSharingObjectController;
 import BackendServer.Listings.ObjectControllers.SellItemObjectController;
 import BackendServer.Listings.ObjectControllers.ServiceOfferingObjectController;
 
-
 /**This class defines all beans relevant for the implementation of the Listing-REST-methods 
- * and enables the JpaRepositories of listingdb*/
+ * and enables the JpaRepositories of listingdb
+ * The first part of this class is inspired by this tutorial for accessing multiple databases 
+ * in one Spring-Application using JPA: http://www.baeldung.com/spring-data-jpa-multiple-databases
+ * 
+ * @author Florian Kutz
+ * */
 @Configuration
 @PropertySource({ "classpath:application.properties" })
 @EnableJpaRepositories(
@@ -35,13 +40,9 @@ public class ListingBeanCollection {
 	
 	@Autowired
     private Environment env;
-	
-	public ListingBeanCollection(){
-		System.out.println("ListingBeanCollection()");
-	}
     
+	/**This method is inspired by the tutorial described in the javadoc of this class*/
     @Bean
-//    @Primary
     public LocalContainerEntityManagerFactoryBean listingEntityManager() {
     	
     	System.out.println("listingEntityManager() aufgerufen");
@@ -66,7 +67,7 @@ public class ListingBeanCollection {
         return em;
     }
  
-//    @Primary
+    /**This method is inspired by the tutorial described in the javadoc of this class*/
     @Bean
     public DataSource listingDataSource() {
     	
@@ -83,6 +84,7 @@ public class ListingBeanCollection {
         return dataSource;
     }
  
+    /**This method is inspired by the tutorial described in the javadoc of this class*/
     @Primary
     @Bean
     public PlatformTransactionManager listingTransactionManager() {
@@ -96,16 +98,20 @@ public class ListingBeanCollection {
         return transactionManager;
     }
 	
+    /**This bean gives us an instance of the interface PersistenceAdapter*/
 	@Bean 
 	public PersistenceAdapter persistenceAdapter(){
 	   return new PersistenceAdapterImpl();
 	}
 	
+	/**This bean gives us an array of non-abstract instances of ListingObjectController responsible for 
+	 * all required listingTypes*/
 	@Bean
-	public ListingObjectController[] listingObjectControllerArray(){
+	public ListingObjectController[] getAnArrayOfAllTypesOfListingObjectController(){
 		ListingObjectController[] returnValue={
 				new SellItemObjectController(),
-				new ServiceOfferingObjectController()
+				new ServiceOfferingObjectController(),
+				new RideSharingObjectController()
 		};
 		return returnValue;
 	}

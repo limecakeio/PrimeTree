@@ -1,7 +1,5 @@
 package BackendServer.Listings;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.LinkedList;
 
 import org.json.JSONObject;
 
@@ -9,6 +7,11 @@ import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Entities.Listing;
 
+/**An implementation of this interface can read and write persistent data with the present data-structure
+ * 
+ * @author Florian Kutz
+ *
+ */
 public interface PersistenceAdapter {
 	
 	/**This method takes the data for a new listing in a single object and creates a persisted entry in the ListingDatabase.
@@ -18,8 +21,8 @@ public interface PersistenceAdapter {
 	 * 
 	 * @return: the id of the new persisted listing 
 	 * 
-	 * @throws WrongFormatException
-	 * 	if newListingData cannot be read
+	 * @throws:
+	 * WrongFormatException if newListingData cannot be read
 	 * */
 	int persistNewListing(JSONObject newListingData, String creator) throws WrongFormatException;
 	
@@ -30,8 +33,8 @@ public interface PersistenceAdapter {
 	 * 
 	 * @return: the listing-object
 	 * 
-	 * @throws ListingNotFound
-	 * 	if no listing with listingId listingId exists
+	 * @throws:
+	 * ListingNotFoundException if no listing with listingId listingId exists
 	 * */
 	Listing getListingById(long listingId) throws ListingNotFoundException;
 
@@ -41,7 +44,7 @@ public interface PersistenceAdapter {
 	 * 
 	 * @return: An array of all listingId of all Listings
 	 * */
-	LinkedList<Integer> getAllListings();
+	int[] getAllActiveListingIds();
 
 	/**This method searches for all listings which listingId is present in the listingIds Array
 	 * 
@@ -50,8 +53,8 @@ public interface PersistenceAdapter {
 	 * 
 	 * @return: An array of all listingIds of all Listings
 	 * 
-	 * @throws ListingNotFound
-	 * 	if at least one of the ids in the array does not exist as a listing
+	 * @throws 
+	 * ListingNotFoundException if at least one of the ids in the array does not exist as a listing
 	 * */
 	Listing[] getListingArrayByIdArray(int[] listingIds) throws ListingNotFoundException;
 
@@ -70,9 +73,34 @@ public interface PersistenceAdapter {
 	 *  username: username of the user
 	 *  
 	 *  @return:
-	 *  true:*/
+	 *  true: if the user is the creator/owner of the listing*/
 	boolean isOwnerOfListing(int listingId, String username) throws ListingNotFoundException;
 	
-	void uploadImage(byte[] imageData, int listingId) throws FileNotFoundException, IOException;
+	/**This method creates a .png file for a listing
+	 *  
+	 *  @param:
+	 *  listingId: the id of the listing the file belongs to
+	 *  imageData: the imageData represented in a byte-Array
+	 *  originalFilename: the filename of the original file. The method can get the filetype (.png or .jpg) 
+	 *  from this String
+	 * @throws:
+	 * IOException if originalFilename has no image Filetype
+	 * ListingNotFoundException if the listing with listingId listingId does not exist*/
+	void uploadImage(byte[] imageData, int listingId, String originalFilename) throws IOException, ListingNotFoundException;
 
+	/**This method edits the listing with id listingId by overriding all data except id, type and creator of 
+	 * the listing with the data in listingData. Warning: All relevant fields
+	 * 
+	 * @param:
+	 * listingId: the id of the listing the file belongs to
+	 * listingData: A JSONObject with all new Data
+	 * 
+	 * @throws:
+	 * ListingNotFoundException if the listing with listingId listingId does not exist
+	 * */
+	public void edit(long listingId, JSONObject listingData)
+			throws ListingNotFoundException, WrongFormatException;
+
+	public int[] getAllListingIdsThatMatchFilterSortedWithSortOption(JSONObject filter, String sortOption);
+	
 }

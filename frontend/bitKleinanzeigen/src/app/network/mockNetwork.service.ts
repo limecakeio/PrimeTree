@@ -142,7 +142,7 @@ class MockServer {
     password: '123'
   }, {
     username: 'mmustermann',
-    passwor: '123'
+    password: '123'
   }];
 
   constructor(private securityModel : SecurityModel) {
@@ -177,6 +177,10 @@ class MockServer {
         if (paths[4] === 'create') {
           notFound = false;
           return this.createListing(networkRequest);
+        } else if (paths[4] === 'upload') {
+          // if (paths[4] === 'main-image') {
+            return this.listingMainImageUpload(networkRequest);
+          // }
         } else {
           switch(networkRequest.getHttpMethod()) {
             case 0:
@@ -441,13 +445,13 @@ class MockServer {
     console.log(networkRequest.getHttpMethod(), networkRequest.getUrl());
     let source : Subject<Response> = new Subject<Response>();
     let observable : Observable<Response> = source.asObservable();
-    let parameter : string = networkRequest.getUrl().split('/')[5];
+    let parameter : string = networkRequest.getUrl().split('/')[6];
     let id : number = parseInt(parameter);
     let options : ResponseOptions = this.baseResponseOptions();
     if (id && id > 0 && id <= this.listingReposetory.length) {
       let file : File = this.byteToFile(networkRequest.getBody());
-      this.listingReposetory[id - 1].image = URL.createObjectURL(file);
-      console.log(this.listingReposetory[id - 1].image);
+      this.listingReposetory[id - 1].mainImage = URL.createObjectURL(file);
+      console.log(this.listingReposetory[id - 1].mainImage);
       options.status = 201;
       options.body = {
         message: 'OK'
@@ -466,10 +470,28 @@ class MockServer {
   }
 
   private byteToFile(byteArray : Uint8Array[]) : File {
+    let mime : string;
+    const b0 : any = byteArray[0];
+    const b1 : any = byteArray[1];
+    const b2 : any = byteArray[2];
+    const b3 : any = byteArray[3];
+    if (b0 == 0x89 && b1 == 0x50 && b2 == 0x4E && b3 == 0x47)
+      mime = 'image/png';
+    else if (b0 == 0xff && b1 == 0xd8)
+      mime = 'image/jpeg';
+    else if (b0 == 0x47 && b1 == 0x49 && b2 == 0x46)
+      mime = 'image/gif';
+    else
+      return null;
+      console.log('byteToFile', mime);
     let file : File = new File(byteArray, (Math.random()*1000) +'.jpg', {
-      type: 'image/jpg'
+      type: mime
     });
     return file;
   }
+
+  // private ByteArrayToImage(byteArray : Uint8Array) : HTMLImageElement {
+  //
+  // }
 
 }

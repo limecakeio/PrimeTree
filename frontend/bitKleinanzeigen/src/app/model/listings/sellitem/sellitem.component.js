@@ -21,6 +21,7 @@ var SellItemComponent = (function () {
         this.securityModel = securityModel;
         this.domSanitizer = domSanitizer;
         this.isOwner = false;
+        this.imagesrc = null;
     }
     SellItemComponent.prototype.remove = function () {
         var _this = this;
@@ -28,6 +29,7 @@ var SellItemComponent = (function () {
         this.listingController.removeListing(this.listing.id).subscribe(function (removed) {
             _this.repo.update();
         }, function (error) {
+            _this.repo.update();
             console.log(error.message);
         }, function () {
         });
@@ -36,6 +38,20 @@ var SellItemComponent = (function () {
         console.log(this.listing.creator === this.securityModel.username);
         if (this.listing.creator === this.securityModel.username) {
             this.isOwner = true;
+            console.log(this.listing);
+            // this.listing.mainImage = this.domSanitizer.bypassSecurityTrustUrl(this.mainImage);
+            var image = document.createElement('image');
+            // image.src = this.listing.mainImage;
+            image.src = this.domSanitizer.bypassSecurityTrustUrl(this.listing.mainImage);
+            image.onload = function () {
+            };
+            this.imagesrc = this.domSanitizer.bypassSecurityTrustUrl(this.listing.mainImage);
+            var container = document.querySelector('#image-container');
+            console.log(container);
+            if (container) {
+                console.log('image onload');
+                container.appendChild(image);
+            }
         }
     };
     return SellItemComponent;
