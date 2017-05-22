@@ -13,12 +13,16 @@ import org.json.JSONObject;
 //@Inheritance( strategy = InheritanceType.JOINED )
 public abstract class Offering extends Listing{
 	
-	public void fillFields(JSONObject listingData, String creator) {
+	public void fillFields(JSONObject listingData, long creator) {
 		super.fillFields(listingData, creator);
 	}
 	
 	public String toString(){
 		return super.toString();
+	}
+	
+	public Offering(){
+		this.setKind("Offering");
 	}
 	
 }

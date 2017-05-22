@@ -15,12 +15,16 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import BackendServer.Listings.ObjectControllers.ListingObjectController;
 import BackendServer.Listings.ObjectControllers.RideSharingObjectController;
 import BackendServer.Listings.ObjectControllers.SellItemObjectController;
 import BackendServer.Listings.ObjectControllers.ServiceOfferingObjectController;
+import BackendServer.User.Service.MyPermissionEvaluator;
+import BackendServer.User.Service.UserManager;
+import BackendServer.User.Service.UserManagerImpl;
 
 /**This class defines all beans relevant for the implementation of the Listing-REST-methods 
  * and enables the JpaRepositories of listingdb
@@ -114,6 +118,16 @@ public class ListingBeanCollection {
 				new RideSharingObjectController()
 		};
 		return returnValue;
+	}
+	
+	@Bean
+	public UserManager userManager(){
+		return new UserManagerImpl();
+	}
+	
+	@Bean
+	public PermissionEvaluator permissionEvaluator(){
+		return new MyPermissionEvaluator();
 	}
 
 }

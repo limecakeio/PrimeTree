@@ -3,7 +3,7 @@ package BackendServer.Listings.ObjectControllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import BackendServer.Listings.ConstantsAndSimpleMethods;
+import BackendServer.Listings.Constants;
 import BackendServer.Listings.Entities.ServiceOffering;
 import BackendServer.Listings.Repositories.ServiceOfferingRepository;
 /**This sub-class of OfferingObjectController controlls all ServiceOffering-Listings*/
@@ -21,7 +21,7 @@ public class ServiceOfferingObjectController extends OfferingObjectController{
 	}
 	
 	public ServiceOfferingObjectController(){
-		listingType=ConstantsAndSimpleMethods.listingTypeNameServiceOffering;
+		listingType=Constants.listingTypeNameServiceOffering;
 	}
 
 }

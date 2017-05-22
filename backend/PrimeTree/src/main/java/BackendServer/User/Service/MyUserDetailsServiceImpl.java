@@ -19,13 +19,13 @@ import BackendServer.UserData.Repositories.UserDataRepository;
 public class MyUserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-	private EmployeeDataRepository employeeDataRepository;
+	protected EmployeeDataRepository employeeDataRepository;
 	
 	@Autowired
-	private UserDataRepository userDataRepository;
+	protected UserDataRepository userDataRepository;
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public User loadUserByUsername(String username) throws UsernameNotFoundException {
 		EmployeeData employeeData=employeeDataRepository.findByLogin(username);
 		if(employeeData==null){
 			throw new UsernameNotFoundException("No user with username " + username + " can be found");
@@ -44,9 +44,9 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
 	
 	private List<GrantedAuthority> getGrantedAuthorities(User user){
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        authorities.add(new SimpleGrantedAuthority("USER"));
         if(user.isAdmin()){
-        	authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        	authorities.add(new SimpleGrantedAuthority("ADMIN"));
         }
         return authorities;
     }

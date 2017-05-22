@@ -4,6 +4,7 @@ import java.io.IOException;
 import org.json.JSONObject;
 
 import BackendServer.Exceptions.ListingNotFoundException;
+import BackendServer.Exceptions.NoImageGallerySupportedException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Entities.Listing;
 
@@ -24,7 +25,7 @@ public interface PersistenceAdapter {
 	 * @throws:
 	 * WrongFormatException if newListingData cannot be read
 	 * */
-	int persistNewListing(JSONObject newListingData, String creator) throws WrongFormatException;
+	int persistNewListing(JSONObject newListingData, long userId) throws WrongFormatException;
 	
 	/**This method searches for the listing with the listingId and returns the Object
 	 * 
@@ -37,14 +38,6 @@ public interface PersistenceAdapter {
 	 * ListingNotFoundException if no listing with listingId listingId exists
 	 * */
 	Listing getListingById(long listingId) throws ListingNotFoundException;
-
-	/**This method gives all listings by Id with no filter or sort algorithm
-	 * 
-	 * @param:
-	 * 
-	 * @return: An array of all listingId of all Listings
-	 * */
-	int[] getAllActiveListingIds();
 
 	/**This method searches for all listings which listingId is present in the listingIds Array
 	 * 
@@ -74,7 +67,7 @@ public interface PersistenceAdapter {
 	 *  
 	 *  @return:
 	 *  true: if the user is the creator/owner of the listing*/
-	boolean isOwnerOfListing(int listingId, String username) throws ListingNotFoundException;
+	boolean isOwnerOfListing(int listingId, long l) throws ListingNotFoundException;
 	
 	/**This method creates a .png file for a listing
 	 *  
@@ -101,6 +94,26 @@ public interface PersistenceAdapter {
 	public void edit(long listingId, JSONObject listingData)
 			throws ListingNotFoundException, WrongFormatException;
 
-	public int[] getAllListingIdsThatMatchFilterSortedWithSortOption(JSONObject filter, String sortOption);
+//	public int[] getAllListingIdsThatMatchFilterSortedWithSortOption(JSONObject filter, String sortOption);
 	
+	public void addImageToGallery(byte[] imageData, int listingId, String originalFilename) throws IOException, ListingNotFoundException, NoImageGallerySupportedException;
+	
+	public void comment(JSONObject commentData, long authorId, long listingId) throws ListingNotFoundException;
+
+	public Listing[] getListingsFiltered(int page, String[] location, boolean shallBeActive, int price_min, int price_max, String[] type, String kind,
+			String sort, ListingSearchStatistics statistics);
+
+	void deleteComment(int commentId);
+
+	void changeImageInGallery(byte[] bytes, int listingId, int galleryIndex, String originalFilename) throws ListingNotFoundException, NoImageGallerySupportedException, IOException;
+
+	void deleteImageInGallery(int listingId, int galleryIndex) throws ListingNotFoundException, NoImageGallerySupportedException;
+
+	Listing[] getListingsFiltered(int page, String[] location, int price_min, int price_max, String[] type, String kind,
+			String sort, ListingSearchStatistics statistics);
+
+	Listing[] getListingsBySearch(String query, int page, String[] location, boolean b, int price_min, int price_max,
+			String[] type, String kind, String sort, ListingSearchStatistics statistics);
+
+	Listing[] getListingsFromUser(long id);
 }
