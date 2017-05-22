@@ -38,6 +38,26 @@ public class EmployeeData {
 
 	@Column(name="Foto")
 	private String foto;
+	
+	private String eMail;
+	
+	private String telefonNummer;
+
+	public String geteMail() {
+		return eMail;
+	}
+
+	public void seteMail(String eMail) {
+		this.eMail = eMail;
+	}
+
+	public String getTelefonNummer() {
+		return telefonNummer;
+	}
+
+	public void setTelefonNummer(String telefonNummer) {
+		this.telefonNummer = telefonNummer;
+	}
 
 	public Long getId() {
 		return id;

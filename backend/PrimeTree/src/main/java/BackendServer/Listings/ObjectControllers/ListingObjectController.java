@@ -1,5 +1,6 @@
 package BackendServer.Listings.ObjectControllers;
 
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONException;
@@ -8,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import BackendServer.Exceptions.ListingNotFoundException;
+import BackendServer.Exceptions.NoImageGallerySupportedException;
 import BackendServer.Exceptions.WrongFormatException;
-import BackendServer.Listings.ConstantsAndSimpleMethods;
+import BackendServer.Listings.Constants;
+import BackendServer.Listings.Entities.Comment;
 import BackendServer.Listings.Entities.Listing;
-import BackendServer.Listings.Entities.RideSharing;
+import BackendServer.Listings.Repositories.CommentRepository;
 
 /**This abstract class is made so sub-classes can control the listings with their individual listingType.
  * Controlling means checking, whether a listingData-JSONObject matches the individual listingType as well 
@@ -20,23 +23,25 @@ public abstract class ListingObjectController<L extends Listing> {
 	
 	public String listingType;
 	protected JpaRepository<L, Long> listingRepository;
+	@Autowired
+	protected CommentRepository commentRepository;
 	
 	/**This method checks whether the listingData-JSONObject contains data for the listingType of the sub-class.
 	 * throws: WrongFormatException if the JSONObject contains no data about the listingType.*/
 	public boolean isThisListingType(JSONObject listingData)throws WrongFormatException{
 		try{
-			return this.listingType.equals(listingData.getString(ConstantsAndSimpleMethods.listingDataFieldNameListingType));
+			return this.listingType.equals(listingData.getString(Constants.listingDataFieldListingType));
 		}catch(JSONException e){
 			throw new WrongFormatException("The listingType is missing.");
 		}
 	}
 	
 	/**This method creates and persists a new Listing-Object with the data of listingData and the creator.*/
-	public long createAndPersistNewInstance(JSONObject listingData, String creator) throws WrongFormatException {
+	public long createAndPersistNewInstance(JSONObject listingData, long creatorId) throws WrongFormatException {
 		try{
 			
 			L newInstance=createNew();
-			newInstance.fillFields(listingData, creator);
+			newInstance.fillFields(listingData, creatorId);
 		    
 			listingRepository.save(newInstance);
 			return newInstance.getListingId();
@@ -80,5 +85,27 @@ public abstract class ListingObjectController<L extends Listing> {
 	}
 
 	protected abstract L createNew();
+
+	public void addImagePath(long listingId, String filePath) throws NoImageGallerySupportedException, ListingNotFoundException {
+		L editedListing = this.getListingById(listingId);
+		editedListing.addImageToGallery(filePath);
+		listingRepository.save(editedListing);
+	}
+	
+	public void comment(JSONObject commentData, long authorId, long listingId) throws ListingNotFoundException{
+		L commentedListing=this.getListingById(listingId);
+		Comment newComment=new Comment();
+		newComment.setAuthorId(authorId);
+		newComment.setCreateDate(new Date(commentData.getLong(Constants.commentDataFieldDate)));
+		newComment.setText(commentData.getString(Constants.commentDataFieldMessage));
+		commentedListing.addComment(newComment);
+		this.listingRepository.save(commentedListing);
+	}
+
+	public void deleteGalleryImage(long listingId, int galleryIndex) throws NoImageGallerySupportedException, ListingNotFoundException {
+		L editedListing=this.getListingById(listingId);
+		editedListing.getImageGallery().remove(galleryIndex);
+		this.listingRepository.save(editedListing);
+	}
 	
 }

@@ -16,9 +16,11 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import BackendServer.Exceptions.ListingNotFoundException;
+import BackendServer.Exceptions.NoImageGallerySupportedException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Entities.Listing;
 import BackendServer.Listings.ObjectControllers.ListingObjectController;
+import BackendServer.Listings.Repositories.CommentRepository;
 
 /**This class implements PersistenceAdapter. It uses the bean getAnArrayOfAllTypesOfListingObjectController()
  * to write and read from and to the listingdb database. It also persists files and saves the public path with the
@@ -34,6 +36,9 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	@Autowired
 	ListingObjectController[] listingControllers;
 	
+	@Autowired 
+	CommentRepository commentRepository;
+	
 	/**This class allows PersistenceAdapterImpl to give performActionOnAlllistingControllers(...) a function 
 	 * parameter, which performs a custom method on one listingObjectController*/
 	private abstract class ListingObjectControllerActionPerformer {
@@ -42,20 +47,19 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		
 		/**This method), which is called by performActionOnAlllistingControllers(...),
 		 * performs a custom method with listingId on listingObjectController
-		 * @throws WrongFormatException */
-		public abstract Object performAction(long listingId) throws ListingNotFoundException, WrongFormatException;
+		 * @throws WrongFormatException 
+		 * @throws NoImageGallerySupportedException */
+		public abstract Object performAction(long listingId) throws ListingNotFoundException, WrongFormatException, NoImageGallerySupportedException;
 		
 		public void setListingObjectController(ListingObjectController listingObjectController) {
 			this.listingObjectController = listingObjectController;
 		}
 	}
-	
-	private ListingExpiringChecker listingExpiringChecker=new ListingExpiringChecker(this, 1000*60*60*24);
 
 	@Override
-	public int persistNewListing(JSONObject newListingData, String creator) throws WrongFormatException{
+	public int persistNewListing(JSONObject newListingData, long creatorId) throws WrongFormatException{
 		return (int) getListingControllerWithTheRightType(newListingData).
-				createAndPersistNewInstance(newListingData, creator);
+				createAndPersistNewInstance(newListingData, creatorId);
 	}
 
 	@Override
@@ -72,6 +76,9 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 			});
 		} catch (WrongFormatException e) {
 			System.out.println("A WrongFormatException in the get method appeared. Normally this does not happen.");
+			return null;
+		} catch (NoImageGallerySupportedException e) {
+			System.out.println("A NoImageGalleryException in the get method appeared. Normally this does not happen.");
 			return null;
 		}
 	}
@@ -90,12 +97,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 				return listingControllers[controllerIndex];
 			}
 		}
-		throw new WrongFormatException("ListingType " + listingData.getString(ConstantsAndSimpleMethods.listingDataFieldNameListingType) + " does not exist.");
-	}
-
-	@Override
-	public int[] getAllActiveListingIds() {
-		return this.getAllListingIdsThatMatchFilterSortedWithSortOption(new JSONObject().accumulate(ConstantsAndSimpleMethods.filterOptionActive, true), ConstantsAndSimpleMethods.sortOptionId);
+		throw new WrongFormatException("ListingType " + listingData.getString(Constants.listingDataFieldListingType) + " does not exist.");
 	}
 
 	@Override
@@ -104,7 +106,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		for(int IdArrayIndex=0;IdArrayIndex<listingIds.length;IdArrayIndex++){
 			results.add(getListingById(listingIds[IdArrayIndex]));
 		}
-		return ConstantsAndSimpleMethods.parseObjectArrayToListingArray(results.toArray());
+		return SimpleMethods.parseObjectArrayToListingArray(results.toArray());
 	}
 
 	@Override
@@ -121,14 +123,18 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 			});
 		} catch (WrongFormatException e) {
 			System.out.println("A WrongFormatException in the delete method appeared. Normally this does not happen.");
+		} catch (NoImageGallerySupportedException e) {
+			System.out.println("A NoImageGallerySupportedException in the delete method appeared. Normally this does not happen.");
 		}
 	}
 	
 	/**This method tries action.performAction(listingId) on all listingControllers by 
 	 * continuing if one listingController doesn't find the listing
 	 * throws ListingNotFoundException if the listing with id listingId does not exist
-	 * @throws WrongFormatException */
-	private Object performActionOnAlllistingControllers(long listingId, ListingObjectControllerActionPerformer action) throws ListingNotFoundException, WrongFormatException{
+	 * @throws WrongFormatException 
+	 * @throws NoImageGallerySupportedException if the action tries to add a picturepath to the gallery 
+	 * but the type of the listing doesn't support an imageGallery*/
+	private Object performActionOnAlllistingControllers(long listingId, ListingObjectControllerActionPerformer action) throws ListingNotFoundException, WrongFormatException, NoImageGallerySupportedException{
 		for(int controllerIndex=0;controllerIndex<listingControllers.length;controllerIndex++){
 			try{
 				action.setListingObjectController(listingControllers[controllerIndex]);
@@ -141,26 +147,28 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	}
 
 	@Override
-	public boolean isOwnerOfListing(int listingId, String name) throws ListingNotFoundException {
-		return name.equals(
-				this.getListingById(listingId).getOwner()
-				);
+	public boolean isOwnerOfListing(int listingId, long userId) throws ListingNotFoundException {
+		return userId==this.getListingById(listingId).getOwner();
 	}
 	
 	@Override
 	public void edit(long listingId, final JSONObject listingData)
 			throws ListingNotFoundException, WrongFormatException {
-		this.performActionOnAlllistingControllers(listingId, new ListingObjectControllerActionPerformer(){
-			
-			private JSONObject listingDataInAnonymClass=listingData;
+		try {
+			this.performActionOnAlllistingControllers(listingId, new ListingObjectControllerActionPerformer(){
+				
+				private JSONObject listingDataInAnonymClass=listingData;
 
-			@Override
-			public Object performAction(long listingId) throws ListingNotFoundException, WrongFormatException {
-				listingObjectController.edit(listingId, listingDataInAnonymClass);
-				return null;
-			}
-			
-		});
+				@Override
+				public Object performAction(long listingId) throws ListingNotFoundException, WrongFormatException {
+					listingObjectController.edit(listingId, listingDataInAnonymClass);
+					return null;
+				}
+				
+			});
+		} catch (NoImageGallerySupportedException e) {
+			System.out.println("A WrongFormatException in the edit method appeared. Normally this does not happen.");
+		}
 	}
 
 	@Override
@@ -180,7 +188,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		outputStream.close();
 		try {
 			this.edit(listingId, this.getListingById(listingId).toJSON().
-					accumulate(ConstantsAndSimpleMethods.listingDataFieldNamePicture, 
+					accumulate(Constants.listingDataFieldPicture, 
 							makePublicFilePath(listingId, originalFilename)));
 		} catch (WrongFormatException e) {
 			System.out.println("A WrongFormatException in the upload method appeared. Normally this does not happen.");
@@ -234,22 +242,108 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	}
 
 	@Override
-	public int[] getAllListingIdsThatMatchFilterSortedWithSortOption(JSONObject filter, String sortOption) {
+	public Listing[] getListingsFiltered(int page, String[] location, boolean shallBeActive, int price_min, int price_max, String[] type, String kind,
+			String sort, ListingSearchStatistics statistics) {
 		Collection<Listing> resultSet=getAllListings();
 		Iterator<? extends Listing> listingIterator=resultSet.iterator();
+		int lowestPriceFound=Integer.MAX_VALUE,
+				highestPriceFound=0;
 		while(listingIterator.hasNext()){
 			Listing checkedListing=listingIterator.next();
-			if(!checkedListing.matchFilterOptions(filter)){
+			if(!checkedListing.matchFilterOptions(location, shallBeActive, price_min, price_max, type, kind)){
 				resultSet.remove(checkedListing);
+			}else if(checkedListing.getPrice()<lowestPriceFound){
+				lowestPriceFound=checkedListing.getPrice();
+			}else if(checkedListing.getPrice()>highestPriceFound){
+				highestPriceFound=checkedListing.getPrice();
 			}
 		}
-		Listing[] resultArray=ConstantsAndSimpleMethods.parseObjectArrayToListingArray(resultSet.toArray());
-		Arrays.sort(resultArray, this.createListingComparator(sortOption));
-		return ConstantsAndSimpleMethods.parseListingArrayToIntArrayOfIds(resultArray);
+		int pageBeginning=(page-1)*Constants.pageSize,
+				pageEnd=page*Constants.pageSize;
+		Listing[] resultArray=SimpleMethods.parseObjectArrayToListingArray(resultSet.toArray());
+		Arrays.sort(resultArray, this.createListingComparator(sort));
+		statistics.setPages((resultSet.size()-1)/50);
+		statistics.setPrice_max(highestPriceFound);
+		statistics.setPrice_min(lowestPriceFound);
+		resultArray=Arrays.copyOfRange(resultArray, pageBeginning, pageEnd);
+		statistics.setCount(resultArray.length);
+		return resultArray;
 	}
 	
 	private Comparator<Listing> createListingComparator(String sortOption) {
-		if(sortOption.equals(ConstantsAndSimpleMethods.sortOptionId)){
+		if(sortOption.equals(Constants.sortOptionPrice_Desc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return (int) (o2.getPrice()-o1.getPrice());
+				}
+				
+			};
+		} else if(sortOption.equals(Constants.sortOptionPrice_Asc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return (int) (o1.getPrice()-o2.getPrice());
+				}
+				
+			};
+		}  else if(sortOption.equals(Constants.sortOptionAlphabetical_Asc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return o1.getTitle().compareTo(o2.getTitle());
+				}
+				
+			};
+		}  else if(sortOption.equals(Constants.sortOptionAlphabetical_Desc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return o2.getTitle().compareTo(o1.getTitle());
+				}
+				
+			};
+		}  else if(sortOption.equals(Constants.sortOptionDate_Asc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return o1.getCreateDate().compareTo(o2.getCreateDate());
+				}
+				
+			};
+		}  else if(sortOption.equals(Constants.sortOptionLocation_Asc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return o1.getLocation().compareTo(o2.getLocation());
+				}
+				
+			};
+		}  else if(sortOption.equals(Constants.sortOptionPrice_Desc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return o2.getLocation().compareTo(o1.getLocation());
+				}
+				
+			};
+		}  else if(sortOption.equals(Constants.sortOptionPrice_Desc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return (int) (o2.getPrice()-o1.getPrice());
+				}
+				
+			};
+		} else{
 			return new Comparator<Listing>(){
 
 				@Override
@@ -259,7 +353,6 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 				
 			};
 		}
-		return null;
 	}
 
 	private Collection<Listing> getAllListings(){
@@ -268,6 +361,169 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 			resultList.addAll(listingControllers[controllerIndex].getAll());
 		}
 		return resultList;
+	}
+
+	@Override
+	public void addImageToGallery(byte[] imageData, int listingId, String originalFilename)
+			throws IOException, ListingNotFoundException, NoImageGallerySupportedException {
+		final String filePath=makeNewImageInGalleryPathName(listingId, originalFilename);
+		try{
+			Files.deleteIfExists(Paths.get(filePath));
+			Files.createDirectories(Paths.get(makeLocalDirectoryPath(listingId)));
+			Files.createFile(Paths.get(filePath));
+		}catch(FileAlreadyExistsException e){
+			//do nothing and continue
+		}catch(AccessDeniedException e){
+			System.out.println(e.getMessage());
+		}
+		FileOutputStream outputStream=new FileOutputStream(filePath);
+		outputStream.write(imageData);
+		outputStream.close();
+		try {
+			this.performActionOnAlllistingControllers(listingId, new ListingObjectControllerActionPerformer(){
+
+				@Override
+				public Object performAction(long listingId) throws ListingNotFoundException, WrongFormatException, NoImageGallerySupportedException {
+					this.listingObjectController.addImagePath(listingId, filePath);
+					return null;
+				}
+			
+			});
+		} catch (WrongFormatException e) {
+			System.out.println("A WrongFormatException in the upload method appeared. Normally this does not happen.");
+		}
+	}
+
+	@Override
+	public void comment(final JSONObject commentData, final long authorId, long listingId) throws ListingNotFoundException {
+		try {
+			this.performActionOnAlllistingControllers(listingId, new ListingObjectControllerActionPerformer(){
+
+				@Override
+				public Object performAction(long listingId)
+						throws ListingNotFoundException, WrongFormatException, NoImageGallerySupportedException {
+					listingObjectController.comment(commentData, authorId, listingId);
+					return null;
+				}
+				
+			});
+		} catch (WrongFormatException e) {
+			System.out.println("A WrongFormatException in the comment method appeared. Normally this does not happen.");
+		} catch (NoImageGallerySupportedException e) {
+			System.out.println("A NoImageGallerySupportedException in the comment method appeared. Normally this does not happen.");
+		}
+	}
+
+	@Override
+	public void deleteComment(int commentId) {
+		commentRepository.delete((long) commentId);
+	}
+
+	@Override
+	public void changeImageInGallery(byte[] imageData, int listingId, final int galleryIndex, String originalFilename) throws ListingNotFoundException, NoImageGallerySupportedException, IOException {
+		this.deleteImageInGallery(listingId, galleryIndex);
+		this.addImageToGallery(imageData, listingId, originalFilename);
+	}
+
+	private String makeNewImageInGalleryPathName(int listingId,  String originalFilename) throws IOException, NoImageGallerySupportedException, ListingNotFoundException {
+		return "/resources/assets/listings/" + listingId + "/gallery/" + this.getListingById(listingId).makeNextGalleryFileName() + this.getImageFileTypeEnding(originalFilename);
+	}
+
+	private String getOldImageInGalleryPathName(int listingId, int galleryIndex) throws NoImageGallerySupportedException, ListingNotFoundException {
+		return this.getListingById(listingId).getImageGallery().get(galleryIndex);
+	}
+
+	@Override
+	public void deleteImageInGallery(int listingId, final int galleryIndex) throws ListingNotFoundException, NoImageGallerySupportedException {
+		try {
+			this.performActionOnAlllistingControllers(listingId, new ListingObjectControllerActionPerformer(){
+
+				@Override
+				public Object performAction(long listingId)
+						throws ListingNotFoundException, WrongFormatException, NoImageGallerySupportedException {
+					listingObjectController.deleteGalleryImage(listingId, galleryIndex);
+					return null;
+				}
+				
+			});
+		} catch (WrongFormatException e) {
+			System.out.println("A WrongFormatException in the comment method appeared. Normally this does not happen.");
+		}
+	}
+
+	@Override
+	public Listing[] getListingsFiltered(int page, String[] location, int price_min, int price_max, String[] type,
+			String kind, String sort, ListingSearchStatistics statistics) {
+		Collection<Listing> resultSet=getAllListings();
+		Iterator<? extends Listing> listingIterator=resultSet.iterator();
+		int lowestPriceFound=Integer.MAX_VALUE,
+				highestPriceFound=0;
+		while(listingIterator.hasNext()){
+			Listing checkedListing=listingIterator.next();
+			if(!(checkedListing.matchFilterOptions(location, true, price_min, price_max, type, kind)||
+					checkedListing.matchFilterOptions(location, false
+							, price_min, price_max, type, kind))){
+				resultSet.remove(checkedListing);
+			}else if(checkedListing.getPrice()<lowestPriceFound){
+				lowestPriceFound=checkedListing.getPrice();
+			}else if(checkedListing.getPrice()>highestPriceFound){
+				highestPriceFound=checkedListing.getPrice();
+			}
+		}
+		int pageBeginning=(page-1)*Constants.pageSize,
+				pageEnd=page*Constants.pageSize;
+		Listing[] resultArray=SimpleMethods.parseObjectArrayToListingArray(resultSet.toArray());
+		Arrays.sort(resultArray, this.createListingComparator(sort));
+		statistics.setPages((resultSet.size()-1)/50);
+		statistics.setPrice_max(highestPriceFound);
+		statistics.setPrice_min(lowestPriceFound);
+		resultArray=Arrays.copyOfRange(resultArray, pageBeginning, pageEnd);
+		statistics.setCount(resultArray.length);
+		return resultArray;
+	}
+
+	@Override
+	public Listing[] getListingsBySearch(String query, int page, String[] location, boolean b, int price_min,
+			int price_max, String[] type, String kind, String sort, ListingSearchStatistics statistics) {
+		Collection<Listing> resultSet=getAllListings();
+		Iterator<? extends Listing> listingIterator=resultSet.iterator();
+		int lowestPriceFound=Integer.MAX_VALUE,
+				highestPriceFound=0;
+		while(listingIterator.hasNext()){
+			Listing checkedListing=listingIterator.next();
+			if(!checkedListing.matchFilterOptions(query, location, true, price_min, price_max, type, kind)){
+				resultSet.remove(checkedListing);
+			}else if(checkedListing.getPrice()<lowestPriceFound){
+				lowestPriceFound=checkedListing.getPrice();
+			}else if(checkedListing.getPrice()>highestPriceFound){
+				highestPriceFound=checkedListing.getPrice();
+			}
+		}
+		int pageBeginning=(page-1)*Constants.pageSize,
+				pageEnd=page*Constants.pageSize;
+		Listing[] resultArray=SimpleMethods.parseObjectArrayToListingArray(resultSet.toArray());
+		Arrays.sort(resultArray, this.createListingComparator(sort));
+		statistics.setPages((resultSet.size()-1)/50);
+		statistics.setPrice_max(highestPriceFound);
+		statistics.setPrice_min(lowestPriceFound);
+		resultArray=Arrays.copyOfRange(resultArray, pageBeginning, pageEnd);
+		statistics.setCount(resultArray.length);
+		return resultArray;
+	}
+
+	@Override
+	public Listing[] getListingsFromUser(long id) {
+		Collection<Listing> resultSet=getAllListings();
+		Iterator<? extends Listing> listingIterator=resultSet.iterator();
+		while(listingIterator.hasNext()){
+			Listing checkedListing=listingIterator.next();
+			if(checkedListing.getOwner()!=id){
+				resultSet.remove(checkedListing);
+			}
+		}
+		Listing[] resultArray=SimpleMethods.parseObjectArrayToListingArray(resultSet.toArray());
+		Arrays.sort(resultArray, this.createListingComparator(Constants.sortOptionId));
+		return resultArray;
 	}
 
 }

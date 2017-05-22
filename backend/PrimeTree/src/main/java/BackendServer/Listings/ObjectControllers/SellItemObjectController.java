@@ -3,7 +3,9 @@ package BackendServer.Listings.ObjectControllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import BackendServer.Listings.ConstantsAndSimpleMethods;
+import BackendServer.Exceptions.ListingNotFoundException;
+import BackendServer.Exceptions.NoImageGallerySupportedException;
+import BackendServer.Listings.Constants;
 import BackendServer.Listings.Entities.SellItem;
 import BackendServer.Listings.Repositories.SellItemRepository;
 /**This sub-class of OfferingObjectController controlls all SellItem-Listings*/
@@ -21,7 +23,7 @@ public class SellItemObjectController extends OfferingObjectController{
 	}
 	
 	public SellItemObjectController(){
-		listingType=ConstantsAndSimpleMethods.listingTypeNameSellItem;
+		listingType=Constants.listingTypeNameSellItem;
 	}
 
 }
