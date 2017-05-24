@@ -36,22 +36,12 @@ var SellItemComponent = (function () {
     };
     SellItemComponent.prototype.ngOnInit = function () {
         console.log(this.listing.creator === this.securityModel.username);
+        console.log(this.listing.mainImage);
+        if (this.listing.mainImage) {
+            this.image = this.domSanitizer.bypassSecurityTrustStyle('url(' + 'http://141.19.145.175:8080/' + this.listing.mainImage + ')');
+        }
         if (this.listing.creator === this.securityModel.username) {
             this.isOwner = true;
-            console.log(this.listing);
-            // this.listing.mainImage = this.domSanitizer.bypassSecurityTrustUrl(this.mainImage);
-            var image = document.createElement('image');
-            // image.src = this.listing.mainImage;
-            image.src = this.domSanitizer.bypassSecurityTrustUrl(this.listing.mainImage);
-            image.onload = function () {
-            };
-            this.imagesrc = this.domSanitizer.bypassSecurityTrustUrl(this.listing.mainImage);
-            var container = document.querySelector('#image-container');
-            console.log(container);
-            if (container) {
-                console.log('image onload');
-                container.appendChild(image);
-            }
         }
     };
     return SellItemComponent;

@@ -132,7 +132,7 @@ export class ListingController {
       listing.price = body.price;
       listing.id = body.id;
       listing.mainImage = body.mainImage;
-      listing.condition = body.condition;
+      // listing.condition = body.condition;
       console.log(body, 'body');
       return listing;
     });

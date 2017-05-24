@@ -452,8 +452,12 @@ var MockServer = (function () {
         var id = parseInt(parameter);
         var options = this.baseResponseOptions();
         if (id && id > 0 && id <= this.listingReposetory.length) {
-            var file = this.byteToFile(networkRequest.getBody());
-            this.listingReposetory[id - 1].mainImage = URL.createObjectURL(file);
+            // let file : File = this.byteToFile(networkRequest.getBody());
+            var file = networkRequest.getBody();
+            // console.log(file, 'file');
+            // URL.createObjectURL(file);
+            // this.listingReposetory[id - 1].mainImage = URL.createObjectURL(file);
+            this.listingReposetory[id - 1].mainImage = 'assets/images/bit-ka-logo.png';
             console.log(this.listingReposetory[id - 1].mainImage);
             options.status = 201;
             options.body = {

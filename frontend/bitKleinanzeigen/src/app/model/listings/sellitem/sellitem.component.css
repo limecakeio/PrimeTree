@@ -22,10 +22,13 @@ margin: 10pt;
 }
 
 .listing-image { /**TODO THESE SETTINGS ARE PRIOR TO IMAGES BEING ABLE TO LOAD*/
-  display:block;
-  width: 100%;
-  height: 158px; /*CONTAINER IS 300px wide so we are emulating the og-image size*/
-  background-color: #eeefef;
+  display: block;
+    width: 100%;
+    height: 158px;
+    background-color: #eeefef;
+    background-size: 100% auto;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .listing-price {

@@ -3,7 +3,7 @@ import { SellItem } from './sellitem.model';
 import { ListingController } from '../network/listing.controller';
 import { ListingReposetory } from '../listing.reposetory';
 import { SecurityModel } from '../../../security/security.model';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl, SafeStyle } from '@angular/platform-browser';
 
 @Component({
   selector: 'sellitem',
@@ -16,6 +16,7 @@ export class SellItemComponent implements OnInit {
 
   isOwner : boolean = false;
   imagesrc : SafeUrl = null;
+  image : SafeStyle;
 
   constructor(private listingController : ListingController,
     private repo : ListingReposetory,
@@ -39,24 +40,30 @@ export class SellItemComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.listing.creator === this.securityModel.username);
+    console.log(this.listing.mainImage);
+    if (this.listing.mainImage) {
+      this.image = this.domSanitizer.bypassSecurityTrustStyle('url(' + 'http://141.19.145.175:8080/' + this.listing.mainImage + ')');
+    }
     if (this.listing.creator === this.securityModel.username) {
       this.isOwner = true;
-      console.log(this.listing);
-      // this.listing.mainImage = this.domSanitizer.bypassSecurityTrustUrl(this.mainImage);
-      let image : HTMLImageElement = <HTMLImageElement> document.createElement('image');
-      // image.src = this.listing.mainImage;
-      image.src = <string> this.domSanitizer.bypassSecurityTrustUrl(this.listing.mainImage);
-      image.onload = () => {
-
-      };
-      this.imagesrc = this.domSanitizer.bypassSecurityTrustUrl(this.listing.mainImage);
-      let container : Element = document.querySelector('#image-container');
-      console.log(container);
-      if (container) {
-        console.log('image onload');
-        container.appendChild(image);
-      }
+      // console.log(this.listing);
+      // // this.listing.mainImage = this.domSanitizer.bypassSecurityTrustUrl(this.mainImage);
+      // let image : HTMLImageElement = <HTMLImageElement> document.createElement('image');
+      // // image.src = this.listing.mainImage;
+      // image.src = <string> this.domSanitizer.bypassSecurityTrustUrl(this.listing.mainImage);
+      // image.onload = () => {
+      //
+      // };
       // this.imagesrc = this.domSanitizer.bypassSecurityTrustUrl(this.listing.mainImage);
+      // let container : Element = document.querySelector('#image-container');
+      // console.log(container);
+      // if (container) {
+      //   console.log('image onload');
+      //   container.appendChild(image);
+      // }
+      // this.imagesrc = this.domSanitizer.bypassSecurityTrustUrl(this.listing.mainImage);
+      // this.image = this.domSanitizer.bypassSecurityTrustStyle('url(' + 'http://141.19.145.175' + this.listing.mainImage + ')');
+      // this.image = this.domSanitizer.bypassSecurityTrustStyle('url(' + 'http://localhhost:3000/' + this.listing.mainImage + ')');
     }
   }
 

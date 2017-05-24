@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
   providers: [  ]
 })
 export class LoginComponent implements OnInit {

@@ -59,6 +59,13 @@ var ImageFormComponent = (function () {
         this.addMulipleEventListener(this.div, 'drop', function (event) {
             // console.log(event);
             _this.data.imageAsFile = event.dataTransfer.files[0];
+            /*GENERATE IMAGE PREVIEW*/
+            var imageResult = document.createElement("img");
+            imageResult.src = URL.createObjectURL(_this.data.imageAsFile);
+            /*Ensure the parent container dictates the dimensions*/
+            imageResult.style.width = "100%";
+            imageResult.style.height = "auto";
+            document.querySelector("#file-input-image").appendChild(imageResult);
             // this.fileToBase(this.data.imageAsFile, (base : string) => {
             //   this.data.imageAsBase = base;
             //   this.data.imageAsByteArray = this.baseToByte(base);
@@ -67,16 +74,32 @@ var ImageFormComponent = (function () {
             //   this.imagesrc = 'data:image/jpeg;base64,' + this.data.imageAsByteArray;
             //
             // });
-            _this.fileToByteArray(_this.data.imageAsFile, function (bytearray) {
-                // let src : string = String.fromCharCode.apply(null, bytearray);
-                _this.data.imageAsByteArray = bytearray;
-                var ele = document.querySelector('#file-input-image');
-                ele.appendChild(_this.decodeArrayBuffer(bytearray, function () {
-                }));
-            });
+            // this.fileToByteArray(this.data.imageAsFile, (bytearray : Uint8Array) => {
+            //   // let src : string = String.fromCharCode.apply(null, bytearray);
+            //   this.data.imageAsByteArray = bytearray;
+            //   let ele = document.querySelector('#file-input-image');
+            //   ele.appendChild(this.decodeArrayBuffer(bytearray, () => {
+            //
+            //   }));
+            // });
+        });
+        this.addMulipleEventListener(this.div, 'click', function (event) {
+            // console.log(event, 'click');
         });
     };
     ;
+    ImageFormComponent.prototype.input = function (event) {
+        var _this = this;
+        this.data.imageAsFile = event.target.files[0];
+        var path = URL.createObjectURL(this.data.imageAsFile);
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            _this.image = _this.domSanitizer.bypassSecurityTrustStyle('url(' + reader.result + ')');
+        };
+        reader.readAsDataURL(this.data.imageAsFile);
+        console.log(this.data.imageAsFile, path);
+        // this.image = this.domSanitizer.bypassSecurityTrustStyle('url(' + path + ')');
+    };
     // http://stackoverflow.com/questions/4564119/javascript-convert-byte-to-image
     ImageFormComponent.prototype.decodeArrayBuffer = function (buffer, onLoad) {
         var mime;

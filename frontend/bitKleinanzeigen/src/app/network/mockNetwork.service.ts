@@ -132,7 +132,7 @@ class MockServer {
       id: 8,
       active: true,
       creator: "fkutz"
-    }    
+    }
   ];
   private userReposetory : any[] = [{
     username : 'wschramm',
@@ -449,8 +449,12 @@ class MockServer {
     let id : number = parseInt(parameter);
     let options : ResponseOptions = this.baseResponseOptions();
     if (id && id > 0 && id <= this.listingReposetory.length) {
-      let file : File = this.byteToFile(networkRequest.getBody());
-      this.listingReposetory[id - 1].mainImage = URL.createObjectURL(file);
+      // let file : File = this.byteToFile(networkRequest.getBody());
+      let file : File = networkRequest.getBody();
+      // console.log(file, 'file');
+      // URL.createObjectURL(file);
+      // this.listingReposetory[id - 1].mainImage = URL.createObjectURL(file);
+      this.listingReposetory[id - 1].mainImage = 'assets/images/bit-ka-logo.png';
       console.log(this.listingReposetory[id - 1].mainImage);
       options.status = 201;
       options.body = {
