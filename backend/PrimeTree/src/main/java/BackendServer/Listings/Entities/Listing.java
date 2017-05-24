@@ -1,14 +1,18 @@
 package BackendServer.Listings.Entities;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.json.JSONArray;
@@ -34,7 +38,9 @@ public abstract class Listing {
 	private Date expiryDate;
 	private String location;
 	private String title;
-	private List<Comment> comments;
+	@OneToMany(mappedBy="listing",targetEntity=Comment.class,
+	fetch=FetchType.EAGER)
+	private Collection comments;  
 	private String type;
 	private String kind;
 	
@@ -130,8 +136,9 @@ public abstract class Listing {
 	
 	private JSONArray commentsToJSONArray() {
 		JSONArray commentsAsJSONArray=new JSONArray(comments.size());
+		Iterator commentIterator=comments.iterator();
 		for(int index=0;index<comments.size();index++){
-			commentsAsJSONArray.put(index, comments.get(index).toJSON());
+			commentsAsJSONArray.put(index, ((Comment) commentIterator.next()).toJSON());
 		}
 		return commentsAsJSONArray;
 	}
@@ -154,7 +161,7 @@ public abstract class Listing {
 		throw new NoImageGallerySupportedException();
 	}
 
-	public List<Comment> getComments() {
+	public Collection<Comment> getComments() {
 		return comments;
 	}
 
@@ -202,15 +209,19 @@ public abstract class Listing {
 		if(price_max<this.getPrice()){
 			stillAMatch=false;
 		}
-		if(!(type==null) && 
-				!type.equals(this.getKind())){
+		if(!(type==null) && !this.isOneOfThoseTypes(type)){
 				stillAMatch=false;
 			}
 		if(!(kind==null) && 
-				!kind.equals(this.getType())){
+				!kind.equals(this.getKind())){
 				stillAMatch=false;
 			}
 		return stillAMatch;
+	}
+
+	private boolean isOneOfThoseTypes(String[] type2) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	public List<String> getImageGallery() throws NoImageGallerySupportedException {

@@ -1,12 +1,13 @@
 package BackendServer.Listings.Entities;
 
-import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.json.JSONObject;
 
@@ -24,6 +25,10 @@ public class Comment {
 	private Date createDate;
 	
 	private String message;
+	
+	@ManyToOne(optional=false)
+    @JoinColumn(name="ListingId",referencedColumnName="id")
+	private Listing listing;
 
 	public long getId() {
 		return id;

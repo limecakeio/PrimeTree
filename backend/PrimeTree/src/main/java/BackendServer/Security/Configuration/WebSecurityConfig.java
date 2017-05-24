@@ -8,16 +8,16 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import BackendServer.User.Service.MyUserDetailsServiceImpl;
-
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @Configuration
 @EnableWebSecurity
@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
     private AuthenticationProvider authenticationProvider;
 	@Autowired
-	MyLoginSuccessHandler mysuccessHandler;
+	MyLoginSuccessHandler mySuccessHandler;
 	@Autowired
 	private AuthenticationFailureHandler myFailureHandler;
 	@Autowired
@@ -39,10 +39,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 		System.out.println("configure(HttpSecurity http)");
 		
+		http.addFilterBefore(new MyUsernamePasswordAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+		
 		  http.csrf().disable()
             .authorizeRequests()
             	.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-            	.antMatchers("/login").anonymous()
+            	.antMatchers("/user/login").anonymous()
                 .antMatchers("/", "/home").permitAll()
                 .antMatchers("/listings/inactive").hasAuthority("ADMIN")
                 .antMatchers("/users").hasAuthority("ADMIN")
@@ -51,12 +53,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             	.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)//.accessDeniedHandler(accessDeniedHandler)
             .and()
+//            	.addFilterAt(new MyUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
             	.formLogin()
                 .loginPage("/login")
                 .permitAll()
                 .loginProcessingUrl("/user/login")
                 .permitAll()
-                .successHandler(mysuccessHandler)
+                .successHandler(mySuccessHandler)
                 .failureHandler(myFailureHandler)
                 .and()
             .logout()

@@ -18,13 +18,18 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/").setViewName("home");
         registry.addViewController("/hello").setViewName("hello");
         registry.addViewController("/login").setViewName("login");
-        registry.addRedirectViewController("/login", "/user/login");
-        registry.addRedirectViewController("/logout", "/user/logout");
+//        registry.addRedirectViewController("/login", "/user/login");
+//        registry.addRedirectViewController("/logout", "/user/logout");
     }
     
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+        registry.addResourceHandler("swagger-ui.html")
+        .addResourceLocations("classpath:/META-INF/resources/");
+   
+      registry.addResourceHandler("/webjars/**")
+        .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
     
     @Override
