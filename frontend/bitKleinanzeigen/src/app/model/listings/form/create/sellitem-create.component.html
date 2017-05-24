@@ -9,8 +9,9 @@ novalidate
     <input-price></input-price>
     <input-image></input-image>
     <button
-    type="submit"
+    type="button"
     name="button"
+    (click) = "submit()"
     class="btn btn-primary"
     [disabled]="form.invalid">
       Gegenstandsverkaufsinserat erstellen

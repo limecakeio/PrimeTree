@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FormElementsService } from '../formElements.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl, SafeStyle } from '@angular/platform-browser';
 
 @Component({
   selector: 'input-image',
@@ -13,6 +13,7 @@ export class ImageFormComponent implements OnInit {
   form : FormGroup;
   data : any;
   imagesrc : SafeUrl = '';
+  image : SafeStyle;
 
   private div : Element;
 
@@ -49,6 +50,18 @@ export class ImageFormComponent implements OnInit {
     this.addMulipleEventListener(this.div, 'drop', (event : any) => {
       // console.log(event);
       this.data.imageAsFile = event.dataTransfer.files[0];
+
+      /*GENERATE IMAGE PREVIEW*/
+      let imageResult = document.createElement("img");
+      imageResult.src = URL.createObjectURL(this.data.imageAsFile);
+
+      /*Ensure the parent container dictates the dimensions*/
+      imageResult.style.width = "100%";
+      imageResult.style.height = "auto";
+
+      document.querySelector("#file-input-image").appendChild(imageResult);
+
+
       // this.fileToBase(this.data.imageAsFile, (base : string) => {
       //   this.data.imageAsBase = base;
       //   this.data.imageAsByteArray = this.baseToByte(base);
@@ -57,16 +70,32 @@ export class ImageFormComponent implements OnInit {
       //   this.imagesrc = 'data:image/jpeg;base64,' + this.data.imageAsByteArray;
       //
       // });
-      this.fileToByteArray(this.data.imageAsFile, (bytearray : Uint8Array) => {
-        // let src : string = String.fromCharCode.apply(null, bytearray);
-        this.data.imageAsByteArray = bytearray;
-        let ele = document.querySelector('#file-input-image');
-        ele.appendChild(this.decodeArrayBuffer(bytearray, () => {
+      // this.fileToByteArray(this.data.imageAsFile, (bytearray : Uint8Array) => {
+      //   // let src : string = String.fromCharCode.apply(null, bytearray);
+      //   this.data.imageAsByteArray = bytearray;
+      //   let ele = document.querySelector('#file-input-image');
+      //   ele.appendChild(this.decodeArrayBuffer(bytearray, () => {
+      //
+      //   }));
+      // });
+    });
 
-        }));
-      });
+    this.addMulipleEventListener(this.div, 'click', (event : any) => {
+      // console.log(event, 'click');
     });
   };
+
+  input(event : any) {
+    this.data.imageAsFile = event.target.files[0];
+    let path : string = URL.createObjectURL(this.data.imageAsFile);
+    let reader : FileReader = new FileReader();
+    reader.onloadend = () => {
+      this.image = this.domSanitizer.bypassSecurityTrustStyle('url(' + reader.result + ')');
+    }
+    reader.readAsDataURL(this.data.imageAsFile);
+    console.log(this.data.imageAsFile, path);
+    // this.image = this.domSanitizer.bypassSecurityTrustStyle('url(' + path + ')');
+  }
 
   // http://stackoverflow.com/questions/4564119/javascript-convert-byte-to-image
   decodeArrayBuffer(buffer : any, onLoad : any) : HTMLImageElement {
@@ -95,6 +124,7 @@ export class ImageFormComponent implements OnInit {
     var image = new Image();
     image.onload = onLoad;
     image.src = 'data:' + mime + ';base64,' + base64;
+
     return image;
 }
 

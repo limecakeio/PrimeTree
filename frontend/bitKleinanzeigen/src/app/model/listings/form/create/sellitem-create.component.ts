@@ -48,18 +48,23 @@ export class SellItemCreateFormComponent {
       listingRequestBody.condition = 'bad';
       this.listingNetworkService.postListing(listingRequestBody).subscribe((id : number) => {
 
-        if (typeof this.data.imageAsByteArray !== 'undefined') {
+        if (typeof this.data.imageAsFile !== 'undefined') {
           this.listingNetworkService.putImage(id, this.data.imageAsFile).subscribe((response) => {
             console.log('image upload success', response);
+            this.repo.update();
+            this.router.navigate(['home']);
           }, (error : Error) => {
             console.log(error.message);
           }, () => {
             console.log('image upload finished');
           })
+        } else {
+          this.repo.update();
+          this.router.navigate(['home']);
         }
 
-        this.repo.update();
-        this.router.navigate(['home']);
+        // this.repo.update();
+        // this.router.navigate(['home']);
       }, (error : Error) => {
         console.log(error.message);
       });

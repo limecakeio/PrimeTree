@@ -45,12 +45,14 @@ export class ListingReposetory {
               pairArray.push(listing);
               this.listings.push(pairArray);
             }
+
+            if(ids.length === i+1 && i%2 === 0) {
+              this.listings.push(pairArray);
+            }
+
             i++;
           });
       });
-      if(i % 2 === 1){//The last listing was even and hence never saved
-        this.listings.push(pairArray);
-      }
       console.log(this.listings);
     }, (error : any) => {
       console.log('getall - error')

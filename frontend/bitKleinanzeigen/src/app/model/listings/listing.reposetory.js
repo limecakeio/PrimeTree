@@ -51,12 +51,12 @@ var ListingReposetory = (function () {
                         pairArray.push(listing);
                         _this.listings.push(pairArray);
                     }
+                    if (ids.length === i + 1 && i % 2 === 0) {
+                        _this.listings.push(pairArray);
+                    }
                     i++;
                 });
             });
-            if (i % 2 === 1) {
-                _this.listings.push(pairArray);
-            }
             console.log(_this.listings);
         }, function (error) {
             console.log('getall - error');
