@@ -37,11 +37,13 @@ public class Constants {
 	listingDataFieldAvailableSeats="availableSeats",
 	listingDataFieldTravelDateAndTime="travelDateAndTime";
 	
+	//The following Strings are the names of all listingTypes
 	public static final String 
 	listingTypeNameSellItem="SaleOffer",
 	listingTypeNameRideSharing="RideShareOffer",
 	listingTypeNameServiceOffering="ServiceOffer";
 	
+	//The following Strings are the names of the sort-options you can sort listings with
 	public static final String
 	sortOptionId="id",
 	sortOptionPrice_Desc="price_desc",
@@ -53,6 +55,7 @@ public class Constants {
 	sortOptionLocation_Asc="location_asc",
 	sortOptionLoction_Desc="location_desc";
 	
+	//The following Strings are the names of the filter-options you can filter listings with
 	public static final String
 	listingSearchResultFieldListings="listings",
 	listingSearchResultFieldPrice_Min="price_min",
@@ -60,6 +63,7 @@ public class Constants {
 	listingSearchResultFieldCount="count",
 	listingSearchResultFieldPages="page";
 	
+	//The following Strings are the names of the fields in a JSONObject representing a user
 	public static final String
 	userFieldId="userId",
 	userFieldFirstName="firstName",
@@ -71,6 +75,7 @@ public class Constants {
 	userFieldLocation="location",
 	userFieldPosition="position";
 
+	//The following Strings are the names of the fields in a JSONObject representing a comment
 	public static final String 
 	commentDataFieldDate="createDate",
 	commentDataFieldCommentId="commentId",
@@ -78,11 +83,14 @@ public class Constants {
 	commentDataFieldMessage="message",
 	commentDataFieldUserImage="userImage";
 
+	//This int is the number of listings shown in a single page
 	public static final int pageSize=50;
 
+	//The following Strings are the names of the fields in a responseBody
 	public static final String 
 	responseFieldUsers="users",
-	responseFieldFavouriteList="ids";
+	responseFieldFavouriteList="ids",
+	responseFieldNewListingId="id";
 
 	
 	

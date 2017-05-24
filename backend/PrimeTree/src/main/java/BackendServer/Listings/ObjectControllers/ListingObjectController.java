@@ -65,13 +65,12 @@ public abstract class ListingObjectController<L extends Listing> {
 		return listingRepository.findAll();
 	}
 
-	public Long deleteListing(Long listingId) throws ListingNotFoundException {
+	public void deleteListing(Long listingId) throws ListingNotFoundException {
 		L foundItem = listingRepository.findOne(listingId);
 		if(foundItem==null){
 			throw new ListingNotFoundException("Listing with id " + listingId + " does not exist.");
 		}else{
 			listingRepository.delete(listingId);
-			return listingId;
 		}
 	}
 	
@@ -100,6 +99,7 @@ public abstract class ListingObjectController<L extends Listing> {
 		newComment.setText(commentData.getString(Constants.commentDataFieldMessage));
 		commentedListing.addComment(newComment);
 		this.listingRepository.save(commentedListing);
+		this.commentRepository.save(newComment);
 	}
 
 	public void deleteGalleryImage(long listingId, int galleryIndex) throws NoImageGallerySupportedException, ListingNotFoundException {

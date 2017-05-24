@@ -22,6 +22,7 @@ public class MyLoginSuccessHandler implements AuthenticationSuccessHandler {
 		httpServletResponse.addHeader("Access-Control-Allow-Credentials", "true");
 		httpServletResponse.setStatus(HttpServletResponse.SC_OK);
 		httpServletResponse.addHeader("Content-Type", "application/json");
+		httpServletResponse.addHeader("api_key",arg0.getSession().getId());
 	}
 
 }

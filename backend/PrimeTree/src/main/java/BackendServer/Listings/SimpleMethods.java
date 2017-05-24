@@ -17,6 +17,10 @@ import BackendServer.UserData.Entities.UserData;
  */
 public class SimpleMethods {
 	
+	/**This method parses an array of integer to an array of int
+	 * @param integerArray The integerArray
+	 * @return integerArray parsed to intArray
+	 */
 	public static int[] parseIntegerArrayToIntArray(Integer[] integerArray) {
 		int[] intArray=new int[integerArray.length];
 		for(int index=0;index<integerArray.length;index++){
@@ -25,6 +29,10 @@ public class SimpleMethods {
 		return intArray;
 	}
 
+	/**This method parses an array of Objects to an array of Listing
+	 * @param objectArray The array of Objects
+	 * @return objectArray parsed to an array of Listings
+	 */
 	public static Listing[] parseObjectArrayToListingArray(Object[] objectArray) {
 		Listing[] listingArray=new Listing[objectArray.length];
 		for(int index=0;index<objectArray.length;index++){
@@ -33,6 +41,10 @@ public class SimpleMethods {
 		return listingArray;
 	}
 
+	/**This method parses a JSONArray with Strings to a StingList
+	 * @param jsonArray the unparsed JSONArray
+	 * @return the parsed List of Strings
+	 */
 	public static List<String> parseJSONArrayToStringList(JSONArray jsonArray) {
 		LinkedList<String> stringCollection=new LinkedList<String>();
 		for(int index=0;index<jsonArray.length();index++){
@@ -41,6 +53,10 @@ public class SimpleMethods {
 		return stringCollection;
 	}
 
+	/**This method creates an array of all ids of the listings in a listingCollection
+	 * @param listingCollection the collection of listing
+	 * @return array of ids
+	 */
 	public static int[] parseListingCollectionToIntArrayOfIds(Collection<? extends Listing> listingCollection) {
 		Iterator<? extends Listing>listingIterator=listingCollection.iterator();
 		LinkedList<Integer> resultList=new LinkedList<Integer>();
@@ -52,6 +68,10 @@ public class SimpleMethods {
 		return SimpleMethods.parseIntegerArrayToIntArray(resultArray);
 	}
 	
+	/**This method creates an array of all ids of the listings in a listingArray
+	 * @param listingArray the array of listing
+	 * @return array of ids
+	 */
 	public static int[] parseListingArrayToIntArrayOfIds(Listing[] listingArray) {
 		LinkedList<Integer> resultList=new LinkedList<Integer>();
 		for(int index=0;index<listingArray.length;index++){
@@ -62,6 +82,10 @@ public class SimpleMethods {
 		return SimpleMethods.parseIntegerArrayToIntArray(resultArray);
 	}
 
+	/**This method parses an array of Strings to a List<String>
+	 * @param stringArray The unparsed array of Strins
+	 * @return The parsed List<String>
+	 */
 	public static Collection<String> parseStringArrayToStringList(String[] stringArray) {
 		LinkedList<String> stringCollection=new LinkedList<String>();
 		for(int index=0;index<stringArray.length;index++){

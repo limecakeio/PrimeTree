@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import BackendServer.Exceptions.CommentNotFoundException;
 import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
 import BackendServer.Exceptions.WrongFormatException;
@@ -23,8 +24,7 @@ import BackendServer.Listings.ObjectControllers.ListingObjectController;
 import BackendServer.Listings.Repositories.CommentRepository;
 
 /**This class implements PersistenceAdapter. It uses the bean getAnArrayOfAllTypesOfListingObjectController()
- * to write and read from and to the listingdb database. It also persists files and saves the public path with the
- * uploadImage(...) method.
+ * to write and read from and to the listingdb database as well as saving and publishing files.
  * 
  * 
  * @author Florian Kutz
@@ -117,7 +117,8 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 
 						@Override
 						public Object performAction(long listingId) throws ListingNotFoundException {
-							return listingObjectController.deleteListing((long) listingId);
+							listingObjectController.deleteListing((long) listingId);
+							return null;
 						}
 				
 			});
@@ -270,6 +271,10 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		return resultArray;
 	}
 	
+	/**This method creates a new Comparator<Listing> that compares two Listings with the sortOption-criteria
+	 * @param sortOption the criteria by which the listings should be compared
+	 * @return a new Comparator<Listing> that compares two Listings with the sortOption-criteria
+	 */
 	private Comparator<Listing> createListingComparator(String sortOption) {
 		if(sortOption.equals(Constants.sortOptionPrice_Desc)){
 			return new Comparator<Listing>(){
@@ -355,6 +360,9 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		}
 	}
 
+	/**This method creates a Collection of all Listings in the database
+	 * @return all existing listings unsorted in a Collection
+	 */
 	private Collection<Listing> getAllListings(){
 		LinkedList<Listing> resultList=new LinkedList<Listing>();
 		for(int controllerIndex=0;controllerIndex<listingControllers.length;controllerIndex++){
@@ -415,7 +423,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	}
 
 	@Override
-	public void deleteComment(int commentId) {
+	public void deleteComment(int commentId) throws CommentNotFoundException{
 		commentRepository.delete((long) commentId);
 	}
 
@@ -425,12 +433,16 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		this.addImageToGallery(imageData, listingId, originalFilename);
 	}
 
+	/**This method creates a new unredundant public pathname for a new image for a gallery
+	 * @param listingId id of the listing the gallery belongs to
+	 * @param originalFilename the original filename of the image
+	 * @return the new public pathname
+	 * @throws IOException if the pathname shows that the file was no image
+	 * @throws NoImageGallerySupportedException if the listing doesn't
+	 * @throws ListingNotFoundException
+	 */
 	private String makeNewImageInGalleryPathName(int listingId,  String originalFilename) throws IOException, NoImageGallerySupportedException, ListingNotFoundException {
 		return "/resources/assets/listings/" + listingId + "/gallery/" + this.getListingById(listingId).makeNextGalleryFileName() + this.getImageFileTypeEnding(originalFilename);
-	}
-
-	private String getOldImageInGalleryPathName(int listingId, int galleryIndex) throws NoImageGallerySupportedException, ListingNotFoundException {
-		return this.getListingById(listingId).getImageGallery().get(galleryIndex);
 	}
 
 	@Override
