@@ -1,5 +1,9 @@
 package BackendServer.Listings;
 
+/**This non-persistent class is a container for search-statistics
+ * @author Florian Kutz
+ *
+ */
 public class ListingSearchStatistics {
 	
 	private int price_min;

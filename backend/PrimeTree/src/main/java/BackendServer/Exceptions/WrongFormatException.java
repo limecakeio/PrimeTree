@@ -1,6 +1,6 @@
 package BackendServer.Exceptions;
 
-/**This Exception is thrown if a JSONObject is missing of required attributes
+/**This Exception is thrown if a JSONObject is missing of required attributes.
  * 
  * @author Florian Kutz
  * */
