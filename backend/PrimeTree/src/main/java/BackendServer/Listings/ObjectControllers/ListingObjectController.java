@@ -61,10 +61,17 @@ public abstract class ListingObjectController<L extends Listing> {
 		}
 	}
 
+	/**This method reads out all listings with this objects listingType
+	 * @return a List with all listings
+	 */
 	public List<? extends Listing> getAll() {
 		return listingRepository.findAll();
 	}
 
+	/**This method deletes a listing
+	 * @param listingId id of the listing that should be deleted
+	 * @throws ListingNotFoundException if no listing with this listingType and the id listingId existed
+	 */
 	public void deleteListing(Long listingId) throws ListingNotFoundException {
 		L foundItem = listingRepository.findOne(listingId);
 		if(foundItem==null){
@@ -74,6 +81,12 @@ public abstract class ListingObjectController<L extends Listing> {
 		}
 	}
 	
+	/**This method edits a listing by replacing all fields from listingData
+	 * @param listingId id of the edited listing
+	 * @param listingData the new data for the listing
+	 * @throws ListingNotFoundException if no listing with this listingType and the id listingId exists
+	 * @throws WrongFormatException if the listingData is missing of fields
+	 */
 	public void edit(long listingId, JSONObject listingData)
 		throws ListingNotFoundException, WrongFormatException {
 		L editedListing = this.getListingById(listingId);
@@ -83,14 +96,28 @@ public abstract class ListingObjectController<L extends Listing> {
 		listingRepository.save(editedListing);
 	}
 
+	/**@return a completely new listing with this listingType
+	 */
 	protected abstract L createNew();
 
+	/** This method adds a public pathname to the imageGallery-field of the listing if the listingType
+	 * @param listingId id of the listing
+	 * @param filePath added pathname
+	 * @throws NoImageGallerySupportedException if the type of the listing doesn't support an imageGallery
+	 * @throws ListingNotFoundException if no listing with id listingId is found
+	 */
 	public void addImagePath(long listingId, String filePath) throws NoImageGallerySupportedException, ListingNotFoundException {
 		L editedListing = this.getListingById(listingId);
 		editedListing.addImageToGallery(filePath);
 		listingRepository.save(editedListing);
 	}
 	
+	/**This method adds a new comment to a listing
+	 * @param commentData the data of the comment
+	 * @param authorId the userId of the author of the comment
+	 * @param listingId the id of the commented listing
+	 * @throws ListingNotFoundException if no listing with id listingId exists
+	 */
 	public void comment(JSONObject commentData, long authorId, long listingId) throws ListingNotFoundException{
 		L commentedListing=this.getListingById(listingId);
 		Comment newComment=new Comment();
@@ -102,6 +129,12 @@ public abstract class ListingObjectController<L extends Listing> {
 		this.commentRepository.save(newComment);
 	}
 
+	/**This method deletes an imagePath from the imageGallery-List in a listing
+	 * @param listingId id of the listing with the imageGallery
+	 * @param galleryIndex the index of the deleted image in the gallery
+	 * @throws NoImageGallerySupportedException if the listing doesn't support an imageGallery
+	 * @throws ListingNotFoundException if the lsting with the id listingId doesn't exist
+	 */
 	public void deleteGalleryImage(long listingId, int galleryIndex) throws NoImageGallerySupportedException, ListingNotFoundException {
 		L editedListing=this.getListingById(listingId);
 		editedListing.getImageGallery().remove(galleryIndex);

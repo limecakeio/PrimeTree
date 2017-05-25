@@ -24,7 +24,6 @@ public class UserData {
 	 private List<Integer> favouriteList;
 	
 	public UserData(){}
-
 	public UserData(Long id, boolean admin) {
 		this.setId(id);
 		this.setInAdminRole(admin);

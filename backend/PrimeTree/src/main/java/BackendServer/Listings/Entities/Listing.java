@@ -19,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import BackendServer.Exceptions.NoImageGallerySupportedException;
+import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Constants;
 import BackendServer.Listings.SimpleMethods;
 
@@ -43,19 +44,6 @@ public abstract class Listing {
 	private Collection comments;  
 	private String type;
 	private String kind;
-	
-	/**This method fills the Object-fields except id with the data in listingData and the creator*/
-	public void fillFields(JSONObject listingData, long creatorId){
-		this.setActive(true);
-		this.setCreateDate(new Date((long) listingData.getDouble(Constants.listingDataFieldCreateDate)));
-		this.setOwner(creatorId);
-		this.setDescription(listingData.getString(Constants.listingDataFieldDescription));
-		if(!listingData.isNull(Constants.listingDataFieldDeadLine)){
-			this.setExpiryDate(new Date((long) listingData.getDouble(Constants.listingDataFieldDeadLine)));
-		}
-		this.setLocation(listingData.getString(Constants.listingDataFieldLocation));
-		this.setTitle(listingData.getString(Constants.listingDataFieldTitle));
-	}
 
 	public long getListingId() {
 		return this.id;
@@ -116,32 +104,6 @@ public abstract class Listing {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
-	/**This method returns a JSONObject with all fields of this class*/
-	public JSONObject toJSON() {
-		JSONObject json = new JSONObject();
-		json.accumulate(Constants.listingDataFieldId, this.getListingId());
-		json.accumulate(Constants.listingDataFieldActive, this.isActive());
-		json.accumulate(Constants.listingDataFieldCreateDate, this.getCreateDate().getTime());
-		json.accumulate(Constants.listingDataFieldCreator, this.getOwner());
-		json.accumulate(Constants.listingDataFieldDescription, this.getDescription());
-		json.accumulate(Constants.listingDataFieldDeadLine, this.getExpiryDate());
-		json.accumulate(Constants.listingDataFieldLocation, this.getLocation());
-		json.accumulate(Constants.listingDataFieldTitle, this.getTitle());
-		json.accumulate(Constants.listingDataFieldListingType, this.getType());
-		json.accumulate(Constants.listingDataFieldComments, this.commentsToJSONArray());
-		json.accumulate(Constants.listingDataFieldDeadLine, this.getExpiryDate().getTime());
-		return json;
-	}
-	
-	private JSONArray commentsToJSONArray() {
-		JSONArray commentsAsJSONArray=new JSONArray(comments.size());
-		Iterator commentIterator=comments.iterator();
-		for(int index=0;index<comments.size();index++){
-			commentsAsJSONArray.put(index, ((Comment) commentIterator.next()).toJSON());
-		}
-		return commentsAsJSONArray;
-	}
 
 	/**This method returns a json-String of this object*/
 	public String toString(){
@@ -173,7 +135,10 @@ public abstract class Listing {
 		this.comments.add(comment);
 	}
 
-	public int getPrice() {
+	/**
+	 * @return 0 if the type of this listing has no price, else the price
+	 */
+	public double getPrice() {
 		return 0;
 	}
 
@@ -192,7 +157,89 @@ public abstract class Listing {
 	public void setKind(String kind) {
 		this.kind = kind;
 	}
+	
+	/**This method fills the fields of this Object with the data in a JSONObject and the creatorId
+	 * @param listingData this JSONObject contains all data for this listing:
+	 * description: Description of the new listing
+	 * (Not required) expiryDate: You can make the listing expire automaticly on this date 
+	 * by setting it as UNIX timestamp
+	 * location: The location for this listing
+	 * title: The title of this listing
+	 * createDate: The time of the listingCreation as UNIX timestamp
+	 * @param creatorId id of the creator
+	 * @throws WrongFormatException if the listingData is null or is missing of required fields
+	 */
+	public void fillFields(JSONObject listingData, long creatorId) throws WrongFormatException{
+		if(listingData==null){
+			throw new WrongFormatException("No data");
+		}
+		if(listingData.isNull(Constants.listingDataFieldActive) ||
+				listingData.isNull(Constants.listingDataFieldCreateDate) ||	
+				listingData.isNull(Constants.listingDataFieldDescription) || 
+				listingData.isNull(Constants.listingDataFieldLocation) || 
+				listingData.isNull(Constants.listingDataFieldTitle)){
+			throw new WrongFormatException("Missing required field(s)");
+		}
+		this.setActive(listingData.getBoolean(Constants.listingDataFieldActive));
+		this.setCreateDate(new Date((long) listingData.getDouble(Constants.listingDataFieldCreateDate)));
+		this.setOwner(creatorId);
+		this.setDescription(listingData.getString(Constants.listingDataFieldDescription));
+		this.setLocation(listingData.getString(Constants.listingDataFieldLocation));
+		this.setTitle(listingData.getString(Constants.listingDataFieldTitle));
+		if(!listingData.isNull(Constants.listingDataFieldDeadLine)){
+			this.setExpiryDate(new Date((long) listingData.getDouble(Constants.listingDataFieldDeadLine)));
+		}
+	}
+	
+	
+	/**This method creates a JSONObject with all fields of this class	
+	 * This method does not have access to information about the users so if the JSONObject 
+	 * should contain those they must be manually added
+	 * @return a JSONObject with all fields of this class
+	 */
+	public JSONObject toJSON() {
+		JSONObject json = new JSONObject();
+		json.accumulate(Constants.listingDataFieldId, this.getListingId());
+		json.accumulate(Constants.listingDataFieldActive, this.isActive());
+		json.accumulate(Constants.listingDataFieldCreateDate, this.getCreateDate().getTime());
+		json.accumulate(Constants.listingDataFieldCreator, this.getOwner());
+		json.accumulate(Constants.listingDataFieldDescription, this.getDescription());
+		json.accumulate(Constants.listingDataFieldDeadLine, this.getExpiryDate());
+		json.accumulate(Constants.listingDataFieldLocation, this.getLocation());
+		json.accumulate(Constants.listingDataFieldTitle, this.getTitle());
+		json.accumulate(Constants.listingDataFieldListingType, this.getType());
+		json.accumulate(Constants.listingDataFieldComments, this.commentsToJSONArray());
+		json.accumulate(Constants.listingDataFieldDeadLine, this.getExpiryDate().getTime());
+		return json;
+	}
+	
+	/**This method creates a JSONArray with all comments to this listing as JSONObject.
+	 * This method does not have access to information about the users so if the JSONObjects 
+	 * should contain those they must be manually added
+	 * @return a JSONArray with all comments to this listing as JSONObject
+	 */
+	private JSONArray commentsToJSONArray() {
+		JSONArray commentsAsJSONArray=new JSONArray(comments.size());
+		Iterator commentIterator=comments.iterator();
+		for(int index=0;index<comments.size();index++){
+			commentsAsJSONArray.put(index, ((Comment) commentIterator.next()).toJSON());
+		}
+		return commentsAsJSONArray;
+	}
 
+	/** This method checks whether this listing matches the filter options defined in the parameters
+	 * @param location: An array with all allowed locations. If one listing is not in this location, 
+	 * it is filtered out. If this field is null, no listing is filtered out by its location.
+	 * @param price_min: The minimal requested price. All listings with a higher rice than this are sorted out. 
+	 * All listings that don't have a price are valued as their price was 0.
+	 * @param price_max: The maximal requested price. All listings with a lower rice than this are sorted out. 
+	 * All listings that don't have a price are valued as their price was 0.
+	 * @param type: An array with all allowed listingTypes. If one listing has a type which is not listed here 
+	 * it is filtered out. If this field is null no listing is filtered out by its type.
+	 * @param kind: A string of the allowed type. If one listing has a different kind
+	 * it is filtered out. If this field is null no listing is filtered out by its kind.
+	 * @return true, if this listing matches all filter options
+	 */
 	public boolean matchFilterOptions(String[] location, boolean shallBeActive, int price_min, int price_max, String[] type, String kind) {
 		boolean stillAMatch=true;
 		if(!(location==null) && 
@@ -209,7 +256,9 @@ public abstract class Listing {
 		if(price_max<this.getPrice()){
 			stillAMatch=false;
 		}
-		if(!(type==null) && !this.isOneOfThoseTypes(type)){
+		if(!(type==null) && 
+				!SimpleMethods.parseStringArrayToStringList(type)
+				.contains(this.getType())){
 				stillAMatch=false;
 			}
 		if(!(kind==null) && 
@@ -218,20 +267,38 @@ public abstract class Listing {
 			}
 		return stillAMatch;
 	}
-
-	private boolean isOneOfThoseTypes(String[] type2) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	
+	/**This method gives the filenames with paths of the imageGallery of this listing if the type has one
+	 * @return the filenames with paths of the imageGallery
+	 * @throws NoImageGallerySupportedException if the type has no imageGallery
+	 */
 	public List<String> getImageGallery() throws NoImageGallerySupportedException {
 		throw new NoImageGallerySupportedException();
 	}
 
+	/**This method creates a new Filename for the gallery which is unredundant to every existing Filename in the Gallery
+	 * @return the new filename
+	 * @throws NoImageGallerySupportedException if the type has no imageGallery
+	 */
 	public String makeNextGalleryFileName() throws NoImageGallerySupportedException {
 		throw new NoImageGallerySupportedException();
 	}
 
+	/** This method checks whether this listing matches the filter options defined in the parameters
+	 * @param query: The search-subject which is scanned in the title and description of all listings. 
+	 * If a listing doesn't have this string in either of those it is filtered out.
+	 * @param location: An array with all allowed locations. If one listing is not in this location, 
+	 * it is filtered out. If this field is null, no listing is filtered out by its location.
+	 * @param price_min: The minimal requested price. All listings with a higher rice than this are sorted out. 
+	 * All listings that don't have a price are valued as their price was 0.
+	 * @param price_max: The maximal requested price. All listings with a lower rice than this are sorted out. 
+	 * All listings that don't have a price are valued as their price was 0.
+	 * @param type: An array with all allowed listingTypes. If one listing has a type which is not listed here 
+	 * it is filtered out. If this field is null no listing is filtered out by its type.
+	 * @param kind: A string of the allowed type. If one listing has a different kind
+	 * it is filtered out. If this field is null no listing is filtered out by its kind.
+	 * @return true, if this listing matches all filter options
+	 */
 	public boolean matchFilterOptions(String query, String[] location, boolean b, int price_min, int price_max,
 			String[] type, String kind) {
 		return this.matchFilterOptions(location, b, price_min, price_max, type, kind) 

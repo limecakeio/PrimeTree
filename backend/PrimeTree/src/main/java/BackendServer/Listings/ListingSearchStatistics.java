@@ -6,21 +6,22 @@ package BackendServer.Listings;
  */
 public class ListingSearchStatistics {
 	
-	private int price_min;
-	private int price_max;
+	private double price_min;
+	private double price_max;
 	private int count;
 	private int pages;
-	public int getPrice_min() {
+	
+	public double getPrice_min() {
 		return price_min;
 	}
-	public void setPrice_min(int price_min) {
-		this.price_min = price_min;
+	public void setPrice_min(double lowestPriceFound) {
+		this.price_min = lowestPriceFound;
 	}
-	public int getPrice_max() {
+	public double getPrice_max() {
 		return price_max;
 	}
-	public void setPrice_max(int price_max) {
-		this.price_max = price_max;
+	public void setPrice_max(double highestPriceFound) {
+		this.price_max = highestPriceFound;
 	}
 	public int getCount() {
 		return count;

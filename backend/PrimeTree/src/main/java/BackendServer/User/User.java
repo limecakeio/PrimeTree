@@ -14,11 +14,20 @@ import BackendServer.Exceptions.FavouriteNotFoundException;
 import BackendServer.Listings.Constants;
 import BackendServer.UserData.Entities.UserData;
 
+/**This class representing a User and implementing UserDetails stores its Data in two persistent Objects in 
+ * two different databases: employeeData in employeedb and userData in userdb
+ * @author Florian Kutz
+ *
+ */
 public class User implements UserDetails {
 	
 	private EmployeeData employeeData;
 	private UserData userData;
 	
+	/** The data have to be created first and given to this constructor to create a User
+	 * @param employeeData the data in employeedb which are brought by the client bridging IT
+	 * @param userData the userData in userdb which are exclusvely relevant for this application
+	 */
 	public User(EmployeeData employeeData,UserData userData){
 		this.employeeData=employeeData;
 		this.userData=userData;
@@ -28,6 +37,9 @@ public class User implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> collection = new LinkedList<GrantedAuthority>();
 		collection.add(new SimpleGrantedAuthority("USER"));
+		if(isAdmin()){
+			collection.add(new SimpleGrantedAuthority("ADMIN"));
+		}
 		return collection;
 	}
 
@@ -64,18 +76,6 @@ public class User implements UserDetails {
 	public boolean isAdmin(){
 		return userData.isInAdminRole();
 	}
-	
-	public void addFavourite(Integer newFavourite){
-		userData.addFavourite(newFavourite);
-	}
-	
-	public List<Integer> getFavourites(){
-		return userData.getFavourites();
-	}
-
-	public void removeFavourite(long listingId) throws FavouriteNotFoundException {
-		userData.removeFavourite(listingId);
-	}
 
 	public long getId() {
 		return employeeData.getId();
@@ -85,6 +85,19 @@ public class User implements UserDetails {
 		return employeeData.getFoto();
 	}
 
+	/**This method creates a JSONObject with all data both in employeeData and userData without any hint about 
+	 * which data are in which entities
+	 * @return a JSONObject with those fields:
+	 * id: id of both userData and employeeData
+	 * picture: the path to the userPicture
+	 * firstName: The first name of the user
+	 * lastName: the last name of the user
+	 * isAdmin: true, if the user is an dadmin of bIT Kleinanzeigen
+	 * eMail: the mail-address of the user
+	 * phone: the phone number of the user
+	 * location: the location where the employee works
+	 * position: the position in the company of the employee
+	 */
 	public JSONObject toJSON() {
 		JSONObject userAsJSON=new JSONObject();
 		userAsJSON.put(Constants.userFieldId, this.getId());

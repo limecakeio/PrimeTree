@@ -3,20 +3,33 @@ package BackendServer.User.Service;
 import java.util.List;
 
 import BackendServer.ClientDatabaseAccess.Entities.EmployeeData;
+import BackendServer.Exceptions.FavouriteAlreadyExistsException;
 import BackendServer.Exceptions.FavouriteNotFoundException;
+import BackendServer.Exceptions.UserHadAlreadyTheRightAdminStatusException;
 import BackendServer.Exceptions.UserNotFoundException;
 import BackendServer.Listings.SimpleMethods;
 import BackendServer.User.User;
 import BackendServer.UserData.Entities.UserData;
 
+/**This class helps both ListingControllers to read and write data from and to the users by either creating 
+ * user-Objects or by writing and reading directly to the tables in the databases. No write-access to 
+ * employeeData is given.
+ * @author Florian Kutz
+ *
+ */
 public class UserManagerImpl extends MyUserDetailsServiceImpl implements UserManager {
 
 	@Override
-	public int[] getFavouriteList(String username) {
-		List<Integer> favouritesAsList=userDataRepository.findOne(this.loadUserByUsername(username).getId()).getFavouriteList();
-		Integer[] favouritesAsIntegerArray=new Integer[favouritesAsList.size()];
-		favouritesAsList.toArray(favouritesAsIntegerArray);
-		return SimpleMethods.parseIntegerArrayToIntArray(favouritesAsIntegerArray);
+	public int[] getFavouriteList(long userId) throws UserNotFoundException {
+		UserData user=userDataRepository.findOne(userId);
+		if(user==null){
+			throw new UserNotFoundException();
+		}else{
+			List<Integer> favouritesAsList=user.getFavouriteList();
+			Integer[] favouritesAsIntegerArray=new Integer[favouritesAsList.size()];
+			favouritesAsList.toArray(favouritesAsIntegerArray);
+			return SimpleMethods.parseIntegerArrayToIntArray(favouritesAsIntegerArray);
+		}
 	}
 
 	@Override
@@ -30,13 +43,27 @@ public class UserManagerImpl extends MyUserDetailsServiceImpl implements UserMan
 	}
 
 	@Override
-	public void addFavourite(long userId, int listingId) throws UserNotFoundException {
-		this.loadUserById(userId).addFavourite(listingId);
+	public void addFavourite(long userId, int listingId) throws UserNotFoundException, FavouriteAlreadyExistsException {
+		UserData userData=userDataRepository.findOne(userId);
+		if(userData==null){
+			throw new UserNotFoundException();
+		}else if(userData.getFavouriteList().contains(listingId)){
+			throw new FavouriteAlreadyExistsException();
+		}
+		userData.addFavourite(listingId);
+		userDataRepository.save(userData);
 	}
 
 	@Override
 	public void removeFavourite(long userId, long listingId) throws UserNotFoundException, FavouriteNotFoundException {
-		this.loadUserById(userId).removeFavourite(listingId);
+		UserData userData=userDataRepository.findOne(userId);
+		if(userData==null){
+			throw new UserNotFoundException();
+		}else if(!userData.getFavouriteList().contains(listingId)){
+			throw new FavouriteNotFoundException();
+		}
+		userData.removeFavourite(listingId);
+		userDataRepository.save(userData);
 	}
 
 	@Override
@@ -54,9 +81,14 @@ public class UserManagerImpl extends MyUserDetailsServiceImpl implements UserMan
 	}
 
 	@Override
-	public void setIsAdminOnUser(int userId, boolean b) {
+	public void setIsAdminOnUser(int userId, boolean shouldBeAdmin) throws UserNotFoundException, UserHadAlreadyTheRightAdminStatusException {
 		UserData dataOfEditedUser=userDataRepository.findOne((long) userId);
-		dataOfEditedUser.setInAdminRole(b);
+		if(dataOfEditedUser==null){
+			throw new UserNotFoundException();
+		}else if(dataOfEditedUser.isInAdminRole()==shouldBeAdmin){
+			throw new UserHadAlreadyTheRightAdminStatusException();
+		}
+		dataOfEditedUser.setInAdminRole(shouldBeAdmin);
 		userDataRepository.save(dataOfEditedUser);
 	}
 

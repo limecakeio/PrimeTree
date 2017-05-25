@@ -1,5 +1,6 @@
 package BackendServer.Listings.Entities;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -10,6 +11,7 @@ import javax.persistence.Table;
 import org.json.JSONObject;
 
 import BackendServer.Exceptions.NoImageGallerySupportedException;
+import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Constants;
 import BackendServer.Listings.SimpleMethods;
 
@@ -19,24 +21,15 @@ import BackendServer.Listings.SimpleMethods;
 @PrimaryKeyJoinColumn(referencedColumnName="id")
 public class SellItem extends Offering{
 	private String ItemCondition;
-	private int price;
+	private double price;
 	private String picture;
 	@ElementCollection
 	private List<String> imageGallery;
 	
 	public SellItem(){
 		this.setType(Constants.listingTypeNameSellItem);
-	}
-
-	public void fillFields(JSONObject listingData, long creator) {
-		super.fillFields(listingData, creator);
-		this.setPrice(listingData.getInt(Constants.listingDataFieldPrice));
-		this.setItemCondition(listingData.getString(Constants.listingDataFieldCondition));
-		if(!listingData.isNull(Constants.listingDataFieldPicture)){
-			this.setPicture(listingData.getString(Constants.listingDataFieldPicture));
-		}
-		if(!listingData.isNull(Constants.listingDataFieldImageGallery)){
-			this.setImageGallery(SimpleMethods.parseJSONArrayToStringList(listingData.getJSONArray(Constants.listingDataFieldImageGallery)) );
+		if(this.getImageGallery()==null){
+			this.setImageGallery(new LinkedList<String>());
 		}
 	}
 	
@@ -56,22 +49,12 @@ public class SellItem extends Offering{
 		this.ItemCondition = ItemCondition;
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
-		this.price = price;
-	}
-	
-	public JSONObject toJSON() {
-		JSONObject json = super.toJSON();
-		json.accumulate(Constants.listingDataFieldCondition, this.getItemCondition());
-		json.accumulate(Constants.listingDataFieldPrice, this.getPrice());
-		json.accumulate(Constants.listingDataFieldListingType, Constants.listingTypeNameSellItem);
-		json.accumulate(Constants.listingDataFieldPicture, this.getPicture());
-		json.accumulate(Constants.listingDataFieldImageGallery, this.getImageGallery());
-		return json;
+	public void setPrice(double d) {
+		this.price = d;
 	}
 
 	public List<String> getImageGallery() {
@@ -88,6 +71,49 @@ public class SellItem extends Offering{
 
 	public int getImageGallerySize() throws NoImageGallerySupportedException {
 		return this.getImageGallery().size();
+	}
+
+	/* (non-Javadoc)
+	 * @see BackendServer.Listings.Entities.Offering#fillFields(org.json.JSONObject, long)
+	 * listingData has otwo additional required fields and two additional optional fields:
+	 * price(required): The price for the service
+	 * condition(required): The condition of the item
+	 * picture(optional): The public picture location
+	 * imageGallery(optional): A JSONArray with strings of public image paths
+	 */
+	@Override
+	public void fillFields(JSONObject listingData, long creator) throws WrongFormatException {
+		super.fillFields(listingData, creator);
+		if(listingData.isNull(Constants.listingDataFieldPrice) || 
+				listingData.isNull(Constants.listingDataFieldCondition)){
+			throw new WrongFormatException("Missing required field(s)");
+		}
+		this.setPrice(listingData.getDouble(Constants.listingDataFieldPrice));
+		this.setItemCondition(listingData.getString(Constants.listingDataFieldCondition));
+		if(!listingData.isNull(Constants.listingDataFieldPicture)){
+			this.setPicture(listingData.getString(Constants.listingDataFieldPicture));
+		}
+		if(!listingData.isNull(Constants.listingDataFieldImageGallery)){
+			this.setImageGallery(SimpleMethods.parseJSONArrayToStringList(listingData.getJSONArray(Constants.listingDataFieldImageGallery)) );
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see BackendServer.Listings.Entities.Listing#toJSON()
+	 * listingData has four additional fields in the created JSONObject:
+	 * price(required): The price for the service
+	 * condition(required): The condition of the item
+	 * picture(optional): The public picture location
+	 * imageGallery(optional): A JSONArray with strings of public image paths
+	 */
+	public JSONObject toJSON() {
+		JSONObject json = super.toJSON();
+		json.accumulate(Constants.listingDataFieldCondition, this.getItemCondition());
+		json.accumulate(Constants.listingDataFieldPrice, this.getPrice());
+		json.accumulate(Constants.listingDataFieldListingType, Constants.listingTypeNameSellItem);
+		json.accumulate(Constants.listingDataFieldPicture, this.getPicture());
+		json.accumulate(Constants.listingDataFieldImageGallery, this.getImageGallery());
+		return json;
 	}
 
 	public String makeNextGalleryFileName() throws NoImageGallerySupportedException {

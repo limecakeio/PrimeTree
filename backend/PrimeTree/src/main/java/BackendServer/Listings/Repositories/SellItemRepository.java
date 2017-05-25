@@ -5,6 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import BackendServer.Listings.Entities.SellItem;
 
+/**This interface is a JpaRepository for the Entity SellItem with no extra method
+ * @author Florian Kutz
+ *
+ */
 @Repository
 public interface SellItemRepository extends JpaRepository<SellItem, Long> {
 

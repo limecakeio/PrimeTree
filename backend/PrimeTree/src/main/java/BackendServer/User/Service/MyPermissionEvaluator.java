@@ -10,6 +10,10 @@ import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Listings.PersistenceAdapter;
 import BackendServer.Listings.Repositories.CommentRepository;
 
+/**This class checks whether a user has a specific access to a specific resource
+ * @author Florian Kutz
+ *
+ */
 public class MyPermissionEvaluator implements PermissionEvaluator {
 	
 	@Autowired
@@ -30,22 +34,30 @@ public class MyPermissionEvaluator implements PermissionEvaluator {
 	public boolean hasPermission(Authentication arg0, Serializable arg1, String arg2, Object arg3) {
 		if(arg2.equals("listing")&&arg3.equals("owner")){
 			try {
-				return persistenceAdapter.isOwnerOfListing((Integer) arg1, userManager.loadUserByUsername(arg0.getName()).getId() );
+				return persistenceAdapter.isOwnerOfListing((Integer) arg1, getUserIdFromAuthenticationObject(arg0));
 			} catch (ListingNotFoundException e) {
 				return true;
 			}
 		}else if(arg2.equals("listing")&&arg3.equals("reader")){
 			try {
 				return persistenceAdapter.getListingById((Long) arg1).isActive() ||
-						persistenceAdapter.isOwnerOfListing((Integer) arg1, userManager.loadUserByUsername(arg0.getName()).getId());
+						persistenceAdapter.isOwnerOfListing((Integer) arg1, getUserIdFromAuthenticationObject(arg0));
 			} catch (ListingNotFoundException e) {
 				return true;
 			}
 		}else if(arg2.equals("comment")&&arg3.equals("author")){
-			return commentRepository.findOne((Long) arg1).getAuthorId()==userManager.loadUserByUsername(arg0.getName()).getId();
+			return commentRepository.findOne((Long) arg1).getAuthorId()==getUserIdFromAuthenticationObject(arg0);
 		}else{
 			return false;
 		}
+	}
+	
+	/**This method gets the uderId
+	 * @param auth the authentication-Object from the user
+	 * @return the user's id
+	 */
+	private long getUserIdFromAuthenticationObject(Authentication auth){
+		return userManager.loadUserByUsername(auth.getName()).getId();
 	}
 
 }

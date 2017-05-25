@@ -94,6 +94,11 @@ public class SimpleMethods {
 		return stringCollection;
 	}
 
+	/**This method parses an array of Listing to an JSONArray with all listings parsed to 
+	 * JSONObject with the listing.toJSON() method
+	 * @param listingArray the unparsed array of listing
+	 * @return the parsed JSONArray
+	 */
 	public static Collection parseListingArrayToJSONArray(Listing[] listingArray) {
 		JSONArray jsonArray=new JSONArray(listingArray.length);
 		for(int index=0;index<listingArray.length;index++){
@@ -102,6 +107,10 @@ public class SimpleMethods {
 		return null;
 	}
 
+	/**This method parses a String representing a number to an int
+	 * @param substring the String
+	 * @return the int
+	 */
 	public static int parseStringToInt(String substring) {
 		int resultInt=0;
 		for(int index=substring.length()-1;index>=0;index--){
@@ -112,6 +121,10 @@ public class SimpleMethods {
 		return resultInt;
 	}
 
+	/**This method parses an array of Object to an array of UserData
+	 * @param objectArray the unparsed array of objects
+	 * @return the parsed array of UserData
+	 */
 	public static UserData[] parseObjectArrayToUserDataArray(Object[] objectArray) {
 		UserData[] listingArray=new UserData[objectArray.length];
 		for(int index=0;index<objectArray.length;index++){
