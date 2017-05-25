@@ -20,7 +20,8 @@ var ListingComponent = (function () {
     };
     /**Scrolls the displayed listings either forwards or backwards*/
     ListingComponent.prototype.scrollListings = function (direction) {
-        var leftPos = parseInt(this.listingWrapper.style.left.replace("[^\\d-]", ""));
+        console.log(this.listingWrapper);
+        console.log("Scroll Left", this.listingWrapper.scrollLeft);
         /**Determine how far to shift the container per click in any direction*/
         var listingWidth = document.querySelector(".listing-container").clientWidth;
         /*Define the scroll distance based on the device viewport size*/
@@ -28,16 +29,16 @@ var ListingComponent = (function () {
             this.scrollOffset = listingWidth / 2; //We are displaying them side-by-side
         }
         else {
-            this.scrollOffset = 3 * listingWidth;
+            this.scrollOffset = listingWidth;
         }
         /*Scroll the listings*/
         if (direction === "forward") {
-            this.listingWrapper.style.left = (leftPos - this.scrollOffset) + "px";
+            this.listingWrapper.scrollLeft += this.scrollOffset;
         }
         else {
-            this.listingWrapper.style.left = (leftPos + this.scrollOffset) + "px";
+            this.listingWrapper.scrollLeft -= this.scrollOffset;
         }
-        this.setSliderControls();
+        //this.setSliderControls();
     };
     /*Determines, based on the listings wrapper's position within the viewport,
     if controls are required*/
