@@ -2,18 +2,48 @@
 * Controls the displays for all listing-relevant pages
 */
 .listing-viewport {
-  position: absolute;
+  position: relative;
   width:100%;
-  height:100%;
+  overflow: hidden;
 }
 
 .listing-container-wrapper {
-  overflow-x: hidden;
+  overflow:auto;
   white-space: nowrap;
-  position: absolute; /*Required for inner container to stay as wide as it can*/
-  top:0;
   transition: left 0.35s ease;
 }
+
+
+/*HIDING HORIZONAL SCROLLBARS IS TRICKY*/
+.listing-container-wrapper::-webkit-scrollbar  {/*ALL WEBKIT BROWSERS...*/
+display:none;
+}
+
+@-moz-document url-prefix() { /*..IN FIREFOX...*/
+    .listing-container-wrapper {
+        margin-bottom: -16px;
+    }
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {/*...IE10 & IE11...*/
+  .listing-container-wrapper {
+      margin-bottom: -17px;
+  }
+}
+
+@supports (-ms-accelerator:true) { /*... MS EDGE UPTO 12...*/
+  .listing-container-wrapper {
+      margin-bottom: -16px;
+  }
+}
+
+@supports (-ms-ime-align:auto) { /*...MS EDGE POST VERSION 12*/
+  .listing-container-wrapper {
+      margin-bottom: -16px;
+  }
+}
+
+
 
 .listing-container {
   display: inline-block;
@@ -24,9 +54,9 @@
   display: inline-block;
 }
 
-.viewport-control {
+/**SCROLL ICONS*/
+.listing-scroll-control {
   padding: 10pt;
-  background-color: rgba(255, 255, 255, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,22 +66,22 @@
   cursor: pointer;
 }
 
-.viewport-control span {
+.listing-scroll-control span {
   color: #000000;
 }
 
-.viewport-control.hidden {
+.listing-scroll-control.hidden {
   display:none;
 }
-.viewport-control:hover {
+.listing-scroll-control:hover {
 
 }
 
-.viewport-control.backward {
+.listing-scroll-control.backward {
   left: 0;
 }
 
-.viewport-control.forward {
+.listing-scroll-control.forward {
   right: 0;
 }
 
