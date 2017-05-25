@@ -10,4 +10,8 @@ public class UserNotFoundException extends Exception {
 		super(string);
 	}
 
+	public UserNotFoundException() {
+		// TODO Auto-generated constructor stub
+	}
+
 }

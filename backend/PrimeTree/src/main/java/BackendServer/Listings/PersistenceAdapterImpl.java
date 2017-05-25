@@ -242,124 +242,6 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		return "src/main/webapp/resources/assets/listings/" + listingId;
 	}
 
-	@Override
-	public Listing[] getListingsFiltered(int page, String[] location, boolean shallBeActive, int price_min, int price_max, String[] type, String kind,
-			String sort, ListingSearchStatistics statistics) {
-		Collection<Listing> resultSet=getAllListings();
-		Iterator<? extends Listing> listingIterator=resultSet.iterator();
-		int lowestPriceFound=Integer.MAX_VALUE,
-				highestPriceFound=0;
-		while(listingIterator.hasNext()){
-			Listing checkedListing=listingIterator.next();
-			if(!checkedListing.matchFilterOptions(location, shallBeActive, price_min, price_max, type, kind)){
-				resultSet.remove(checkedListing);
-			}else if(checkedListing.getPrice()<lowestPriceFound){
-				lowestPriceFound=checkedListing.getPrice();
-			}else if(checkedListing.getPrice()>highestPriceFound){
-				highestPriceFound=checkedListing.getPrice();
-			}
-		}
-		int pageBeginning=(page-1)*Constants.pageSize,
-				pageEnd=page*Constants.pageSize;
-		Listing[] resultArray=SimpleMethods.parseObjectArrayToListingArray(resultSet.toArray());
-		Arrays.sort(resultArray, this.createListingComparator(sort));
-		statistics.setPages((resultSet.size()-1)/50);
-		statistics.setPrice_max(highestPriceFound);
-		statistics.setPrice_min(lowestPriceFound);
-		resultArray=Arrays.copyOfRange(resultArray, pageBeginning, pageEnd);
-		statistics.setCount(resultArray.length);
-		return resultArray;
-	}
-	
-	/**This method creates a new Comparator<Listing> that compares two Listings with the sortOption-criteria
-	 * @param sortOption the criteria by which the listings should be compared
-	 * @return a new Comparator<Listing> that compares two Listings with the sortOption-criteria
-	 */
-	private Comparator<Listing> createListingComparator(String sortOption) {
-		if(sortOption.equals(Constants.sortOptionPrice_Desc)){
-			return new Comparator<Listing>(){
-
-				@Override
-				public int compare(Listing o1, Listing o2) {
-					return (int) (o2.getPrice()-o1.getPrice());
-				}
-				
-			};
-		} else if(sortOption.equals(Constants.sortOptionPrice_Asc)){
-			return new Comparator<Listing>(){
-
-				@Override
-				public int compare(Listing o1, Listing o2) {
-					return (int) (o1.getPrice()-o2.getPrice());
-				}
-				
-			};
-		}  else if(sortOption.equals(Constants.sortOptionAlphabetical_Asc)){
-			return new Comparator<Listing>(){
-
-				@Override
-				public int compare(Listing o1, Listing o2) {
-					return o1.getTitle().compareTo(o2.getTitle());
-				}
-				
-			};
-		}  else if(sortOption.equals(Constants.sortOptionAlphabetical_Desc)){
-			return new Comparator<Listing>(){
-
-				@Override
-				public int compare(Listing o1, Listing o2) {
-					return o2.getTitle().compareTo(o1.getTitle());
-				}
-				
-			};
-		}  else if(sortOption.equals(Constants.sortOptionDate_Asc)){
-			return new Comparator<Listing>(){
-
-				@Override
-				public int compare(Listing o1, Listing o2) {
-					return o1.getCreateDate().compareTo(o2.getCreateDate());
-				}
-				
-			};
-		}  else if(sortOption.equals(Constants.sortOptionLocation_Asc)){
-			return new Comparator<Listing>(){
-
-				@Override
-				public int compare(Listing o1, Listing o2) {
-					return o1.getLocation().compareTo(o2.getLocation());
-				}
-				
-			};
-		}  else if(sortOption.equals(Constants.sortOptionPrice_Desc)){
-			return new Comparator<Listing>(){
-
-				@Override
-				public int compare(Listing o1, Listing o2) {
-					return o2.getLocation().compareTo(o1.getLocation());
-				}
-				
-			};
-		}  else if(sortOption.equals(Constants.sortOptionPrice_Desc)){
-			return new Comparator<Listing>(){
-
-				@Override
-				public int compare(Listing o1, Listing o2) {
-					return (int) (o2.getPrice()-o1.getPrice());
-				}
-				
-			};
-		} else{
-			return new Comparator<Listing>(){
-
-				@Override
-				public int compare(Listing o1, Listing o2) {
-					return (int) (o1.getListingId()-o2.getListingId());
-				}
-				
-			};
-		}
-	}
-
 	/**This method creates a Collection of all Listings in the database
 	 * @return all existing listings unsorted in a Collection
 	 */
@@ -464,46 +346,74 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	}
 
 	@Override
-	public Listing[] getListingsFiltered(int page, String[] location, int price_min, int price_max, String[] type,
-			String kind, String sort, ListingSearchStatistics statistics) {
-		Collection<Listing> resultSet=getAllListings();
-		Iterator<? extends Listing> listingIterator=resultSet.iterator();
-		int lowestPriceFound=Integer.MAX_VALUE,
-				highestPriceFound=0;
-		while(listingIterator.hasNext()){
-			Listing checkedListing=listingIterator.next();
-			if(!(checkedListing.matchFilterOptions(location, true, price_min, price_max, type, kind)||
-					checkedListing.matchFilterOptions(location, false
-							, price_min, price_max, type, kind))){
-				resultSet.remove(checkedListing);
-			}else if(checkedListing.getPrice()<lowestPriceFound){
-				lowestPriceFound=checkedListing.getPrice();
-			}else if(checkedListing.getPrice()>highestPriceFound){
-				highestPriceFound=checkedListing.getPrice();
+	public Listing[] getListingsFiltered(int page, final String[] location, final int price_min, final int price_max, final String[] type,
+			final String kind, String sort, ListingSearchStatistics statistics) {
+		return getAllListingsFiltered(statistics, page, sort, new ListingFilterer(){
+
+			@Override
+			public boolean checkIfListingMatches(Listing checkedListing) {
+				return (checkedListing.matchFilterOptions(location, true, price_min, price_max, type, kind)||
+						checkedListing.matchFilterOptions(location, false, price_min, price_max, type, kind));
 			}
-		}
-		int pageBeginning=(page-1)*Constants.pageSize,
-				pageEnd=page*Constants.pageSize;
-		Listing[] resultArray=SimpleMethods.parseObjectArrayToListingArray(resultSet.toArray());
-		Arrays.sort(resultArray, this.createListingComparator(sort));
-		statistics.setPages((resultSet.size()-1)/50);
-		statistics.setPrice_max(highestPriceFound);
-		statistics.setPrice_min(lowestPriceFound);
-		resultArray=Arrays.copyOfRange(resultArray, pageBeginning, pageEnd);
-		statistics.setCount(resultArray.length);
-		return resultArray;
+			
+		});
 	}
 
 	@Override
-	public Listing[] getListingsBySearch(String query, int page, String[] location, boolean b, int price_min,
-			int price_max, String[] type, String kind, String sort, ListingSearchStatistics statistics) {
+	public Listing[] getListingsFiltered(int page, final String[] location, final boolean shallBeActive, final int price_min, final int price_max, final String[] type, final String kind,
+			String sort, ListingSearchStatistics statistics) {
+		return getAllListingsFiltered(statistics, page, sort, new ListingFilterer(){
+
+			@Override
+			public boolean checkIfListingMatches(Listing checkedListing) {
+				return checkedListing.matchFilterOptions(location, shallBeActive, price_min, price_max, type, kind);
+			}
+			
+		});
+	}
+
+	@Override
+	public Listing[] getListingsBySearch(final String query, int page, final String[] location, boolean b, final int price_min,
+			final int price_max, final String[] type, final String kind, String sort, ListingSearchStatistics statistics) {
+		return getAllListingsFiltered(statistics, page, sort, new ListingFilterer(){
+
+			@Override
+			public boolean checkIfListingMatches(Listing checkedListing) {
+				return checkedListing.matchFilterOptions(query, location, true, price_min, price_max, type, kind);
+			}
+			
+		});
+	}
+	
+	/**This interface is given to the private method getAllListingsFiltered so it can check for a single 
+	 * listing if it matches an overridden matching-condition
+	 * @author Florian Kutz
+	 *
+	 */
+	private interface ListingFilterer{
+		/**This method checks whether a single listing matches the filter conditions
+		 * @param checkedListing the checked listing
+		 * @return true, if checkedListing matches the filter-conditions
+		 */
+		public boolean checkIfListingMatches(Listing checkedListing);
+	}
+	
+	/**This private method returns a page of listings that get a true from listingFilter.checkIfListingMatches 
+	 * and writes the statistics into the statistics-parameter
+	 * @param statistics A statistics Object which is filled in the method
+	 * @param page: The number of the requested page
+	 * @param sort This string defines the sort-criteria of all results before the page is pulled out.
+	 * @param listingFilterer This instance decides whether a listing matches th filter options or not.
+	 * @return an array of all listings that match in the requested page
+	 */
+	private Listing[] getAllListingsFiltered(ListingSearchStatistics statistics, int page, String sort, ListingFilterer listingFilterer){
 		Collection<Listing> resultSet=getAllListings();
 		Iterator<? extends Listing> listingIterator=resultSet.iterator();
-		int lowestPriceFound=Integer.MAX_VALUE,
-				highestPriceFound=0;
+		double lowestPriceFound=Integer.MAX_VALUE;
+		double highestPriceFound=0;
 		while(listingIterator.hasNext()){
 			Listing checkedListing=listingIterator.next();
-			if(!checkedListing.matchFilterOptions(query, location, true, price_min, price_max, type, kind)){
+			if(!listingFilterer.checkIfListingMatches(checkedListing)){
 				resultSet.remove(checkedListing);
 			}else if(checkedListing.getPrice()<lowestPriceFound){
 				lowestPriceFound=checkedListing.getPrice();
@@ -523,6 +433,95 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		return resultArray;
 	}
 
+	/**This method creates a new Comparator<Listing> that compares two Listings with the sortOption-criteria
+	 * @param sortOption the criteria by which the listings should be compared
+	 * @return a new Comparator<Listing> that compares two Listings with the sortOption-criteria
+	 */
+	private Comparator<Listing> createListingComparator(String sortOption) {
+		if(sortOption.equals(Constants.sortOptionPrice_Desc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return (int) (o2.getPrice()-o1.getPrice());
+				}
+				
+			};
+		} else if(sortOption.equals(Constants.sortOptionPrice_Asc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return (int) (o1.getPrice()-o2.getPrice());
+				}
+				
+			};
+		}  else if(sortOption.equals(Constants.sortOptionAlphabetical_Asc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return o1.getTitle().compareTo(o2.getTitle());
+				}
+				
+			};
+		}  else if(sortOption.equals(Constants.sortOptionAlphabetical_Desc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return o2.getTitle().compareTo(o1.getTitle());
+				}
+				
+			};
+		}  else if(sortOption.equals(Constants.sortOptionDate_Asc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return o1.getCreateDate().compareTo(o2.getCreateDate());
+				}
+				
+			};
+		}  else if(sortOption.equals(Constants.sortOptionLocation_Asc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return o1.getLocation().compareTo(o2.getLocation());
+				}
+				
+			};
+		}  else if(sortOption.equals(Constants.sortOptionPrice_Desc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return o2.getLocation().compareTo(o1.getLocation());
+				}
+				
+			};
+		}  else if(sortOption.equals(Constants.sortOptionPrice_Desc)){
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return (int) (o2.getPrice()-o1.getPrice());
+				}
+				
+			};
+		} else{
+			return new Comparator<Listing>(){
+
+				@Override
+				public int compare(Listing o1, Listing o2) {
+					return (int) (o1.getListingId()-o2.getListingId());
+				}
+				
+			};
+		}
+	}
+	
 	@Override
 	public Listing[] getListingsFromUser(long id) {
 		Collection<Listing> resultSet=getAllListings();

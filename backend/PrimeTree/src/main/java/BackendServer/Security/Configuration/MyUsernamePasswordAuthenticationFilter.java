@@ -13,6 +13,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**This class configures the login so the username and the password are transported in the request-body
+ * @author Florian Kutz
+ *
+ */
 public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private String jsonUsername;

@@ -8,6 +8,10 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+/**This class configures the path to some test htmls, the resource handlers and CORS
+ * @author Florian Kutz
+ *
+ */
 @Configuration
 @EnableWebMvc
 public class MvcConfig extends WebMvcConfigurerAdapter {
@@ -44,7 +48,6 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		.allowedOrigins("*")
 		.allowedHeaders("*")
 		.allowCredentials(true)
-//		.allowedMethods("GET", "POST", "DELETE", "PATH", "OPTIONS")
 		;
 	}
 

@@ -13,6 +13,10 @@ import org.json.JSONObject;
 
 import BackendServer.Listings.Constants;
 
+/**This class represents the entity Comment
+ * @author Florian Kutz
+ *
+ */
 @Entity
 public class Comment {
 	
@@ -62,6 +66,11 @@ public class Comment {
 		this.authorId = authorId;
 	}
 
+	/**This method creates a JSONObject with all fields in this Object. 
+	 * The names of the fields are defined in Constants. Because this 
+	 * class has no access to userData those must be added from outside if required.
+	 * @return The JSONObject representing this
+	 */
 	public JSONObject toJSON() {
 		JSONObject commentAsJSON=new JSONObject();
 		commentAsJSON.accumulate(Constants.commentDataFieldCommentId, this.getId());

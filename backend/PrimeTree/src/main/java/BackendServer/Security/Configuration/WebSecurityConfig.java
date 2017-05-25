@@ -19,6 +19,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import BackendServer.User.Service.MyUserDetailsServiceImpl;
 
+/**This class configures Spring Security
+ * @author Florian Kutz
+ *
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -74,6 +78,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider);
     }
     
+    /**The AuthenticationProvider is a DaoAuthenticationProvider with the UserDetailsservice MyUserDetsailsService
+     * @return The DaoAthenticationProider
+     */
     @Bean
     public AuthenticationProvider authenticationProvider(){
     	DaoAuthenticationProvider authenticationProvider =new DaoAuthenticationProvider();

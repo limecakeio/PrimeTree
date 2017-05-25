@@ -16,6 +16,11 @@ import BackendServer.User.User;
 import BackendServer.UserData.Entities.UserData;
 import BackendServer.UserData.Repositories.UserDataRepository;
 
+/**This class implements UserDetailsService and one instance of it is given to the AuthenticationProvider
+ * An extended class is used by both RESTControllers
+ * @author Florian Kutz
+ *
+ */
 public class MyUserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
@@ -26,6 +31,9 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
 	
 	@Override
 	public User loadUserByUsername(String username) throws UsernameNotFoundException {
+		//The method gets the user by searching for the employeeData with the given username first, then 
+		//it searches for the userData with the same id as the found employeeData. If the userData don't exist,
+		//the method creates some with default values
 		EmployeeData employeeData=employeeDataRepository.findByLogin(username);
 		if(employeeData==null){
 			throw new UsernameNotFoundException("No user with username " + username + " can be found");
@@ -42,13 +50,13 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
 		return user;
 	}
 	
-	private List<GrantedAuthority> getGrantedAuthorities(User user){
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority("USER"));
-        if(user.isAdmin()){
-        	authorities.add(new SimpleGrantedAuthority("ADMIN"));
-        }
-        return authorities;
-    }
+//	private List<GrantedAuthority> getGrantedAuthorities(User user){
+//        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+//        authorities.add(new SimpleGrantedAuthority("USER"));
+//        if(user.isAdmin()){
+//        	authorities.add(new SimpleGrantedAuthority("ADMIN"));
+//        }
+//        return authorities;
+//    }
 
 }

@@ -6,6 +6,8 @@ import javax.persistence.Table;
 
 import org.json.JSONObject;
 
+import BackendServer.Exceptions.WrongFormatException;
+
 /**This abstract class represents the common properties of all offering-listings*/
 @Entity
 @Table(name="Offering")
@@ -13,7 +15,8 @@ import org.json.JSONObject;
 //@Inheritance( strategy = InheritanceType.JOINED )
 public abstract class Offering extends Listing{
 	
-	public void fillFields(JSONObject listingData, long creator) {
+	@Override
+	public void fillFields(JSONObject listingData, long creator) throws WrongFormatException {
 		super.fillFields(listingData, creator);
 	}
 	

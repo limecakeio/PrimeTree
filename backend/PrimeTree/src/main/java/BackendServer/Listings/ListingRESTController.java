@@ -356,7 +356,7 @@ public class ListingRESTController {
 	/**This method implements a filtered search request over all ative listings by returning a page as well as 
 	 * some statistics of the search-results
 	 * @param query: The search-subject which is scanned in the title and description of all listings. 
-	 * If a listing doesn't have this string in either of those it is sorted out.
+	 * If a listing doesn't have this string in either of those it is filtered out.
 	 * @param page: The number of the requested page
 	 * @param location: An array with all allowed locations. If one listing is not in this location, 
 	 * it is filtered out. If this field is null, no listing is filtered out by its location.
