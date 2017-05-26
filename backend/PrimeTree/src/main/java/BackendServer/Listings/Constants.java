@@ -35,13 +35,32 @@ public class Constants {
 	listingDataFieldJourneyStops="journeyStops",
 	listingDataFieldToLocation="toLocation",
 	listingDataFieldAvailableSeats="availableSeats",
-	listingDataFieldTravelDateAndTime="travelDateAndTime";
+	listingDataFieldTravelDateAndTime="travelDateAndTime",
+	listingDataFieldBorrowFromDate="borrowFromDate",
+	listingDataFieldBorrowToDate="borrowToDate",
+	listingDataFieldActivityLocation="activityLocation",
+	listingDataFieldStartDate="startDate",
+	listingDataFieldEndDate="endDate",
+	listingDataFieldHappeningDate="happeningDate",
+	listingDataFieldFreeTimeActivityCategory="freeTimeActivityCategory",
+	listingDataFieldRegularity="regularity";
+	
+	//The following list define enumerations
+	public static final List<String>
+	allItemConditions=allItemConditions(),
+	allRegularityOptions=allRegularityOptions(),
+	allFreeTimeActivityCategories=allFreeTimeActivityCategories();
 	
 	//The following Strings are the names of all listingTypes
 	public static final String 
 	listingTypeNameSellItem="SaleOffer",
 	listingTypeNameRideSharing="RideShareOffer",
-	listingTypeNameServiceOffering="ServiceOffer";
+	listingTypeNameServiceOffering="ServiceOffer",
+	listingTypeNameBorrowRequest="BorrowRequest",
+	listingTypeNameRideShareRequest="RideShareRequest",
+	listingTypeNamePurchaseRequest="PurchaseRequest",
+	listingTypeNameReturningRecreationRequest="ReturningRecreationRequest",
+	listingTypeNameSingleRecreationRequest="SingleRecreationRequest";
 	
 	//The following Strings are the names of the sort-options you can sort listings with
 	public static final String
@@ -92,6 +111,30 @@ public class Constants {
 	responseFieldFavouriteList="ids",
 	responseFieldNewListingId="id";
 
-	
+	private static List<String> allItemConditions() {
+		List<String> allOptions=new LinkedList<String>();
+		allOptions.add("new");
+		allOptions.add("used");
+		return allOptions;
+	}
+
+	private static List<String> allFreeTimeActivityCategories() {
+		List<String> allOptions=new LinkedList<String>();
+		allOptions.add("Sport");
+		allOptions.add("Social");
+		allOptions.add("Outdoors");
+		allOptions.add("Events");
+		return allOptions;
+	}
+
+	private static List<String> allRegularityOptions() {
+		List<String> allOptions=new LinkedList<String>();
+		allOptions.add("Daily");
+		allOptions.add("Weeky");
+		allOptions.add("Fortnightly");
+		allOptions.add("Monthly");
+		allOptions.add("Randomly");
+		return allOptions;
+	}
 	
 }

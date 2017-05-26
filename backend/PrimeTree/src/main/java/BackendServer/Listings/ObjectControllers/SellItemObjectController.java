@@ -1,10 +1,12 @@
 package BackendServer.Listings.ObjectControllers;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import BackendServer.Exceptions.ListingNotFoundException;
-import BackendServer.Exceptions.NoImageGallerySupportedException;
+import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Constants;
 import BackendServer.Listings.Entities.SellItem;
 import BackendServer.Listings.Repositories.SellItemRepository;
@@ -25,5 +27,5 @@ public class SellItemObjectController extends OfferingObjectController{
 	public SellItemObjectController(){
 		listingType=Constants.listingTypeNameSellItem;
 	}
-
+	
 }
