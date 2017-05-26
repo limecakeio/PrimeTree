@@ -45,6 +45,10 @@ public class Constants {
 	listingDataFieldFreeTimeActivityCategory="freeTimeActivityCategory",
 	listingDataFieldRegularity="regularity";
 	
+	public static final String
+	listingKindOffering="Offering",
+	listingKindRequest="Request";
+	
 	//The following list define enumerations
 	public static final List<String>
 	allItemConditions=allItemConditions(),

@@ -7,6 +7,7 @@ import javax.persistence.Table;
 import org.json.JSONObject;
 
 import BackendServer.Exceptions.WrongFormatException;
+import BackendServer.Listings.Constants;
 
 /**This abstract class represents the common properties of all request-listings*/
 @Entity
@@ -25,7 +26,7 @@ public abstract class RequestListing extends Listing{
 	}
 	
 	public RequestListing(){
-		this.setKind("RequestListing");
+		this.setKind(Constants.listingKindRequest);
 	}
 	
 }
