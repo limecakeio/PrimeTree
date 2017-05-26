@@ -65,7 +65,11 @@ public class ListingTest {
 	 */
 	@Test
 	public void fillfieldsTestAllCorrectSellItem() {
-		testListing.fillFields(initialiseJSONOject, 0);
+		try {
+			testListing.fillFields(initialiseJSONOject, 0);
+		} catch (WrongFormatException e) {
+			e.printStackTrace();
+		}
 	//	assertEquals(testListing.getListingId(), 0);
 		assertEquals(testListing.getOwner(), 0);
 		assertEquals(testListing.getDescription(), "test");
@@ -79,7 +83,11 @@ public class ListingTest {
 	 */
 	@Test(expected = Exception.class)
 	public void fillFieldsTestWithNull(){
-		testListing.fillFields(null, 0);
+		try {
+			testListing.fillFields(null, 0);
+		} catch (WrongFormatException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -135,21 +143,29 @@ public class ListingTest {
 		/**
 		 * Test fillFields with a String instead of boolean in active
 		 */
-		@Test(expected=Exception.class)
+		@Test(expected=WrongFormatException.class)
 		public void fillFieldsTestWithStringActive(){
 			initialiseJSONOject.remove("active");
 			initialiseJSONOject.put("active", "test");
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		/**
 		 * Test fillFields with an int instead of boolean in active
 		 */
-		@Test(expected=Exception.class)
+		@Test(expected=WrongFormatException.class)
 		public void fillFieldsTestWithIntActive(){
 			initialiseJSONOject.remove("active");
 			initialiseJSONOject.put("active", 3);
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 		}
 		
 //------------------------------------- fillFields for CreateDate -------------------------------
@@ -157,20 +173,28 @@ public class ListingTest {
 		/**
 		 * Test fillFields with a boolean in createDate
 		 */
-		@Test(expected =Exception.class)
+		@Test(expected =WrongFormatException.class)
 		public void fillFieldsTestWithBooleanCreateDate(){
 			initialiseJSONOject.remove("createDate");
 			initialiseJSONOject.put("createDate", true);
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 		}
 		/**
 		 * Test fillFields with a String in createDate
 		 */
-		@Test(expected =JSONException.class)
+		@Test(expected =WrongFormatException.class)
 		public void fillFieldsTestWithStringCreateDate(){
 			initialiseJSONOject.remove("createDate");
 			initialiseJSONOject.put("createDate", "20.05.2017");
+			try{
 			testListing.fillFields(initialiseJSONOject, 0);
+			}catch(Exception e){
+				
+			}
 		}
 		
 //------------------------------------- fillFields for creator --------------------------------
@@ -182,7 +206,11 @@ public class ListingTest {
 		public void fillFieldsTestWithStringCreator(){
 			initialiseJSONOject.remove("creator");
 			initialiseJSONOject.put("creator", "Mark");
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 			assertEquals(0,testListing.getOwner());
 		}
 		
@@ -193,7 +221,11 @@ public class ListingTest {
 		public void fillFieldsTestWithBooleanCreator(){
 			initialiseJSONOject.remove("creator");
 			initialiseJSONOject.put("creator", true);
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 			assertEquals(0,testListing.getOwner());
 		}
 		
@@ -204,7 +236,11 @@ public class ListingTest {
 		public void fillFieldsTestWithDoubleCreator(){
 			initialiseJSONOject.remove("creator");
 			initialiseJSONOject.put("creator", 2.1);
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 			assertEquals(0,testListing.getOwner());
 		}
 				
@@ -213,20 +249,28 @@ public class ListingTest {
 		/**
 		 * Test fillfields with a boolean instead of String in description
 		 */
-		@Test(expected=Exception.class)
+		@Test(expected=WrongFormatException.class)
 		public void fillFieldsTestWithBooleanDesription(){
 			initialiseJSONOject.remove("description");
 			initialiseJSONOject.put("descriptin", true);
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 		}
 		/**
 		 * Test fillfields with a number instead of String in description
 		 */
-		@Test(expected=Exception.class)
+		@Test(expected=WrongFormatException.class)
 		public void fillFieldsTestWithIntDesription(){
 			initialiseJSONOject.remove("description");
 			initialiseJSONOject.put("descriptin", 12);
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 		}
 		
 //------------------------------------- fillFields for expiryDate -------------------------------
@@ -234,20 +278,28 @@ public class ListingTest {
 		/**
 		 * Test fillFields with a boolean in createDate
 		 */
-		@Test(expected =Exception.class)
+		@Test(expected =WrongFormatException.class)
 		public void fillFieldsTestWithBooleanExpiryDate(){
 			initialiseJSONOject.remove("expiryDate");
 			initialiseJSONOject.put("expiryDate", true);
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 		}
 		/**
 		 * Test fillFields with a String in createDate
 		 */
-		@Test(expected =Exception.class)
+		@Test(expected =WrongFormatException.class)
 		public void fillFieldsTestWithStringExpiryDate(){
 			initialiseJSONOject.remove("expiryDate");
 			initialiseJSONOject.put("expiryDate", "20.05.2017");
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 		}
 		
 //------------------------------------- fillFields for location --------------------------------
@@ -255,39 +307,55 @@ public class ListingTest {
 		/**
 		 * Test fillFields with a wrong location in location
 		 */
-		@Test(expected = Exception.class)
+		@Test(expected = WrongFormatException.class)
 		public void fillFieldsTestWithWrongLocation(){
 			initialiseJSONOject.remove("location");
 			initialiseJSONOject.put("location",  "Vossenack");
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		/**
 		 * Test fillFields with a int in location
 		 */
-		@Test(expected = Exception.class)
+		@Test(expected = WrongFormatException.class)
 		public void fillFieldsTestWithIntLocation(){
 			initialiseJSONOject.remove("location");
 			initialiseJSONOject.put("location",  2);
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 		}
 		/**
 		 * Test fillFields with a boolean in location
 		 */
-		@Test(expected = Exception.class)
+		@Test(expected = WrongFormatException.class)
 		public void fillFieldsTestWithBooleanLocation(){
 			initialiseJSONOject.remove("location");
 			initialiseJSONOject.put("location",  true);
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 		}
 		/**
 		 * Test fillFields with an empty String in location
 		 */
-		@Test(expected = Exception.class)
+		@Test(expected = WrongFormatException.class)
 		public void fillFieldsTestWithEmptyStringLocation(){
 			initialiseJSONOject.remove("location");
 			initialiseJSONOject.put("location",  "");
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 		}
 		
 
@@ -296,31 +364,43 @@ public class ListingTest {
 		/**
 		 * Test fillFields with empty string in title
 		 */
-		@Test(expected = Exception.class)
+		@Test(expected = WrongFormatException.class)
 		public void fillFieldsTestEmptyStringTitle(){
 			initialiseJSONOject.remove("title");
 			initialiseJSONOject.put("title", "");
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		/**
 		 * Test fillFields with an Int instead of String in title
 		 */
-		@Test(expected = Exception.class)
+		@Test(expected = WrongFormatException.class)
 		public void fillFieldsTestWithIntTitle(){
 			initialiseJSONOject.remove("title");
 			initialiseJSONOject.put("title", 10);
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		/**
 		 * Test fillFields with an boolean instead of String in title
 		 */
-		@Test(expected = Exception.class)
+		@Test(expected = WrongFormatException.class)
 		public void fillFieldsTestWithBooleanTitle(){
 			initialiseJSONOject.remove("title");
 			initialiseJSONOject.put("title", true);
-			testListing.fillFields(initialiseJSONOject, 0);
+			try {
+				testListing.fillFields(initialiseJSONOject, 0);
+			} catch (WrongFormatException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		
