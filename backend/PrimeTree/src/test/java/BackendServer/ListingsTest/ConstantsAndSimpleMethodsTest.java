@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
+
+import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.*;
 import BackendServer.Listings.Entities.Listing;
 import BackendServer.Listings.Entities.Offering;
@@ -54,8 +56,13 @@ public class ConstantsAndSimpleMethodsTest {
 	@Test
 	public void testparseObjectArrayToListingArray(){
 		fillJsonObjects();
-		listing1.fillFields(obj1, 0);
-		listing2.fillFields(obj2, 1);
+		try {
+			listing1.fillFields(obj1, 0);
+			listing2.fillFields(obj2, 1);
+		} catch (WrongFormatException e) {
+			e.printStackTrace();
+		}
+		
 		object1 = (Object) listing1;
 		object2 = (Object) listing2;
 		
