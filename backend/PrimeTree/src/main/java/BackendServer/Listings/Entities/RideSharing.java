@@ -73,28 +73,25 @@ public class RideSharing extends Offering {
 	
 	/* (non-Javadoc)
 	 * @see BackendServer.Listings.Entities.Offering#fillFields(org.json.JSONObject, long)
-	 * listingData has five additional required fields:
-	 * fromLocation: The startLocation of the offered ride
-	 * journeyStops: All stops on the offered ride
-	 * toLocation: The destination of the offered ride
-	 * availableSeats: The number of available seats in the car
-	 * travelDateAndTime: The date and time of the start of the ride as UNIX timestamp
+	 * listingData has three additional required fields as well as two optional fields:
+	 * fromLocation(required): The startLocation of the offered ride
+	 * journeyStops(optional): All stops on the offered ride
+	 * toLocation(required): The destination of the offered ride
+	 * availableSeats(optional): The number of available seats in the car
+	 * travelDateAndTime(required): The date and time of the start of the ride as UNIX timestamp
 	 */
 	@Override
 	public void fillFields(JSONObject listingData, long creator) throws WrongFormatException {
 		super.fillFields(listingData, creator);
-		if(listingData.isNull(Constants.listingDataFieldFromLocation) || 
-				listingData.isNull(Constants.listingDataFieldJourneyStops) || 
-				listingData.isNull(Constants.listingDataFieldToLocation) || 
-				listingData.isNull(Constants.listingDataFieldAvailableSeats) || 
-				listingData.isNull(Constants.listingDataFieldTravelDateAndTime)){
-			throw new WrongFormatException("Missing required field(s)");
-		}
 		this.setFromLocation(listingData.getString(Constants.listingDataFieldFromLocation));
-		this.setJourneyStops(SimpleMethods.parseJSONArrayToStringList(listingData.getJSONArray(Constants.listingDataFieldJourneyStops)));
+		if(!listingData.isNull(Constants.listingDataFieldJourneyStops)){
+			this.setJourneyStops(SimpleMethods.parseJSONArrayToStringList(listingData.getJSONArray(Constants.listingDataFieldJourneyStops)));
+		}
 		this.setToLocation(listingData.getString(Constants.listingDataFieldToLocation));
-		this.setAvailableSeats(listingData.getInt(Constants.listingDataFieldAvailableSeats));
-		this.setTravelDateAndTime(new Date((long) listingData.getDouble(Constants.listingDataFieldTravelDateAndTime)));
+		if(!listingData.isNull(Constants.listingDataFieldAvailableSeats)){
+			this.setAvailableSeats(listingData.getInt(Constants.listingDataFieldAvailableSeats));
+		}
+		this.setTravelDateAndTime(new Date(listingData.getLong(Constants.listingDataFieldTravelDateAndTime)));
 	}
 	
 	/* (non-Javadoc)
@@ -109,7 +106,6 @@ public class RideSharing extends Offering {
 	@Override
 	public JSONObject toJSON() {
 		JSONObject json = super.toJSON();
-		json.accumulate(Constants.listingDataFieldListingType, Constants.listingTypeNameRideSharing);
 		json.accumulate(Constants.listingDataFieldFromLocation, this.getFromLocation());
 		json.accumulate(Constants.listingDataFieldJourneyStops, this.getJourneyStops());
 		json.accumulate(Constants.listingDataFieldToLocation, this.getToLocation());
