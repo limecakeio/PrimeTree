@@ -18,7 +18,6 @@ import BackendServer.Listings.Constants;
 @PrimaryKeyJoinColumn(referencedColumnName="id")
 public class ReturningRecreationRequest extends RecreationRequest{
 	
-	@ManyToOne(optional=false)
 	private Date startDate;
 	private Date endDate;
 	private String regularity;
