@@ -86,9 +86,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	/**This method returns a ListingObjectController-instance, whose listingType matches the one of the listingData.
 	 * If listingData contains no field with the listingType a WrongFormatException is thrown.*/
 	private ListingObjectController getListingControllerWithTheRightType(JSONObject listingData) throws WrongFormatException{
-		try{
-			listingData.getClass();
-		}catch(NullPointerException e){
+		if(listingData==null){
 			throw new WrongFormatException("ListingData is null");
 		}
 		
