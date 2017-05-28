@@ -3,61 +3,78 @@
 */
 .listing-viewport {
   position: relative;
-  width:100%;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
-.listing-container-wrapper {
-  overflow:auto;
+.listing-scroll-container { /**Required to hide scroll-bar*/
+  display:block;
+  overflow:hidden;
+  position:relative;
+  width:100%;
+}
+
+.listing-wrapper {
   white-space: nowrap;
-  transition: left 0.35s ease;
+  overflow:auto;
+}
+
+.listing-container {
+  display: inline-block;
+}
+
+.listing-container-inner {
+  display: table;
+}
+
+.listing{
+  display:table-cell;
+}
+
+/**DESKTOP-SETTINGS*/
+@media (min-width: 992px) {
+  .listing.single-row {
+    display: table-cell;
+  }
+  .listing {
+    display: block;
+  }
 }
 
 
 /*HIDING HORIZONAL SCROLLBARS IS TRICKY*/
-.listing-container-wrapper::-webkit-scrollbar  {/*ALL WEBKIT BROWSERS...*/
+.listing-wrapper::-webkit-scrollbar  {/*ALL WEBKIT BROWSERS...*/
 display:none;
 }
 
 @-moz-document url-prefix() { /*..IN FIREFOX...*/
-    .listing-container-wrapper {
+    .listing-wrapper {
         margin-bottom: -16px;
     }
 }
 
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {/*...IE10 & IE11...*/
-  .listing-container-wrapper {
+  .listing-wrapper {
       margin-bottom: -17px;
   }
 }
 
 @supports (-ms-accelerator:true) { /*... MS EDGE UPTO 12...*/
-  .listing-container-wrapper {
+  .listing-wrapper {
       margin-bottom: -16px;
   }
 }
 
 @supports (-ms-ime-align:auto) { /*...MS EDGE POST VERSION 12*/
-  .listing-container-wrapper {
+  .listingr-wrapper {
       margin-bottom: -16px;
   }
-}
-
-
-
-.listing-container {
-  display: inline-block;
-  white-space: nowrap;
-}
-
-.listing-container-inner {
-  display: inline-block;
 }
 
 /**SCROLL ICONS*/
 .listing-scroll-control {
   padding: 10pt;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   top:0;
@@ -70,8 +87,8 @@ display:none;
   color: #000000;
 }
 
-.listing-scroll-control.hidden {
-  display:none;
+.listing-scroll-control.active {
+  display:flex;
 }
 .listing-scroll-control:hover {
 
@@ -85,12 +102,41 @@ display:none;
   right: 0;
 }
 
-/**TABLET SETTINGS*/
-@media (min-width: 480px) {
-  .listing-container {
-    white-space: normal;
-  }
-  .listing-container-inner {
-    display: block;
-  }
+/**LOADER FOR LISTINGS*/
+@keyframes rotateElement {
+    0% {
+      -ms-transform: rotate(0deg); /* IE 9 */
+      -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+      transform: rotate(0deg);
+    }
+    100% {
+      -ms-transform: rotate(360deg); /* IE 9 */
+      -webkit-transform: rotate(360deg); /* Chrome, Safari, Opera */
+      transform: rotate(360deg);
+    }
+}
+
+#listing-loader {
+  display:none;
+  align-items: center;
+  justify-content: space-around;
+  position: absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.75);
+  z-index: 9999;
+}
+
+#listing-loader.active {
+  display:flex;
+}
+
+#listing-loader span {
+  color: #e61a3f;
+  font-size: 20pt;
+  animation-name: rotateElement;
+  animation-duration: 1.25s;
+  animation-iteration-count: infinite;
 }

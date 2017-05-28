@@ -18,97 +18,136 @@ var ListingComponent = (function () {
     ListingComponent.prototype.getListings = function () {
         return this.repo.listings;
     };
-    /**Scrolls the displayed listings either forwards or backwards*/
+    /**Scrolls the displayed listings either forwards or backwards.
+    Also calls to load more listings if user has scrolled to the end*/
     ListingComponent.prototype.scrollListings = function (direction) {
-        console.log(this.listingWrapper);
-        console.log("Scroll Left", this.listingWrapper.scrollLeft);
+        var scrollSpeed = 750;
+        var finalScrollPosition;
         /**Determine how far to shift the container per click in any direction*/
-        var listingWidth = document.querySelector(".listing-container").clientWidth;
+        var listingWidth = document.querySelector(".listing").clientWidth;
         /*Define the scroll distance based on the device viewport size*/
         if (this.windowWidth < 480) {
-            this.scrollOffset = listingWidth / 2; //We are displaying them side-by-side
-        }
-        else {
             this.scrollOffset = listingWidth;
         }
-        /*Scroll the listings*/
+        else {
+            this.scrollOffset = listingWidth * 2;
+        }
+        /*Set the distance and direction*/
+        var scrollDistance;
         if (direction === "forward") {
-            this.listingWrapper.scrollLeft += this.scrollOffset;
+            scrollDistance = '+=' + this.scrollOffset;
         }
         else {
-            this.listingWrapper.scrollLeft -= this.scrollOffset;
+            scrollDistance = '-=' + this.scrollOffset;
         }
-        //this.setSliderControls();
+        /*Scroll the listings*/
+        jQuery(this.listingScroller.nativeElement).animate({
+            scrollLeft: scrollDistance
+        }, scrollSpeed, function () {
+            /*If we have scrolled to the end we need to check for more listings*/
+            var scrollPosition = this.setSliderControls();
+            if (scrollPosition > this.listingWrapper.scrollWidth - this.listingWrapper.clientWidth - 100) {
+                this.loadMoreListings();
+            }
+        }.bind(this));
     };
-    /*Determines, based on the listings wrapper's position within the viewport,
-    if controls are required*/
+    ListingComponent.prototype.loadMoreListings = function () {
+        //Show user that we are working
+        var loadScreen = document.querySelector("#listing-loader");
+        loadScreen.classList.add("active");
+    };
+    /**Sets the slider controls based on if they are required and returns the
+    final scroll position as a number*/
     ListingComponent.prototype.setSliderControls = function () {
-        var backwardControl = document.querySelector("#viewport-control-backward");
-        var forwardControl = document.querySelector("#viewport-control-forward");
-        var leftPos = parseInt(this.listingWrapper.style.left.replace("[^\\d-]", ""));
-        var listingWidth = document.querySelector(".listing-container").clientWidth;
-        if (this.listingWrapper) {
-            //See if we require a forward button
-            if (this.listingWrapper.clientWidth < this.windowWidth) {
-                forwardControl.classList.add("hidden");
-            }
-            else if (-(leftPos) > this.listingWrapper.clientWidth - listingWidth || this.listingWrapper.clientWidth <= this.windowWidth) {
-                /*Potentially the end of the listings*/
-                //TODO try to load more listings
-                forwardControl.classList.add("hidden");
+        //Get the scroll position
+        var scrollPosition = this.listingWrapper.scrollLeft;
+        var scrollMax = this.listingWrapper.scrollWidth - this.listingWrapper.clientWidth;
+        //Check if we even need to offer scroll
+        if (scrollMax > 0) {
+            //Grab the controls
+            var backwardControl = document.querySelector("#viewport-control-backward");
+            var forwardControl = document.querySelector("#viewport-control-forward");
+            if (scrollPosition > 0) {
+                backwardControl.classList.add("active");
             }
             else {
-                forwardControl.classList.remove("hidden");
+                backwardControl.classList.remove("active");
             }
-            //See if we require a backward button
-            if (leftPos >= 0) {
-                backwardControl.classList.add("hidden");
+            if (scrollPosition < scrollMax) {
+                forwardControl.classList.add("active");
             }
             else {
-                backwardControl.classList.remove("hidden");
+                forwardControl.classList.remove("active");
             }
         }
+        return this.listingWrapper.scrollLeft;
     };
-    ListingComponent.prototype.setListingDimensions = function () {
-        /*Determine how many listings to display horizontally based on the screen size*/
-        var divisionFactor = 0;
-        if (this.windowWidth < 375) {
-            divisionFactor = 1;
-        }
-        else if (this.windowWidth < 700) {
-            divisionFactor = 2;
-        }
-        else if (this.windowWidth < 900) {
-            divisionFactor = 3;
+    /**Sets the listing viewport to achieve an optimal display across all devices*/
+    ListingComponent.prototype.setViewport = function () {
+        //Calculate the availble space for the viewport
+        var headerHeight = document.querySelector("#header").clientHeight;
+        var listingViewport = document.querySelector("#listing-viewport");
+        var viewportHeight = this.windowHeight - headerHeight;
+        listingViewport.style.height = viewportHeight + "px";
+        /*Regardless of the device we are accessed from if a screen's height smaller
+        than 650px we display the listings on a single line*/
+        var viewPortMargin = 100; //Don't allow a listing to fill the entire container.
+        var listings = document.querySelectorAll(".listing");
+        var listingCubicSize;
+        if (viewportHeight < 650) {
+            //Display listings on a single row
+            for (var i = 0; i < listings.length; i++) {
+                listings[i].classList.add("single-row");
+            }
+            //Set the listing dimension
+            listingCubicSize = viewportHeight - viewPortMargin;
         }
         else {
-            divisionFactor = 4;
+            //Display listings wihtin two rows
+            for (var i = 0; i < listings.length; i++) {
+                listings[i].classList.remove("single-row");
+            }
+            listingCubicSize = (viewportHeight / 2) - viewPortMargin;
         }
-        //Set the updated with on all listings
-        var listings = document.querySelectorAll(".listing-preview");
+        //Apply the size to each listing and set its image-preview
+        var listingPreviews = document.querySelectorAll(".listing-preview");
         for (var i = 0; i < listings.length; i++) {
-            var margin = listings[i].offsetLeft;
-            listings[i].style.width = (this.windowWidth / divisionFactor) - margin + "px";
+            listingPreviews[i].style.width = listingCubicSize + "px";
+            listingPreviews[i].style.height = listingCubicSize + "px";
+            //Images to display in the OpenGraph ratio of 1:0.525
+            listingPreviews[i].querySelector(".listing-image").style.height = listingCubicSize * 0.525 + "px";
         }
+        this.setSliderControls();
     };
     ListingComponent.prototype.ngAfterViewInit = function () {
+        var _this = this;
         /*Set required window dimensions*/
         this.windowWidth = window.innerWidth;
         this.windowHeight = window.innerHeight;
         /*Set the listing container once component's been loaded*/
-        this.listingWrapper = document.querySelector("#listing-container-wrapper");
+        this.listingWrapper = document.querySelector("#listing-wrapper");
+        /**Set an event listener for when scroll occurs*/
+        document.addEventListener('scroll', function (e) {
+            /*If we have scrolled to the end we need to check for more listings*/
+            var scrollPosition = _this.setSliderControls();
+            if (scrollPosition > _this.listingWrapper.scrollWidth - _this.listingWrapper.clientWidth - 100) {
+                _this.loadMoreListings();
+            }
+        }, true);
     };
-    /**Keeping an eye if the window size changes to adapt the listing viewport*/
     ListingComponent.prototype.onResize = function (event) {
         event.target.innerWidth;
         event.target.innerHeight;
         this.windowWidth = window.innerWidth;
         this.windowHeight = window.innerHeight;
-        this.setListingDimensions();
-        this.setSliderControls();
+        this.setViewport();
     };
     return ListingComponent;
 }());
+__decorate([
+    core_1.ViewChild('listingScroller'),
+    __metadata("design:type", core_1.ElementRef)
+], ListingComponent.prototype, "listingScroller", void 0);
 __decorate([
     core_1.HostListener('window:resize', ['$event']),
     __metadata("design:type", Function),
