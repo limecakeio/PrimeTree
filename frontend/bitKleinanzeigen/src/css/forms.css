@@ -8,7 +8,7 @@ Controls/Overwrites all form displays for the bIT Kleinanzeigen web-application.
 
 /**FORM SETTINGS*/
 
-form {
+/*form {
   width:80%;
   padding: 10pt;
   background-color: #f1fffa;
@@ -30,4 +30,4 @@ form h2 {
 
 form button {
   margin: 10pt 0;
-}
+}*/

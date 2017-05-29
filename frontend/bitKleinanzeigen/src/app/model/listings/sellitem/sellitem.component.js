@@ -21,6 +21,7 @@ var SellItemComponent = (function () {
         this.securityModel = securityModel;
         this.domSanitizer = domSanitizer;
         this.isOwner = false;
+        this.imagesrc = null;
     }
     SellItemComponent.prototype.remove = function () {
         var _this = this;
@@ -28,12 +29,17 @@ var SellItemComponent = (function () {
         this.listingController.removeListing(this.listing.id).subscribe(function (removed) {
             _this.repo.update();
         }, function (error) {
+            _this.repo.update();
             console.log(error.message);
         }, function () {
         });
     };
     SellItemComponent.prototype.ngOnInit = function () {
         console.log(this.listing.creator === this.securityModel.username);
+        console.log(this.listing.mainImage);
+        if (this.listing.mainImage) {
+            this.image = this.domSanitizer.bypassSecurityTrustStyle('url(' + 'http://141.19.145.175:8080/' + this.listing.mainImage + ')');
+        }
         if (this.listing.creator === this.securityModel.username) {
             this.isOwner = true;
         }
@@ -47,7 +53,8 @@ __decorate([
 SellItemComponent = __decorate([
     core_1.Component({
         selector: 'sellitem',
-        templateUrl: './sellitem.component.html'
+        templateUrl: './sellitem.component.html',
+        styleUrls: ['./sellitem.component.css']
     }),
     __metadata("design:paramtypes", [listing_controller_1.ListingController,
         listing_reposetory_1.ListingReposetory,

@@ -6,8 +6,7 @@ import { ListingRequest } from './network/listing.request';
 
 @Injectable()
 export class ListingReposetory {
-  listings : Listing[] = [];
-
+  listings : any[] = [];
   addListing(listing : Listing) : void {
     this.listings.push(listing);
   }
@@ -35,11 +34,26 @@ export class ListingReposetory {
     // console.log('update');
     this.controller.getActiveListings(new ListingRequest()).subscribe((ids : number[]) => {
       // console.log(ids)
+      let i = 0;
+      let pairArray : Listing[] = [];
       ids.forEach((id : number) => {
           this.controller.getListing(id).subscribe((listing : Listing) => {
-            this.listings.push(listing);
+            if(i % 2 === 0) {
+              pairArray = [];
+              pairArray.push(listing);
+            } else {
+              pairArray.push(listing);
+              this.listings.push(pairArray);
+            }
+
+            if(ids.length === i+1 && i%2 === 0) {
+              this.listings.push(pairArray);
+            }
+
+            i++;
           });
       });
+      console.log(this.listings);
     }, (error : any) => {
       console.log('getall - error')
       console.log(error);

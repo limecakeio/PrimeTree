@@ -1,5 +1,19 @@
-<div class="">
-  <div *ngFor="let listing of repo.listings">
-    <sellitem [listing]="listing"></sellitem>
+<div id="listing-viewport" class="listing-viewport">
+  <div class="listing-container-wrapper" id="listing-container-wrapper" style="left:0;">
+    <div *ngFor="let listing of repo.listings" class="listing-container">
+      <div *ngFor="let singleListing of listing" class="listing-container-inner row">
+        <sellitem [listing]="singleListing" class="col-xs-12 col-sm-6 col-md-12"></sellitem>
+      </div>
+    </div>
   </div>
+
+  <!-- BOF CONTROLS FOR THE LISTING WRAPPER -->
+  <div class="listing-scroll-control backward" id="viewport-control-backward" (click)="scrollListings('backward')">
+    <span class="control backward" id="control-backward"><</span>
+  </div>
+  <div class="listing-scroll-control forward" id="viewport-control-forward" (click)="scrollListings('forward')">
+    <span class="control forward">></span>
+  </div>
+  <!-- EOF CONTROLS FOR THE LISTING WRAPPER -->
+
 </div>

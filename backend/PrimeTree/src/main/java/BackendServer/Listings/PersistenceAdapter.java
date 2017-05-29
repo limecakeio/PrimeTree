@@ -1,14 +1,19 @@
 package BackendServer.Listings;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.LinkedList;
 
 import org.json.JSONObject;
 
+import BackendServer.Exceptions.CommentNotFoundException;
 import BackendServer.Exceptions.ListingNotFoundException;
+import BackendServer.Exceptions.NoImageGallerySupportedException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Entities.Listing;
 
+/**An implementation of this interface can read and write persistent data with the present data-structure
+ * 
+ * @author Florian Kutz
+ *
+ */
 public interface PersistenceAdapter {
 	
 	/**This method takes the data for a new listing in a single object and creates a persisted entry in the ListingDatabase.
@@ -18,10 +23,10 @@ public interface PersistenceAdapter {
 	 * 
 	 * @return: the id of the new persisted listing 
 	 * 
-	 * @throws WrongFormatException
-	 * 	if newListingData cannot be read
+	 * @throws:
+	 * WrongFormatException if newListingData is missing of required fields
 	 * */
-	int persistNewListing(JSONObject newListingData, String creator) throws WrongFormatException;
+	public int persistNewListing(JSONObject newListingData, long userId) throws WrongFormatException;
 	
 	/**This method searches for the listing with the listingId and returns the Object
 	 * 
@@ -30,55 +35,180 @@ public interface PersistenceAdapter {
 	 * 
 	 * @return: the listing-object
 	 * 
-	 * @throws ListingNotFound
-	 * 	if no listing with listingId listingId exists
+	 * @throws:
+	 * ListingNotFoundException if no listing with listingId listingId exists
 	 * */
-	Listing getListingById(long listingId) throws ListingNotFoundException;
+	public Listing getListingById(long listingId) throws ListingNotFoundException;
 
-	/**This method gives all listings by Id with no filter or sort algorithm
-	 * 
-	 * @param:
-	 * 
-	 * @return: An array of all listingId of all Listings
-	 * */
-	int[] getAllActiveListings();
-
-	/**This method searches for all listings which listingId is present in the listingIds Array
+	/**This method searches for all listings with a listingId present in the listingIds Array
 	 * 
 	 * @param:
 	 * listingIds: An array of all listingIds of the listings this method returns
 	 * 
 	 * @return: An array of all listingIds of all Listings
 	 * 
-	 * @throws ListingNotFound
-	 * 	if at least one of the ids in the array does not exist as a listing
+	 * @throws 
+	 * ListingNotFoundException if at least one of the ids in the array does not exist as a listing
 	 * */
-	Listing[] getListingArrayByIdArray(int[] listingIds) throws ListingNotFoundException;
+	public Listing[] getListingArrayByIdArray(int[] listingIds) throws ListingNotFoundException;
 
-	/**This method deletes the listing with the listingId listingId
+	 /**This method deletes the listing with the listingId listingId
 	 * 
 	 * @param:
 	 * listingId: the id of the listing
-	 * */
-	void deleteListingById(int listingId) throws ListingNotFoundException;
+	 * @throws ListingNotFoundException
+	 */
+	public void deleteListingById(int listingId) throws ListingNotFoundException;
 	
-	/**This method checks whether the user with username username is the
+	/**This method checks whether the user with id userId is the
 	 *  creator/owner of the listing with listingId listingId.
-	 *  
-	 *  @param:
-	 *  listingId: the id of the listing
-	 *  username: username of the user
-	 *  
-	 *  @return:
-	 *  true: if the user is the creator/owner of the listing*/
-	boolean isOwnerOfListing(int listingId, String username) throws ListingNotFoundException;
+	 * @param listingId: the id of the listing
+	 * @param userId: the id of the userId
+	 * @return true: if the user is the creator/owner of the listing
+	 * @throws ListingNotFoundException if the listing with id listingId doesn't exist
+	 */
+	boolean isOwnerOfListing(int listingId, long userId) throws ListingNotFoundException;
 	
 	/**This method creates a .png file for a listing
 	 *  
 	 *  @param:
-	 *  listingId: the id of the listing the .png file belongs to
+	 *  listingId: the id of the listing the file belongs to
 	 *  imageData: the imageData represented in a byte-Array
-	 * @throws IOException if the method has a mistake in the implementation*/
-	void uploadImage(byte[] imageData, int listingId) throws IOException;
+	 *  originalFilename: the filename of the original file. The method can get the filetype (.png, .jpeeg or 
+	 *  .jpg) from this String
+	 * @throws:
+	 * IOException if originalFilename has no image Filetype
+	 * ListingNotFoundException if the listing with listingId listingId does not exist*/
+	public void uploadImage(byte[] imageData, int listingId, String originalFilename) throws IOException, ListingNotFoundException;
 
+	/**This method edits the listing with id listingId by overriding all data except id, type and creator of 
+	 * the listing with the data in listingData. Warning: All relevant fields
+	 * 
+	 * @param:
+	 * listingId: the id of the listing the file belongs to
+	 * listingData: A JSONObject with all new Data
+	 * 
+	 * @throws:
+	 * ListingNotFoundException if the listing with listingId listingId does not exist
+	 * */
+	public void edit(long listingId, JSONObject listingData)
+			throws ListingNotFoundException, WrongFormatException;
+	
+	/**This method adds a comment to the listing with id listingId
+	 * @param commentData The data of the new comment as a JSONObject. It contains at least those two fields:
+	 * message: The text of the comment
+	 * createDate: The date of the creation of the comment.
+	 * All additional fields are ignored.
+	 * @param authorId The userId of the author.
+	 * @param listingId The id of the commented listing
+	 * @throws ListingNotFoundException if the listing with id listingId doesn't exist
+	 */
+	public void comment(JSONObject commentData, long authorId, long listingId) throws ListingNotFoundException;
+
+	/**This method completely deletes the comment with id commentId from the database
+	 * @param commentId id of the comment that should be deleted
+	 */
+	public void deleteComment(int commentId) throws CommentNotFoundException;
+	
+	/**This method returns a page of listings that match the filterOptions and writes the statistics 
+	 * into the statistics-parameter
+	 * @param page: The number of the requested page
+	 * @param location: An array with all allowed locations. If one listing is not in this location, 
+	 * it is filtered out. If this field is null, no listing is filtered out by its location.
+	 * @param: shallBeActive: If this param is set false only inactive listings are returned and if this boolean 
+	 * is true only active listings are returned
+	 * @param price_min: The minimal requested price. All listings with a higher rice than this are sorted out. 
+	 * All listings that don't have a price are valued as their price was 0.
+	 * @param price_max: The maximal requested price. All listings with a lower rice than this are sorted out. 
+	 * All listings that don't have a price are valued as their price was 0.
+	 * @param type: An array with all allowed listingTypes. If one listing has a type which is not listed here 
+	 * it is filtered out. If this field is null no listing is filtered out by its type.
+	 * @param kind: A string of the allowed type. If one listing has a different kind
+	 * it is filtered out. If this field is null no listing is filtered out by its kind.
+	 * @param sort This string defines the sort-criteria of all results before the page is pulled out.
+	 * @param statistics A statistics Object which is filled in the method
+	 * @return an array of all listings in the requested page
+	 */
+	public Listing[] getListingsFiltered(int page, String[] location, boolean shallBeActive, int price_min, int price_max, String[] type, String kind,
+			String sort, ListingSearchStatistics statistics);
+
+	/**This method returns a page of listings that match the filterOptions and writes the statistics 
+	 * into the statistics-parameter
+	 * @param page: The number of the requested page
+	 * @param location: An array with all allowed locations. If one listing is not in this location, 
+	 * it is filtered out. If this field is null, no listing is filtered out by its location.
+	 * @param price_min: The minimal requested price. All listings with a higher rice than this are sorted out. 
+	 * All listings that don't have a price are valued as their price was 0.
+	 * @param price_max: The maximal requested price. All listings with a lower rice than this are sorted out. 
+	 * All listings that don't have a price are valued as their price was 0.
+	 * @param type: An array with all allowed listingTypes. If one listing has a type which is not listed here 
+	 * it is filtered out. If this field is null no listing is filtered out by its type.
+	 * @param kind: A string of the allowed type. If one listing has a different kind
+	 * it is filtered out. If this field is null no listing is filtered out by its kind.
+	 * @param sort This string defines the sort-criteria of all results before the page is pulled out.
+	 * @param statistics A statistics Object which is filled in the method
+	 * @return an array of all listings in the requested page
+	 */
+	public Listing[] getListingsFiltered(int page, String[] location, int price_min, int price_max, String[] type, String kind,
+			String sort, ListingSearchStatistics statistics);
+
+	/**This method returns a page of listings that match the filterOptions and contains query in the title or the 
+	 * description and writes the statistics into the statistics-parameter
+	 * @param query: The search-subject which is scanned in the title and description of all listings. 
+	 * If a listing doesn't have this string in either of those it is sorted out.
+	 * @param page: The number of the requested page
+	 * @param location: An array with all allowed locations. If one listing is not in this location, 
+	 * it is filtered out. If this field is null, no listing is filtered out by its location.
+	 * @param: shallBeActive: If this param is set false only inactive listings are returned and if this boolean 
+	 * is true only active listings are returned
+	 * @param price_min: The minimal requested price. All listings with a higher rice than this are sorted out. 
+	 * All listings that don't have a price are valued as their price was 0.
+	 * @param price_max: The maximal requested price. All listings with a lower rice than this are sorted out. 
+	 * All listings that don't have a price are valued as their price was 0.
+	 * @param type: An array with all allowed listingTypes. If one listing has a type which is not listed here 
+	 * it is filtered out. If this field is null no listing is filtered out by its type.
+	 * @param kind: A string of the allowed type. If one listing has a different kind
+	 * it is filtered out. If this field is null no listing is filtered out by its kind.
+	 * @param sort This string defines the sort-criteria of all results before the page is pulled out.
+	 * @param statistics A statistics Object which is filled in the method
+	 * @return an array of all listings in the requested page
+	 */
+	public Listing[] getListingsBySearch(String query, int page, String[] location, boolean b, int price_min, int price_max,
+			String[] type, String kind, String sort, ListingSearchStatistics statistics);
+	
+	/**This method uploads an image and adds the path to the gallery-List of the listing with id listingId
+	 * @param imageData The imageData in a byte-Array
+	 * @param listingId id of the listing
+	 * @param originalFilename the original filename
+	 * @throws IOException if originalFilename has no image Filetype
+	 * @throws ListingNotFoundException if the listing with id listingId doesn't exist
+	 * @throws NoImageGallerySupportedException if the listing doesn't support the imageGallery
+	 */
+	public void addImageToGallery(byte[] imageData, int listingId, String originalFilename) throws IOException, ListingNotFoundException, NoImageGallerySupportedException;
+	
+	/**This method removes an image from the gallery in the listing with the id listingId and replaces it 
+	 * with a new image
+	 * @param imageData: The data of the new Image in a byteArray
+	 * @param listingId: the id of the listing
+	 * @param galleryIndex: The index of the image in the gallery that should be replaced
+	 * @param originalFilename: The original Filename of the new image
+	 * @throws ListingNotFoundException: If no listing with id listingId exists
+	 * @throws NoImageGallerySupportedException if the listing doesn't support the imageGallery
+	 * @throws IOException If the uploaded file isn't an image file
+	 */
+	public void changeImageInGallery(byte[] imageData, int listingId, int galleryIndex, String originalFilename) throws ListingNotFoundException, NoImageGallerySupportedException, IOException;
+
+	/**This method deletes an image from the gallery in the listing with the id listingId
+	 * @param listingId: the id of the listing
+	 * @param galleryIndex: The index of the image in the gallery that should be replaced
+	 * @throws ListingNotFoundException: If no listing with id listingId exists
+	 * @throws NoImageGallerySupportedException if the listing doesn't support the imageGallery
+	 */
+	public void deleteImageInGallery(int listingId, int galleryIndex) throws ListingNotFoundException, NoImageGallerySupportedException;
+
+	/**This method returns all listings whose owner is the user with the userId userId
+	 * @param userId: id of the user
+	 * @return an array with all Listings from this user
+	 */
+	public Listing[] getListingsFromUser(long userId);
 }

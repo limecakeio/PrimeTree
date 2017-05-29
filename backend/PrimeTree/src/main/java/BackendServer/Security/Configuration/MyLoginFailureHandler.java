@@ -17,6 +17,8 @@ public class MyLoginFailureHandler implements AuthenticationFailureHandler {
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException)
 			throws IOException, ServletException {
+		System.out.println("LoginFailure");
+		System.out.println(authenticationException.getLocalizedMessage());
 		response.addHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
 		response.addHeader("Access-Control-Allow-Credentials", "true");
 		response.addHeader("Access-Control-Allow-Headers", "x-authors");

@@ -39,11 +39,25 @@ var ListingReposetory = (function () {
         // console.log('update');
         this.controller.getActiveListings(new listing_request_1.ListingRequest()).subscribe(function (ids) {
             // console.log(ids)
+            var i = 0;
+            var pairArray = [];
             ids.forEach(function (id) {
                 _this.controller.getListing(id).subscribe(function (listing) {
-                    _this.listings.push(listing);
+                    if (i % 2 === 0) {
+                        pairArray = [];
+                        pairArray.push(listing);
+                    }
+                    else {
+                        pairArray.push(listing);
+                        _this.listings.push(pairArray);
+                    }
+                    if (ids.length === i + 1 && i % 2 === 0) {
+                        _this.listings.push(pairArray);
+                    }
+                    i++;
                 });
             });
+            console.log(_this.listings);
         }, function (error) {
             console.log('getall - error');
             console.log(error);

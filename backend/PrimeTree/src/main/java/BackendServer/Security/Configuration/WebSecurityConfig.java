@@ -8,21 +8,21 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import BackendServer.User.Service.MyUserDetailsServiceImpl;
 
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
+/**This class configures Spring Security
+ * @author Florian Kutz
+ *
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -30,45 +30,44 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
     private AuthenticationProvider authenticationProvider;
 	@Autowired
-	MyLoginSuccessHandler mysuccessHandler;
+	MyLoginSuccessHandler mySuccessHandler;
 	@Autowired
 	private AuthenticationFailureHandler myFailureHandler;
 	@Autowired
 	private LogoutSuccessHandler logoutSuccessHandler;
 	@Autowired
-	private AccessDeniedHandler accessDeniedHandler;
-	@Autowired
 	private AuthenticationEntryPoint authenticationEntryPoint;
-//	@Autowired
-//	private UserDetailsService userDetailsService;
-//	
-//	public WebSecurityConfig(){
-//		System.out.println("WebSecurityConfig()");
-//	}
+
 
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
 		System.out.println("configure(HttpSecurity http)");
 		
+		http.addFilterBefore(new MyUsernamePasswordAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+		
 		  http.csrf().disable()
             .authorizeRequests()
             	.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-            	.antMatchers("/login").anonymous()
+            	.antMatchers("/user/login").anonymous()
                 .antMatchers("/", "/home").permitAll()
+                .antMatchers("/listings/inactive").hasAuthority("ADMIN")
+                .antMatchers("/users").hasAuthority("ADMIN")
+                .antMatchers("/user/{id}/admin").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
             .and()
             	.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)//.accessDeniedHandler(accessDeniedHandler)
             .and()
+//            	.addFilterAt(new MyUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
             	.formLogin()
                 .loginPage("/login")
                 .permitAll()
-                .loginProcessingUrl("/login")
+                .loginProcessingUrl("/user/login")
                 .permitAll()
-                .successHandler(mysuccessHandler)
+                .successHandler(mySuccessHandler)
                 .failureHandler(myFailureHandler)
                 .and()
             .logout()
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+            .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
             	.permitAll()
                 .logoutSuccessHandler(logoutSuccessHandler)
                 ;
@@ -79,6 +78,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider);
     }
     
+    /**The AuthenticationProvider is a DaoAuthenticationProvider with the UserDetailsservice MyUserDetsailsService
+     * @return The DaoAthenticationProider
+     */
     @Bean
     public AuthenticationProvider authenticationProvider(){
     	DaoAuthenticationProvider authenticationProvider =new DaoAuthenticationProvider();
@@ -104,11 +106,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     LogoutSuccessHandler logoutSuccessHandler(){
     	return new MyLogoutSuccessHandler();
-    }
-    
-    @Bean
-    AccessDeniedHandler accessDeniedHandler(){
-    	return new MyAccessDeniedHandler();
     }
     
     @Bean

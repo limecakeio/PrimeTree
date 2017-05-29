@@ -23,21 +23,25 @@ export class ListingController {
     .addHeader('Content-Type', 'application/json');
     return this.networkService.send(request).map((response : Response) => {
       let body : any = response.json();
-      if (body.status) {
+      if (body.status === 'NOT OK') {
         throw new Error(body.message);
       }
       return body.id;
     });
   }
 
-  public putImage(listingId : number, image : Uint8Array) : Observable<Response> {
-
+  public putImage(listingId : number, image : File) : Observable<Response> {
+    console.log(image, 'image');
     let request = this.networkService.networkRequest();
+    let form : FormData = new FormData();
+    form.append('file', image);
     request.setHttpMethod(RequestMethod.Put)
+    .addPath('listing')
     .addPath('upload')
     .addPath('main-image')
     .addPath(listingId + '')
-    .setBody(image);
+    .setBody(form)
+    // .addHeader('Content-Type', 'undefined');
     return this.networkService.send(request).map(response => response.json());
   }
 
@@ -114,6 +118,7 @@ export class ListingController {
     .addPath(id + '');
     return this.networkService.send(request).map((response : Response) => {
       let body : any = response.json();
+      console.log(body);
       if (body.message) {
         throw new Error(body.message);
       }
@@ -126,7 +131,9 @@ export class ListingController {
       listing.title = body.title;
       listing.price = body.price;
       listing.id = body.id;
-      listing.mainImage = body.image;
+      listing.mainImage = body.mainImage;
+      // listing.condition = body.condition;
+      console.log(body, 'body');
       return listing;
     });
   }
@@ -136,7 +143,8 @@ export class ListingController {
     request.setHttpMethod(RequestMethod.Delete)
     .addPath('listing')
     .addPath('delete')
-    .addPath(id + '');
+    .addPath(id + '')
+    .addHeader('Content-Type', 'application/octet-stream');
     return this.networkService.send(request).map((response : Response) => {
       let body : any = response.json();
       if (body.message === 'OK') {

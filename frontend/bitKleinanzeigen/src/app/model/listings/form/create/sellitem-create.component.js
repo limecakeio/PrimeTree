@@ -44,17 +44,23 @@ var SellItemCreateFormComponent = (function () {
             listingRequestBody.type = 'SellItem';
             listingRequestBody.condition = 'bad';
             this.listingNetworkService.postListing(listingRequestBody).subscribe(function (id) {
-                if (typeof _this.data.imageAsByteArray !== 'undefined') {
-                    _this.listingNetworkService.putImage(id, _this.data.imageAsByteArray).subscribe(function (response) {
+                if (typeof _this.data.imageAsFile !== 'undefined') {
+                    _this.listingNetworkService.putImage(id, _this.data.imageAsFile).subscribe(function (response) {
                         console.log('image upload success', response);
+                        _this.repo.update();
+                        _this.router.navigate(['home']);
                     }, function (error) {
                         console.log(error.message);
                     }, function () {
                         console.log('image upload finished');
                     });
                 }
-                _this.repo.update();
-                _this.router.navigate(['home']);
+                else {
+                    _this.repo.update();
+                    _this.router.navigate(['home']);
+                }
+                // this.repo.update();
+                // this.router.navigate(['home']);
             }, function (error) {
                 console.log(error.message);
             });

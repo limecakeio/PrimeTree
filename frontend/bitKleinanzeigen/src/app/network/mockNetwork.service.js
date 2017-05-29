@@ -45,7 +45,112 @@ exports.MockNetworkService = MockNetworkService;
 var MockServer = (function () {
     function MockServer(securityModel) {
         this.securityModel = securityModel;
-        this.listingReposetory = [];
+        this.listingReposetory = [
+            {
+                title: "Test Listing 1",
+                createDate: 1494837196787,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 3000,
+                type: "SellItem",
+                condition: "bad",
+                id: 1,
+                active: true,
+                creator: "akessler"
+            },
+            {
+                title: "Test Listing 2",
+                createDate: 1494837196787,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 5000,
+                type: "SellItem",
+                condition: "bad",
+                id: 2,
+                active: true,
+                creator: "akessler"
+            },
+            {
+                title: "Test Listing 3",
+                createDate: 1494837196787,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 1000,
+                type: "SellItem",
+                condition: "bad",
+                id: 3,
+                active: true,
+                creator: "akessler"
+            },
+            {
+                title: "Test Listing 4",
+                createDate: 1494837196790,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 3000,
+                type: "SellItem",
+                condition: "bad",
+                id: 4,
+                active: true,
+                creator: "akessler"
+            },
+            {
+                title: "Test Listing 5",
+                createDate: 1494837196790,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 3000,
+                type: "SellItem",
+                condition: "bad",
+                id: 5,
+                active: true,
+                creator: "mmustermann"
+            },
+            {
+                title: "Test Listing 6",
+                createDate: 1494837196790,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 3000,
+                type: "SellItem",
+                condition: "bad",
+                id: 6,
+                active: true,
+                creator: "npilch"
+            },
+            {
+                title: "Test Listing 7",
+                createDate: 1494837196790,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 3000,
+                type: "SellItem",
+                condition: "bad",
+                id: 7,
+                active: true,
+                creator: "rvladimirskij"
+            },
+            {
+                title: "Test Listing 8",
+                createDate: 1494837196790,
+                description: "This is a listing for test purposes",
+                expiryDate: null,
+                location: "mannheim",
+                price: 3000,
+                type: "SellItem",
+                condition: "bad",
+                id: 8,
+                active: true,
+                creator: "fkutz"
+            }
+        ];
         this.userReposetory = [{
                 username: 'wschramm',
                 password: '123'
@@ -54,7 +159,7 @@ var MockServer = (function () {
                 password: '123'
             }, {
                 username: 'mmustermann',
-                passwor: '123'
+                password: '123'
             }];
     }
     MockServer.prototype.notFound = function (networkRequest) {
@@ -82,6 +187,10 @@ var MockServer = (function () {
                 if (paths[4] === 'create') {
                     notFound = false;
                     return this.createListing(networkRequest);
+                }
+                else if (paths[4] === 'upload') {
+                    // if (paths[4] === 'main-image') {
+                    return this.listingMainImageUpload(networkRequest);
                 }
                 else {
                     switch (networkRequest.getHttpMethod()) {
@@ -172,6 +281,7 @@ var MockServer = (function () {
             body.id = this.listingReposetory.length + 1;
             body.active = true;
             body.creator = this.securityModel.username;
+            console.log(body); // For testing purposes
             this.listingReposetory.push(body);
             // console.log(this.listingReposetory);
             options.status = 201;
@@ -338,13 +448,17 @@ var MockServer = (function () {
         console.log(networkRequest.getHttpMethod(), networkRequest.getUrl());
         var source = new Subject_1.Subject();
         var observable = source.asObservable();
-        var parameter = networkRequest.getUrl().split('/')[5];
+        var parameter = networkRequest.getUrl().split('/')[6];
         var id = parseInt(parameter);
         var options = this.baseResponseOptions();
         if (id && id > 0 && id <= this.listingReposetory.length) {
-            var file = this.byteToFile(networkRequest.getBody());
-            this.listingReposetory[id - 1].image = URL.createObjectURL(file);
-            console.log(this.listingReposetory[id - 1].image);
+            // let file : File = this.byteToFile(networkRequest.getBody());
+            var file = networkRequest.getBody();
+            // console.log(file, 'file');
+            // URL.createObjectURL(file);
+            // this.listingReposetory[id - 1].mainImage = URL.createObjectURL(file);
+            this.listingReposetory[id - 1].mainImage = 'assets/images/bit-ka-logo.png';
+            console.log(this.listingReposetory[id - 1].mainImage);
             options.status = 201;
             options.body = {
                 message: 'OK'
@@ -363,8 +477,22 @@ var MockServer = (function () {
         return observable;
     };
     MockServer.prototype.byteToFile = function (byteArray) {
+        var mime;
+        var b0 = byteArray[0];
+        var b1 = byteArray[1];
+        var b2 = byteArray[2];
+        var b3 = byteArray[3];
+        if (b0 == 0x89 && b1 == 0x50 && b2 == 0x4E && b3 == 0x47)
+            mime = 'image/png';
+        else if (b0 == 0xff && b1 == 0xd8)
+            mime = 'image/jpeg';
+        else if (b0 == 0x47 && b1 == 0x49 && b2 == 0x46)
+            mime = 'image/gif';
+        else
+            return null;
+        console.log('byteToFile', mime);
         var file = new File(byteArray, (Math.random() * 1000) + '.jpg', {
-            type: 'image/jpg'
+            type: mime
         });
         return file;
     };

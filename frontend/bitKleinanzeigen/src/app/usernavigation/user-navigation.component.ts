@@ -5,7 +5,8 @@ import { LoginService } from '../login/network/login.service';
 
 @Component({
   selector: 'user-nav',
-  templateUrl: './user-navigation.component.html'
+  templateUrl: './user-navigation.component.html',
+  styleUrls: ['./user-navigation.component.css']
 })
 export class UserNavigationComponent {
 
