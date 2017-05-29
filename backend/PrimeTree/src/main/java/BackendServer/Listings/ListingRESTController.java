@@ -200,7 +200,7 @@ public class ListingRESTController {
 		}
 	}
 	
-	/** This method activates a listing
+	/** This method deactivates a listing
 	 * @param listingId the id of the listing
 	 * @param request
 	 * @param response The status is 200 if everything went ok, 404 if the listing didn't even exist and 403
@@ -209,7 +209,7 @@ public class ListingRESTController {
 	@CrossOrigin
 	@RequestMapping(value = "listing/{id}/deactivate", method=RequestMethod.POST)
 	@PreAuthorize("hasPermission(#id,'listing', 'owner') or hasAuthority('ADMIN')")
-    public @ResponseBody void deactivateListing(@PathVariable(value="id") final int listingId, HttpServletRequest request, HttpServletResponse response) throws IOException{
+    public @ResponseBody void deactivateListing(@PathVariable(value="id") final int listingId, HttpServletRequest request, HttpServletResponse response){
 		try {
 			persistenceAdapter.edit(listingId, persistenceAdapter.getListingById(listingId).toJSON().accumulate(Constants.listingDataFieldActive, false));
 		} catch (ListingNotFoundException e) {

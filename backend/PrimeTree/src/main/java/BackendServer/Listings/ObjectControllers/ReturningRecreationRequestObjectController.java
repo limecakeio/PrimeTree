@@ -18,10 +18,13 @@ public class ReturningRecreationRequestObjectController extends RequestListingOb
 	protected ReturningRecreationRequest createNew(){
 		return new ReturningRecreationRequest();
 	}
+	
+	ReturningRecreationRequestRepository listingRepository;
 
 	@Autowired
 	public void setListingRepository(ReturningRecreationRequestRepository listingRepository) {
 		this.listingRepository=listingRepository;
+		super.listingRepository=this.listingRepository;
 	}
 	
 	public ReturningRecreationRequestObjectController(){
