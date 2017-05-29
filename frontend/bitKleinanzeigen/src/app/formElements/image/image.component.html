@@ -1,21 +1,22 @@
 <div [formGroup]="form">
-<!-- <div class="input-group uploader">
-  <span>Bild</span>
-  <img [src]="imagesrc">
-  <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
-  <input type="file"
-  name="image"
-
-  aria-label="Bild"
-  (change)="submitImage($event)"
-  accept="image/*">
-</div> -->
-<div class="input-group" id="main-image-upload">
-  <div class="image-box">
-    <input id="image-input" type="file" name="file" class="image-box-input" accept="image/*" (change)="input($event)">
-    <label for="image-input">Klick hier oder lege ein Bild ab!</label>
-    <!-- LOADING PREVIEW HERE -->
-    <div id="file-input-image" class="result-image"></div>
+  <div class="input-group" id="main-image-upload">
+    <div class="image-box">
+      <input id="image-input" type="file" name="file" class="image-box-input" accept="image/*" (change)="input($event)">
+      <div class="image-input-container active">
+        <label for="image-input" id="image-dropper">
+          <span class="glyphicon glyphicon-camera"></span>
+          <p>Hier klicken oder Bild ablegen.</p>
+        </label>
+      </div>
+    </div>
   </div>
-</div>
+  <!-- LOADING PREVIEW HERE -->
+  <div class="result-image-container">
+    <div id="magic-fountain" class="magic-fountain">
+      <div id="file-input-image" class="result-image"></div>
+    </div>
+    <div class="remove-main-image">
+      <button type="button" class="btn btn-danger btn-sm" (click)="resetMainImage()">Bild Entfernen</button>
+    </div>
+  </div>
 </div>

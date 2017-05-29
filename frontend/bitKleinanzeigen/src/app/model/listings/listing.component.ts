@@ -77,8 +77,10 @@ export class ListingComponent implements AfterViewInit {
 
     //Get the scroll position
     let scrollPosition = this.listingWrapper.scrollLeft;
+
     let scrollMax = this.listingWrapper.scrollWidth - this.listingWrapper.clientWidth;
 
+    console.log("Scroll Max is", scrollMax);
     //Check if we even need to offer scroll
     if(scrollMax > 0) {
       //Grab the controls

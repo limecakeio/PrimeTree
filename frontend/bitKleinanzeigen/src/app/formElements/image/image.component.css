@@ -2,21 +2,38 @@
   position: relative;
   display: inline;
   background-color: white;
-  color: blue;
   outline: none;
   outline-offset: +2px;
 }
 
+.image-input-container {
+  display: none;
+  background-color: #fff; 
+}
+
+.image-input-container.active {
+  display: block;
+}
+
 .image-box label {
   cursor: pointer;
-  font-size: 1.25em;
-  font-weight: 700;
-  color: blue;
+  font-size: 14pt;
+  font-weight:100;
+  color: ##175DA9;
+  background-color: #fff;
   margin: 10pt 0;
+  text-align: center;
   padding: 35pt;
-  border: 1pt solid blue;
-  border-radius: 12pt;
+  border: 1px dashed #175DA9;
   display: inline-block;
+  transition: all 0.35s linear;
+}
+
+.image-box label:hover,
+.image-box.is-dragover label {
+  color: #fff;
+  border-color: #fff;
+  background-color: #7294B2;
 }
 
 .image-box-input {
@@ -26,6 +43,14 @@
 	overflow: hidden;
 	position: absolute;
 	z-index: -1;
+}
+
+.result-image-container {
+  display:none;
+}
+
+.result-image-container.active {
+  display:block;
 }
 
 .result-image {

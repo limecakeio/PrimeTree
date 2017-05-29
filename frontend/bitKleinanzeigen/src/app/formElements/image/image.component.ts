@@ -47,19 +47,11 @@ export class ImageFormComponent implements OnInit {
       this.div.classList.remove('is-dragover');
     });
 
+    /**User drops a file into the dropper*/
     this.addMulipleEventListener(this.div, 'drop', (event : any) => {
-      // console.log(event);
-      this.data.imageAsFile = event.dataTransfer.files[0];
+      this.preloadImage(event.dataTransfer.files[0]);
 
-      /*GENERATE IMAGE PREVIEW*/
-      let imageResult = document.createElement("img");
-      imageResult.src = URL.createObjectURL(this.data.imageAsFile);
 
-      /*Ensure the parent container dictates the dimensions*/
-      imageResult.style.width = "100%";
-      imageResult.style.height = "auto";
-
-      document.querySelector("#file-input-image").appendChild(imageResult);
 
 
       // this.fileToBase(this.data.imageAsFile, (base : string) => {
@@ -80,10 +72,46 @@ export class ImageFormComponent implements OnInit {
       // });
     });
 
+    /**User clicks on the file-upload*/
     this.addMulipleEventListener(this.div, 'click', (event : any) => {
-      // console.log(event, 'click');
+      this.preloadImage(event.dataTransfer.files[0]);
     });
+
   };
+
+  /**Generates and presents an image file from the uploader*/
+  preloadImage(imageFile : File) : void {
+
+    /*GENERATE IMAGE PREVIEW*/
+    let imageResult = new Image();
+
+    imageResult.onload = function(){
+      /*Ensure the parent container dictates the dimensions*/
+      imageResult.style.width = "100%";
+      imageResult.style.height = "auto";
+
+
+      /*Inject image into preview*/
+      let imagePreviewContainer = <HTMLElement>document.querySelector("#file-input-image");
+      imagePreviewContainer.style.backgroundImage = "url('"+imageResult.src+"')";
+      /*Show the image preview*/
+      document.querySelector(".result-image-container").classList.add("active");
+      /*Hide the image upload*/
+      document.querySelector(".image-input-container").classList.remove("active");
+    }
+    imageResult.src = URL.createObjectURL(imageFile);
+  }
+
+  resetMainImage() : void {
+    const imagePreviewContainer = document.querySelector(".result-image-container");
+    const imagePreview = document.querySelector("#file-input-image");
+    //Reset the image
+    imagePreview.innerHTML="";
+    //Hide the image preview
+    imagePreviewContainer.classList.remove("active");
+    //Show the image dropper
+    document.querySelector(".image-input-container").classList.add("active");
+  }
 
   input(event : any) {
     this.data.imageAsFile = event.target.files[0];
