@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -20,11 +21,11 @@ import BackendServer.Listings.SimpleMethods;
 @Table(name="SellItem")
 @PrimaryKeyJoinColumn(referencedColumnName="id")
 public class SellItem extends Offering{
-	private String ItemCondition;
 	private double price;
 	private String picture;
 	@ElementCollection
 	private List<String> imageGallery;
+	private String itemCondition;
 	
 	public SellItem(){
 		this.setType(Constants.listingTypeNameSellItem);
@@ -39,14 +40,6 @@ public class SellItem extends Offering{
 
 	public void setPicture(String picture) {
 		this.picture = picture;
-	}
-
-	public String getItemCondition() {
-		return ItemCondition;
-	}
-
-	public void setItemCondition(String ItemCondition) {
-		this.ItemCondition = ItemCondition;
 	}
 
 	public double getPrice() {
@@ -82,11 +75,10 @@ public class SellItem extends Offering{
 	 * imageGallery(optional): A JSONArray with strings of public image paths
 	 */
 	@Override
-	public void fillFields(JSONObject listingData, long creator) throws WrongFormatException {
+	public void fillFields(JSONObject listingData, long creator) throws WrongFormatException{
 		super.fillFields(listingData, creator);
-		if(listingData.isNull(Constants.listingDataFieldPrice) || 
-				listingData.isNull(Constants.listingDataFieldCondition)){
-			throw new WrongFormatException("Missing required field(s)");
+		if(!Constants.allItemConditions.contains(listingData.getString(Constants.listingDataFieldCondition))){
+			throw new WrongFormatException("This condition does not exist");
 		}
 		this.setPrice(listingData.getDouble(Constants.listingDataFieldPrice));
 		this.setItemCondition(listingData.getString(Constants.listingDataFieldCondition));
@@ -110,7 +102,6 @@ public class SellItem extends Offering{
 		JSONObject json = super.toJSON();
 		json.accumulate(Constants.listingDataFieldCondition, this.getItemCondition());
 		json.accumulate(Constants.listingDataFieldPrice, this.getPrice());
-		json.accumulate(Constants.listingDataFieldListingType, Constants.listingTypeNameSellItem);
 		json.accumulate(Constants.listingDataFieldPicture, this.getPicture());
 		json.accumulate(Constants.listingDataFieldImageGallery, this.getImageGallery());
 		return json;
@@ -119,8 +110,6 @@ public class SellItem extends Offering{
 	public String makeNextGalleryFileName() throws NoImageGallerySupportedException {
 		if(this.imageGallery.size()==0){
 			return "0";
-		}else if(this.imageGallery.size()==10){
-			throw new NoImageGallerySupportedException();
 		}else{
 			String lastPath=imageGallery.get(imageGallery.size()-1);
 			int lastIndexOfLastFilename=lastPath.lastIndexOf('.')-1;
@@ -128,6 +117,14 @@ public class SellItem extends Offering{
 			int lastFileNameAsNumber=SimpleMethods.parseStringToInt(lastPath.substring(firstIndexOfLastFilename, lastIndexOfLastFilename));
 			return (lastFileNameAsNumber+1)+"";
 		}
+	}
+
+	public String getItemCondition() {
+		return itemCondition;
+	}
+
+	public void setItemCondition(String itemCondition) {
+		this.itemCondition = itemCondition;
 	}
 	
 }

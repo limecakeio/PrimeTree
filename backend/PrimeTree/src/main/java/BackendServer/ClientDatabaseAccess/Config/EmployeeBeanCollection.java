@@ -56,6 +56,9 @@ public class EmployeeBeanCollection {
         properties.put("hibernate.dialect",
           env.getProperty("hibernate.dialect"));
         em.setJpaPropertyMap(properties);
+        /*The following property is there to solve an error caused by a thrown LazyInitializationException*/ 
+        properties.put("hibernate.enable_lazy_load_no_trans",true);
+        em.setJpaPropertyMap(properties);
  
         return em;
     }

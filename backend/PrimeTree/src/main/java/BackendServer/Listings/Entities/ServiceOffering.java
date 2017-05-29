@@ -98,10 +98,21 @@ public class ServiceOffering extends Offering {
 	public JSONObject toJSON() {
 		JSONObject json = super.toJSON();
 		json.accumulate(Constants.listingDataFieldPrice, this.getPrice());
-		json.accumulate(Constants.listingDataFieldListingType, Constants.listingTypeNameServiceOffering);
 		json.accumulate(Constants.listingDataFieldImageGallery, this.getImageGallery());
 		json.accumulate(Constants.listingDataFieldPicture, this.getPicture());
 		return json;
+	}
+	
+	public String makeNextGalleryFileName() throws NoImageGallerySupportedException {
+		if(this.imageGallery.size()==0){
+			return "0";
+		}else{
+			String lastPath=imageGallery.get(imageGallery.size()-1);
+			int lastIndexOfLastFilename=lastPath.lastIndexOf('.')-1;
+			int firstIndexOfLastFilename=lastPath.lastIndexOf('.', lastIndexOfLastFilename);
+			int lastFileNameAsNumber=SimpleMethods.parseStringToInt(lastPath.substring(firstIndexOfLastFilename, lastIndexOfLastFilename));
+			return (lastFileNameAsNumber+1)+"";
+		}
 	}
 	
 }

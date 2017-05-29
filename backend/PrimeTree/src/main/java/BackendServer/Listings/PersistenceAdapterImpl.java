@@ -86,9 +86,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	/**This method returns a ListingObjectController-instance, whose listingType matches the one of the listingData.
 	 * If listingData contains no field with the listingType a WrongFormatException is thrown.*/
 	private ListingObjectController getListingControllerWithTheRightType(JSONObject listingData) throws WrongFormatException{
-		try{
-			listingData.getClass();
-		}catch(NullPointerException e){
+		if(listingData==null){
 			throw new WrongFormatException("ListingData is null");
 		}
 		
@@ -202,14 +200,14 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	 *  @param:
 	 *  listingId: the id of the listing the file belongs to
 	 *  imageData: the imageData represented in a byte-Array
-	 *  originalFilename: the filename of the original file. The method can get the filetype (.png or .jpg) 
+	 *  originalFilename: the filename of the original file. The method can get the filetype (.png, jpeg or .jpg) 
 	 *  from this String
 	 *  
 	 * @return local pathname
 	 * 
 	 * @throws IOException if the originalFilename hints, that the file is not an image file*/
 	private String makeLocalFilePath(int listingId, String originalFilename) throws IOException {
-		return makeLocalDirectoryPath(listingId) + "/main-image." + getImageFileTypeEnding(originalFilename);
+		return makeLocalDirectoryPath(listingId) + "/main-image" + getImageFileTypeEnding(originalFilename);
 	}
 	
 	/** This method creates the public filepath for file with the type of the originalFilename belonging to the 
@@ -219,7 +217,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	 * @return public pathname
 	 * @throws IOException if the originalFilename hints, that the file is not an image file*/
 	private String makePublicFilePath(int listingId, String originalFilename) throws IOException{
-		return "resources/assets/listings/" + listingId + "/main-image." + getImageFileTypeEnding(originalFilename);
+		return "resources/assets/listings/" + listingId + "/main-image" + getImageFileTypeEnding(originalFilename);
 	}
 	
 	/** This method creates the local directory-path for a file belonging to the listing with id listingId
@@ -227,11 +225,15 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	 * @return local pathname
 	 * @throws IOException if the originalFilename hints, that the file is not an image file*/
 	private String getImageFileTypeEnding(String originalFilename) throws IOException{
-		String ending=originalFilename.substring(originalFilename.length()-3);
-		if("png".equals(ending)||"jpg".equals(originalFilename)){
+		String ending=originalFilename.substring(originalFilename.length()-4).toLowerCase();
+		if(".png".equals(ending)||".jpg".equals(ending)){
 			return ending;
 		}else{
-			throw new IOException("The given file is neither a .png nor .jpg file.");
+			ending=originalFilename.substring(originalFilename.length()-5).toLowerCase();
+			if(".jpeg".equals(ending)){
+				return ending;
+			}
+			throw new IOException("The given file is neither a .png, .jpeg nor .jpg file.");
 		}
 	}
 	

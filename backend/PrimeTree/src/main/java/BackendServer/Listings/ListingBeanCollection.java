@@ -18,10 +18,15 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import BackendServer.Listings.ObjectControllers.BorrowRequestObjectController;
 import BackendServer.Listings.ObjectControllers.ListingObjectController;
+import BackendServer.Listings.ObjectControllers.PurchaseRequestObjectController;
+import BackendServer.Listings.ObjectControllers.ReturningRecreationRequestObjectController;
+import BackendServer.Listings.ObjectControllers.RideShareRequestObjectController;
 import BackendServer.Listings.ObjectControllers.RideSharingObjectController;
 import BackendServer.Listings.ObjectControllers.SellItemObjectController;
 import BackendServer.Listings.ObjectControllers.ServiceOfferingObjectController;
+import BackendServer.Listings.ObjectControllers.SingleRecreationRequestObjectController;
 import BackendServer.User.Service.MyPermissionEvaluator;
 import BackendServer.User.Service.UserManager;
 import BackendServer.User.Service.UserManagerImpl;
@@ -66,6 +71,9 @@ public class ListingBeanCollection {
           env.getProperty("listings.hbm2ddl.auto"));
         properties.put("hibernate.dialect",
           env.getProperty("hibernate.dialect"));
+        em.setJpaPropertyMap(properties);
+        /*The following property is there to solve an error caused by a thrown LazyInitializationException*/ 
+        properties.put("hibernate.enable_lazy_load_no_trans",true);
         em.setJpaPropertyMap(properties);
  
         return em;
@@ -115,14 +123,14 @@ public class ListingBeanCollection {
 		ListingObjectController[] returnValue={
 				new SellItemObjectController(),
 				new ServiceOfferingObjectController(),
-				new RideSharingObjectController()
+				new RideSharingObjectController(),
+				new RideShareRequestObjectController(),
+				new PurchaseRequestObjectController(),
+				new BorrowRequestObjectController(),
+				new SingleRecreationRequestObjectController(),
+				new ReturningRecreationRequestObjectController()
 		};
 		return returnValue;
-	}
-	
-	@Bean
-	public UserManager userManager(){
-		return new UserManagerImpl();
 	}
 	
 	@Bean
