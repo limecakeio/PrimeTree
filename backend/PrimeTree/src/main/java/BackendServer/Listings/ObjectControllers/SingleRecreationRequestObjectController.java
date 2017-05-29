@@ -18,10 +18,13 @@ public class SingleRecreationRequestObjectController extends RequestListingObjec
 	protected SingleRecreationRequest createNew(){
 		return new SingleRecreationRequest();
 	}
+	
+	SingleRecreationRequestRepository listingRepository;
 
 	@Autowired
 	public void setListingRepository(SingleRecreationRequestRepository listingRepository) {
 		this.listingRepository=listingRepository;
+		super.listingRepository=this.listingRepository;
 	}
 	
 	public SingleRecreationRequestObjectController(){

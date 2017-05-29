@@ -99,7 +99,5 @@ public class UserBeanCollection {
 		return new UserManagerImpl();
 	}
     
-    
-    
 }
     

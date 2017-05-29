@@ -121,18 +121,58 @@ public class ListingBeanCollection {
 	@Bean
 	public ListingObjectController[] getAnArrayOfAllTypesOfListingObjectController(){
 		ListingObjectController[] returnValue={
-				new SellItemObjectController(),
-				new ServiceOfferingObjectController(),
-				new RideSharingObjectController(),
-				new RideShareRequestObjectController(),
-				new PurchaseRequestObjectController(),
-				new BorrowRequestObjectController(),
-				new SingleRecreationRequestObjectController(),
-				new ReturningRecreationRequestObjectController()
+				sellItemObjectController(),
+				serviceOfferingObjectController(),
+				rideSharingObjectController(),
+				rideShareRequestObjectController(),
+				purchaseRequestObjectController(),
+				borrowRequestObjectController(),
+				singleRecreationRequestObjectController(),
+				returningRecreationRequestObjectController()
 		};
 		return returnValue;
 	}
 	
+	@Bean
+	public SellItemObjectController sellItemObjectController() {
+		return new SellItemObjectController();
+	}
+	
+	@Bean
+	public ServiceOfferingObjectController serviceOfferingObjectController(){
+		return new ServiceOfferingObjectController();
+	}
+	
+	@Bean
+	public RideSharingObjectController rideSharingObjectController(){
+		return new RideSharingObjectController();
+	}
+	
+	@Bean
+	public RideShareRequestObjectController rideShareRequestObjectController(){
+		return new RideShareRequestObjectController();
+	}
+	
+	@Bean 
+	public PurchaseRequestObjectController purchaseRequestObjectController(){
+		return new PurchaseRequestObjectController();
+	}
+	
+	@Bean
+	public BorrowRequestObjectController borrowRequestObjectController(){
+		return new BorrowRequestObjectController();
+	}
+	
+	@Bean
+	public SingleRecreationRequestObjectController singleRecreationRequestObjectController(){
+		return new SingleRecreationRequestObjectController();
+	}
+	
+	@Bean
+	public ReturningRecreationRequestObjectController returningRecreationRequestObjectController(){
+		return new ReturningRecreationRequestObjectController();
+	}
+
 	@Bean
 	public PermissionEvaluator permissionEvaluator(){
 		return new MyPermissionEvaluator();
