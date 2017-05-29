@@ -162,6 +162,7 @@ public abstract class Listing {
 	 * @param listingData this JSONObject contains all data for this listing:
 	 * description: Description of the new listing
 	 * (Not required) expiryDate: You can make the listing expire automaticly on this date 
+	 * (Not required) isActive: You can set the active-attribute with this field. If it's not set, it's per default true
 	 * by setting it as UNIX timestamp
 	 * location: The location for this listing
 	 * title: The title of this listing
@@ -173,15 +174,18 @@ public abstract class Listing {
 		if(listingData==null){
 			throw new WrongFormatException("No data");
 		}
-		if(listingData.isNull(Constants.listingDataFieldActive) ||
-				listingData.isNull(Constants.listingDataFieldCreateDate) ||	
-				listingData.isNull(Constants.listingDataFieldDescription) || 
-				listingData.isNull(Constants.listingDataFieldLocation) || 
-				listingData.isNull(Constants.listingDataFieldTitle)){
+		if(listingData.isNull(Constants.listingDataFieldCreateDate) ||	
+			listingData.isNull(Constants.listingDataFieldDescription) || 
+			listingData.isNull(Constants.listingDataFieldLocation) || 
+			listingData.isNull(Constants.listingDataFieldTitle)){
 			throw new WrongFormatException("Missing required field(s)");
 		}
-		this.setActive(listingData.getBoolean(Constants.listingDataFieldActive));
-		this.setCreateDate(new Date((long) listingData.getDouble(Constants.listingDataFieldCreateDate)));
+		if(listingData.isNull(Constants.listingDataFieldActive)){
+			this.setActive(true);
+		}else{
+			this.setActive(listingData.getBoolean(Constants.listingDataFieldActive));
+		}
+		this.setCreateDate(new Date(listingData.getLong(Constants.listingDataFieldCreateDate)));
 		this.setOwner(creatorId);
 		this.setDescription(listingData.getString(Constants.listingDataFieldDescription));
 		this.setLocation(listingData.getString(Constants.listingDataFieldLocation));
