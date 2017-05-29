@@ -8,4 +8,10 @@ package BackendServer.Exceptions;
  */
 public class FavouriteNotFoundException extends Exception {
 
+	public FavouriteNotFoundException(String string) {
+		super(string);
+	}
+	
+	public FavouriteNotFoundException() {}
+
 }

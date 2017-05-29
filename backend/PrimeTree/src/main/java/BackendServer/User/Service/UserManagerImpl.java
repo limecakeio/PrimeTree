@@ -2,6 +2,9 @@ package BackendServer.User.Service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import BackendServer.ClientDatabaseAccess.Entities.EmployeeData;
 import BackendServer.Exceptions.FavouriteAlreadyExistsException;
 import BackendServer.Exceptions.FavouriteNotFoundException;
@@ -17,18 +20,20 @@ import BackendServer.UserData.Entities.UserData;
  * @author Florian Kutz
  *
  */
+@Service
+@Transactional
 public class UserManagerImpl extends MyUserDetailsServiceImpl implements UserManager {
 
 	@Override
-	public int[] getFavouriteList(long userId) throws UserNotFoundException {
+	public Long[] getFavouriteList(long userId) throws UserNotFoundException {
 		UserData user=userDataRepository.findOne(userId);
 		if(user==null){
 			throw new UserNotFoundException();
 		}else{
-			List<Integer> favouritesAsList=user.getFavouriteList();
-			Integer[] favouritesAsIntegerArray=new Integer[favouritesAsList.size()];
+			List<Long> favouritesAsList=user.getFavouriteList();
+			Long[] favouritesAsIntegerArray=new Long[favouritesAsList.size()];
 			favouritesAsList.toArray(favouritesAsIntegerArray);
-			return SimpleMethods.parseIntegerArrayToIntArray(favouritesAsIntegerArray);
+			return favouritesAsIntegerArray;
 		}
 	}
 
@@ -43,7 +48,7 @@ public class UserManagerImpl extends MyUserDetailsServiceImpl implements UserMan
 	}
 
 	@Override
-	public void addFavourite(long userId, int listingId) throws UserNotFoundException, FavouriteAlreadyExistsException {
+	public void addFavourite(long userId, long listingId) throws UserNotFoundException, FavouriteAlreadyExistsException {
 		UserData userData=userDataRepository.findOne(userId);
 		if(userData==null){
 			throw new UserNotFoundException();
@@ -60,7 +65,7 @@ public class UserManagerImpl extends MyUserDetailsServiceImpl implements UserMan
 		if(userData==null){
 			throw new UserNotFoundException();
 		}else if(!userData.getFavouriteList().contains(listingId)){
-			throw new FavouriteNotFoundException();
+			throw new FavouriteNotFoundException(userData.getFavouriteList().toString());
 		}
 		userData.removeFavourite(listingId);
 		userDataRepository.save(userData);
@@ -81,7 +86,7 @@ public class UserManagerImpl extends MyUserDetailsServiceImpl implements UserMan
 	}
 
 	@Override
-	public void setIsAdminOnUser(int userId, boolean shouldBeAdmin) throws UserNotFoundException, UserHadAlreadyTheRightAdminStatusException {
+	public void setIsAdminOnUser(long userId, boolean shouldBeAdmin) throws UserNotFoundException, UserHadAlreadyTheRightAdminStatusException {
 		UserData dataOfEditedUser=userDataRepository.findOne((long) userId);
 		if(dataOfEditedUser==null){
 			throw new UserNotFoundException();

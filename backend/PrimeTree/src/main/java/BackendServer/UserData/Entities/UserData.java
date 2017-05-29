@@ -21,13 +21,13 @@ public class UserData {
 	private boolean inAdminRole;
 	
 	 @ElementCollection
-	 private List<Integer> favouriteList;
+	 private List<Long> favouriteList;
 	
 	public UserData(){}
 	public UserData(Long id, boolean admin) {
 		this.setId(id);
 		this.setInAdminRole(admin);
-		this.favouriteList = new ArrayList<Integer>();
+		this.favouriteList = new ArrayList<Long>();
 	}
 
 	public boolean isInAdminRole() {
@@ -46,19 +46,19 @@ public class UserData {
 		this.id = id;
 	}
 	
-	public List<Integer> getFavouriteList() {
+	public List<Long> getFavouriteList() {
 		return favouriteList;
 	}
 
-	public void setFavouriteList(List<Integer> favouriteList) {
+	public void setFavouriteList(List<Long> favouriteList) {
 		this.favouriteList = favouriteList;
 	}
 
-	public void addFavourite(Integer newFavourite){
+	public void addFavourite(Long newFavourite){
 		this.favouriteList.add(newFavourite);
 	}
 	
-	public List<Integer> getFavourites(){
+	public List<Long> getFavourites(){
 		return favouriteList;
 	}
 
