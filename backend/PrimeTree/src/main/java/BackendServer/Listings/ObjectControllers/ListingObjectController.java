@@ -7,6 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
@@ -19,6 +21,8 @@ import BackendServer.Listings.Repositories.CommentRepository;
 /**This abstract class is made so sub-classes can control the listings with their individual listingType.
  * Controlling means checking, whether a listingData-JSONObject matches the individual listingType as well 
  * as persisting and reading the listings with the individual type. */
+@Service
+@Transactional
 public abstract class ListingObjectController<L extends Listing> {
 	
 	public String listingType;
