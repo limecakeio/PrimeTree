@@ -56,16 +56,9 @@ var ImageFormComponent = (function () {
             event.stopPropagation();
             _this.div.classList.remove('is-dragover');
         });
+        /**User drops a file into the dropper*/
         this.addMulipleEventListener(this.div, 'drop', function (event) {
-            // console.log(event);
-            _this.data.imageAsFile = event.dataTransfer.files[0];
-            /*GENERATE IMAGE PREVIEW*/
-            var imageResult = document.createElement("img");
-            imageResult.src = URL.createObjectURL(_this.data.imageAsFile);
-            /*Ensure the parent container dictates the dimensions*/
-            imageResult.style.width = "100%";
-            imageResult.style.height = "auto";
-            document.querySelector("#file-input-image").appendChild(imageResult);
+            _this.preloadImage(event.dataTransfer.files[0]);
             // this.fileToBase(this.data.imageAsFile, (base : string) => {
             //   this.data.imageAsBase = base;
             //   this.data.imageAsByteArray = this.baseToByte(base);
@@ -83,11 +76,40 @@ var ImageFormComponent = (function () {
             //   }));
             // });
         });
+        /**User clicks on the file-upload*/
         this.addMulipleEventListener(this.div, 'click', function (event) {
-            // console.log(event, 'click');
+            _this.preloadImage(event.dataTransfer.files[0]);
         });
     };
     ;
+    /**Generates and presents an image file from the uploader*/
+    ImageFormComponent.prototype.preloadImage = function (imageFile) {
+        /*GENERATE IMAGE PREVIEW*/
+        var imageResult = new Image();
+        imageResult.onload = function () {
+            /*Ensure the parent container dictates the dimensions*/
+            imageResult.style.width = "100%";
+            imageResult.style.height = "auto";
+            /*Inject image into preview*/
+            var imagePreviewContainer = document.querySelector("#file-input-image");
+            imagePreviewContainer.style.backgroundImage = "url('" + imageResult.src + "')";
+            /*Show the image preview*/
+            document.querySelector(".result-image-container").classList.add("active");
+            /*Hide the image upload*/
+            document.querySelector(".image-input-container").classList.remove("active");
+        };
+        imageResult.src = URL.createObjectURL(imageFile);
+    };
+    ImageFormComponent.prototype.resetMainImage = function () {
+        var imagePreviewContainer = document.querySelector(".result-image-container");
+        var imagePreview = document.querySelector("#file-input-image");
+        //Reset the image
+        imagePreview.innerHTML = "";
+        //Hide the image preview
+        imagePreviewContainer.classList.remove("active");
+        //Show the image dropper
+        document.querySelector(".image-input-container").classList.add("active");
+    };
     ImageFormComponent.prototype.input = function (event) {
         var _this = this;
         this.data.imageAsFile = event.target.files[0];

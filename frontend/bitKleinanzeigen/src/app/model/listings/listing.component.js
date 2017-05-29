@@ -62,6 +62,7 @@ var ListingComponent = (function () {
         //Get the scroll position
         var scrollPosition = this.listingWrapper.scrollLeft;
         var scrollMax = this.listingWrapper.scrollWidth - this.listingWrapper.clientWidth;
+        console.log("Scroll Max is", scrollMax);
         //Check if we even need to offer scroll
         if (scrollMax > 0) {
             //Grab the controls
