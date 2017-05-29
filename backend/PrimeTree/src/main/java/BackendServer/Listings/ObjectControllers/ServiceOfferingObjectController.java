@@ -14,10 +14,13 @@ public class ServiceOfferingObjectController extends OfferingObjectController{
 	protected ServiceOffering createNew() {
 		return new ServiceOffering();
 	}
+	
+	ServiceOfferingRepository listingRepository;
 
 	@Autowired
 	public void setListingRepository(ServiceOfferingRepository listingRepository) {
 		this.listingRepository=listingRepository;
+		super.listingRepository=this.listingRepository;
 	}
 	
 	public ServiceOfferingObjectController(){

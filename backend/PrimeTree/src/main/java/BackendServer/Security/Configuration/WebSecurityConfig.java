@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import BackendServer.User.Service.MyUserDetailsServiceImpl;
+import BackendServer.User.Service.UserManager;
+import BackendServer.User.Service.UserManagerImpl;
 
 /**This class configures Spring Security
  * @author Florian Kutz

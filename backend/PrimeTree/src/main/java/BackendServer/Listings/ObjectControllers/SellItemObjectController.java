@@ -18,10 +18,13 @@ public class SellItemObjectController extends OfferingObjectController{
 	protected SellItem createNew() {
 		return new SellItem();
 	}
+	
+	SellItemRepository listingRepository;
 
 	@Autowired
 	public void setListingRepository(SellItemRepository listingRepository) {
 		this.listingRepository=listingRepository;
+		super.listingRepository=this.listingRepository;
 	}
 	
 	public SellItemObjectController(){

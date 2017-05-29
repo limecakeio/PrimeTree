@@ -14,10 +14,13 @@ public class RideSharingObjectController extends OfferingObjectController{
 	protected RideSharing createNew() {
 		return new RideSharing();
 	}
+	
+	RideSharingRepository listingRepository;
 
 	@Autowired
 	public void setListingRepository(RideSharingRepository listingRepository) {
 		this.listingRepository=listingRepository;
+		super.listingRepository=this.listingRepository;
 	}
 	
 	public RideSharingObjectController(){

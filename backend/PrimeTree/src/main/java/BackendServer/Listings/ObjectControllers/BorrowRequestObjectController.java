@@ -16,10 +16,13 @@ public class BorrowRequestObjectController extends RequestListingObjectControlle
 	protected BorrowRequest createNew() {
 		return new BorrowRequest();
 	}
+	
+	BorrowRequestRepository listingRepository;
 
 	@Autowired
 	public void setListingRepository(BorrowRequestRepository listingRepository) {
 		this.listingRepository=listingRepository;
+		super.listingRepository=this.listingRepository;
 	}
 	
 	public BorrowRequestObjectController(){
