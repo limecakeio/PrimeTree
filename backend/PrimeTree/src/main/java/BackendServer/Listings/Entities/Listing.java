@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import BackendServer.Exceptions.MainImagNotSupportedException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Constants;
@@ -41,7 +42,7 @@ public abstract class Listing {
 	private String title;
 	@OneToMany(mappedBy="listing",targetEntity=Comment.class,
 	fetch=FetchType.EAGER)
-	private Collection comments;  
+	private Collection comments; 
 	private String type;
 	private String kind;
 
@@ -307,6 +308,10 @@ public abstract class Listing {
 			String[] type, String kind) {
 		return this.matchFilterOptions(location, b, price_min, price_max, type, kind) 
 				&& (this.getTitle().contains(query) || this.getDescription().contains(query));
+	}
+	
+	public void setPicture(String picture) throws MainImagNotSupportedException{
+		throw new MainImagNotSupportedException();
 	}
 }
 

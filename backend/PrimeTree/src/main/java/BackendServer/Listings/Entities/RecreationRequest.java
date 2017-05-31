@@ -38,6 +38,7 @@ public abstract class RecreationRequest extends RequestListing{
 		return picture;
 	}
 
+	@Override
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}

@@ -38,6 +38,7 @@ public class SellItem extends Offering{
 		return picture;
 	}
 
+	@Override
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
@@ -85,9 +86,9 @@ public class SellItem extends Offering{
 		if(!listingData.isNull(Constants.listingDataFieldPicture)){
 			this.setPicture(listingData.getString(Constants.listingDataFieldPicture));
 		}
-		if(!listingData.isNull(Constants.listingDataFieldImageGallery)){
-			this.setImageGallery(SimpleMethods.parseJSONArrayToStringList(listingData.getJSONArray(Constants.listingDataFieldImageGallery)) );
-		}
+//		if(!listingData.isNull(Constants.listingDataFieldImageGallery)){
+//			this.setImageGallery(SimpleMethods.parseJSONArrayToStringList(listingData.getJSONArray(Constants.listingDataFieldImageGallery)) );
+//		}
 	}
 	
 	/* (non-Javadoc)

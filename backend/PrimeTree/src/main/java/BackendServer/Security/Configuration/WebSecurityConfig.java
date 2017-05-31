@@ -1,5 +1,7 @@
 package BackendServer.Security.Configuration;
 
+import javax.servlet.Filter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -47,6 +50,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.addFilterBefore(new MyUsernamePasswordAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
 		
+//		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.addFilterBefore(jSessionIdSetterFilter(),UsernamePasswordAuthenticationFilter.class);
+		
 		  http.csrf().disable()
             .authorizeRequests()
             	.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -75,7 +81,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 ;
     }
 
-    @Autowired
+	@Bean
+    public JSessionIdSetterFilter jSessionIdSetterFilter() {
+		return new JSessionIdSetterFilter();
+	}
+
+	@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider);
     }
