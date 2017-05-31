@@ -40,17 +40,17 @@ public interface PersistenceAdapter {
 	 * */
 	public Listing getListingById(long listingId) throws ListingNotFoundException;
 
-	/**This method searches for all listings with a listingId present in the listingIds Array
-	 * 
-	 * @param:
-	 * listingIds: An array of all listingIds of the listings this method returns
-	 * 
-	 * @return: An array of all listingIds of all Listings
-	 * 
-	 * @throws 
-	 * ListingNotFoundException if at least one of the ids in the array does not exist as a listing
-	 * */
-	public Listing[] getListingArrayByIdArray(int[] listingIds) throws ListingNotFoundException;
+//	/**This method searches for all listings with a listingId present in the listingIds Array
+//	 * 
+//	 * @param:
+//	 * listingIds: An array of all listingIds of the listings this method returns
+//	 * 
+//	 * @return: An array of all listingIds of all Listings
+//	 * 
+//	 * @throws 
+//	 * ListingNotFoundException if at least one of the ids in the array does not exist as a listing
+//	 * */
+//	public Listing[] getListingArrayByIdArray(int[] listingIds) throws ListingNotFoundException;
 
 	 /**This method deletes the listing with the listingId listingId
 	 * 
@@ -58,7 +58,7 @@ public interface PersistenceAdapter {
 	 * listingId: the id of the listing
 	 * @throws ListingNotFoundException
 	 */
-	public void deleteListingById(int listingId) throws ListingNotFoundException;
+	public void deleteListingById(long newId) throws ListingNotFoundException;
 	
 	/**This method checks whether the user with id userId is the
 	 *  creator/owner of the listing with listingId listingId.
@@ -67,14 +67,14 @@ public interface PersistenceAdapter {
 	 * @return true: if the user is the creator/owner of the listing
 	 * @throws ListingNotFoundException if the listing with id listingId doesn't exist
 	 */
-	boolean isOwnerOfListing(int listingId, long userId) throws ListingNotFoundException;
+	boolean isOwnerOfListing(long newId, long userId) throws ListingNotFoundException;
 	
 	/**This method creates a .png file for a listing
 	 *  
 	 *  @param:
 	 *  listingId: the id of the listing the file belongs to
 	 *  imageData: the imageData represented in a byte-Array
-	 *  originalFilename: the filename of the original file. The method can get the filetype (.png, .jpeeg or 
+	 *  originalFilename: the filename of the original file. The method can get the filetype (.png, .jpeg or 
 	 *  .jpg) from this String
 	 * @throws:
 	 * IOException if originalFilename has no image Filetype

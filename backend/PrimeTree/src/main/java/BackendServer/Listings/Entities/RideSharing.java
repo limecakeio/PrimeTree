@@ -1,6 +1,7 @@
 package BackendServer.Listings.Entities;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -10,6 +11,7 @@ import javax.persistence.Table;
 
 import org.json.JSONObject;
 
+import BackendServer.Exceptions.NoImageGallerySupportedException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Constants;
 import BackendServer.Listings.SimpleMethods;
@@ -26,9 +28,13 @@ public class RideSharing extends Offering {
 	private String toLocation;
 	private int availableSeats;
 	private Date travelDateAndTime;
+	private boolean seatsLimited;
 	
 	public RideSharing(){
 		this.setType(Constants.listingTypeNameRideSharing);
+		if(this.getJourneyStops()==null){
+			this.setJourneyStops(new LinkedList<String>());
+		}
 	}
 	
 	public String getFromLocation() {
@@ -45,6 +51,14 @@ public class RideSharing extends Offering {
 
 	public void setJourneyStops(List<String> journeyStops) {
 		this.journeyStops = journeyStops;
+	}
+	
+	public void addJourneyStop(String journeyStop){
+		this.getJourneyStops().add(journeyStop);
+	}
+
+	public int getNumberOfJourneyStops() {
+		return this.getJourneyStops().size();
 	}
 
 	public String getToLocation() {
@@ -90,6 +104,9 @@ public class RideSharing extends Offering {
 		this.setToLocation(listingData.getString(Constants.listingDataFieldToLocation));
 		if(!listingData.isNull(Constants.listingDataFieldAvailableSeats)){
 			this.setAvailableSeats(listingData.getInt(Constants.listingDataFieldAvailableSeats));
+			this.setSeatsLimited(true);
+		}else{
+			this.setSeatsLimited(false);
 		}
 		this.setTravelDateAndTime(new Date(listingData.getLong(Constants.listingDataFieldTravelDateAndTime)));
 	}
@@ -109,9 +126,19 @@ public class RideSharing extends Offering {
 		json.accumulate(Constants.listingDataFieldFromLocation, this.getFromLocation());
 		json.accumulate(Constants.listingDataFieldJourneyStops, this.getJourneyStops());
 		json.accumulate(Constants.listingDataFieldToLocation, this.getToLocation());
-		json.accumulate(Constants.listingDataFieldAvailableSeats, this.getAvailableSeats());
+		if(this.isSeatsLimited()){
+			json.accumulate(Constants.listingDataFieldAvailableSeats, this.getAvailableSeats());
+		}
 		json.accumulate(Constants.listingDataFieldTravelDateAndTime, this.getTravelDateAndTime());
 		return json;
+	}
+
+	public boolean isSeatsLimited() {
+		return seatsLimited;
+	}
+
+	public void setSeatsLimited(boolean seatsLimited) {
+		this.seatsLimited = seatsLimited;
 	}
 
 

@@ -98,17 +98,17 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		throw new WrongFormatException("ListingType " + listingData.getString(Constants.listingDataFieldListingType) + " does not exist.");
 	}
 
-	@Override
-	public Listing[] getListingArrayByIdArray(int[] listingIds) throws ListingNotFoundException {
-		Collection<Listing> results=new LinkedList<Listing>();
-		for(int IdArrayIndex=0;IdArrayIndex<listingIds.length;IdArrayIndex++){
-			results.add(getListingById(listingIds[IdArrayIndex]));
-		}
-		return SimpleMethods.parseObjectArrayToListingArray(results.toArray());
-	}
+//	@Override
+//	public Listing[] getListingArrayByIdArray(int[] listingIds) throws ListingNotFoundException {
+//		Collection<Listing> results=new LinkedList<Listing>();
+//		for(int IdArrayIndex=0;IdArrayIndex<listingIds.length;IdArrayIndex++){
+//			results.add(getListingById(listingIds[IdArrayIndex]));
+//		}
+//		return SimpleMethods.parseObjectArrayToListingArray(results.toArray());
+//	}
 
 	@Override
-	public void deleteListingById(int listingId) throws ListingNotFoundException {
+	public void deleteListingById(long listingId) throws ListingNotFoundException {
 		try {
 			performActionOnAlllistingControllers(listingId,
 					new ListingObjectControllerActionPerformer(){
@@ -146,7 +146,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	}
 
 	@Override
-	public boolean isOwnerOfListing(int listingId, long userId) throws ListingNotFoundException {
+	public boolean isOwnerOfListing(long listingId, long userId) throws ListingNotFoundException {
 		return userId==this.getListingById(listingId).getOwner();
 	}
 	

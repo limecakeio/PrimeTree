@@ -16,7 +16,7 @@ import BackendServer.Listings.SimpleMethods;
 
 /**This class represents Listings with listingType RideSharing*/
 @Entity
-@Table(name="RideSharing")
+@Table(name="RideShareRequest")
 @PrimaryKeyJoinColumn(referencedColumnName="id")
 public class RideShareRequest extends RequestListing {
 	
@@ -58,7 +58,7 @@ public class RideShareRequest extends RequestListing {
 		super.fillFields(listingData, creator);
 		this.setFromLocation(listingData.getString(Constants.listingDataFieldFromLocation));
 		this.setToLocation(listingData.getString(Constants.listingDataFieldToLocation));
-		if(listingData.isNull(Constants.listingDataFieldTravelDateAndTime)){
+		if(!listingData.isNull(Constants.listingDataFieldTravelDateAndTime)){
 			this.setTravelDateAndTime(new Date(listingData.getLong(Constants.listingDataFieldTravelDateAndTime)));
 		}
 	}
