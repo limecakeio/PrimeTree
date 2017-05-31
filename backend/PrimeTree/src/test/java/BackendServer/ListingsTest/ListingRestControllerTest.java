@@ -2,6 +2,11 @@ package BackendServer.ListingsTest;
 
 import static org.junit.Assert.*;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -15,6 +20,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,6 +34,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
 
 import BackendServer.ClientDatabaseAccess.Config.EmployeeBeanCollection;
 import BackendServer.Exceptions.WrongFormatException;
@@ -54,11 +61,16 @@ public class ListingRestControllerTest{
     private SecurityContext secCon;
     private Authentication auth;
     
-    private JSONObject requestBody;
-    private String requestBodyString;
+    private JSONObject requestBody, commentRequestBody;
+    private String requestBodyString, commentRequestBodyString, query;
+    private String[] locationArray, typeArray;
  
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
+    
+
+    InputStream inputFileStream, inputFileStreamZwei, inputFileStreamDrei, inputFileStreamVier, inputFileStreamFuenf;
+    MockMultipartFile file, fileZwei, fileDrei, fileVier, fileFuenf;
     
 	private MockMvc mockMvc;
 	
@@ -75,14 +87,42 @@ public class ListingRestControllerTest{
     	requestBody.put(Constants.listingDataFieldPrice, 20.99);
     	requestBodyString = requestBody.toString();
     	
+    	query = "gut";
+    	typeArray = new String[1];
+    	typeArray[0]= Constants.listingTypeNameServiceOffering;
+    	locationArray = new String[1];
+    	locationArray[0]="Mannheim";
+    	
+    	commentRequestBody = new JSONObject();
+    	commentRequestBody.put(Constants.listingDataFieldCreateDate, new Date().getTime());
+    	commentRequestBody.put(Constants.listingDataFieldComments, "Mein erster Kommentar");
+    	commentRequestBodyString = commentRequestBody.toString();
+    	// Inputstreams for picture uploads
+		try {
+			inputFileStream = new BufferedInputStream(new FileInputStream( "/Users/markbeckmann/git/primetree/backend/PrimeTree/src/test/java/BackendServer/ListingsTest/TestImage.png"));
+			inputFileStreamZwei = new BufferedInputStream( new FileInputStream("/Users/markbeckmann/git/primetree/backend/PrimeTree/src/test/java/BackendServer/ListingsTest/bild2.jpg"));
+			inputFileStreamDrei = new BufferedInputStream( new FileInputStream("/Users/markbeckmann/git/primetree/backend/PrimeTree/src/test/java/BackendServer/ListingsTest/bild3.JPG"));
+			inputFileStreamVier = new BufferedInputStream( new FileInputStream("/Users/markbeckmann/git/primetree/backend/PrimeTree/src/test/java/BackendServer/ListingsTest/bild4.PNG"));
+			inputFileStreamFuenf = new BufferedInputStream( new FileInputStream("/Users/markbeckmann/git/primetree/backend/PrimeTree/src/test/java/BackendServer/ListingsTest/test.txt"));
+
+			file = new MockMultipartFile("file", "testImage.png", null, inputFileStream);
+			fileZwei = new MockMultipartFile("file2", "bild2.jpg", null, inputFileStreamZwei);
+			fileDrei = new MockMultipartFile("file3","bild3.JPG", null, inputFileStreamDrei);
+			fileVier = new MockMultipartFile("file4","bild4.PNG", null, inputFileStreamVier);
+			fileFuenf = new MockMultipartFile("file5", inputFileStreamFuenf);			
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
     	secCon = new SecurityContextImpl();
+    	// login akessler as admin
     	auth = new TestingAuthenticationToken("akessler", "123", "ADMIN");
     	secCon.setAuthentication(auth);
     	SecurityContextHolder.setContext(secCon);
     	response = new MockHttpServletResponse();
-    	
-        DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
-        this.mockMvc = builder.build();
+    	response.setStatus(HttpServletResponse.SC_OK);
     }
 	
 	@Test
@@ -118,13 +158,18 @@ public class ListingRestControllerTest{
 		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
 	}
 	
+	
+	//------------------------------ getListing --------------------------------
 	/**
 	 * Test getListing with correct Values
 	 */
 	@Test
 	public void getListingTestAllCorrect(){
+    	// create one listing in the Database
+       	request = new MockHttpServletRequest("POST", "listing");
+    	String result = testRESTController.createListing(requestBodyString, request, response);
 		request = new MockHttpServletRequest("GET", "listing/{id}");
-		String result = testRESTController.getListing(0, request, response);
+		result = testRESTController.getListing(0, request, response);
 		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 	}
 	
@@ -134,7 +179,7 @@ public class ListingRestControllerTest{
 	@Test
 	public void getListingTestWrongId(){
 		request = new MockHttpServletRequest("GET", "listing/{id}");
-		String result = testRESTController.getListing(2000, request, response);
+		String result = testRESTController.getListing(Integer.MAX_VALUE, request, response);
 		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
 	}
 	
@@ -155,6 +200,9 @@ public class ListingRestControllerTest{
 	 */
 	@Test
 	public void editListingTestWithCorrectValues(){
+    	// create one listing in the Database
+       	request = new MockHttpServletRequest("POST", "listing");
+    	String result = testRESTController.createListing(requestBodyString, request, response);
 		request = new MockHttpServletRequest("POST", "listing/{id}");
 		testRESTController.editListing(requestBodyString, 0, request, response);
 		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
@@ -171,10 +219,13 @@ public class ListingRestControllerTest{
 	}
 	
 	/**
-	 * Test editListing with a wrong format in the string
+	 * Test editListing() with a wrong format in the string
 	 */
 	@Test
 	public void editListingTestWithAWrongFormat(){
+    	// create one listing in the Database
+       	request = new MockHttpServletRequest("POST", "listing");
+    	String result = testRESTController.createListing(requestBodyString, request, response);
 		requestBody.remove(Constants.listingDataFieldDescription);
 		requestBody.put(Constants.listingDataFieldDescription, 0);
 		requestBodyString = requestBody.toString();
@@ -183,19 +234,22 @@ public class ListingRestControllerTest{
 		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
 	}
 	
-	//---------------------------------------- delete() ----------------------------------------------
+	//---------------------------------------- delete ----------------------------------------------
 	/**
-	 * Test delete() with all correct values
+	 * Test delete with all correct values
 	 */
 	@Test
 	public void deleteTestWithCorrectValues(){
+    	// create one listing in the Database
+       	request = new MockHttpServletRequest("POST", "listing");
+    	String result = testRESTController.createListing(requestBodyString, request, response);
 		request = new MockHttpServletRequest("DELETE", "listing/delete/{id}");
 		testRESTController.delete(0, request, response);
 		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 	}
 	
 	/**
-	 * Test delete() with incorrect id
+	 * Test delete with incorrect id
 	 */
 	@Test
 	public void deleteTestWithWrongId(){
@@ -215,7 +269,7 @@ public class ListingRestControllerTest{
 		request = new MockHttpServletRequest("POST", "listing");
 		String result = testRESTController.createListing(requestBodyString, request, response);
 		request = new MockHttpServletRequest("POST", "listing/{id}/deactivate");
-//		testRESTController.deactivateListing(0, request, response);
+		testRESTController.deactivateListing(0, request, response);
 		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 	}
 	
@@ -225,7 +279,7 @@ public class ListingRestControllerTest{
 	@Test
 	public void deactivateListingWithWrongID(){
 		request = new MockHttpServletRequest("POST", "listing/{id}/deactivate");
-//		testRESTController.deactivateListing(-1, request, response);
+		testRESTController.deactivateListing(-1, request, response);
 		assertEquals(HttpServletResponse.SC_NOT_FOUND, response.getStatus());
 	}
 	
@@ -241,7 +295,7 @@ public class ListingRestControllerTest{
 		request = new MockHttpServletRequest("POST", "listing");
 		String result = testRESTController.createListing(requestBodyString, request, response);
 		request = new MockHttpServletRequest("POST", "listing/{id}/deactivate");
-//		testRESTController.deactivateListing(0, request, response);
+		testRESTController.deactivateListing(0, request, response);
 		request = new MockHttpServletRequest("POST", "listing/{id}/activate");
 		testRESTController.activateListing(0, request, response);
 		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
@@ -256,6 +310,402 @@ public class ListingRestControllerTest{
 		testRESTController.activateListing(-1, request, response);
 		assertEquals(HttpServletResponse.SC_NOT_FOUND, response.getStatus());
 	}
+	//--------------------------- postComment ------------------------------------
+	
+	/**
+	 * Test postComment with correct values
+	 */
+	@Test
+	public void postCommentTestWithCorrectValues(){
+    	// create one listing in the Database
+       	request = new MockHttpServletRequest("POST", "listing");
+    	String result = testRESTController.createListing(requestBodyString, request, response);
+    	
+		request = new MockHttpServletRequest("POST", "listing/{id}/comment");
+		testRESTController.postComment(0, commentRequestBodyString, request, response);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test postComment with wrong id
+	 */
+	@Test
+	public void postCommentTestWithWrongID(){
+		request = new MockHttpServletRequest("POST", "listing/{id}(comment");
+		testRESTController.postComment(-1, commentRequestBodyString, request, response);
+		assertEquals(HttpServletResponse.SC_NOT_FOUND, response.getStatus() );
+	}
+	
+	
+	//--------------------------- deleteComment ------------------------------------
+
+	/**
+	 * Test deleteComment with correct Values
+	 */
+	@Test
+	public void deleteCommentWithEverythingCorrect(){
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("POST", "listing/{id}/comment");
+		testRESTController.postComment(0, commentRequestBodyString, request, response);
+		request = new MockHttpServletRequest("DELETE", "listing/{listingId}/comment/{commentId}");
+		testRESTController.deleteComment(0, 0, request, response);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test deleteComment with wrong listingID
+	 */
+	@Test
+	public void deleteCommentTestWithWrongListingID(){
+		request = new MockHttpServletRequest("DELETE", "listing/{listingId}/comment/{commentId}");
+		testRESTController.deleteComment(0, -1, request, response);
+		assertEquals(HttpServletResponse.SC_NOT_FOUND, response.getStatus());
+	}
+	
+	/**
+	 * Test deleteComment with wrong commentID
+	 */
+	@Test
+	public void deleteCommentTestWithWrongCommentID(){
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("DELETE", "listing/{listingId}/comment/{commentId}");
+		testRESTController.deleteComment(-1, 0, request, response);
+		assertEquals(HttpServletResponse.SC_NOT_FOUND, response.getStatus());
+	}
+	
+	//--------------------------- listingMainImageUpload ------------------------------------
+
+	/**
+	 * Test listingMainImageUpload with correct Values
+	 */
+	@Test
+	public void listingMainImageUploadTestWithCorrectValues(){
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
+		testRESTController.listingMainImageUpload(0, request, response, file);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test listingMainImage with jpg picture{
+	 */
+	@Test
+	public void listingMainImageUploadTestWithJpg(){
+		request = new MockHttpServletRequest("POST","listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
+		testRESTController.listingMainImageUpload(0, request, response, fileZwei);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test listingMainImage with JPG picture{
+	 */
+	@Test
+	public void listingMainImageUploadTestWithJPG(){
+		request = new MockHttpServletRequest("POST","listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
+		testRESTController.listingMainImageUpload(0, request, response, fileDrei);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test listingMainImage with PNG picture{
+	 */
+	@Test
+	public void listingMainImageUploadTestWithPNG(){
+		request = new MockHttpServletRequest("POST","listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
+		testRESTController.listingMainImageUpload(0, request, response, fileVier);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test listingMainImageUpload with wrong listingID
+	 */
+	@Test
+	public void listingMainImageUploadTestWithWrongListingID(){
+		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
+		testRESTController.listingMainImageUpload(-1, request, response, file);
+		assertEquals(HttpServletResponse.SC_NOT_FOUND, response.getStatus());
+	}
+	
+	/**
+	 * Test listingMainImageUpload with wrong file
+	 */
+	@Test
+	public void listingMainImageUploadTestWithWrongFile(){
+		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
+		testRESTController.listingMainImageUpload(0, request, response, fileFuenf);
+		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+	}
+	/**
+	 * Test listingMainImageUpload with null file
+	 */
+	@Test
+	public void listingMainImageUploadTestWithNullFile(){
+		request = new MockHttpServletRequest("PUT", "listing/upload/main.image/{id}");
+		testRESTController.listingMainImageUpload(0, request, response, null);
+		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+	}
+	
+	//--------------------------- listingGalleryUpload ------------------------------------
+
+
+	/**
+	 * Test listingGalleryUpload with correct Values
+	 */
+	@Test
+	public void listingGalleryUploadTestWithCorrectValues(){
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
+		testRESTController.listingGalleryUpload(0, request, response, file);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test listingGalleryUpload with jpg picture{
+	 */
+	@Test
+	public void listingGalleryUploadTestWithJpg(){
+		request = new MockHttpServletRequest("POST","listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
+		testRESTController.listingGalleryUpload(0, request, response, fileZwei);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test listingGalleryUpload with JPG picture{
+	 */
+	@Test
+	public void listingGalleryUploadTestWithJPG(){
+		request = new MockHttpServletRequest("POST","listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
+		testRESTController.listingGalleryUpload(0, request, response, fileDrei);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test listingGalleryUpload with PNG picture{
+	 */
+	@Test
+	public void listingGalleryUploadTestWithPNG(){
+		request = new MockHttpServletRequest("POST","listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
+		testRESTController.listingGalleryUpload(0, request, response, fileVier);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test listingGalleryUpload with wrong listingID
+	 */
+	@Test
+	public void listingGalleryUploadTestWithWrongListingID(){
+		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
+		testRESTController.listingGalleryUpload(-1, request, response, file);
+		assertEquals(HttpServletResponse.SC_NOT_FOUND, response.getStatus());
+	}
+	
+	/**
+	 * Test listingGalleryUpload with wrong file
+	 */
+	@Test
+	public void listingGalleryUploadTestWithWrongFile(){
+		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
+		testRESTController.listingGalleryUpload(0, request, response, fileFuenf);
+		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+	}
+	/**
+	 * Test listingGalleryUpload with null file
+	 */
+	@Test
+	public void listingGalleryUploadTestWithNullFile(){
+		request = new MockHttpServletRequest("PUT", "listing/upload/main.image/{id}");
+		testRESTController.listingGalleryUpload(0, request, response, null);
+		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+	}
+	
+	//--------------------------------------- listingGalleryChange ---------------------------------
+	
+	/**
+	 * Test listingGalleryChange with correct values and png file
+	 */
+	@Test
+	public void listingGalleryChangeTestWithCorrectValues(){
+    	// create one listing in the Database
+       	request = new MockHttpServletRequest("POST", "listing");
+    	String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{listingId}/{galleryIndex}");
+		testRESTController.listingGalleryChange(0, 0, request, response, file);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test listingGalleryChange with .jpg file
+	 */
+	@Test
+	public void listingGalleryChangeTestWithJpgFile(){
+    	// create one listing in the Database
+       	request = new MockHttpServletRequest("POST", "listing");
+    	String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{lisitngId}/{galleryIndex}");
+		testRESTController.listingGalleryChange(0, 0, request, response, fileZwei);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test listingGalleryChange with .PNG file
+	 */
+	@Test
+	public void listingGalleryChangeTestWithPNGFile(){
+    	// create one listing in the Database
+       	request = new MockHttpServletRequest("POST", "listing");
+    	String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{lisitngId}/{galleryIndex}");
+		testRESTController.listingGalleryChange(0, 0, request, response, fileDrei);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	
+	/**
+	 * Test listingGalleryChange with jpg file
+	 */
+	@Test
+	public void listingGalleryChangeTestWithJPGFile(){
+    	// create one listing in the Database
+       	request = new MockHttpServletRequest("POST", "listing");
+    	String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{lisitngId}/{galleryIndex}");
+		testRESTController.listingGalleryChange(0, 0, request, response, fileVier);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test listingGalleryChange with .txt file
+	 */
+	@Test
+	public void listingGalleryChangeTestWithWrongFile(){
+    	// create one listing in the Database
+       	request = new MockHttpServletRequest("POST", "listing");
+    	String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{lisitngId}/{galleryIndex}");
+		testRESTController.listingGalleryChange(0, 0, request, response, fileFuenf);
+		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+	}
+	
+	/**
+	 * Test listingGalleryChange with wrong listing id
+	 */
+	@Test
+	public void listingGalleryChangeTestWithWrongListingId(){
+    	// create one listing in the Database
+       	request = new MockHttpServletRequest("POST", "listing");
+    	String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{lisitngId}/{galleryIndex}");
+		testRESTController.listingGalleryChange(-1, 0, request, response, file);
+		assertEquals(HttpServletResponse.SC_NOT_FOUND, response.getStatus());
+	}
+	
+	/**
+	 * Test listing GalleryChange with wrong Gallery ID
+	 */
+	@Test
+	public void listingGalleryChangeTestWithWrongGalleryId(){
+       	request = new MockHttpServletRequest("POST", "listing");
+    	String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{lisitngId}/{galleryIndex}");
+		testRESTController.listingGalleryChange(0, -1, request, response, file);
+		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+	}
+	
+	/**
+	 * Test listingGalleryChange with null as file
+	 */
+	@Test
+	public void listingGalleryChangeTestWithNullFile(){
+       	request = new MockHttpServletRequest("POST", "listing");
+    	String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{lisitngId}/{galleryIndex}");
+		testRESTController.listingGalleryChange(0, 0, request, response, null);
+		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+	}
+	
+	//-------------------------------------- listingGalleryDelete -------------------------------
+	/**
+	 * Test listingGalleryDelete with everything correct
+	 */
+	@Test
+	public void listingGalleryDeleteTestEverythingcorrect(){
+		// Setup
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
+		testRESTController.listingGalleryUpload(0, request, response, file);
+		request = new MockHttpServletRequest("DELETE", "listing/upload/gallery/{listingId}/{galleryIndex}");
+		testRESTController.listingGalleryDelete(0, 0, request, response);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test listingGalleryDelete with wrong Listing id
+	 */
+	@Test
+	public void listingGalleryDeleteTestWithWrongListingId(){
+		// Setup
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
+		testRESTController.listingGalleryUpload(0, request, response, file);
+		request = new MockHttpServletRequest("DELETE", "listing/upload/gallery/{listingId}/{galleryIndex}");
+		testRESTController.listingGalleryDelete(-1, 0, request, response);
+		assertEquals(HttpServletResponse.SC_NOT_FOUND, response.getStatus());
+	}
+	
+	/**
+	 * Test listingGalleryDelete with wrong Listing id
+	 */
+	@Test
+	public void listingGalleryDeleteTestWithWrongGalleryId(){
+		// Setup
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
+		testRESTController.listingGalleryUpload(0, request, response, file);
+		request = new MockHttpServletRequest("DELETE", "listing/upload/gallery/{listingId}/{galleryIndex}");
+		testRESTController.listingGalleryDelete(0, -1, request, response);
+		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+	}
+	
+	//------------------------------------------getListingsBySearch ---------------------------------------
+	/**
+	 * Test getListingBySearch with correct values
+	 */
+	@Test
+	public void getListingsBySearchTestWithCorrectValues(){
+		// Setup
+			request = new MockHttpServletRequest("POST", "listing");
+			String result = testRESTController.createListing(requestBodyString, request, response);
+			request = new MockHttpServletRequest("GET", "listings/search");
+			result = testRESTController.getListingsBySearch(query, 1, locationArray, 20, 22, typeArray, Constants.listingKindOffering, Constants.sortOptionAlphabetical_Asc, request, response);
+			assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
