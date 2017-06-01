@@ -97,7 +97,6 @@ public class ListingBeanCollection {
     }
  
     /**This method is inspired by the tutorial described in the javadoc of this class*/
-    @Primary
     @Bean
     public PlatformTransactionManager listingTransactionManager() {
     	

@@ -35,7 +35,7 @@ public class UserBeanCollection {
     
 	/**This method is inspired by the tutorial described in the javadoc of this class*/
     @Bean
-//    @Primary
+    @Primary
     public LocalContainerEntityManagerFactoryBean userEntityManager() {
     	
     	System.out.println("userEntityManager() aufgerufen");
@@ -63,7 +63,7 @@ public class UserBeanCollection {
     }
  
     /**This method is inspired by the tutorial described in the javadoc of this class*/
-//    @Primary
+    @Primary
     @Bean
     public DataSource userDataSource() {
     	

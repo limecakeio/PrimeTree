@@ -45,13 +45,17 @@ public class ReturningRecreationRequest extends RecreationRequest{
 	@Override
 	public void fillFields(JSONObject listingData, long creator) throws WrongFormatException {
 		super.fillFields(listingData, creator);
-		if(Constants.allRegularityOptions.contains(Constants.listingDataFieldRegularity))
+		if(listingData.isNull(Constants.listingDataFieldRegularity) ||
+				!Constants.allRegularityOptions.contains(listingData.getString(Constants.listingDataFieldRegularity))){
+			throw new WrongFormatException("Bad Regularity");
+		}
 		if(!listingData.isNull(Constants.listingDataFieldStartDate)){
 			this.setStartDate(new Date(listingData.getLong(Constants.listingDataFieldStartDate)));
 		}
 		if(!listingData.isNull(Constants.listingDataFieldEndDate)){
 			this.setEndDate(new Date(listingData.getLong(Constants.listingDataFieldEndDate)));
 		}
+		this.setRegularity(listingData.getString(Constants.listingDataFieldRegularity));
 	}
 
 	private void setEndDate(Date date) {
