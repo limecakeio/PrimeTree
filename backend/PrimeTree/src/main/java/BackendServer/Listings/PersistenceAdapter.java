@@ -69,7 +69,8 @@ public interface PersistenceAdapter {
 	 */
 	boolean isOwnerOfListing(long newId, long userId) throws ListingNotFoundException;
 	
-	/**This method creates a .png file for a listing
+	/**This method creates a .png or jpeg or .jpg file for a listing
+	 * DO NOT call this method with a pathname that doesn't belong to the imageData. 
 	 *  
 	 *  @param:
 	 *  listingId: the id of the listing the file belongs to
@@ -79,7 +80,7 @@ public interface PersistenceAdapter {
 	 * @throws:
 	 * IOException if originalFilename has no image Filetype
 	 * ListingNotFoundException if the listing with listingId listingId does not exist*/
-	public void uploadImage(byte[] imageData, int listingId, String originalFilename) throws IOException, ListingNotFoundException;
+	public void uploadImage(byte[] imageData, long newId, String originalFilename) throws IOException, ListingNotFoundException;
 
 	/**This method edits the listing with id listingId by overriding all data except id, type and creator of 
 	 * the listing with the data in listingData. Warning: All relevant fields

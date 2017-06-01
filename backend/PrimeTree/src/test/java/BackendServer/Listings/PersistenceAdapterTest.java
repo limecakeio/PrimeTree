@@ -1,7 +1,15 @@
 package BackendServer.Listings;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 
 import org.json.JSONArray;
@@ -16,6 +24,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Entities.BorrowRequest;
+import BackendServer.Listings.Entities.Listing;
 import BackendServer.Listings.Entities.PurchaseRequest;
 import BackendServer.Listings.Entities.ReturningRecreationRequest;
 import BackendServer.Listings.Entities.RideShareRequest;
@@ -80,8 +89,28 @@ public class PersistenceAdapterTest {
 	listingDataForRideShareRequestWithMissingAttributeFromLocation,
 	listingDataForRideShareRequestWithMissingAttributeToLocation;
 	
+	byte[] 
+	fileDataOfAPointpng,
+	fileDataOfAPointjpg,
+	fileDataOfAPointjpeg,
+	fileDataOfAPointPNG,
+	fileDataOfAPointJPG,
+	fileDataOfAPointJPEG,
+	fileDataOfAPointtxt;
+	
+	String
+	NameOfAPointpngFile,
+	NameOfAPointjpgFile,
+	NameOfAPointjpegFile,
+	NameOfAPointPNGFile,
+	NameOfAPointJPGFile,
+	NameOfAPointJPEGFile,
+	NameOfAPointtxtFile;
+	
+	FileInputStream inputStream;
+	
 	@Before
-	public void setup(){
+	public void setup() throws IOException{
 		
 		//These are all JSONObjects for testing persistNewListing with valid input
 		correctListingDataForSellItemCreateWithoutExtraFields=new JSONObject();
@@ -442,7 +471,44 @@ public class PersistenceAdapterTest {
 		listingDataForRideShareRequestWithMissingAttributeToLocation.put(Constants.listingDataFieldLocation, "3");
 		listingDataForRideShareRequestWithMissingAttributeToLocation.put(Constants.listingDataFieldFromLocation, "4");
 		listingDataForRideShareRequestWithMissingAttributeToLocation.put(Constants.listingDataFieldTravelDateAndTime, new Date().getTime()+100000);
+		
+		NameOfAPointpngFile="test.png";
+		inputStream=new FileInputStream(NameOfAPointpngFile);
+		fileDataOfAPointpng=new byte[inputStream.available()];
+		inputStream.read(fileDataOfAPointpng);
+
+		NameOfAPointjpgFile="test.jpg";
+		inputStream=new FileInputStream(NameOfAPointjpgFile);
+		fileDataOfAPointjpg=new byte[inputStream.available()];
+		inputStream.read(fileDataOfAPointjpg);
+
+		NameOfAPointjpegFile="test.jpeg";
+		inputStream=new FileInputStream(NameOfAPointjpegFile);
+		fileDataOfAPointjpeg=new byte[inputStream.available()];
+		inputStream.read(fileDataOfAPointjpeg);
+		
+		NameOfAPointPNGFile="test.PNG";
+		inputStream=new FileInputStream(NameOfAPointPNGFile);
+		fileDataOfAPointPNG=new byte[inputStream.available()];
+		inputStream.read(fileDataOfAPointPNG);
+
+		NameOfAPointJPGFile="test.JPG";
+		inputStream=new FileInputStream(NameOfAPointJPGFile);
+		fileDataOfAPointJPG=new byte[inputStream.available()];
+		inputStream.read(fileDataOfAPointJPG);
+
+		NameOfAPointJPEGFile="test.JPEG";
+		inputStream=new FileInputStream(NameOfAPointJPEGFile);
+		fileDataOfAPointJPEG=new byte[inputStream.available()];
+		inputStream.read(fileDataOfAPointJPEG);
+
+		NameOfAPointtxtFile="test.txt";
+		inputStream=new FileInputStream(NameOfAPointtxtFile);
+		fileDataOfAPointtxt=new byte[inputStream.available()];
+		inputStream.read(fileDataOfAPointtxt);
 	}
+	
+	//-------------------------------------persistNewListing--------------------------------------------
 	
 	//These are all Test that try out persistNewListing with valid input
 	@Test
@@ -854,10 +920,14 @@ public class PersistenceAdapterTest {
 		persistenceAdapter.persistNewListing(listingDataForRideShareRequestWithMissingAttributeToLocation, 0);
 	}
 	
+	//-------------------------------------getListingById--------------------------------------------
+	
 	@Test(expected=ListingNotFoundException.class)
 	public void testGetListingByIdWithNotExistingId() throws ListingNotFoundException{
 		persistenceAdapter.getListingById(-1);
 	}
+	
+	//-------------------------------------deleteListingById--------------------------------------------
 	
 	@Test(expected=ListingNotFoundException.class)
 	public void testDeleteListingWithalidId() throws ListingNotFoundException, WrongFormatException{
@@ -875,6 +945,8 @@ public class PersistenceAdapterTest {
 		persistenceAdapter.deleteListingById(-1);
 	}
 	
+	//-------------------------------------isOwnerOfListing--------------------------------------------
+	
 	@Test
 	public void testIsOwnerOfListingWithExpectedResultTrue() throws WrongFormatException, ListingNotFoundException{
 		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
@@ -885,6 +957,87 @@ public class PersistenceAdapterTest {
 	public void testIsOwnerOfListingWithExpectedResultFalse() throws WrongFormatException, ListingNotFoundException{
 		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
 		assertTrue(persistenceAdapter.isOwnerOfListing(newId, 1));
+	}
+	
+	//-------------------------------------uploadPicture--------------------------------------------
+	
+	@Test
+	public void testUploadPictureWithPointpngAndThenChangeThePictureToAPointjpg() throws IOException, ListingNotFoundException, WrongFormatException{
+		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
+		persistenceAdapter.uploadImage(fileDataOfAPointpng, newId, NameOfAPointpngFile);
+		
+		SellItem ListingWithUploadedImage=(SellItem) persistenceAdapter.getListingById(newId);
+		String publicPathOfUploadedPicture=ListingWithUploadedImage.getPicture();
+		assertEquals(publicPathOfUploadedPicture.substring(publicPathOfUploadedPicture.length()-4),
+				NameOfAPointpngFile.substring(NameOfAPointpngFile.length()-4));
+		
+		persistenceAdapter.uploadImage(fileDataOfAPointjpg, newId, NameOfAPointjpgFile);
+		
+		ListingWithUploadedImage=(SellItem) persistenceAdapter.getListingById(newId);
+		publicPathOfUploadedPicture=ListingWithUploadedImage.getPicture();
+		assertEquals(publicPathOfUploadedPicture.substring(publicPathOfUploadedPicture.length()-4),
+				NameOfAPointjpgFile.substring(NameOfAPointjpgFile.length()-4));
+	}
+	
+	@Test
+	public void testUploadPictureWithPointjpeg() throws WrongFormatException, IOException, ListingNotFoundException{
+		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
+		persistenceAdapter.uploadImage(fileDataOfAPointjpeg, newId, NameOfAPointjpegFile);
+		
+		SellItem ListingWithUploadedImage=(SellItem) persistenceAdapter.getListingById(newId);
+		String publicPathOfUploadedPicture=ListingWithUploadedImage.getPicture();
+		assertEquals(publicPathOfUploadedPicture.substring(publicPathOfUploadedPicture.length()-5),
+				NameOfAPointjpegFile.substring(NameOfAPointjpegFile.length()-5));
+	}
+	
+	@Test
+	public void testUploadPictureWithPointPNG() throws WrongFormatException, IOException, ListingNotFoundException{
+		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
+		persistenceAdapter.uploadImage(fileDataOfAPointPNG, newId, NameOfAPointPNGFile);
+		
+		SellItem ListingWithUploadedImage=(SellItem) persistenceAdapter.getListingById(newId);
+		String publicPathOfUploadedPicture=ListingWithUploadedImage.getPicture();
+		assertEquals(publicPathOfUploadedPicture.substring(publicPathOfUploadedPicture.length()-4),
+				NameOfAPointPNGFile.substring(NameOfAPointPNGFile.length()-4));
+	}
+	
+	@Test
+	public void testUploadPictureWithPointJPG() throws WrongFormatException, IOException, ListingNotFoundException{
+		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
+		persistenceAdapter.uploadImage(fileDataOfAPointJPG, newId, NameOfAPointJPGFile);
+		
+		SellItem ListingWithUploadedImage=(SellItem) persistenceAdapter.getListingById(newId);
+		String publicPathOfUploadedPicture=ListingWithUploadedImage.getPicture();
+		assertEquals(publicPathOfUploadedPicture.substring(publicPathOfUploadedPicture.length()-4),
+				NameOfAPointJPGFile.substring(NameOfAPointJPGFile.length()-4));
+	}
+	
+	@Test
+	public void testUploadPictureWithPointJPEG() throws WrongFormatException, IOException, ListingNotFoundException{
+		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
+		persistenceAdapter.uploadImage(fileDataOfAPointJPEG, newId, NameOfAPointJPEGFile);
+		
+		SellItem ListingWithUploadedImage=(SellItem) persistenceAdapter.getListingById(newId);
+		String publicPathOfUploadedPicture=ListingWithUploadedImage.getPicture();
+		assertEquals(publicPathOfUploadedPicture.substring(publicPathOfUploadedPicture.length()-5),
+				NameOfAPointJPEGFile.substring(NameOfAPointJPEGFile.length()-5));
+	}
+	
+	@Test(expected=ListingNotFoundException.class)
+	public void testUploadPictureWithNotExistingListingId() throws IOException, ListingNotFoundException{
+		persistenceAdapter.uploadImage(fileDataOfAPointpng, -1, NameOfAPointpngFile);
+	}
+	
+	@Test(expected=IOException.class)
+	public void testUploadPictureWithTextFile() throws IOException, ListingNotFoundException, WrongFormatException{
+		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
+		persistenceAdapter.uploadImage(fileDataOfAPointtxt, newId, NameOfAPointtxtFile);
+	}
+	
+	@Test(expected=IOException.class)
+	public void testUploadPictureWithTextFile() throws IOException, ListingNotFoundException, WrongFormatException{
+		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
+		persistenceAdapter.uploadImage(fileDataOfAPointtxt, newId, NameOfAPointtxtFile);
 	}
 
 }

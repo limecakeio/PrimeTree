@@ -171,7 +171,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	}
 
 	@Override
-	public void uploadImage(byte[] imageData, int listingId, String originalFilename) throws IOException, ListingNotFoundException{
+	public void uploadImage(byte[] imageData, long listingId, String originalFilename) throws IOException, ListingNotFoundException{
 		String filePath=makeLocalFilePath(listingId, originalFilename);
 		try{
 			Files.deleteIfExists(Paths.get(filePath));
@@ -206,7 +206,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	 * @return local pathname
 	 * 
 	 * @throws IOException if the originalFilename hints, that the file is not an image file*/
-	private String makeLocalFilePath(int listingId, String originalFilename) throws IOException {
+	private String makeLocalFilePath(long listingId, String originalFilename) throws IOException {
 		return makeLocalDirectoryPath(listingId) + "/main-image" + getImageFileTypeEnding(originalFilename);
 	}
 	
@@ -216,7 +216,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	 * @param originalFilename: name of the original File
 	 * @return public pathname
 	 * @throws IOException if the originalFilename hints, that the file is not an image file*/
-	private String makePublicFilePath(int listingId, String originalFilename) throws IOException{
+	private String makePublicFilePath(long listingId, String originalFilename) throws IOException{
 		return "resources/assets/listings/" + listingId + "/main-image" + getImageFileTypeEnding(originalFilename);
 	}
 	
@@ -240,7 +240,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	/** This method creates the directorypath for a directory belonging to the listing with id listingId
 	 *  @param listingId: id of the listing
 	 *  @return: directory-path*/
-	private String makeLocalDirectoryPath(int listingId) {
+	private String makeLocalDirectoryPath(long listingId) {
 		return "src/main/webapp/resources/assets/listings/" + listingId;
 	}
 

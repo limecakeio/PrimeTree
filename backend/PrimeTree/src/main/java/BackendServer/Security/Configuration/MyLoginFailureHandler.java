@@ -18,7 +18,7 @@ public class MyLoginFailureHandler implements AuthenticationFailureHandler {
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException)
 			throws IOException, ServletException {
 		System.out.println("LoginFailure");
-		System.out.println(authenticationException.getLocalizedMessage());
+		System.out.println(authenticationException.getMessage());
 		response.addHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
 		response.addHeader("Access-Control-Allow-Credentials", "true");
 		response.addHeader("Access-Control-Allow-Headers", "x-authors");
