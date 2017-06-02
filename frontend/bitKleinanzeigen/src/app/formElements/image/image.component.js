@@ -38,7 +38,6 @@ var ImageFormComponent = (function () {
     ImageFormComponent.prototype.handleEvents = function () {
         var _this = this;
         this.div = document.querySelector('.image-box');
-        console.log(this.div);
         if (!this.div) {
             return;
         }
@@ -56,16 +55,10 @@ var ImageFormComponent = (function () {
             event.stopPropagation();
             _this.div.classList.remove('is-dragover');
         });
+        /**User drops a file into the dropper*/
         this.addMulipleEventListener(this.div, 'drop', function (event) {
-            // console.log(event);
-            _this.data.imageAsFile = event.dataTransfer.files[0];
-            /*GENERATE IMAGE PREVIEW*/
-            var imageResult = document.createElement("img");
-            imageResult.src = URL.createObjectURL(_this.data.imageAsFile);
-            /*Ensure the parent container dictates the dimensions*/
-            imageResult.style.width = "100%";
-            imageResult.style.height = "auto";
-            document.querySelector("#file-input-image").appendChild(imageResult);
+            console.log("DATA TRANSFER", event.dataTransfer);
+            _this.preloadImage(event.dataTransfer.files[0]);
             // this.fileToBase(this.data.imageAsFile, (base : string) => {
             //   this.data.imageAsBase = base;
             //   this.data.imageAsByteArray = this.baseToByte(base);
@@ -83,14 +76,112 @@ var ImageFormComponent = (function () {
             //   }));
             // });
         });
-        this.addMulipleEventListener(this.div, 'click', function (event) {
-            // console.log(event, 'click');
-        });
+        /**User clicks on the file-upload*/
+        // this.addMulipleEventListener(this.div, 'click', (event : any) => {
+        //   console.log("DATA TRANSFER", event);
+        //   this.preloadImage(event.dataTransfer.files[0]);
+        // });
     };
     ;
+    /**Generates and presents an image file from the uploader*/
+    ImageFormComponent.prototype.preloadImage = function (imageFile) {
+        /*GENERATE IMAGE PREVIEW*/
+        var imageResult = new Image();
+        var ImageComponent = this;
+        imageResult.onload = function () {
+            /*Hide the image upload*/
+            var imageInputContainer = document.querySelector(".image-input-container");
+            imageInputContainer.classList.remove("active");
+            /*Show the image preview - HAVE TO DO THIS FIRST TO GRAB CONTAINER DIMENSIONS*/
+            var resultImageContainer = document.querySelector(".result-image-container");
+            resultImageContainer.classList.add("active");
+            //Workaround to calling "this" within a callback
+            ImageComponent.setImageContainerDimensions();
+            /*Inject image into preview as a background image and center it*/
+            var imagePreviewContainer = document.querySelector("#file-input-image");
+            imagePreviewContainer.style.backgroundImage = "url('" + imageResult.src + "')";
+            imagePreviewContainer.style.backgroundPosition = "50% 50%";
+            /*Get the image's as well as its container's dimensions
+            to calculate the perfect initial display*/
+            var imgWidth = imageResult.width;
+            var imgHeight = imageResult.height;
+            var ipcWidth = imagePreviewContainer.clientWidth;
+            var ipcHeight = imagePreviewContainer.clientHeight;
+            /*Get the image's orientation*/
+            var isLandscape = false;
+            if (imgWidth > imgHeight) {
+                isLandscape = true;
+            }
+            /**Calculate and set initial display size*/
+            var imgRatio;
+            var zoomRange = document.querySelector("#zoom-range");
+            if (isLandscape) {
+                imgRatio = imgHeight / imgWidth;
+                if (ipcWidth * imgRatio < ipcHeight) {
+                    imagePreviewContainer.style.backgroundSize = "auto " + ipcHeight + "px";
+                    zoomRange.min = ipcHeight + "";
+                    zoomRange.max = imgHeight + "";
+                    zoomRange.value = imgHeight + "";
+                }
+                else {
+                    imagePreviewContainer.style.backgroundSize = "auto " + (ipcWidth * imgRatio) + "px";
+                    zoomRange.min = ipcWidth * imgRatio + "";
+                    zoomRange.max = imgWidth + "";
+                    zoomRange.value = ipcWidth * imgRatio + "";
+                }
+            }
+            else {
+                imagePreviewContainer.style.backgroundSize = "auto " + ipcHeight + "px";
+                zoomRange.min = "0";
+                zoomRange.max = imgHeight + "";
+                zoomRange.value = ipcHeight + "";
+            }
+        };
+        imageResult.src = URL.createObjectURL(imageFile);
+    };
+    ImageFormComponent.prototype.zoomImage = function () {
+        var rangeSlider = document.querySelector("#zoom-range");
+        var imageContainer = document.querySelector("#file-input-image");
+        //Adapt zoom-level to image-container background-image
+        imageContainer.style.backgroundSize = "auto " + rangeSlider.value + "px";
+    };
+    ImageFormComponent.prototype.moveImage = function (direction) {
+        var imagePreviewContainer = document.querySelector("#file-input-image");
+        var currentXpos = parseFloat(imagePreviewContainer.style.backgroundPositionX);
+        var currentYpos = parseFloat(imagePreviewContainer.style.backgroundPositionY);
+        var moveBy = 5;
+        if (direction === 'up') {
+            imagePreviewContainer.style.backgroundPositionY = currentYpos + moveBy + "%";
+        }
+        else if (direction === 'down') {
+            imagePreviewContainer.style.backgroundPositionY = currentYpos - moveBy + "%";
+        }
+        else if (direction === 'left') {
+            imagePreviewContainer.style.backgroundPositionX = currentXpos - moveBy + "%";
+        }
+        else if (direction === 'right') {
+            imagePreviewContainer.style.backgroundPositionX = currentXpos + moveBy + "%";
+        }
+    };
+    ImageFormComponent.prototype.removeImage = function () {
+        var imagePreviewContainer = document.querySelector(".result-image-container");
+        var imagePreview = document.querySelector("#file-input-image");
+        //Reset the image
+        imagePreview.innerHTML = "";
+        //Hide the image preview
+        imagePreviewContainer.classList.remove("active");
+        //Show the image dropper
+        document.querySelector(".image-input-container").classList.add("active");
+    };
+    /**Sets the image container to the OpenGraph dimension of 1:0.525*/
+    ImageFormComponent.prototype.setImageContainerDimensions = function () {
+        var resultImageContainer = document.querySelector(".result-image-container");
+        resultImageContainer.style.height = resultImageContainer.clientWidth * 0.525 + "px";
+    };
     ImageFormComponent.prototype.input = function (event) {
         var _this = this;
         this.data.imageAsFile = event.target.files[0];
+        this.preloadImage(event.target.files[0]);
         var path = URL.createObjectURL(this.data.imageAsFile);
         var reader = new FileReader();
         reader.onloadend = function () {

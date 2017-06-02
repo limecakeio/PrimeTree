@@ -34,6 +34,7 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
 		//The method gets the user by searching for the employeeData with the given username first, then 
 		//it searches for the userData with the same id as the found employeeData. If the userData don't exist,
 		//the method creates some with default values
+		System.out.println("loadUserByUsername(String username)");
 		EmployeeData employeeData=employeeDataRepository.findByLogin(username);
 		if(employeeData==null){
 			throw new UsernameNotFoundException("No user with username " + username + " can be found");

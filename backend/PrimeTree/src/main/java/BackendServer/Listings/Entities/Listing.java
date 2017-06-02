@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import BackendServer.Exceptions.MainImagNotSupportedException;
+import BackendServer.Exceptions.MainImageNotSupportedException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Constants;
@@ -310,8 +310,12 @@ public abstract class Listing {
 				&& (this.getTitle().contains(query) || this.getDescription().contains(query));
 	}
 	
-	public void setPicture(String picture) throws MainImagNotSupportedException{
-		throw new MainImagNotSupportedException();
+	public void setPicture(String picture) throws MainImageNotSupportedException{
+		throw new MainImageNotSupportedException();
+	}
+
+	public String getPicture() throws MainImageNotSupportedException{
+		throw new MainImageNotSupportedException();
 	}
 }
 

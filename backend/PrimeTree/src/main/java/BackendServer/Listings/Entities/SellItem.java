@@ -83,12 +83,6 @@ public class SellItem extends Offering{
 		}
 		this.setPrice(listingData.getDouble(Constants.listingDataFieldPrice));
 		this.setItemCondition(listingData.getString(Constants.listingDataFieldCondition));
-		if(!listingData.isNull(Constants.listingDataFieldPicture)){
-			this.setPicture(listingData.getString(Constants.listingDataFieldPicture));
-		}
-//		if(!listingData.isNull(Constants.listingDataFieldImageGallery)){
-//			this.setImageGallery(SimpleMethods.parseJSONArrayToStringList(listingData.getJSONArray(Constants.listingDataFieldImageGallery)) );
-//		}
 	}
 	
 	/* (non-Javadoc)

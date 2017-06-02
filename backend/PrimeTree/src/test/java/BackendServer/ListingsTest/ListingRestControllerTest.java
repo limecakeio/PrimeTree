@@ -699,11 +699,237 @@ public class ListingRestControllerTest{
 			assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 	}
 	
+	/**
+	 * Test getListingBySearch with wrong search query
+	 */
+	@Test
+	public void getListingBySearchTestWithWrongQuery(){
+		// Setup
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		query = "Staubsauger!!1111einseinself";
+		request = new MockHttpServletRequest("GET", "listings/search");
+		result = testRESTController.getListingsBySearch(query, 1, locationArray, 20, 22, typeArray, Constants.listingKindOffering, Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+	}
+	
+	/**
+	 * Test getListingBySearch with null query
+	 */
+	@Test
+	public void getListingBySearchTestWithNullQuery(){
+		// Setup
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/search");
+		result = testRESTController.getListingsBySearch(null, 1, locationArray, 20, 22, typeArray, Constants.listingKindOffering, Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+	}
+	
+	/**
+	 * Test getListingBySearch with wrong MinPrice
+	 */
+	@Test
+	public void getListingBySearchTestWithWrongMinPrice(){
+		// Setup
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/search");
+		result = testRESTController.getListingsBySearch(query, 1, locationArray, Integer.MAX_VALUE, 22, typeArray, Constants.listingKindOffering, Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+	}
+	
+	/**
+	 * Test getListingBySearch with wrong MaxPrice
+	 */
+	@Test
+	public void getListingBySearchTestWithWrongMaxPrice(){
+		// Setup
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/search");
+		result = testRESTController.getListingsBySearch(query, 1, locationArray, 20, Integer.MIN_VALUE, typeArray, Constants.listingKindOffering, Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+	}
+	
+	/**
+	 * Test getListingBySearch with null location Array
+	 */
+	@Test
+	public void getListingBySearchTestWithNullLocationArray(){
+		// Setup
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/search");
+		result = testRESTController.getListingsBySearch(query, 1, null, 20, 22, typeArray, Constants.listingKindOffering, Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test getListingBySearch with null type Array
+	 */
+	@Test
+	public void getListingBySearchTestWithNullTypeArray(){
+		// Setup
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/search");
+		result = testRESTController.getListingsBySearch(query, 1, locationArray, 20, 22, null, Constants.listingKindOffering, Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test getListingBySearch with null kind
+	 */
+	@Test
+	public void getListingBySearchTestWithNullKind(){
+		// Setup
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/search");
+		result = testRESTController.getListingsBySearch(query, 1, locationArray, 20, 22, typeArray, null, Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+	}
+	
+	//------------------------------ getActiveListings -----------------------------------
+	
+	/**
+	 * Test getActiveListings with correct values
+	 */
+	@Test
+	public void getActiveListingsTestWithCorrectValues(){
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/active");
+		result = testRESTController.getActiveListings(1, locationArray, 20, 22, typeArray, Constants.listingKindOffering,
+				Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test getActiveListings with null locationArray
+	 */
+	@Test
+	public void getActiveListingsTestWithNullLocations(){
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/active");
+		result = testRESTController.getActiveListings(1, null, 20, 22, typeArray, Constants.listingKindOffering,
+				Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test getActiveListings with null typeArray
+	 */
+	@Test
+	public void getActiveListingsTestWithNullTypeArray(){
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/active");
+		result = testRESTController.getActiveListings(1, locationArray, 20, 22, null, Constants.listingKindOffering,
+				Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test getActiveListings with null kind
+	 */
+	@Test
+	public void getActiveListingsTestWithNullKind(){
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/active");
+		result = testRESTController.getActiveListings(1, locationArray, 20, 22, typeArray, null,
+				Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	/**
+	 * Test getActiveListings with wrong maxPrice
+	 */
+	@Test
+	public void getActiveListingsTestWithWrongMaxPrice(){
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/active");
+		result = testRESTController.getActiveListings(1, locationArray, 20, Integer.MIN_VALUE, typeArray, Constants.listingKindOffering,
+				Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+		assertEquals(0, result.length());
+	}
+	
+	/**
+	 * Test getActiveListings with wrong minPrice
+	 */
+	@Test
+	public void getActiveListingsTestWithMinPrice(){
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/active");
+		result = testRESTController.getActiveListings(1, locationArray, Integer.MAX_VALUE, 22, typeArray, Constants.listingKindOffering,
+				Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+		assertEquals(0, result.length());
+	}
 	
 	
+	//---------------------------------------------------- getInactiveListings -------------------------------------------
 	
 	
+	/**
+	 * Test getInactiveListings with correct values
+	 */
+	@Test
+	public void getInactiveListingsTestWithCorrectValues(){
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/inactive");
+		result = testRESTController.getInactiveListings(1, locationArray, 22, 20, typeArray, Constants.listingKindOffering,
+				Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
 	
+	/**
+	 * Test getInactiveListings with null location
+	 */
+	@Test
+	public void getInactiveListingsTestWithNullLocation(){
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/inactive");
+		result = testRESTController.getInactiveListings(1, null, 22, 20, typeArray, Constants.listingKindOffering,
+				Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	
+	/**
+	 * Test getInactiveListings with null type
+	 */
+	@Test
+	public void getInactiveListingsTestWithNullType(){
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/inactive");
+		result = testRESTController.getInactiveListings(1, locationArray, 22, 20, null, Constants.listingKindOffering,
+				Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
+	
+	
+	/**
+	 * Test getInactiveListings with null kind
+	 */
+	@Test
+	public void getInactiveListingsTestWithNullKind(){
+		request = new MockHttpServletRequest("POST", "listing");
+		String result = testRESTController.createListing(requestBodyString, request, response);
+		request = new MockHttpServletRequest("GET", "listings/inactive");
+		result = testRESTController.getInactiveListings(1, locationArray, 22, 20, typeArray, null,
+				Constants.sortOptionAlphabetical_Asc, request, response);
+		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
+	}
 	
 	
 	

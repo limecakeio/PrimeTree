@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FormElementsService } from '../formElements.service';
 import { DomSanitizer, SafeUrl, SafeStyle } from '@angular/platform-browser';
@@ -26,7 +26,7 @@ export class ImageFormComponent implements OnInit {
 
   private handleEvents() : void {
     this.div = document.querySelector('.image-box');
-    console.log(this.div);
+
     if (!this.div) {
       return;
     }
@@ -47,19 +47,12 @@ export class ImageFormComponent implements OnInit {
       this.div.classList.remove('is-dragover');
     });
 
+    /**User drops a file into the dropper*/
     this.addMulipleEventListener(this.div, 'drop', (event : any) => {
-      // console.log(event);
-      this.data.imageAsFile = event.dataTransfer.files[0];
+      console.log("DATA TRANSFER", event.dataTransfer);
+      this.preloadImage(event.dataTransfer.files[0]);
 
-      /*GENERATE IMAGE PREVIEW*/
-      let imageResult = document.createElement("img");
-      imageResult.src = URL.createObjectURL(this.data.imageAsFile);
 
-      /*Ensure the parent container dictates the dimensions*/
-      imageResult.style.width = "100%";
-      imageResult.style.height = "auto";
-
-      document.querySelector("#file-input-image").appendChild(imageResult);
 
 
       // this.fileToBase(this.data.imageAsFile, (base : string) => {
@@ -80,13 +73,121 @@ export class ImageFormComponent implements OnInit {
       // });
     });
 
-    this.addMulipleEventListener(this.div, 'click', (event : any) => {
-      // console.log(event, 'click');
-    });
+    /**User clicks on the file-upload*/
+    // this.addMulipleEventListener(this.div, 'click', (event : any) => {
+    //   console.log("DATA TRANSFER", event);
+    //   this.preloadImage(event.dataTransfer.files[0]);
+    // });
   };
+
+  /**Generates and presents an image file from the uploader*/
+  preloadImage(imageFile : File) : void {
+
+    /*GENERATE IMAGE PREVIEW*/
+    let imageResult = new Image();
+    let ImageComponent : ImageFormComponent = this;
+    imageResult.onload = function() {
+
+      /*Hide the image upload*/
+      let imageInputContainer = document.querySelector(".image-input-container");
+      imageInputContainer.classList.remove("active");
+
+      /*Show the image preview - HAVE TO DO THIS FIRST TO GRAB CONTAINER DIMENSIONS*/
+      let resultImageContainer = document.querySelector(".result-image-container");
+      resultImageContainer.classList.add("active");
+
+      //Workaround to calling "this" within a callback
+      ImageComponent.setImageContainerDimensions();
+
+      /*Inject image into preview as a background image and center it*/
+      let imagePreviewContainer = <HTMLElement>document.querySelector("#file-input-image");
+      imagePreviewContainer.style.backgroundImage = "url('"+imageResult.src+"')";
+      imagePreviewContainer.style.backgroundPosition = "50% 50%";
+
+      /*Get the image's as well as its container's dimensions
+      to calculate the perfect initial display*/
+      let imgWidth = imageResult.width;
+      let imgHeight = imageResult.height;
+      let ipcWidth = imagePreviewContainer.clientWidth;
+      let ipcHeight = imagePreviewContainer.clientHeight;
+
+
+      /*Get the image's orientation*/
+      let isLandscape = false;
+      if(imgWidth > imgHeight) {//If it's not landscape it's either portrait or square
+        isLandscape = true;
+      }
+
+      /**Calculate and set initial display size*/
+      let imgRatio;
+      let zoomRange = <HTMLInputElement>document.querySelector("#zoom-range");
+      if(isLandscape) {
+        imgRatio = imgHeight / imgWidth;
+        if(ipcWidth * imgRatio < ipcHeight) {
+          imagePreviewContainer.style.backgroundSize = "auto " + ipcHeight + "px";
+          zoomRange.min = ipcHeight + "";
+          zoomRange.max = imgHeight + "";
+          zoomRange.value = imgHeight + "";
+        } else {
+          imagePreviewContainer.style.backgroundSize = "auto " + (ipcWidth * imgRatio) + "px";
+          zoomRange.min = ipcWidth * imgRatio + "";
+          zoomRange.max = imgWidth + "";
+          zoomRange.value = ipcWidth * imgRatio + "";
+        }
+      } else { //Pretty much let the user do what they like
+        imagePreviewContainer.style.backgroundSize = "auto " + ipcHeight + "px";
+        zoomRange.min = "0";
+        zoomRange.max = imgHeight + "";
+        zoomRange.value = ipcHeight + "";
+      }
+    }
+    imageResult.src = URL.createObjectURL(imageFile);
+  }
+
+  zoomImage() : void {
+    let rangeSlider = <HTMLInputElement>document.querySelector("#zoom-range");
+    let imageContainer = <HTMLElement>document.querySelector("#file-input-image");
+    //Adapt zoom-level to image-container background-image
+    imageContainer.style.backgroundSize = "auto " + rangeSlider.value + "px";
+  }
+
+  moveImage(direction : String) : void {
+    let imagePreviewContainer = <HTMLElement>document.querySelector("#file-input-image");
+    let currentXpos = parseFloat(imagePreviewContainer.style.backgroundPositionX);
+    let currentYpos = parseFloat(imagePreviewContainer.style.backgroundPositionY);
+    const moveBy = 5;
+    if(direction === 'up') {
+      imagePreviewContainer.style.backgroundPositionY = currentYpos + moveBy + "%";
+    } else if (direction === 'down') {
+      imagePreviewContainer.style.backgroundPositionY = currentYpos - moveBy + "%";
+    } else if (direction === 'left') {
+      imagePreviewContainer.style.backgroundPositionX = currentXpos - moveBy + "%";
+    } else if (direction === 'right') {
+      imagePreviewContainer.style.backgroundPositionX = currentXpos + moveBy + "%";
+    }
+  }
+
+  removeImage() : void {
+    const imagePreviewContainer = document.querySelector(".result-image-container");
+    const imagePreview = document.querySelector("#file-input-image");
+    //Reset the image
+    imagePreview.innerHTML="";
+    //Hide the image preview
+    imagePreviewContainer.classList.remove("active");
+    //Show the image dropper
+    document.querySelector(".image-input-container").classList.add("active");
+  }
+
+  /**Sets the image container to the OpenGraph dimension of 1:0.525*/
+  private setImageContainerDimensions() : void {
+    let resultImageContainer = <HTMLElement>document.querySelector(".result-image-container");
+    resultImageContainer.style.height = resultImageContainer.clientWidth * 0.525 + "px";
+
+  }
 
   input(event : any) {
     this.data.imageAsFile = event.target.files[0];
+    this.preloadImage(event.target.files[0]);
     let path : string = URL.createObjectURL(this.data.imageAsFile);
     let reader : FileReader = new FileReader();
     reader.onloadend = () => {

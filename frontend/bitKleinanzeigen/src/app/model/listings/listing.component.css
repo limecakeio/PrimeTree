@@ -2,16 +2,14 @@
 * Controls the displays for all listing-relevant pages
 */
 .listing-viewport {
-  position: relative;
-  display: flex;
+  display:flex;
   align-items: center;
+  position: relative;
 }
 
 .listing-scroll-container { /**Required to hide scroll-bar*/
-  display:block;
-  overflow:hidden;
-  position:relative;
-  width:100%;
+  overflow: hidden;
+  position: relative;
 }
 
 .listing-wrapper {
@@ -31,8 +29,15 @@
   display:table-cell;
 }
 
-/**DESKTOP-SETTINGS*/
-@media (min-width: 992px) {
+/**HEIGHT FIX*/
+@media (max-height: 500px) {
+  .listing-viewport {
+    height: 300px !important
+  };
+}
+
+/**TABLET-SETTINGS*/
+@media (min-width: 768px) {
   .listing.single-row {
     display: table-cell;
   }
@@ -40,7 +45,6 @@
     display: block;
   }
 }
-
 
 /*HIDING HORIZONAL SCROLLBARS IS TRICKY*/
 .listing-wrapper::-webkit-scrollbar  {/*ALL WEBKIT BROWSERS...*/
