@@ -7,7 +7,9 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Constants;
@@ -26,6 +28,9 @@ public class ListingTest {
 	private String imagepath1;
 	private String imagepath2;
 
+	
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
 	// type is SellItem/Ridesharing
 	// kind is offering or request
 	/**
@@ -147,10 +152,11 @@ public class ListingTest {
 	 * 
 	 * @throws WrongFormatException
 	 */
-	@Test(expected = WrongFormatException.class)
+	@Test
 	public void fillFieldsTestWithStringActive() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldActive);
 		initialiseJSONOject.put(Constants.listingDataFieldActive, "test");
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
 	}
 
@@ -159,10 +165,11 @@ public class ListingTest {
 	 * 
 	 * @throws WrongFormatException
 	 */
-	@Test(expected = WrongFormatException.class)
+	@Test
 	public void fillFieldsTestWithIntActive() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldActive);
 		initialiseJSONOject.put(Constants.listingDataFieldActive, 3);
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
 	}
 
@@ -174,10 +181,11 @@ public class ListingTest {
 	 * 
 	 * @throws WrongFormatException
 	 */
-	@Test(expected = WrongFormatException.class)
+	@Test
 	public void fillFieldsTestWithBooleanCreateDate() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldCreateDate);
 		initialiseJSONOject.put(Constants.listingDataFieldCreateDate, true);
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
 	}
 
@@ -186,10 +194,11 @@ public class ListingTest {
 	 * 
 	 * @throws WrongFormatException
 	 */
-	@Test(expected = WrongFormatException.class)
+	@Test
 	public void fillFieldsTestWithStringCreateDate() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldCreateDate);
 		initialiseJSONOject.put(Constants.listingDataFieldCreateDate, "20.05.2017");
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
 	}
 
@@ -205,8 +214,8 @@ public class ListingTest {
 	public void fillFieldsTestWithStringCreator() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldCreator);
 		initialiseJSONOject.put(Constants.listingDataFieldCreator, "Mark");
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
-		assertEquals(0, testListing.getOwner());
 	}
 
 	/**
@@ -218,8 +227,9 @@ public class ListingTest {
 	public void fillFieldsTestWithBooleanCreator() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldCreator);
 		initialiseJSONOject.put(Constants.listingDataFieldCreator, true);
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
-		assertEquals(0, testListing.getOwner());
+		//assertEquals(0, testListing.getOwner());
 	}
 
 	/**
@@ -231,8 +241,8 @@ public class ListingTest {
 	public void fillFieldsTestWithDoubleCreator() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldCreator);
 		initialiseJSONOject.put(Constants.listingDataFieldCreator, 2.1);
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
-		assertEquals(0, testListing.getOwner());
 	}
 
 	// ------------------------------------- fillFields for description
@@ -243,10 +253,11 @@ public class ListingTest {
 	 * 
 	 * @throws WrongFormatException
 	 */
-	@Test(expected = WrongFormatException.class)
+	@Test
 	public void fillFieldsTestWithBooleanDesription() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldDescription);
 		initialiseJSONOject.put(Constants.listingDataFieldDescription, true);
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
 
 	}
@@ -256,10 +267,11 @@ public class ListingTest {
 	 * 
 	 * @throws WrongFormatException
 	 */
-	@Test(expected = WrongFormatException.class)
+	@Test
 	public void fillFieldsTestWithIntDesription() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldDescription);
 		initialiseJSONOject.put(Constants.listingDataFieldDescription, 12);
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
 	}
 
@@ -271,10 +283,11 @@ public class ListingTest {
 	 * 
 	 * @throws WrongFormatException
 	 */
-	@Test(expected = WrongFormatException.class)
+	@Test
 	public void fillFieldsTestWithBooleanExpiryDate() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldDeadLine);
 		initialiseJSONOject.put(Constants.listingDataFieldDeadLine, true);
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
 	}
 
@@ -283,10 +296,11 @@ public class ListingTest {
 	 * 
 	 * @throws WrongFormatException
 	 */
-	@Test(expected = WrongFormatException.class)
+	@Test
 	public void fillFieldsTestWithStringExpiryDate() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldDeadLine);
 		initialiseJSONOject.put(Constants.listingDataFieldDeadLine, "20.05.2017");
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
 	}
 
@@ -298,10 +312,11 @@ public class ListingTest {
 	 * 
 	 * @throws WrongFormatException
 	 */
-	@Test(expected = WrongFormatException.class)
+	@Test
 	public void fillFieldsTestWithWrongLocation() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldLocation);
 		initialiseJSONOject.put(Constants.listingDataFieldLocation, "Vossenack");
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
 	}
 
@@ -310,10 +325,11 @@ public class ListingTest {
 	 * 
 	 * @throws WrongFormatException
 	 */
-	@Test(expected = WrongFormatException.class)
+	@Test
 	public void fillFieldsTestWithIntLocation() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldLocation);
 		initialiseJSONOject.put(Constants.listingDataFieldLocation, 2);
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
 	}
 
@@ -322,10 +338,11 @@ public class ListingTest {
 	 * 
 	 * @throws WrongFormatException
 	 */
-	@Test(expected = WrongFormatException.class)
+	@Test
 	public void fillFieldsTestWithBooleanLocation() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldLocation);
 		initialiseJSONOject.put(Constants.listingDataFieldLocation, true);
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
 	}
 
@@ -334,10 +351,11 @@ public class ListingTest {
 	 * 
 	 * @throws WrongFormatException
 	 */
-	@Test(expected = WrongFormatException.class)
+	@Test
 	public void fillFieldsTestWithEmptyStringLocation() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldLocation);
 		initialiseJSONOject.put(Constants.listingDataFieldLocation, "");
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
 	}
 
@@ -361,10 +379,11 @@ public class ListingTest {
 	 * 
 	 * @throws WrongFormatException
 	 */
-	@Test(expected = WrongFormatException.class)
+	@Test
 	public void fillFieldsTestWithIntTitle() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldTitle);
 		initialiseJSONOject.put(Constants.listingDataFieldTitle, 10);
+		thrown.expect(WrongFormatException.class);
 		testListing.fillFields(initialiseJSONOject, 0);
 	}
 
@@ -372,10 +391,11 @@ public class ListingTest {
 	 * Test fillFields with an boolean instead of String in title
 	 * @throws WrongFormatException 
 	 */
-	@Test(expected = WrongFormatException.class)
+	@Test
 	public void fillFieldsTestWithBooleanTitle() throws WrongFormatException {
 		initialiseJSONOject.remove(Constants.listingDataFieldTitle);
 		initialiseJSONOject.put(Constants.listingDataFieldTitle, true);
+		thrown.expect(WrongFormatException.class);
 			testListing.fillFields(initialiseJSONOject, 0);
 	}
 

@@ -22,6 +22,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import BackendServer.Exceptions.ListingNotFoundException;
+import BackendServer.Exceptions.MainImageNotSupportedException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Entities.BorrowRequest;
 import BackendServer.Listings.Entities.Listing;
@@ -962,7 +963,7 @@ public class PersistenceAdapterTest {
 	//-------------------------------------uploadPicture--------------------------------------------
 	
 	@Test
-	public void testUploadPictureWithPointpngAndThenChangeThePictureToAPointjpg() throws IOException, ListingNotFoundException, WrongFormatException{
+	public void testUploadPictureWithPointpngAndThenChangeThePictureToAPointjpg() throws IOException, ListingNotFoundException, WrongFormatException, MainImageNotSupportedException{
 		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
 		persistenceAdapter.uploadMainImage(fileDataOfAPointpng, newId, NameOfAPointpngFile);
 		
@@ -980,7 +981,7 @@ public class PersistenceAdapterTest {
 	}
 	
 	@Test
-	public void testUploadPictureWithPointjpeg() throws WrongFormatException, IOException, ListingNotFoundException{
+	public void testUploadPictureWithPointjpeg() throws WrongFormatException, IOException, ListingNotFoundException, MainImageNotSupportedException{
 		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
 		persistenceAdapter.uploadMainImage(fileDataOfAPointjpeg, newId, NameOfAPointjpegFile);
 		
@@ -991,7 +992,7 @@ public class PersistenceAdapterTest {
 	}
 	
 	@Test
-	public void testUploadPictureWithPointPNG() throws WrongFormatException, IOException, ListingNotFoundException{
+	public void testUploadPictureWithPointPNG() throws WrongFormatException, IOException, ListingNotFoundException, MainImageNotSupportedException{
 		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
 		persistenceAdapter.uploadMainImage(fileDataOfAPointPNG, newId, NameOfAPointPNGFile);
 		
@@ -1002,7 +1003,7 @@ public class PersistenceAdapterTest {
 	}
 	
 	@Test
-	public void testUploadPictureWithPointJPG() throws WrongFormatException, IOException, ListingNotFoundException{
+	public void testUploadPictureWithPointJPG() throws WrongFormatException, IOException, ListingNotFoundException, MainImageNotSupportedException{
 		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
 		persistenceAdapter.uploadMainImage(fileDataOfAPointJPG, newId, NameOfAPointJPGFile);
 		
@@ -1013,7 +1014,7 @@ public class PersistenceAdapterTest {
 	}
 	
 	@Test
-	public void testUploadPictureWithPointJPEG() throws WrongFormatException, IOException, ListingNotFoundException{
+	public void testUploadPictureWithPointJPEG() throws WrongFormatException, IOException, ListingNotFoundException, MainImageNotSupportedException{
 		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
 		persistenceAdapter.uploadMainImage(fileDataOfAPointJPEG, newId, NameOfAPointJPEGFile);
 		
@@ -1024,18 +1025,18 @@ public class PersistenceAdapterTest {
 	}
 	
 	@Test(expected=ListingNotFoundException.class)
-	public void testUploadPictureWithNotExistingListingId() throws IOException, ListingNotFoundException{
+	public void testUploadPictureWithNotExistingListingId() throws IOException, ListingNotFoundException, MainImageNotSupportedException{
 		persistenceAdapter.uploadMainImage(fileDataOfAPointpng, -1, NameOfAPointpngFile);
 	}
 	
 	@Test(expected=IOException.class)
-	public void testUploadPictureWithTextFile() throws IOException, ListingNotFoundException, WrongFormatException{
+	public void testUploadPictureWithTextFile() throws IOException, ListingNotFoundException, WrongFormatException, MainImageNotSupportedException{
 		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
 		persistenceAdapter.uploadMainImage(fileDataOfAPointtxt, newId, NameOfAPointtxtFile);
 	}
 	
 	@Test(expected=IOException.class)
-	public void testUploadPictureWithTextFile() throws IOException, ListingNotFoundException, WrongFormatException{
+	public void testUploadPictureWithTextFile2() throws IOException, ListingNotFoundException, WrongFormatException, MainImageNotSupportedException{
 		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
 		persistenceAdapter.uploadMainImage(fileDataOfAPointtxt, newId, NameOfAPointtxtFile);
 	}
