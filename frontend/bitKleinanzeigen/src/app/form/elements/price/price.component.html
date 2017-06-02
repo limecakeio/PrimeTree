@@ -1,0 +1,11 @@
+<div [formGroup]="form">
+<div class="input-group"><!-- Verkaufspreis form element -->
+  <span>Preis</span>
+  <input type="number"
+  name="price"
+  [(ngModel)]="model.price"
+  formControlName="price"
+  class="form-control"
+  aria-label="Verkaufspreis">
+</div>
+</div>

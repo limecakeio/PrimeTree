@@ -1,15 +1,14 @@
 "use strict";
 var network_request_1 = require("./network.request");
-var Observable_1 = require("rxjs/Observable");
 var NetworkService = (function () {
     function NetworkService() {
     }
-    NetworkService.prototype.send = function (request) {
-        return new Observable_1.Observable();
-    };
-    ;
     NetworkService.prototype.networkRequest = function () {
-        return new network_request_1.NetworkRequest();
+        var request = new network_request_1.NetworkRequest();
+        request
+            .setHostname('141.19.145.175')
+            .setPort(8080);
+        return request;
     };
     ;
     return NetworkService;

@@ -1,27 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from '../login/login.component';
-import { ListingComponent } from '../model/listings/listing.component';
-import { CanActivateUser } from '../routing/canActivateUser.model';
-import { SellItemCreateFormComponent } from '../model/listings/form/create/sellitem-create.component';
+
+import { CanActivateUser } from './can-activate-user.model';
+import { AuthenticationComponent } from '../authentication/authentication'
+import { ListingOverviewViewportComponent } from '../model/listings/listings';
+import { ListingCreateComponent } from '../model/listings/listing/listing-create.component';
+import { ListingDetailViewComponent } from '../model/listings/listing/listing-detail-view.component';
 
 const routes: Routes = [
   {
-  path: 'create/sellitem',
-  component: SellItemCreateFormComponent,
-  canActivate: [ CanActivateUser ]
-}, {
-  path: 'home',
-  component: ListingComponent,
-  canActivate: [ CanActivateUser ]
-}, {
-  path: '',
-  component: LoginComponent
-}
-// , {
-//   path: '',
-//   component:
-// }
+    path: 'home',
+    component: ListingOverviewViewportComponent,
+    canActivate: [ CanActivateUser ]
+  }, {
+    path: '',
+    component: AuthenticationComponent
+  }
 ];
 
 @NgModule({

@@ -1,27 +1,34 @@
-import { NgModule }      from '@angular/core';
+import { NgModule, OnInit }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { SecurityModule } from './security/security.module';
+
+import { AuthenticationModule } from './authentication/authentication';
+import { NavigationModule } from './navigation/navigation';
+import { ListingsModule } from './model/listings/listings.module';
+import { UserModule } from './model/user/user';
+
 import { NetworkModule } from './network/network.module';
-import { ListingModule  } from './model/listings/listing.modul';
 import { AppComponent } from './app.component';
-import { LoginModul  } from './login/login.module';
-import { SecurityModel } from './security/security.model';
 import { RouterModule } from '@angular/router';
 import { RoutingModule } from './routing/routing.module';
-import { UserNavigationModule } from './usernavigation/user-navigation.module';
 
 @NgModule({
-  imports: [ 
+  imports: [
     BrowserModule,
-    SecurityModule,
     NetworkModule,
-    ListingModule,
-    LoginModul,
+    AuthenticationModule,
+    NavigationModule,
+    ListingsModule,
+    UserModule,
+
     RouterModule,
     RoutingModule,
-    UserNavigationModule ],
+  ],
   declarations: [ AppComponent ],
   bootstrap:    [ AppComponent ],
-  providers: [ SecurityModel ]
 })
-export class AppModule { }
+export class AppModule implements OnInit {
+
+  ngOnInit() {
+    // console.log(this);
+  }
+}
