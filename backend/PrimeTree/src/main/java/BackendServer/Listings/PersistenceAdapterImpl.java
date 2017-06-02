@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import BackendServer.Exceptions.CommentNotFoundException;
+import BackendServer.Exceptions.GalleryIndexOutOfLimitException;
 import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Exceptions.MainImageNotSupportedException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
@@ -424,25 +425,6 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		uploadAnyImage(imageData, localFilePath);
 		return getPublicFilePathFromLocal(localFilePath);
 	}
-
-	@Override
-	public void addImageToGallery(byte[] imageData, int listingId, String originalFilename)
-			throws IOException, ListingNotFoundException, NoImageGallerySupportedException {
-		
-		final String localFilePath=makeNewImageInGalleryPathName(listingId, originalFilename);
-		uploadAnyImage(imageData, localFilePath);
-		this.performActionOnAlllistingControllers(listingId, new ListingObjectControllerActionPerformer(){
-
-			String publicFilePath=getPublicFilePathFromLocal(localFilePath);
-				
-			@Override
-			public Object performAction(long listingId) throws ListingNotFoundException, WrongFormatException, NoImageGallerySupportedException {
-				this.listingObjectController.addImagePath(listingId, publicFilePath);
-				return null;
-			}
-			
-		});
-	}
 	
 	private void uploadAnyImage(byte[] imageData, String localFilePath) throws IOException{
 		try{
@@ -476,21 +458,38 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	}
 	
 	@Override
-	public void changeImageInGallery(byte[] imageData, int listingId, final int galleryIndex, String originalFilename) throws ListingNotFoundException, NoImageGallerySupportedException, IOException {
-		this.deleteImageInGallery(listingId, galleryIndex);
-		this.addImageToGallery(imageData, listingId, originalFilename);
+	public void putImageInGallery(byte[] imageData, int listingId,final int galleryIndex, String originalFilename) throws ListingNotFoundException, NoImageGallerySupportedException, IOException, GalleryIndexOutOfLimitException {
+		if(galleryIndex<Constants.numberOfImagesPerGallery){
+			final String localFilePath=makeImageInGalleryPathName(listingId, galleryIndex, originalFilename);
+			uploadAnyImage(imageData, localFilePath);
+			this.performActionOnAlllistingControllers(listingId, new ListingObjectControllerActionPerformer(){
+
+				String publicFilePath=getPublicFilePathFromLocal(localFilePath);
+				int galleryIndexInPerformer=galleryIndex;
+					
+				@Override
+				public Object performAction(long listingId) throws ListingNotFoundException, WrongFormatException, NoImageGallerySupportedException {
+					this.listingObjectController.setImagePath(listingId, galleryIndexInPerformer, publicFilePath);
+					return null;
+				}
+				
+			});
+		}else{
+			throw new GalleryIndexOutOfLimitException();
+		}
 	}
 
 	/**This method creates a new unredundant public pathname for a new image for a gallery
 	 * @param listingId id of the listing the gallery belongs to
+	 * @param galleryIndex 
 	 * @param originalFilename the original filename of the image
 	 * @return the new public pathname
 	 * @throws IOException if the pathname shows that the file was no image
 	 * @throws NoImageGallerySupportedException if the listing doesn't support a main image
 	 * @throws ListingNotFoundException
 	 */
-	private String makeNewImageInGalleryPathName(int listingId,  String originalFilename) throws IOException, NoImageGallerySupportedException, ListingNotFoundException {
-		return "/resources/assets/listings/" + listingId + "/gallery/" + this.getListingById(listingId).makeNextGalleryFileName() + this.getImageFileTypeEnding(originalFilename);
+	private String makeImageInGalleryPathName(int listingId,  int galleryIndex, String originalFilename) throws IOException, NoImageGallerySupportedException, ListingNotFoundException {
+		return "/resources/assets/listings/" + listingId + "/gallery/" + galleryIndex + this.getImageFileTypeEnding(originalFilename);
 	}
 
 	@Override
@@ -503,7 +502,7 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 				@Override
 				public Object performAction(long listingId)
 						throws ListingNotFoundException, WrongFormatException, NoImageGallerySupportedException {
-					publicFilePath=listingObjectController.getListingById(listingId).getImageGallery().get(galleryIndex);
+					publicFilePath=listingObjectController.getListingById(listingId).getImageGallery()[galleryIndex];
 					listingObjectController.deleteGalleryImage(listingId, galleryIndex);
 					return publicFilePath;
 				}

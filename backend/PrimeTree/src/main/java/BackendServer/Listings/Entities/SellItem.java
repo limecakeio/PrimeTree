@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import BackendServer.Exceptions.NoImageGallerySupportedException;
@@ -23,14 +24,13 @@ import BackendServer.Listings.SimpleMethods;
 public class SellItem extends Offering{
 	private double price;
 	private String picture;
-	@ElementCollection
-	private List<String> imageGallery;
+	private String[] imageGallery;
 	private String itemCondition;
 	
 	public SellItem(){
 		this.setType(Constants.listingTypeNameSellItem);
 		if(this.getImageGallery()==null){
-			this.setImageGallery(new LinkedList<String>());
+			this.setImageGallery(new String[Constants.numberOfImagesPerGallery]);
 		}
 	}
 	
@@ -51,20 +51,13 @@ public class SellItem extends Offering{
 		this.price = d;
 	}
 
-	public List<String> getImageGallery() {
+	@Override
+	public String[] getImageGallery() {
 		return imageGallery;
 	}
 
-	public void setImageGallery(List<String> imageGallery) {
+	public void setImageGallery(String[] imageGallery) {
 		this.imageGallery = imageGallery;
-	}
-	
-	public void addImageToGallery(String pathName) throws NoImageGallerySupportedException{
-		this.getImageGallery().add(pathName);
-	}
-
-	public int getImageGallerySize() throws NoImageGallerySupportedException {
-		return this.getImageGallery().size();
 	}
 
 	/* (non-Javadoc)
@@ -98,20 +91,8 @@ public class SellItem extends Offering{
 		json.accumulate(Constants.listingDataFieldCondition, this.getItemCondition());
 		json.accumulate(Constants.listingDataFieldPrice, this.getPrice());
 		json.accumulate(Constants.listingDataFieldPicture, this.getPicture());
-		json.accumulate(Constants.listingDataFieldImageGallery, this.getImageGallery());
+		json.accumulate(Constants.listingDataFieldImageGallery, new JSONArray(this.getImageGallery()));
 		return json;
-	}
-
-	public String makeNextGalleryFileName() throws NoImageGallerySupportedException {
-		if(this.imageGallery.size()==0){
-			return "0";
-		}else{
-			String lastPath=imageGallery.get(imageGallery.size()-1);
-			int lastIndexOfLastFilename=lastPath.lastIndexOf('.')-1;
-			int firstIndexOfLastFilename=lastPath.lastIndexOf('.', lastIndexOfLastFilename);
-			int lastFileNameAsNumber=SimpleMethods.parseStringToInt(lastPath.substring(firstIndexOfLastFilename, lastIndexOfLastFilename));
-			return (lastFileNameAsNumber+1)+"";
-		}
 	}
 
 	public String getItemCondition() {
