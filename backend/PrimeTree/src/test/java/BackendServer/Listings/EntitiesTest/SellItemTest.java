@@ -44,7 +44,7 @@ public class SellItemTest {
 		obj1.put(Constants.listingDataFieldPicture, "test/location");
 		obj1.put(Constants.listingDataFieldTitle, "test1");
 		obj1.put(Constants.listingDataFieldPrice, 2.1);
-		obj1.put(Constants.listingDataFieldCondition, "gut");
+		obj1.put(Constants.listingDataFieldCondition, "new");
 		obj1.put(Constants.listingDataFieldImageGallery, imageGallery);
 
 	}
