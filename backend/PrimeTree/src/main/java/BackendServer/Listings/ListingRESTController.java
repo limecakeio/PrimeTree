@@ -27,6 +27,7 @@ import BackendServer.Exceptions.GalleryIndexOutOfLimitException;
 import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Exceptions.MainImageNotSupportedException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
+import BackendServer.Exceptions.PathNotTemporaryException;
 import BackendServer.Exceptions.UserNotFoundException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Entities.Listing;
@@ -278,10 +279,25 @@ public class ListingRESTController {
 		return result.toString();
 	}
 	
+	/**This method deletes a temporary image
+	 * @param request
+	 * @param response
+	 * 201:
+          description: image was created successfully
+        401:
+          description: user must be authenticated
+        403:
+          The path does not show to a temporary image
+	 * @param imagePath the public path of the image that should be deleted
+	 */
 	@CrossOrigin
 	@RequestMapping(value= "listing/upload/temporary", method=RequestMethod.DELETE)
 	public @ResponseBody void deleteTemporaryImage(HttpServletRequest request, HttpServletResponse response, @RequestParam("imagePath") String imagePath){
-		persistenceAdapter.deleteTemporaryImage(imagePath);
+		try {
+			persistenceAdapter.deleteTemporaryImage(imagePath);
+		} catch (PathNotTemporaryException e) {
+			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+		}
 	}
 	
 	/**This method uploads an image for this listing and sets the picture-column in the listing to the public 
@@ -345,12 +361,15 @@ public class ListingRESTController {
 	 * is not allowed to delete an image from this resource.
 	 */
 	@CrossOrigin
-	@RequestMapping(value= "listing/upload/gallery/{listingId}/{galleryIndex}", method=RequestMethod.DELETE)
+	@RequestMapping(value= "listing/upload/gallery/{listingId}", method=RequestMethod.DELETE)
 	@PreAuthorize("hasPermission(#id, 'listing', 'owner') or hasAuthority('ADMIN')")
-	public @ResponseBody void listingGalleryDelete(@PathVariable(value="listingId") final int listingId, @PathVariable(value="galleryIndex") final int galleryIndex, 
+	public @ResponseBody void listingGalleryDelete(@PathVariable(value="listingId") final int listingId,
 	HttpServletRequest request, HttpServletResponse response){
 		try {
-			persistenceAdapter.deleteImageInGallery(listingId, galleryIndex);
+			persistenceAdapter.deleteImageInGallery(listingId, 0);
+			persistenceAdapter.deleteImageInGallery(listingId, 1);
+			persistenceAdapter.deleteImageInGallery(listingId, 2);
+			persistenceAdapter.deleteImageInGallery(listingId, 3);
 		} catch (ListingNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		} catch (NoImageGallerySupportedException e) {

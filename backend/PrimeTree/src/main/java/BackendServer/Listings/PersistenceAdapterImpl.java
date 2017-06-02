@@ -20,6 +20,7 @@ import BackendServer.Exceptions.GalleryIndexOutOfLimitException;
 import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Exceptions.MainImageNotSupportedException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
+import BackendServer.Exceptions.PathNotTemporaryException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Entities.Listing;
 import BackendServer.Listings.ObjectControllers.ListingObjectController;
@@ -453,10 +454,17 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	}
 
 	@Override
-	public void deleteTemporaryImage(String publicImagePath) {
+	public void deleteTemporaryImage(String publicImagePath) throws PathNotTemporaryException {
+		if(isFileTemporary(publicImagePath)){
+			throw new PathNotTemporaryException();
+		}
 		deleteAnyImage(getLocalPathFromPublicPath(publicImagePath));
 	}
 	
+	private boolean isFileTemporary(String publicImagePath) {
+		return publicImagePath.startsWith("temporary/");
+	}
+
 	@Override
 	public void putImageInGallery(byte[] imageData, int listingId,final int galleryIndex, String originalFilename) throws ListingNotFoundException, NoImageGallerySupportedException, IOException, GalleryIndexOutOfLimitException {
 		if(galleryIndex<Constants.numberOfImagesPerGallery){
