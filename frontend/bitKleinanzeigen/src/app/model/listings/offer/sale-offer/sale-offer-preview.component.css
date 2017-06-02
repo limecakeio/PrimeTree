@@ -72,9 +72,20 @@ margin: 10pt;
 }
 
 
-/**TABLET SETTINGS*/
+/**MOBILE SETTINGS*/
 @media (max-width: 480px) {
   .listing-preview {
-    width:100% !important;
+    width:300px !important;
+    height: 275px !important;
   }
+
+  .listing-image {
+    width:300px !important;
+    height: 157.5px !important; /*Matching OpenGraph standard*/
+  }
+
+  .listing-item:first-child {
+    padding-left: 0;
+  }
+
 }

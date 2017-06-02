@@ -35,8 +35,11 @@
     "@angular/platform-browser-dynamic": "~4.0.0",
     "@angular/platform-server": "^4.1.2",
     "@angular/router": "~4.0.0",
+    "@types/angular": "^1.6.17",
+    "@types/html2canvas": "^0.5.33",
     "angular-in-memory-web-api": "~0.3.0",
     "core-js": "^2.4.1",
+    "html2canvas": "0.5.0-beta4",
     "rxjs": "5.0.1",
     "systemjs": "0.19.40",
     "zone.js": "^0.8.4"
