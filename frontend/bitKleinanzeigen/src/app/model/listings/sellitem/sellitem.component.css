@@ -1,7 +1,9 @@
 .listing-preview {
-min-width: 300px;
-min-height: 300px;
 background-color: #dddedf;
+background-image: url('./assets/images/listing-corner.png');
+background-repeat: no-repeat;
+background-position: bottom right;
+background-size: 15% auto;
 margin: 10pt;
 }
 
@@ -24,7 +26,6 @@ margin: 10pt;
 .listing-image { /**TODO THESE SETTINGS ARE PRIOR TO IMAGES BEING ABLE TO LOAD*/
   display: block;
     width: 100%;
-    height: 158px;
     background-color: #eeefef;
     background-size: 100% auto;
     background-position: center;
@@ -59,7 +60,32 @@ margin: 10pt;
   color: #58585a;
 }
 
-/**TABLET SETTINGS*/
-@media (min-width: 480px) {
+.fave-container span {
+  font-size: 20pt;
+  color: #8a8a88;
+  transition: color 0.35s linear;
+}
+
+.fave-container span:hover {
+  cursor: pointer;
+  color: #61615f;
+}
+
+
+/**MOBILE SETTINGS*/
+@media (max-width: 480px) {
+  .listing-preview {
+    width:300px !important;
+    height: 275px !important;
+  }
+
+  .listing-image {
+    width:300px !important;
+    height: 157.5px !important; /*Matching OpenGraph standard*/
+  }
+
+  .listing-item:first-child {
+    padding-left: 0;
+  }
 
 }

@@ -9,7 +9,6 @@ import BackendServer.Listings.Entities.SellItem;
  * @author Florian Kutz
  *
  */
-@Repository
 public interface SellItemRepository extends JpaRepository<SellItem, Long> {
 
 }

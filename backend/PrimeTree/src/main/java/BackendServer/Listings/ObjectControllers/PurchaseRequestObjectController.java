@@ -18,10 +18,13 @@ public class PurchaseRequestObjectController extends RequestListingObjectControl
 	protected PurchaseRequest createNew() {
 		return new PurchaseRequest();
 	}
+	
+	PurchaseRequestRepository listingRepository;
 
 	@Autowired
 	public void setListingRepository(PurchaseRequestRepository listingRepository) {
 		this.listingRepository=listingRepository;
+		super.listingRepository=this.listingRepository;
 	}
 	
 	public PurchaseRequestObjectController(){

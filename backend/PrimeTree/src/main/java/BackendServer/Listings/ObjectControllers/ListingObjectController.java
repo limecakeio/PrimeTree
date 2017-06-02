@@ -7,8 +7,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import BackendServer.Exceptions.ListingNotFoundException;
+import BackendServer.Exceptions.MainImageNotSupportedException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Constants;
@@ -19,6 +22,8 @@ import BackendServer.Listings.Repositories.CommentRepository;
 /**This abstract class is made so sub-classes can control the listings with their individual listingType.
  * Controlling means checking, whether a listingData-JSONObject matches the individual listingType as well 
  * as persisting and reading the listings with the individual type. */
+@Service
+@Transactional
 public abstract class ListingObjectController<L extends Listing> {
 	
 	public String listingType;
@@ -42,6 +47,14 @@ public abstract class ListingObjectController<L extends Listing> {
 			
 			L newInstance=createNew();
 			newInstance.fillFields(listingData, creatorId);
+			
+			//You cannot instanciate the picture 
+			try {
+				newInstance.setPicture(null);
+			} catch (MainImageNotSupportedException e) {
+				//do nothing
+			}
+			
 		    
 			listingRepository.save(newInstance);
 			return newInstance.getListingId();
@@ -102,13 +115,14 @@ public abstract class ListingObjectController<L extends Listing> {
 
 	/** This method adds a public pathname to the imageGallery-field of the listing if the listingType
 	 * @param listingId id of the listing
+	 * @param galleryIndexInPerformer 
 	 * @param filePath added pathname
 	 * @throws NoImageGallerySupportedException if the type of the listing doesn't support an imageGallery
 	 * @throws ListingNotFoundException if no listing with id listingId is found
 	 */
-	public void addImagePath(long listingId, String filePath) throws NoImageGallerySupportedException, ListingNotFoundException {
+	public void setImagePath(long listingId, int galleryIndex, String filePath) throws NoImageGallerySupportedException, ListingNotFoundException {
 		L editedListing = this.getListingById(listingId);
-		editedListing.addImageToGallery(filePath);
+		editedListing.setImageOfGallery(filePath, galleryIndex);
 		listingRepository.save(editedListing);
 	}
 	
@@ -137,7 +151,7 @@ public abstract class ListingObjectController<L extends Listing> {
 	 */
 	public void deleteGalleryImage(long listingId, int galleryIndex) throws NoImageGallerySupportedException, ListingNotFoundException {
 		L editedListing=this.getListingById(listingId);
-		editedListing.getImageGallery().remove(galleryIndex);
+		editedListing.getImageGallery()[galleryIndex]=null;
 		this.listingRepository.save(editedListing);
 	}
 	

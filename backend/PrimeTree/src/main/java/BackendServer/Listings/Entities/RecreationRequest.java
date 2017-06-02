@@ -38,6 +38,7 @@ public abstract class RecreationRequest extends RequestListing{
 		return picture;
 	}
 
+	@Override
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
@@ -46,9 +47,6 @@ public abstract class RecreationRequest extends RequestListing{
 		super.fillFields(listingData, creator);
 		if(!Constants.allFreeTimeActivityCategories.contains(listingData.getString(Constants.listingDataFieldFreeTimeActivityCategory))){
 			throw new WrongFormatException("This Category does not exist");
-		}
-		if(!listingData.isNull(Constants.listingDataFieldPicture)){
-			this.setPicture(listingData.getString(Constants.listingDataFieldPicture));
 		}
 		this.setCategory(listingData.getString(Constants.listingDataFieldFreeTimeActivityCategory));
 		this.setActivityLocation(listingData.getString(Constants.listingDataFieldActivityLocation));

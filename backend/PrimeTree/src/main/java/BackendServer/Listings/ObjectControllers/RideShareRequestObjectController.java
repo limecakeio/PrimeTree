@@ -16,10 +16,13 @@ public class RideShareRequestObjectController extends RequestListingObjectContro
 	protected RideShareRequest createNew() {
 		return new RideShareRequest();
 	}
+	
+	RideShareRequestRepository listingRepository;
 
 	@Autowired
 	public void setListingRepository(RideShareRequestRepository listingRepository) {
 		this.listingRepository=listingRepository;
+		super.listingRepository=this.listingRepository;
 	}
 	
 	public RideShareRequestObjectController(){

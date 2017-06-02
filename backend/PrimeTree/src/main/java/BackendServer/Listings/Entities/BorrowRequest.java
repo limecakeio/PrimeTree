@@ -48,6 +48,7 @@ public class BorrowRequest extends RequestListing{
 		return picture;
 	}
 
+	@Override
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
@@ -60,9 +61,6 @@ public class BorrowRequest extends RequestListing{
 		}
 		if(!listingData.isNull(Constants.listingDataFieldBorrowToDate)){
 			this.setBorrowToDate(new Date(listingData.getLong(Constants.listingDataFieldBorrowToDate)));
-		}
-		if(!listingData.isNull(Constants.listingDataFieldPicture)){
-			this.setPicture(listingData.getString(Constants.listingDataFieldPicture));
 		}
 	}
 	

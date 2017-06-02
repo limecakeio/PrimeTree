@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import BackendServer.Exceptions.CommentNotFoundException;
+import BackendServer.Exceptions.GalleryIndexOutOfLimitException;
 import BackendServer.Exceptions.ListingNotFoundException;
+import BackendServer.Exceptions.MainImageNotSupportedException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
 import BackendServer.Exceptions.UserNotFoundException;
 import BackendServer.Exceptions.WrongFormatException;
@@ -67,7 +69,7 @@ public class ListingRESTController {
 	 * If type=RideShareOffer: availableSeats: The number of available seats in the car
 	 * If type=RideShareOffer: travelDateAndTime: The date and time of the start of the ride as UNIX timestamp
  	 * @param request
-	 * @param response: The status is 200 if everything went ok and 400 if body is missing of required fields.
+	 * @param response: The status stays at 200 if everything went ok and 400 if body is missing of required fields.
 	 * If the user is not logged in the status is 403, but that's an issue for spring security, not this method
 	 * 
 	 * @return a stringified JSONObject with the new listing in the field with the name defined in
@@ -93,7 +95,7 @@ public class ListingRESTController {
 	 * It's allowed for anyone with read access to this listing
 	 * @param listingId The id of the required listing
 	 * @param request
-	 * @param response The status is 200 if everything went ok and 404 if there's no listing with the required id.
+	 * @param response The status stays at 200 if everything went ok and 404 if there's no listing with the required id.
 	 * If the user is not logged in or has no access to this listing the status is 403.
 	 * 
 	 * @return a stringified JSONObject representing the listingData. In detail:
@@ -146,7 +148,7 @@ public class ListingRESTController {
 	 * @param body: all new data for the new listing
 	 * @param listingId the id of the edited listing
 	 * @param request
-	 * @param response The status is 200 if everything went ok, 400 if required fields in body are missing,
+	 * @param response The status stays at 200 if everything went ok, 400 if required fields in body are missing,
 	 *  404 if the listing didn't even exist and 403 if the user is not logged in or is not allowed to edit 
 	 *  this resource.
 	 */
@@ -166,7 +168,7 @@ public class ListingRESTController {
 	/**This method deletes a listing completely
 	 * @param listingId The id of the listing that should be deleted
 	 * @param request
-	 * @param response The status is 200 if everything went ok, 404 if the listing didn't even exist and 403
+	 * @param response The status stays at 200 if everything went ok, 404 if the listing didn't even exist and 403
 	 * if the user is not logged in or is not allowed to delete this resource.
 	 */
 	@CrossOrigin
@@ -184,7 +186,7 @@ public class ListingRESTController {
 	/** This method activates a listing
 	 * @param listingId the id of the listing
 	 * @param request
-	 * @param response The status is 200 if everything went ok, 404 if the listing didn't even exist and 403
+	 * @param response The status stays at 200 if everything went ok, 404 if the listing didn't even exist and 403
 	 * if the user is not logged in or is not allowed to activate this resource.
 	 */
 	@CrossOrigin
@@ -200,16 +202,16 @@ public class ListingRESTController {
 		}
 	}
 	
-	/** This method activates a listing
+	/** This method deactivates a listing
 	 * @param listingId the id of the listing
 	 * @param request
-	 * @param response The status is 200 if everything went ok, 404 if the listing didn't even exist and 403
+	 * @param response The status stays at 200 if everything went ok, 404 if the listing didn't even exist and 403
 	 * if the user is not logged in or is not allowed to deactivate this resource.
 	 */
 	@CrossOrigin
 	@RequestMapping(value = "listing/{id}/deactivate", method=RequestMethod.POST)
 	@PreAuthorize("hasPermission(#id,'listing', 'owner') or hasAuthority('ADMIN')")
-    public @ResponseBody void deactivateListing(@PathVariable(value="id") final int listingId, HttpServletRequest request, HttpServletResponse response) throws IOException{
+    public @ResponseBody void deactivateListing(@PathVariable(value="id") final int listingId, HttpServletRequest request, HttpServletResponse response){
 		try {
 			persistenceAdapter.edit(listingId, persistenceAdapter.getListingById(listingId).toJSON().accumulate(Constants.listingDataFieldActive, false));
 		} catch (ListingNotFoundException e) {
@@ -225,7 +227,7 @@ public class ListingRESTController {
 		createDate:	the unix time when this comment was written
 		message:	the comment text
 	 * @param request
-	 * @param response The status is 200 if everything went ok, 404 if the listing doesn't exist, 400 if the 
+	 * @param response The status stays at 200 if everything went ok, 404 if the listing doesn't exist, 400 if the 
 	 * comment is missing of arguments and 403 if the user is not logged in or is not allowed to comment this 
 	 * resource.
 	 */
@@ -244,7 +246,7 @@ public class ListingRESTController {
 	 * @param commentId The id of the comment that should be deleted
 	 * @param listingId The id of the commented listing
 	 * @param request
-	 * @param response The status is 200 if everything went ok, 404 if the listing or the comment didn't 
+	 * @param response The status stays at 200 if everything went ok, 404 if the listing or the comment didn't 
 	 * even exist and 403 if the user is not logged in or is not allowed to delete this comment.
 	 */
 	@CrossOrigin
@@ -258,11 +260,35 @@ public class ListingRESTController {
 		}
 	}
 	
+	/**This method uploads a temporary image and returns the public path so the frontend can edit it
+	 * @param request
+	 * @param response The status stays at 200 if everything went ok, 400 if the file isn't a valid image file and 401 if the user is not logged in.
+	 * @param file the file that should be uploaded
+	 */
+	@CrossOrigin
+	@RequestMapping(value= "listing/upload/temporary", method=RequestMethod.PUT)
+	public @ResponseBody String uploadTemporaryImage(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") final MultipartFile file){
+		JSONObject result=new JSONObject();
+		try {
+			String publicPath=persistenceAdapter.uploadTemporaryImage(file.getBytes(), file.getOriginalFilename());
+			result.accumulate("imagePath", publicPath);
+		} catch (IOException e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return result.toString();
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value= "listing/upload/temporary", method=RequestMethod.DELETE)
+	public @ResponseBody void deleteTemporaryImage(HttpServletRequest request, HttpServletResponse response, @RequestParam("imagePath") String imagePath){
+		persistenceAdapter.deleteTemporaryImage(imagePath);
+	}
+	
 	/**This method uploads an image for this listing and sets the picture-column in the listing to the public 
 	 * resource path of the uploaded image.
 	 * @param listingId The id of the listing
 	 * @param request
-	 * @param response The status is 200 if everything went ok, 404 if the listing doesn't exist, 400 if the 
+	 * @param response The status stays at 200 if everything went ok, 404 if the listing doesn't exist, 400 if the 
 	 * file isn't a valid image file and 403 if the user is not logged in or is not allowed to upload an image 
 	 * for this resource.
 	 * @param file The image-file; Must be .png, .jpg or .jpeg
@@ -273,44 +299,21 @@ public class ListingRESTController {
 	public @ResponseBody void listingMainImageUpload(@PathVariable(value="id") final int listingId, 
 			HttpServletRequest request, HttpServletResponse response, @RequestParam("file") final MultipartFile file){
 				try {
-					persistenceAdapter.uploadImage(file.getBytes(), listingId, file.getOriginalFilename());
+					persistenceAdapter.uploadMainImage(file.getBytes(), listingId, file.getOriginalFilename());
 				} catch (IOException e) {
-					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
 				} catch (ListingNotFoundException e) {
 					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				} catch (MainImageNotSupportedException e) {
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				}
-	}
-	
-	/**This method uploads an image for this listing and adds the public path to the uploaded image 
-	 * to the imgageGallery-List of the listing
-	 * @param listingId The id of the listing
-	 * @param request
-	 * @param responseThe status is 200 if everything went ok, 404 if the listing doesn't exist, 400 if the 
-	 * file isn't a valid image file or the type of the listing doesn't support an imageGaallery and 403 if 
-	 * the user is not logged in or is not allowed to upload an image for the imageGallery of this resource.
-	 * @param file The image-file; Must be .png, .jpg or .jpeg
-	 */
-	@CrossOrigin
-	@RequestMapping(value= "listing/upload/gallery/{id}", method=RequestMethod.PUT)
-	@PreAuthorize("hasPermission(#id, 'listing', 'owner') or hasAuthority('ROLE_ADMIN')")
-	public @ResponseBody void listingGalleryUpload(@PathVariable(value="id") final int listingId, 
-	HttpServletRequest request, HttpServletResponse response, @RequestParam("file") final MultipartFile file){
-		try {
-			persistenceAdapter.addImageToGallery(file.getBytes(), listingId,file.getOriginalFilename());
-		} catch (IOException e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		} catch (ListingNotFoundException e) {
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-		} catch (NoImageGallerySupportedException e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		}
 	}
 	
 	/**This method replaces one image in the gallery with a new one and updates the filepath.
 	 * @param listingId The id of the listing
 	 * @param galleryIndex The index of the replaced image
 	 * @param request
-	 * @param response The status is 200 if everything went ok, 404 if the listing  or the image with the index 
+	 * @param response The status stays at 200 if everything went ok, 404 if the listing  or the image with the index 
 	 * doesn't exist, 400 if the file isn't a valid image file or the type of the listing doesn't support the 
 	 * imageGallery and 403 if the user is not logged in or is not allowed to upload an image for this resource.
 	 * @param file  The new image-file; Must be .png, .jpg or .jpeg
@@ -318,16 +321,18 @@ public class ListingRESTController {
 	@CrossOrigin
 	@RequestMapping(value= "listing/upload/gallery/{listingId}/{galleryIndex}", method=RequestMethod.PUT)
 	@PreAuthorize("hasPermission(#id, 'listing', 'owner') or hasAuthority('ROLE_ADMIN')")
-	public @ResponseBody void listingGalleryChange(@PathVariable(value="listingId") final int listingId, @PathVariable(value="galleryIndex") final int galleryIndex, 
+	public @ResponseBody void galleryImageUpload(@PathVariable(value="listingId") final int listingId, @PathVariable(value="galleryIndex") final int galleryIndex, 
 	HttpServletRequest request, HttpServletResponse response, @RequestParam("file") final MultipartFile file){
 		try {
-			persistenceAdapter.changeImageInGallery(file.getBytes(), listingId, galleryIndex, file.getOriginalFilename());
+			persistenceAdapter.putImageInGallery(file.getBytes(), listingId, galleryIndex, file.getOriginalFilename());
 		} catch (IOException e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		} catch (ListingNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		} catch (NoImageGallerySupportedException e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		} catch (GalleryIndexOutOfLimitException e) {
+			response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
 		}
 	}
 	
@@ -335,7 +340,7 @@ public class ListingRESTController {
 	 * @param listingId The id of the listing
 	 * @param galleryIndex The index of the deleted Imgage in the image Gallery
 	 * @param request
-	 * @param response The status is 200 if everything went ok, 404 if the listing  or the image with the index 
+	 * @param response The status stays at 200 if everything went ok, 404 if the listing  or the image with the index 
 	 * doesn't exist, 400 if the listing doesn't support imageGallery and 403 if the user is not logged in or 
 	 * is not allowed to delete an image from this resource.
 	 */
@@ -370,7 +375,7 @@ public class ListingRESTController {
 	 * it is filtered out. If this field is null no listing is filtered out by its kind.
 	 * @param sort This string defines the sort-criteria of all results before the page is pulled out.
 	 * @param request 
-	 * @param response The status is 200 if everything went ok and 401 if the user isn't logged in.
+	 * @param response The status stays at 200 if everything went ok and 401 if the user isn't logged in.
 	 * @return A stringified JSONObject with all resultData:
 	 * 
 		price_min: minimum found  price of all listings that math the filter and search query
@@ -407,7 +412,7 @@ public class ListingRESTController {
 	 * it is filtered out. If this field is null no listing is filtered out by its kind.
 	 * @param sort This string defines the sort-criteria of all results before the page is pulled out.
 	 * @param request 
-	 * @param response The status is 200 if everything went ok and 401 if the user isn't logged in or 
+	 * @param response The status stays at 200 if everything went ok and 401 if the user isn't logged in or 
 	 * not an admin.
 	 * @return A stringified JSONObject with all resultData:
 	 * 
@@ -421,7 +426,7 @@ public class ListingRESTController {
 	@CrossOrigin
 	@RequestMapping(value = "/listings", method = RequestMethod.GET)
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public @ResponseBody String getllListings(@RequestParam("page") int page, @RequestParam("location") String[] location, @RequestParam("price_min") int price_min, @RequestParam("price_max") int price_max, @RequestParam("type") String[] type, @RequestParam("kind") String kind, @RequestParam("sort") String sort, HttpServletRequest request, HttpServletResponse response){
+	public @ResponseBody String getAllListings(@RequestParam("page") int page, @RequestParam("location") String[] location, @RequestParam("price_min") int price_min, @RequestParam("price_max") int price_max, @RequestParam("type") String[] type, @RequestParam("kind") String kind, @RequestParam("sort") String sort, HttpServletRequest request, HttpServletResponse response){
 		ListingSearchStatistics statistics=new ListingSearchStatistics();
 		Listing[] resultListings=persistenceAdapter.getListingsFiltered(page, location, price_min, price_max, type, kind, sort, statistics);
 		JSONObject result=this.createPage(resultListings, statistics);
@@ -442,7 +447,7 @@ public class ListingRESTController {
 	 * it is filtered out. If this field is null no listing is filtered out by its kind.
 	 * @param sort This string defines the sort-criteria of all results before the page is pulled out.
 	 * @param request 
-	 * @param response The status is 200 if everything went ok and 401 if the user isn't logged in.
+	 * @param response The status stays at 200 if everything went ok and 401 if the user isn't logged in.
 	 * @return A stringified JSONObject with all resultData:
 	 * 
 		price_min: minimum found  price of all listings that math the filter and search query
@@ -475,7 +480,7 @@ public class ListingRESTController {
 	 * it is filtered out. If this field is null no listing is filtered out by its kind.
 	 * @param sort This string defines the sort-criteria of all results before the page is pulled out.
 	 * @param request 
-	 * @param response The status is 200 if everything went ok and 401 if the user isn't logged in or the 
+	 * @param response The status stays at 200 if everything went ok and 401 if the user isn't logged in or the 
 	 * user is not an admin.
 	 * @return A stringified JSONObject with all resultData:
 	 * 
@@ -497,7 +502,7 @@ public class ListingRESTController {
 	
 	/** This method allows users to see all own listings
 	 * @param request
-	 * @param response Status is 200 if everything went well and 401 if the user is not logged in
+	 * @param response Status stays at 200 if everything went well and 401 if the user is not logged in
 	 * @return A stringified JSONObject with an array called listings of all listings which are 
 	 * shown as in the return value of GET /listing/{id}
 	 */
@@ -514,7 +519,7 @@ public class ListingRESTController {
 //	/** A old method that allows to get multiple listings by id at once.
 //	 * @param listingIds An array with all ids of the required listings
 //	 * @param request
-//	 * @param response The status is 200 if everything went well, 404 if at least one of the listings does not exist, 
+//	 * @param response The status stays at 200 if everything went well, 404 if at least one of the listings does not exist, 
 //	 * 401 if the user does not have access to at least one of these listings.
 //	 * @return
 //	 */

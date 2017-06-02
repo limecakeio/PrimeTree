@@ -4,7 +4,9 @@ import java.io.IOException;
 import org.json.JSONObject;
 
 import BackendServer.Exceptions.CommentNotFoundException;
+import BackendServer.Exceptions.GalleryIndexOutOfLimitException;
 import BackendServer.Exceptions.ListingNotFoundException;
+import BackendServer.Exceptions.MainImageNotSupportedException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Entities.Listing;
@@ -40,17 +42,17 @@ public interface PersistenceAdapter {
 	 * */
 	public Listing getListingById(long listingId) throws ListingNotFoundException;
 
-	/**This method searches for all listings with a listingId present in the listingIds Array
-	 * 
-	 * @param:
-	 * listingIds: An array of all listingIds of the listings this method returns
-	 * 
-	 * @return: An array of all listingIds of all Listings
-	 * 
-	 * @throws 
-	 * ListingNotFoundException if at least one of the ids in the array does not exist as a listing
-	 * */
-	public Listing[] getListingArrayByIdArray(int[] listingIds) throws ListingNotFoundException;
+//	/**This method searches for all listings with a listingId present in the listingIds Array
+//	 * 
+//	 * @param:
+//	 * listingIds: An array of all listingIds of the listings this method returns
+//	 * 
+//	 * @return: An array of all listingIds of all Listings
+//	 * 
+//	 * @throws 
+//	 * ListingNotFoundException if at least one of the ids in the array does not exist as a listing
+//	 * */
+//	public Listing[] getListingArrayByIdArray(int[] listingIds) throws ListingNotFoundException;
 
 	 /**This method deletes the listing with the listingId listingId
 	 * 
@@ -58,7 +60,7 @@ public interface PersistenceAdapter {
 	 * listingId: the id of the listing
 	 * @throws ListingNotFoundException
 	 */
-	public void deleteListingById(int listingId) throws ListingNotFoundException;
+	public void deleteListingById(long newId) throws ListingNotFoundException;
 	
 	/**This method checks whether the user with id userId is the
 	 *  creator/owner of the listing with listingId listingId.
@@ -67,19 +69,20 @@ public interface PersistenceAdapter {
 	 * @return true: if the user is the creator/owner of the listing
 	 * @throws ListingNotFoundException if the listing with id listingId doesn't exist
 	 */
-	boolean isOwnerOfListing(int listingId, long userId) throws ListingNotFoundException;
+	boolean isOwnerOfListing(long newId, long userId) throws ListingNotFoundException;
 	
-	/**This method creates a .png file for a listing
+	/**This method creates a .png or jpeg or .jpg file for a listing
+	 * DO NOT call this method with a pathname that doesn't belong to the imageData. 
 	 *  
 	 *  @param:
 	 *  listingId: the id of the listing the file belongs to
 	 *  imageData: the imageData represented in a byte-Array
-	 *  originalFilename: the filename of the original file. The method can get the filetype (.png, .jpeeg or 
+	 *  originalFilename: the filename of the original file. The method can get the filetype (.png, .jpeg or 
 	 *  .jpg) from this String
-	 * @throws:
-	 * IOException if originalFilename has no image Filetype
-	 * ListingNotFoundException if the listing with listingId listingId does not exist*/
-	public void uploadImage(byte[] imageData, int listingId, String originalFilename) throws IOException, ListingNotFoundException;
+	 * @throws MainImageNotSupportedException if the main image does not support a main-image
+	 * @throws IOException if originalFilename has no image Filetype
+	 * @throws ListingNotFoundException if the listing with listingId listingId does not exist*/
+	public void uploadMainImage(byte[] imageData, long newId, String originalFilename) throws IOException, ListingNotFoundException, MainImageNotSupportedException;
 
 	/**This method edits the listing with id listingId by overriding all data except id, type and creator of 
 	 * the listing with the data in listingData. Warning: All relevant fields
@@ -176,16 +179,6 @@ public interface PersistenceAdapter {
 	public Listing[] getListingsBySearch(String query, int page, String[] location, boolean b, int price_min, int price_max,
 			String[] type, String kind, String sort, ListingSearchStatistics statistics);
 	
-	/**This method uploads an image and adds the path to the gallery-List of the listing with id listingId
-	 * @param imageData The imageData in a byte-Array
-	 * @param listingId id of the listing
-	 * @param originalFilename the original filename
-	 * @throws IOException if originalFilename has no image Filetype
-	 * @throws ListingNotFoundException if the listing with id listingId doesn't exist
-	 * @throws NoImageGallerySupportedException if the listing doesn't support the imageGallery
-	 */
-	public void addImageToGallery(byte[] imageData, int listingId, String originalFilename) throws IOException, ListingNotFoundException, NoImageGallerySupportedException;
-	
 	/**This method removes an image from the gallery in the listing with the id listingId and replaces it 
 	 * with a new image
 	 * @param imageData: The data of the new Image in a byteArray
@@ -195,8 +188,9 @@ public interface PersistenceAdapter {
 	 * @throws ListingNotFoundException: If no listing with id listingId exists
 	 * @throws NoImageGallerySupportedException if the listing doesn't support the imageGallery
 	 * @throws IOException If the uploaded file isn't an image file
+	 * @throws GalleryIndexOutOfLimitException 
 	 */
-	public void changeImageInGallery(byte[] imageData, int listingId, int galleryIndex, String originalFilename) throws ListingNotFoundException, NoImageGallerySupportedException, IOException;
+	public void putImageInGallery(byte[] imageData, int listingId, int galleryIndex, String originalFilename) throws ListingNotFoundException, NoImageGallerySupportedException, IOException, GalleryIndexOutOfLimitException;
 
 	/**This method deletes an image from the gallery in the listing with the id listingId
 	 * @param listingId: the id of the listing
@@ -211,4 +205,17 @@ public interface PersistenceAdapter {
 	 * @return an array with all Listings from this user
 	 */
 	public Listing[] getListingsFromUser(long userId);
+
+	/**This method uploads a temporary Image
+	 * @param imageData: The data of the new Image in a byteArray
+	 * @param originalFilename: The original Filename of the new image
+	 * @return the public imagePath
+	 * @throws IOException If the uploaded file isn't an image file
+	 */
+	public String uploadTemporaryImage(byte[] imageData, String originalFilename) throws IOException;
+
+	/**This method deletes a temporaryImage
+	 * @param imagePath: the public imagePath
+	 */
+	public void deleteTemporaryImage(String imagePath);
 }

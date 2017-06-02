@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import BackendServer.Exceptions.NoImageGallerySupportedException;
@@ -21,23 +22,23 @@ import BackendServer.Listings.SimpleMethods;
 @PrimaryKeyJoinColumn(referencedColumnName="id")
 public class ServiceOffering extends Offering {
 
-	@ElementCollection
-	private List<String> imageGallery;
+	private String[] imageGallery;
 	private String picture;
 	private double price;
 	
 	public ServiceOffering(){
 		this.setType(Constants.listingTypeNameServiceOffering);
 		if(this.getImageGallery()==null){
-			this.setImageGallery(new LinkedList<String>());
+			this.setImageGallery(new String[Constants.numberOfImagesPerGallery]);
 		}
 	}
 
-	public List<String> getImageGallery() {
+	@Override
+	public String[] getImageGallery() {
 		return imageGallery;
 	}
 
-	public void setImageGallery(List<String> imageGallery) {
+	public void setImageGallery(String[] imageGallery) {
 		this.imageGallery = imageGallery;
 	}
 
@@ -45,6 +46,7 @@ public class ServiceOffering extends Offering {
 		return picture;
 	}
 
+	@Override
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
@@ -55,14 +57,6 @@ public class ServiceOffering extends Offering {
 
 	public void setPrice(double d) {
 		this.price = d;
-	}
-	
-	public void addImageToGallery(String pathName) throws NoImageGallerySupportedException{
-		this.getImageGallery().add(pathName);
-	}
-
-	public int getImageGallerySize() throws NoImageGallerySupportedException {
-		return this.getImageGallery().size();
 	}
 	
 	/* (non-Javadoc)
@@ -79,12 +73,6 @@ public class ServiceOffering extends Offering {
 			throw new WrongFormatException("Missing required field(s)");
 		}
 		this.setPrice(listingData.getDouble(Constants.listingDataFieldPrice));
-		if(!listingData.isNull(Constants.listingDataFieldPicture)){
-			this.setPicture(listingData.getString(Constants.listingDataFieldPicture));
-		}
-		if(!listingData.isNull(Constants.listingDataFieldImageGallery)){
-			this.setImageGallery(SimpleMethods.parseJSONArrayToStringList(listingData.getJSONArray(Constants.listingDataFieldImageGallery)) );
-		}
 	}
 
 	/* (non-Javadoc)
@@ -98,21 +86,9 @@ public class ServiceOffering extends Offering {
 	public JSONObject toJSON() {
 		JSONObject json = super.toJSON();
 		json.accumulate(Constants.listingDataFieldPrice, this.getPrice());
-		json.accumulate(Constants.listingDataFieldImageGallery, this.getImageGallery());
+		json.accumulate(Constants.listingDataFieldImageGallery, new JSONArray(this.getImageGallery()));
 		json.accumulate(Constants.listingDataFieldPicture, this.getPicture());
 		return json;
-	}
-	
-	public String makeNextGalleryFileName() throws NoImageGallerySupportedException {
-		if(this.imageGallery.size()==0){
-			return "0";
-		}else{
-			String lastPath=imageGallery.get(imageGallery.size()-1);
-			int lastIndexOfLastFilename=lastPath.lastIndexOf('.')-1;
-			int firstIndexOfLastFilename=lastPath.lastIndexOf('.', lastIndexOfLastFilename);
-			int lastFileNameAsNumber=SimpleMethods.parseStringToInt(lastPath.substring(firstIndexOfLastFilename, lastIndexOfLastFilename));
-			return (lastFileNameAsNumber+1)+"";
-		}
 	}
 	
 }

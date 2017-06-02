@@ -72,6 +72,9 @@ public class ListingBeanCollection {
         properties.put("hibernate.dialect",
           env.getProperty("hibernate.dialect"));
         em.setJpaPropertyMap(properties);
+        /*The following property is there to solve an error caused by a thrown LazyInitializationException*/ 
+        properties.put("hibernate.enable_lazy_load_no_trans",true);
+        em.setJpaPropertyMap(properties);
  
         return em;
     }
@@ -94,7 +97,6 @@ public class ListingBeanCollection {
     }
  
     /**This method is inspired by the tutorial described in the javadoc of this class*/
-    @Primary
     @Bean
     public PlatformTransactionManager listingTransactionManager() {
     	
@@ -118,23 +120,58 @@ public class ListingBeanCollection {
 	@Bean
 	public ListingObjectController[] getAnArrayOfAllTypesOfListingObjectController(){
 		ListingObjectController[] returnValue={
-				new SellItemObjectController(),
-				new ServiceOfferingObjectController(),
-				new RideSharingObjectController(),
-				new RideShareRequestObjectController(),
-				new PurchaseRequestObjectController(),
-				new BorrowRequestObjectController(),
-				new SingleRecreationRequestObjectController(),
-				new ReturningRecreationRequestObjectController()
+				sellItemObjectController(),
+				serviceOfferingObjectController(),
+				rideSharingObjectController(),
+				rideShareRequestObjectController(),
+				purchaseRequestObjectController(),
+				borrowRequestObjectController(),
+				singleRecreationRequestObjectController(),
+				returningRecreationRequestObjectController()
 		};
 		return returnValue;
 	}
 	
 	@Bean
-	public UserManager userManager(){
-		return new UserManagerImpl();
+	public SellItemObjectController sellItemObjectController() {
+		return new SellItemObjectController();
 	}
 	
+	@Bean
+	public ServiceOfferingObjectController serviceOfferingObjectController(){
+		return new ServiceOfferingObjectController();
+	}
+	
+	@Bean
+	public RideSharingObjectController rideSharingObjectController(){
+		return new RideSharingObjectController();
+	}
+	
+	@Bean
+	public RideShareRequestObjectController rideShareRequestObjectController(){
+		return new RideShareRequestObjectController();
+	}
+	
+	@Bean 
+	public PurchaseRequestObjectController purchaseRequestObjectController(){
+		return new PurchaseRequestObjectController();
+	}
+	
+	@Bean
+	public BorrowRequestObjectController borrowRequestObjectController(){
+		return new BorrowRequestObjectController();
+	}
+	
+	@Bean
+	public SingleRecreationRequestObjectController singleRecreationRequestObjectController(){
+		return new SingleRecreationRequestObjectController();
+	}
+	
+	@Bean
+	public ReturningRecreationRequestObjectController returningRecreationRequestObjectController(){
+		return new ReturningRecreationRequestObjectController();
+	}
+
 	@Bean
 	public PermissionEvaluator permissionEvaluator(){
 		return new MyPermissionEvaluator();

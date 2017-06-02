@@ -33,6 +33,7 @@ public class PurchaseRequest extends RequestListing{
 		return picture;
 	}
 
+	@Override
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
@@ -45,9 +46,6 @@ public class PurchaseRequest extends RequestListing{
 			throw new WrongFormatException("This condition does not exist");
 		}
 		this.setItemCondition(listingData.getString(Constants.listingDataFieldCondition));
-		if(!listingData.isNull(Constants.listingDataFieldPicture)){
-			this.setPicture(listingData.getString(Constants.listingDataFieldPicture));
-		}
 	}
 	
 	

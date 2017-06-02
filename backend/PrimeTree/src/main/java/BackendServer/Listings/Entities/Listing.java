@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import BackendServer.Exceptions.MainImageNotSupportedException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Constants;
@@ -41,7 +42,7 @@ public abstract class Listing {
 	private String title;
 	@OneToMany(mappedBy="listing",targetEntity=Comment.class,
 	fetch=FetchType.EAGER)
-	private Collection comments;  
+	private Collection comments; 
 	private String type;
 	private String kind;
 
@@ -115,12 +116,8 @@ public abstract class Listing {
 		return expiryDate!=null&&expiryDate.before(new Date());
 	}
 	
-	public void addImageToGallery(String pathName) throws NoImageGallerySupportedException{
-		throw new NoImageGallerySupportedException();
-	}
-
-	public int getImageGallerySize() throws NoImageGallerySupportedException {
-		throw new NoImageGallerySupportedException();
+	public void setImageOfGallery(String pathName, int galleryIndex) throws NoImageGallerySupportedException{
+		this.getImageGallery()[galleryIndex]=pathName;
 	}
 
 	public Collection<Comment> getComments() {
@@ -162,6 +159,7 @@ public abstract class Listing {
 	 * @param listingData this JSONObject contains all data for this listing:
 	 * description: Description of the new listing
 	 * (Not required) expiryDate: You can make the listing expire automaticly on this date 
+	 * (Not required) isActive: You can set the active-attribute with this field. If it's not set, it's per default true
 	 * by setting it as UNIX timestamp
 	 * location: The location for this listing
 	 * title: The title of this listing
@@ -173,15 +171,18 @@ public abstract class Listing {
 		if(listingData==null){
 			throw new WrongFormatException("No data");
 		}
-		if(listingData.isNull(Constants.listingDataFieldActive) ||
-				listingData.isNull(Constants.listingDataFieldCreateDate) ||	
-				listingData.isNull(Constants.listingDataFieldDescription) || 
-				listingData.isNull(Constants.listingDataFieldLocation) || 
-				listingData.isNull(Constants.listingDataFieldTitle)){
+		if(listingData.isNull(Constants.listingDataFieldCreateDate) ||	
+			listingData.isNull(Constants.listingDataFieldDescription) || 
+			listingData.isNull(Constants.listingDataFieldLocation) || 
+			listingData.isNull(Constants.listingDataFieldTitle)){
 			throw new WrongFormatException("Missing required field(s)");
 		}
-		this.setActive(listingData.getBoolean(Constants.listingDataFieldActive));
-		this.setCreateDate(new Date((long) listingData.getDouble(Constants.listingDataFieldCreateDate)));
+		if(listingData.isNull(Constants.listingDataFieldActive)){
+			this.setActive(true);
+		}else{
+			this.setActive(listingData.getBoolean(Constants.listingDataFieldActive));
+		}
+		this.setCreateDate(new Date(listingData.getLong(Constants.listingDataFieldCreateDate)));
 		this.setOwner(creatorId);
 		this.setDescription(listingData.getString(Constants.listingDataFieldDescription));
 		this.setLocation(listingData.getString(Constants.listingDataFieldLocation));
@@ -272,15 +273,7 @@ public abstract class Listing {
 	 * @return the filenames with paths of the imageGallery
 	 * @throws NoImageGallerySupportedException if the type has no imageGallery
 	 */
-	public List<String> getImageGallery() throws NoImageGallerySupportedException {
-		throw new NoImageGallerySupportedException();
-	}
-
-	/**This method creates a new Filename for the gallery which is unredundant to every existing Filename in the Gallery
-	 * @return the new filename
-	 * @throws NoImageGallerySupportedException if the type has no imageGallery
-	 */
-	public String makeNextGalleryFileName() throws NoImageGallerySupportedException {
+	public String[] getImageGallery() throws NoImageGallerySupportedException {
 		throw new NoImageGallerySupportedException();
 	}
 
@@ -303,6 +296,14 @@ public abstract class Listing {
 			String[] type, String kind) {
 		return this.matchFilterOptions(location, b, price_min, price_max, type, kind) 
 				&& (this.getTitle().contains(query) || this.getDescription().contains(query));
+	}
+	
+	public void setPicture(String picture) throws MainImageNotSupportedException{
+		throw new MainImageNotSupportedException();
+	}
+
+	public String getPicture() throws MainImageNotSupportedException{
+		throw new MainImageNotSupportedException();
 	}
 }
 

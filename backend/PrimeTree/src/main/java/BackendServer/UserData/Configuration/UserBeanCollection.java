@@ -14,6 +14,9 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import BackendServer.User.Service.UserManager;
+import BackendServer.User.Service.UserManagerImpl;
+
 /**This class defines all beans required for the entity "user"
  * It is necessary because the entity "user lies in a different database than listing and user and needs to
  * get its properties defined like this. This class is inspired by this tutorial for accessing multiple databases 
@@ -32,7 +35,7 @@ public class UserBeanCollection {
     
 	/**This method is inspired by the tutorial described in the javadoc of this class*/
     @Bean
-//    @Primary
+    @Primary
     public LocalContainerEntityManagerFactoryBean userEntityManager() {
     	
     	System.out.println("userEntityManager() aufgerufen");
@@ -52,13 +55,15 @@ public class UserBeanCollection {
           env.getProperty("user.hbm2ddl.auto"));
         properties.put("hibernate.dialect",
           env.getProperty("hibernate.dialect"));
+        /*The following property is there to solve an error caused by a thrown LazyInitializationException*/ 
+        properties.put("hibernate.enable_lazy_load_no_trans",true);
         em.setJpaPropertyMap(properties);
  
         return em;
     }
  
     /**This method is inspired by the tutorial described in the javadoc of this class*/
-//    @Primary
+    @Primary
     @Bean
     public DataSource userDataSource() {
     	
@@ -88,8 +93,11 @@ public class UserBeanCollection {
         	userEntityManager().getObject());
         return transactionManager;
     }
-    
-    
+	
+	@Bean
+	public UserManager userManager(){
+		return new UserManagerImpl();
+	}
     
 }
     

@@ -35,7 +35,6 @@ public class EmployeeBeanCollection {
     
 	/**This method is inspired by the tutorial described in the javadoc of this class*/
     @Bean
-    @Primary
     public LocalContainerEntityManagerFactoryBean employeeEntityManager() {
     	
     	System.out.println("employeeEntityManager() aufgerufen");
@@ -56,12 +55,14 @@ public class EmployeeBeanCollection {
         properties.put("hibernate.dialect",
           env.getProperty("hibernate.dialect"));
         em.setJpaPropertyMap(properties);
+        /*The following property is there to solve an error caused by a thrown LazyInitializationException*/ 
+        properties.put("hibernate.enable_lazy_load_no_trans",true);
+        em.setJpaPropertyMap(properties);
  
         return em;
     }
  
     /**This method is inspired by the tutorial described in the javadoc of this class*/
-    @Primary
     @Bean
     public DataSource employeeDataSource() {
     	
@@ -79,7 +80,6 @@ public class EmployeeBeanCollection {
     }
  
     /**This method is inspired by the tutorial described in the javadoc of this class*/
-    @Primary
     @Bean
     public PlatformTransactionManager employeeTransactionManager() {
     	
