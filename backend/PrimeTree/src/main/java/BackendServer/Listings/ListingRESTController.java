@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import BackendServer.Exceptions.CommentNotFoundException;
+import BackendServer.Exceptions.GalleryIndexOutOfLimitException;
 import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Exceptions.MainImageNotSupportedException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
@@ -308,31 +309,6 @@ public class ListingRESTController {
 				}
 	}
 	
-	/**This method uploads an image for this listing and adds the public path to the uploaded image 
-	 * to the imgageGallery-List of the listing
-	 * @param listingId The id of the listing
-	 * @param request
-	 * @param responseThe status stays at 200 if everything went ok, 404 if the listing doesn't exist, 400 if the 
-	 * file isn't a valid image file or the type of the listing doesn't support an imageGaallery and 403 if 
-	 * the user is not logged in or is not allowed to upload an image for the imageGallery of this resource.
-	 * @param file The image-file; Must be .png, .jpg or .jpeg
-	 */
-	@CrossOrigin
-	@RequestMapping(value= "listing/upload/gallery/{id}", method=RequestMethod.PUT)
-	@PreAuthorize("hasPermission(#id, 'listing', 'owner') or hasAuthority('ROLE_ADMIN')")
-	public @ResponseBody void listingGalleryUpload(@PathVariable(value="id") final int listingId, 
-	HttpServletRequest request, HttpServletResponse response, @RequestParam("file") final MultipartFile file){
-		try {
-			persistenceAdapter.addImageToGallery(file.getBytes(), listingId,file.getOriginalFilename());
-		} catch (IOException e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		} catch (ListingNotFoundException e) {
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-		} catch (NoImageGallerySupportedException e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		}
-	}
-	
 	/**This method replaces one image in the gallery with a new one and updates the filepath.
 	 * @param listingId The id of the listing
 	 * @param galleryIndex The index of the replaced image
@@ -345,16 +321,18 @@ public class ListingRESTController {
 	@CrossOrigin
 	@RequestMapping(value= "listing/upload/gallery/{listingId}/{galleryIndex}", method=RequestMethod.PUT)
 	@PreAuthorize("hasPermission(#id, 'listing', 'owner') or hasAuthority('ROLE_ADMIN')")
-	public @ResponseBody void listingGalleryChange(@PathVariable(value="listingId") final int listingId, @PathVariable(value="galleryIndex") final int galleryIndex, 
+	public @ResponseBody void galleryImageUpload(@PathVariable(value="listingId") final int listingId, @PathVariable(value="galleryIndex") final int galleryIndex, 
 	HttpServletRequest request, HttpServletResponse response, @RequestParam("file") final MultipartFile file){
 		try {
-			persistenceAdapter.changeImageInGallery(file.getBytes(), listingId, galleryIndex, file.getOriginalFilename());
+			persistenceAdapter.putImageInGallery(file.getBytes(), listingId, galleryIndex, file.getOriginalFilename());
 		} catch (IOException e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		} catch (ListingNotFoundException e) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		} catch (NoImageGallerySupportedException e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		} catch (GalleryIndexOutOfLimitException e) {
+			response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
 		}
 	}
 	

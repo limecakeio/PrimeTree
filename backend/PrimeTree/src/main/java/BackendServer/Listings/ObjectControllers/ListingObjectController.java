@@ -115,13 +115,14 @@ public abstract class ListingObjectController<L extends Listing> {
 
 	/** This method adds a public pathname to the imageGallery-field of the listing if the listingType
 	 * @param listingId id of the listing
+	 * @param galleryIndexInPerformer 
 	 * @param filePath added pathname
 	 * @throws NoImageGallerySupportedException if the type of the listing doesn't support an imageGallery
 	 * @throws ListingNotFoundException if no listing with id listingId is found
 	 */
-	public void addImagePath(long listingId, String filePath) throws NoImageGallerySupportedException, ListingNotFoundException {
+	public void setImagePath(long listingId, int galleryIndex, String filePath) throws NoImageGallerySupportedException, ListingNotFoundException {
 		L editedListing = this.getListingById(listingId);
-		editedListing.addImageToGallery(filePath);
+		editedListing.setImageOfGallery(filePath, galleryIndex);
 		listingRepository.save(editedListing);
 	}
 	
@@ -150,7 +151,7 @@ public abstract class ListingObjectController<L extends Listing> {
 	 */
 	public void deleteGalleryImage(long listingId, int galleryIndex) throws NoImageGallerySupportedException, ListingNotFoundException {
 		L editedListing=this.getListingById(listingId);
-		editedListing.getImageGallery().remove(galleryIndex);
+		editedListing.getImageGallery()[galleryIndex]=null;
 		this.listingRepository.save(editedListing);
 	}
 	

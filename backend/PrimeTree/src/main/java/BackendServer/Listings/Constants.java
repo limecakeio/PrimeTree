@@ -115,6 +115,8 @@ public class Constants {
 	responseFieldFavouriteList="ids",
 	responseFieldNewListingId="id";
 
+	public static final int numberOfImagesPerGallery = 4;
+
 	private static List<String> allItemConditions() {
 		List<String> allOptions=new LinkedList<String>();
 		allOptions.add("new");

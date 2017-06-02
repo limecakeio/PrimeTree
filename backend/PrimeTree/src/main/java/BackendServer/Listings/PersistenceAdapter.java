@@ -4,6 +4,7 @@ import java.io.IOException;
 import org.json.JSONObject;
 
 import BackendServer.Exceptions.CommentNotFoundException;
+import BackendServer.Exceptions.GalleryIndexOutOfLimitException;
 import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Exceptions.MainImageNotSupportedException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
@@ -178,16 +179,6 @@ public interface PersistenceAdapter {
 	public Listing[] getListingsBySearch(String query, int page, String[] location, boolean b, int price_min, int price_max,
 			String[] type, String kind, String sort, ListingSearchStatistics statistics);
 	
-	/**This method uploads an image and adds the path to the gallery-List of the listing with id listingId
-	 * @param imageData The imageData in a byte-Array
-	 * @param listingId id of the listing
-	 * @param originalFilename the original filename
-	 * @throws IOException if originalFilename has no image Filetype
-	 * @throws ListingNotFoundException if the listing with id listingId doesn't exist
-	 * @throws NoImageGallerySupportedException if the listing doesn't support the imageGallery
-	 */
-	public void addImageToGallery(byte[] imageData, int listingId, String originalFilename) throws IOException, ListingNotFoundException, NoImageGallerySupportedException;
-	
 	/**This method removes an image from the gallery in the listing with the id listingId and replaces it 
 	 * with a new image
 	 * @param imageData: The data of the new Image in a byteArray
@@ -197,8 +188,9 @@ public interface PersistenceAdapter {
 	 * @throws ListingNotFoundException: If no listing with id listingId exists
 	 * @throws NoImageGallerySupportedException if the listing doesn't support the imageGallery
 	 * @throws IOException If the uploaded file isn't an image file
+	 * @throws GalleryIndexOutOfLimitException 
 	 */
-	public void changeImageInGallery(byte[] imageData, int listingId, int galleryIndex, String originalFilename) throws ListingNotFoundException, NoImageGallerySupportedException, IOException;
+	public void putImageInGallery(byte[] imageData, int listingId, int galleryIndex, String originalFilename) throws ListingNotFoundException, NoImageGallerySupportedException, IOException, GalleryIndexOutOfLimitException;
 
 	/**This method deletes an image from the gallery in the listing with the id listingId
 	 * @param listingId: the id of the listing

@@ -545,7 +545,7 @@ public class ListingRestControllerTest{
        	request = new MockHttpServletRequest("POST", "listing");
     	String result = testRESTController.createListing(requestBodyString, request, response);
 		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{listingId}/{galleryIndex}");
-		testRESTController.listingGalleryChange(0, 0, request, response, file);
+		testRESTController.galleryImageUpload(0, 0, request, response, file);
 		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 	}
 	
@@ -558,7 +558,7 @@ public class ListingRestControllerTest{
        	request = new MockHttpServletRequest("POST", "listing");
     	String result = testRESTController.createListing(requestBodyString, request, response);
 		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{lisitngId}/{galleryIndex}");
-		testRESTController.listingGalleryChange(0, 0, request, response, fileZwei);
+		testRESTController.galleryImageUpload(0, 0, request, response, fileZwei);
 		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 	}
 	
@@ -571,7 +571,7 @@ public class ListingRestControllerTest{
        	request = new MockHttpServletRequest("POST", "listing");
     	String result = testRESTController.createListing(requestBodyString, request, response);
 		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{lisitngId}/{galleryIndex}");
-		testRESTController.listingGalleryChange(0, 0, request, response, fileDrei);
+		testRESTController.galleryImageUpload(0, 0, request, response, fileDrei);
 		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 	}
 	
@@ -585,7 +585,7 @@ public class ListingRestControllerTest{
        	request = new MockHttpServletRequest("POST", "listing");
     	String result = testRESTController.createListing(requestBodyString, request, response);
 		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{lisitngId}/{galleryIndex}");
-		testRESTController.listingGalleryChange(0, 0, request, response, fileVier);
+		testRESTController.galleryImageUpload(0, 0, request, response, fileVier);
 		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 	}
 	
@@ -598,7 +598,7 @@ public class ListingRestControllerTest{
        	request = new MockHttpServletRequest("POST", "listing");
     	String result = testRESTController.createListing(requestBodyString, request, response);
 		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{lisitngId}/{galleryIndex}");
-		testRESTController.listingGalleryChange(0, 0, request, response, fileFuenf);
+		testRESTController.galleryImageUpload(0, 0, request, response, fileFuenf);
 		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
 	}
 	
@@ -611,7 +611,7 @@ public class ListingRestControllerTest{
        	request = new MockHttpServletRequest("POST", "listing");
     	String result = testRESTController.createListing(requestBodyString, request, response);
 		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{lisitngId}/{galleryIndex}");
-		testRESTController.listingGalleryChange(-1, 0, request, response, file);
+		testRESTController.galleryImageUpload(-1, 0, request, response, file);
 		assertEquals(HttpServletResponse.SC_NOT_FOUND, response.getStatus());
 	}
 	
@@ -623,7 +623,7 @@ public class ListingRestControllerTest{
        	request = new MockHttpServletRequest("POST", "listing");
     	String result = testRESTController.createListing(requestBodyString, request, response);
 		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{lisitngId}/{galleryIndex}");
-		testRESTController.listingGalleryChange(0, -1, request, response, file);
+		testRESTController.galleryImageUpload(0, -1, request, response, file);
 		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
 	}
 	
@@ -635,7 +635,7 @@ public class ListingRestControllerTest{
        	request = new MockHttpServletRequest("POST", "listing");
     	String result = testRESTController.createListing(requestBodyString, request, response);
 		request = new MockHttpServletRequest("PUT", "listing/upload/gallery/{lisitngId}/{galleryIndex}");
-		testRESTController.listingGalleryChange(0, 0, request, response, null);
+		testRESTController.galleryImageUpload(0, 0, request, response, null);
 		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
 	}
 	

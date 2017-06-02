@@ -116,12 +116,8 @@ public abstract class Listing {
 		return expiryDate!=null&&expiryDate.before(new Date());
 	}
 	
-	public void addImageToGallery(String pathName) throws NoImageGallerySupportedException{
-		throw new NoImageGallerySupportedException();
-	}
-
-	public int getImageGallerySize() throws NoImageGallerySupportedException {
-		throw new NoImageGallerySupportedException();
+	public void setImageOfGallery(String pathName, int galleryIndex) throws NoImageGallerySupportedException{
+		this.getImageGallery()[galleryIndex]=pathName;
 	}
 
 	public Collection<Comment> getComments() {
@@ -277,15 +273,7 @@ public abstract class Listing {
 	 * @return the filenames with paths of the imageGallery
 	 * @throws NoImageGallerySupportedException if the type has no imageGallery
 	 */
-	public List<String> getImageGallery() throws NoImageGallerySupportedException {
-		throw new NoImageGallerySupportedException();
-	}
-
-	/**This method creates a new Filename for the gallery which is unredundant to every existing Filename in the Gallery
-	 * @return the new filename
-	 * @throws NoImageGallerySupportedException if the type has no imageGallery
-	 */
-	public String makeNextGalleryFileName() throws NoImageGallerySupportedException {
+	public String[] getImageGallery() throws NoImageGallerySupportedException {
 		throw new NoImageGallerySupportedException();
 	}
 
