@@ -29,7 +29,7 @@ import BackendServer.User.Service.MyUserDetailsServiceImpl;
 */
 @Configuration
 @EnableWebSecurity
-public class TokenBasedSecurityConfigTryOut1 extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired private CustomTokenBasedRememberMeService tokenBasedRememberMeService;
 

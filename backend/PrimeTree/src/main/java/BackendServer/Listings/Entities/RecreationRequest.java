@@ -48,9 +48,6 @@ public abstract class RecreationRequest extends RequestListing{
 		if(!Constants.allFreeTimeActivityCategories.contains(listingData.getString(Constants.listingDataFieldFreeTimeActivityCategory))){
 			throw new WrongFormatException("This Category does not exist");
 		}
-		if(!listingData.isNull(Constants.listingDataFieldPicture)){
-			this.setPicture(listingData.getString(Constants.listingDataFieldPicture));
-		}
 		this.setCategory(listingData.getString(Constants.listingDataFieldFreeTimeActivityCategory));
 		this.setActivityLocation(listingData.getString(Constants.listingDataFieldActivityLocation));
 	}

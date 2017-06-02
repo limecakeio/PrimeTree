@@ -13,7 +13,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/**This class configures the login so the username and the password are transported in the request-body
+/**This class changes the login-method for the outside so the username and the password are transported in the request-body
  * @author Florian Kutz
  *
  */

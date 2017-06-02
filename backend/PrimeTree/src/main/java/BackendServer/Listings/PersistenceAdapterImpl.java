@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import BackendServer.Exceptions.CommentNotFoundException;
 import BackendServer.Exceptions.ListingNotFoundException;
+import BackendServer.Exceptions.MainImageNotSupportedException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Entities.Listing;
@@ -115,6 +116,18 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 
 						@Override
 						public Object performAction(long listingId) throws ListingNotFoundException {
+							try{
+								deleteAnyImage(listingObjectController.getListingById(listingId).getPicture());
+							}catch(MainImageNotSupportedException noImageToDelete){
+								//Do nothing and continue
+							}
+							try{
+								for(String imageInGalleryPath : listingObjectController.getListingById(listingId).getImageGallery()){
+									deleteAnyImage(imageInGalleryPath);
+								}
+							}catch(NoImageGallerySupportedException noGalleryToDelete){
+								//Do nothing and continue
+							}
 							listingObjectController.deleteListing((long) listingId);
 							return null;
 						}
@@ -170,80 +183,6 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		}
 	}
 
-	@Override
-	public void uploadImage(byte[] imageData, long listingId, String originalFilename) throws IOException, ListingNotFoundException{
-		String filePath=makeLocalFilePath(listingId, originalFilename);
-		try{
-			Files.deleteIfExists(Paths.get(filePath));
-			Files.createDirectories(Paths.get(makeLocalDirectoryPath(listingId)));
-			Files.createFile(Paths.get(filePath));
-		}catch(FileAlreadyExistsException e){
-			//do nothing and continue
-		}catch(AccessDeniedException e){
-			System.out.println(e.getMessage());
-		}
-		FileOutputStream outputStream=new FileOutputStream(filePath);
-		outputStream.write(imageData);
-		outputStream.close();
-		try {
-			this.edit(listingId, this.getListingById(listingId).toJSON().
-					accumulate(Constants.listingDataFieldPicture, 
-							makePublicFilePath(listingId, originalFilename)));
-		} catch (WrongFormatException e) {
-			System.out.println("A WrongFormatException in the upload method appeared. Normally this does not happen.");
-		}
-	}
-	
-	/** This method creates the local filepath for file with the type of the originalFilename belonging to the 
-	 *  listing with id listingId
-	 *  
-	 *  @param:
-	 *  listingId: the id of the listing the file belongs to
-	 *  imageData: the imageData represented in a byte-Array
-	 *  originalFilename: the filename of the original file. The method can get the filetype (.png, jpeg or .jpg) 
-	 *  from this String
-	 *  
-	 * @return local pathname
-	 * 
-	 * @throws IOException if the originalFilename hints, that the file is not an image file*/
-	private String makeLocalFilePath(long listingId, String originalFilename) throws IOException {
-		return makeLocalDirectoryPath(listingId) + "/main-image" + getImageFileTypeEnding(originalFilename);
-	}
-	
-	/** This method creates the public filepath for file with the type of the originalFilename belonging to the 
-	 * listing with id listingId
-	 * @param listingId: id of the listing
-	 * @param originalFilename: name of the original File
-	 * @return public pathname
-	 * @throws IOException if the originalFilename hints, that the file is not an image file*/
-	private String makePublicFilePath(long listingId, String originalFilename) throws IOException{
-		return "resources/assets/listings/" + listingId + "/main-image" + getImageFileTypeEnding(originalFilename);
-	}
-	
-	/** This method creates the local directory-path for a file belonging to the listing with id listingId
-	 * @param originalFilename: name of the original File
-	 * @return local pathname
-	 * @throws IOException if the originalFilename hints, that the file is not an image file*/
-	private String getImageFileTypeEnding(String originalFilename) throws IOException{
-		String ending=originalFilename.substring(originalFilename.length()-4).toLowerCase();
-		if(".png".equals(ending)||".jpg".equals(ending)){
-			return ending;
-		}else{
-			ending=originalFilename.substring(originalFilename.length()-5).toLowerCase();
-			if(".jpeg".equals(ending)){
-				return ending;
-			}
-			throw new IOException("The given file is neither a .png, .jpeg nor .jpg file.");
-		}
-	}
-	
-	/** This method creates the directorypath for a directory belonging to the listing with id listingId
-	 *  @param listingId: id of the listing
-	 *  @return: directory-path*/
-	private String makeLocalDirectoryPath(long listingId) {
-		return "src/main/webapp/resources/assets/listings/" + listingId;
-	}
-
 	/**This method creates a Collection of all Listings in the database
 	 * @return all existing listings unsorted in a Collection
 	 */
@@ -253,37 +192,6 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 			resultList.addAll(listingControllers[controllerIndex].getAll());
 		}
 		return resultList;
-	}
-
-	@Override
-	public void addImageToGallery(byte[] imageData, int listingId, String originalFilename)
-			throws IOException, ListingNotFoundException, NoImageGallerySupportedException {
-		final String filePath=makeNewImageInGalleryPathName(listingId, originalFilename);
-		try{
-			Files.deleteIfExists(Paths.get(filePath));
-			Files.createDirectories(Paths.get(makeLocalDirectoryPath(listingId)));
-			Files.createFile(Paths.get(filePath));
-		}catch(FileAlreadyExistsException e){
-			//do nothing and continue
-		}catch(AccessDeniedException e){
-			System.out.println(e.getMessage());
-		}
-		FileOutputStream outputStream=new FileOutputStream(filePath);
-		outputStream.write(imageData);
-		outputStream.close();
-		try {
-			this.performActionOnAlllistingControllers(listingId, new ListingObjectControllerActionPerformer(){
-
-				@Override
-				public Object performAction(long listingId) throws ListingNotFoundException, WrongFormatException, NoImageGallerySupportedException {
-					this.listingObjectController.addImagePath(listingId, filePath);
-					return null;
-				}
-			
-			});
-		} catch (WrongFormatException e) {
-			System.out.println("A WrongFormatException in the upload method appeared. Normally this does not happen.");
-		}
 	}
 
 	@Override
@@ -309,42 +217,6 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 	@Override
 	public void deleteComment(int commentId) throws CommentNotFoundException{
 		commentRepository.delete((long) commentId);
-	}
-
-	@Override
-	public void changeImageInGallery(byte[] imageData, int listingId, final int galleryIndex, String originalFilename) throws ListingNotFoundException, NoImageGallerySupportedException, IOException {
-		this.deleteImageInGallery(listingId, galleryIndex);
-		this.addImageToGallery(imageData, listingId, originalFilename);
-	}
-
-	/**This method creates a new unredundant public pathname for a new image for a gallery
-	 * @param listingId id of the listing the gallery belongs to
-	 * @param originalFilename the original filename of the image
-	 * @return the new public pathname
-	 * @throws IOException if the pathname shows that the file was no image
-	 * @throws NoImageGallerySupportedException if the listing doesn't
-	 * @throws ListingNotFoundException
-	 */
-	private String makeNewImageInGalleryPathName(int listingId,  String originalFilename) throws IOException, NoImageGallerySupportedException, ListingNotFoundException {
-		return "/resources/assets/listings/" + listingId + "/gallery/" + this.getListingById(listingId).makeNextGalleryFileName() + this.getImageFileTypeEnding(originalFilename);
-	}
-
-	@Override
-	public void deleteImageInGallery(int listingId, final int galleryIndex) throws ListingNotFoundException, NoImageGallerySupportedException {
-		try {
-			this.performActionOnAlllistingControllers(listingId, new ListingObjectControllerActionPerformer(){
-
-				@Override
-				public Object performAction(long listingId)
-						throws ListingNotFoundException, WrongFormatException, NoImageGallerySupportedException {
-					listingObjectController.deleteGalleryImage(listingId, galleryIndex);
-					return null;
-				}
-				
-			});
-		} catch (WrongFormatException e) {
-			System.out.println("A WrongFormatException in the comment method appeared. Normally this does not happen.");
-		}
 	}
 
 	@Override
@@ -537,6 +409,163 @@ public class PersistenceAdapterImpl implements PersistenceAdapter {
 		Listing[] resultArray=SimpleMethods.parseObjectArrayToListingArray(resultSet.toArray());
 		Arrays.sort(resultArray, this.createListingComparator(Constants.sortOptionId));
 		return resultArray;
+	}
+
+	@Override
+	public void uploadMainImage(byte[] imageData, long listingId, String originalFilename) throws IOException, ListingNotFoundException, MainImageNotSupportedException{
+		String localFilePath=makeLocalMainImagePath(listingId, originalFilename);
+		uploadAnyImage(imageData, localFilePath);
+		this.getListingById(listingId).setPicture(getPublicFilePathFromLocal(localFilePath));
+	}
+
+	@Override
+	public String uploadTemporaryImage(byte[] imageData, String originalFilename) throws IOException {
+		String localFilePath=makeUnredundantLocalTemporaryFilePath(originalFilename);
+		uploadAnyImage(imageData, localFilePath);
+		return getPublicFilePathFromLocal(localFilePath);
+	}
+
+	@Override
+	public void addImageToGallery(byte[] imageData, int listingId, String originalFilename)
+			throws IOException, ListingNotFoundException, NoImageGallerySupportedException {
+		
+		final String localFilePath=makeNewImageInGalleryPathName(listingId, originalFilename);
+		uploadAnyImage(imageData, localFilePath);
+		this.performActionOnAlllistingControllers(listingId, new ListingObjectControllerActionPerformer(){
+
+			String publicFilePath=getPublicFilePathFromLocal(localFilePath);
+				
+			@Override
+			public Object performAction(long listingId) throws ListingNotFoundException, WrongFormatException, NoImageGallerySupportedException {
+				this.listingObjectController.addImagePath(listingId, publicFilePath);
+				return null;
+			}
+			
+		});
+	}
+	
+	private void uploadAnyImage(byte[] imageData, String localFilePath) throws IOException{
+		try{
+			Files.deleteIfExists(Paths.get(localFilePath));
+			Files.createDirectories(Paths.get(localFilePath));
+			Files.createFile(Paths.get(localFilePath));
+		}catch(FileAlreadyExistsException e){
+			//do nothing and continue
+		}catch(AccessDeniedException shouldNotBeThrown){
+			System.out.println(shouldNotBeThrown.getMessage());
+		}
+		FileOutputStream outputStream=new FileOutputStream(localFilePath);
+		outputStream.write(imageData);
+		outputStream.close();
+	}
+	
+
+	
+	private void deleteAnyImage(String localFilePath){
+		try {
+			Files.deleteIfExists(Paths.get(localFilePath));
+		} catch (IOException e) {
+			System.out.println("Failed to delete image " + localFilePath);
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void deleteTemporaryImage(String publicImagePath) {
+		deleteAnyImage(getLocalPathFromPublicPath(publicImagePath));
+	}
+	
+	@Override
+	public void changeImageInGallery(byte[] imageData, int listingId, final int galleryIndex, String originalFilename) throws ListingNotFoundException, NoImageGallerySupportedException, IOException {
+		this.deleteImageInGallery(listingId, galleryIndex);
+		this.addImageToGallery(imageData, listingId, originalFilename);
+	}
+
+	/**This method creates a new unredundant public pathname for a new image for a gallery
+	 * @param listingId id of the listing the gallery belongs to
+	 * @param originalFilename the original filename of the image
+	 * @return the new public pathname
+	 * @throws IOException if the pathname shows that the file was no image
+	 * @throws NoImageGallerySupportedException if the listing doesn't support a main image
+	 * @throws ListingNotFoundException
+	 */
+	private String makeNewImageInGalleryPathName(int listingId,  String originalFilename) throws IOException, NoImageGallerySupportedException, ListingNotFoundException {
+		return "/resources/assets/listings/" + listingId + "/gallery/" + this.getListingById(listingId).makeNextGalleryFileName() + this.getImageFileTypeEnding(originalFilename);
+	}
+
+	@Override
+	public void deleteImageInGallery(int listingId, final int galleryIndex) throws ListingNotFoundException, NoImageGallerySupportedException {
+		try {
+			String publicFilePath=(String)this.performActionOnAlllistingControllers(listingId, new ListingObjectControllerActionPerformer(){
+
+				String publicFilePath;
+				
+				@Override
+				public Object performAction(long listingId)
+						throws ListingNotFoundException, WrongFormatException, NoImageGallerySupportedException {
+					publicFilePath=listingObjectController.getListingById(listingId).getImageGallery().get(galleryIndex);
+					listingObjectController.deleteGalleryImage(listingId, galleryIndex);
+					return publicFilePath;
+				}
+				
+			});
+			deleteAnyImage(getLocalPathFromPublicPath(publicFilePath));
+		} catch (WrongFormatException e) {
+			System.out.println("A WrongFormatException in the comment method appeared. Normally this does not happen.");
+		}
+	}
+
+	private String makeUnredundantLocalTemporaryFilePath(String originalFilename) throws IOException {
+		String fileName=makePotentiallyRedundantLocalTemporaryFilePath(originalFilename);
+		while(Files.exists(Paths.get(fileName))){
+			fileName=makePotentiallyRedundantLocalTemporaryFilePath(originalFilename);
+		}
+		return fileName;
+	}
+
+	private String makePotentiallyRedundantLocalTemporaryFilePath(String originalFilename) throws IOException {
+		return "src/main/webapp/resources/temporary/" + (long) Math.random()*Long.MAX_VALUE + getImageFileTypeEnding(originalFilename);
+	}
+
+	/** This method creates the local filepath for file with the type of the originalFilename belonging to the 
+	 *  listing with id listingId
+	 *  
+	 *  @param listingId: the id of the listing the file belongs to
+	 *  @param imageData: the imageData represented in a byte-Array
+	 *  @param originalFilename: the filename of the original file. The method can get the filetype (.png, jpeg or .jpg) from this String
+	 *  
+	 * @return local pathname
+	 * 
+	 * @throws IOException if the originalFilename hints, that the file is not an image file
+	 * @throws ListingNotFoundException If no listing with the id listingId exists
+	 * @throws MainImageNotSupportedException if the main image does not support a main-image*/
+	private String makeLocalMainImagePath(long listingId, String originalFilename) throws IOException, MainImageNotSupportedException, ListingNotFoundException {
+		return "src/main/webapp/resources/assets/listings/" + listingId + "/main-image" + getImageFileTypeEnding(originalFilename);
+	}
+	
+	/** This method creates the local directory-path for a file belonging to the listing with id listingId
+	 * @param originalFilename: name of the original File
+	 * @return local pathname
+	 * @throws IOException if the originalFilename hints, that the file is not an image file*/
+	private String getImageFileTypeEnding(String originalFilename) throws IOException{
+		String ending=originalFilename.substring(originalFilename.length()-4).toLowerCase();
+		if(".png".equals(ending)||".jpg".equals(ending)){
+			return ending;
+		}else{
+			ending=originalFilename.substring(originalFilename.length()-5).toLowerCase();
+			if(".jpeg".equals(ending)){
+				return ending;
+			}
+			throw new IOException("The given file is neither a .png, .jpeg nor .jpg file.");
+		}
+	}
+	
+	private String getLocalPathFromPublicPath(String publicFilePath) {
+		return "src/main/webapp/src/main/webapp/" + publicFilePath;
+	}
+
+	private String getPublicFilePathFromLocal(String localFilePath) {
+		return localFilePath.substring(15);
 	}
 
 }
