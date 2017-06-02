@@ -8,9 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var network_service_1 = require("./network.service");
-var security_module_1 = require("../security/security.module");
-var security_model_1 = require("../security/security.model");
-var restNetwork_service_1 = require("./restNetwork.service");
+var mock_network_service_1 = require("./mock-network.service");
 var NetworkModule = (function () {
     function NetworkModule() {
     }
@@ -18,13 +16,13 @@ var NetworkModule = (function () {
 }());
 NetworkModule = __decorate([
     core_1.NgModule({
-        imports: [http_1.HttpModule, security_module_1.SecurityModule],
+        imports: [http_1.HttpModule],
         declarations: [],
         providers: [{
                 provide: network_service_1.NetworkService,
-                useClass: restNetwork_service_1.RESTNetworkService
-            }, security_model_1.SecurityModel],
-        exports: [http_1.HttpModule]
+                useClass: mock_network_service_1.MockNetworkService
+            }],
+        exports: []
     })
 ], NetworkModule);
 exports.NetworkModule = NetworkModule;

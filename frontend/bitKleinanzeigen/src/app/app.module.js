@@ -7,35 +7,36 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
-var security_module_1 = require("./security/security.module");
+var authentication_1 = require("./authentication/authentication");
+var navigation_1 = require("./navigation/navigation");
+var listings_module_1 = require("./model/listings/listings.module");
+var user_1 = require("./model/user/user");
 var network_module_1 = require("./network/network.module");
-var listing_modul_1 = require("./model/listings/listing.modul");
 var app_component_1 = require("./app.component");
-var login_module_1 = require("./login/login.module");
-var security_model_1 = require("./security/security.model");
 var router_1 = require("@angular/router");
 var routing_module_1 = require("./routing/routing.module");
-var user_navigation_module_1 = require("./usernavigation/user-navigation.module");
 var AppModule = (function () {
     function AppModule() {
     }
+    AppModule.prototype.ngOnInit = function () {
+        // console.log(this);
+    };
     return AppModule;
 }());
 AppModule = __decorate([
     core_1.NgModule({
         imports: [
             platform_browser_1.BrowserModule,
-            security_module_1.SecurityModule,
             network_module_1.NetworkModule,
-            listing_modul_1.ListingModule,
-            login_module_1.LoginModul,
+            authentication_1.AuthenticationModule,
+            navigation_1.NavigationModule,
+            listings_module_1.ListingsModule,
+            user_1.UserModule,
             router_1.RouterModule,
             routing_module_1.RoutingModule,
-            user_navigation_module_1.UserNavigationModule
         ],
         declarations: [app_component_1.AppComponent],
         bootstrap: [app_component_1.AppComponent],
-        providers: [security_model_1.SecurityModel]
     })
 ], AppModule);
 exports.AppModule = AppModule;
