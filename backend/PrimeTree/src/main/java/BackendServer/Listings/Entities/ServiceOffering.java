@@ -80,12 +80,6 @@ public class ServiceOffering extends Offering {
 			throw new WrongFormatException("Missing required field(s)");
 		}
 		this.setPrice(listingData.getDouble(Constants.listingDataFieldPrice));
-		if(!listingData.isNull(Constants.listingDataFieldPicture)){
-			this.setPicture(listingData.getString(Constants.listingDataFieldPicture));
-		}
-//		if(!listingData.isNull(Constants.listingDataFieldImageGallery)){
-//			this.setImageGallery(SimpleMethods.parseJSONArrayToStringList(listingData.getJSONArray(Constants.listingDataFieldImageGallery)) );
-//		}
 	}
 
 	/* (non-Javadoc)

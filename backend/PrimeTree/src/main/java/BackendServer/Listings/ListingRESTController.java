@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import BackendServer.Exceptions.CommentNotFoundException;
 import BackendServer.Exceptions.ListingNotFoundException;
+import BackendServer.Exceptions.MainImageNotSupportedException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
 import BackendServer.Exceptions.UserNotFoundException;
 import BackendServer.Exceptions.WrongFormatException;
@@ -258,6 +259,30 @@ public class ListingRESTController {
 		}
 	}
 	
+	/**This method uploads a temporary image and returns the public path so the frontend can edit it
+	 * @param request
+	 * @param response The status stays at 200 if everything went ok, 400 if the file isn't a valid image file and 401 if the user is not logged in.
+	 * @param file the file that should be uploaded
+	 */
+	@CrossOrigin
+	@RequestMapping(value= "listing/upload/temporary", method=RequestMethod.PUT)
+	public @ResponseBody String uploadTemporaryImage(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") final MultipartFile file){
+		JSONObject result=new JSONObject();
+		try {
+			String publicPath=persistenceAdapter.uploadTemporaryImage(file.getBytes(), file.getOriginalFilename());
+			result.accumulate("imagePath", publicPath);
+		} catch (IOException e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return result.toString();
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value= "listing/upload/temporary", method=RequestMethod.DELETE)
+	public @ResponseBody void deleteTemporaryImage(HttpServletRequest request, HttpServletResponse response, @RequestParam("imagePath") String imagePath){
+		persistenceAdapter.deleteTemporaryImage(imagePath);
+	}
+	
 	/**This method uploads an image for this listing and sets the picture-column in the listing to the public 
 	 * resource path of the uploaded image.
 	 * @param listingId The id of the listing
@@ -273,11 +298,13 @@ public class ListingRESTController {
 	public @ResponseBody void listingMainImageUpload(@PathVariable(value="id") final int listingId, 
 			HttpServletRequest request, HttpServletResponse response, @RequestParam("file") final MultipartFile file){
 				try {
-					persistenceAdapter.uploadImage(file.getBytes(), listingId, file.getOriginalFilename());
+					persistenceAdapter.uploadMainImage(file.getBytes(), listingId, file.getOriginalFilename());
 				} catch (IOException e) {
-					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
 				} catch (ListingNotFoundException e) {
 					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				} catch (MainImageNotSupportedException e) {
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				}
 	}
 	

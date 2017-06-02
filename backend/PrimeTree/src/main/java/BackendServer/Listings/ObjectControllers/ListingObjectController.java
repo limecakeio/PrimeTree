@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import BackendServer.Exceptions.ListingNotFoundException;
-import BackendServer.Exceptions.MainImagNotSupportedException;
+import BackendServer.Exceptions.MainImageNotSupportedException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Constants;
@@ -51,7 +51,7 @@ public abstract class ListingObjectController<L extends Listing> {
 			//You cannot instanciate the picture 
 			try {
 				newInstance.setPicture(null);
-			} catch (MainImagNotSupportedException e) {
+			} catch (MainImageNotSupportedException e) {
 				//do nothing
 			}
 			

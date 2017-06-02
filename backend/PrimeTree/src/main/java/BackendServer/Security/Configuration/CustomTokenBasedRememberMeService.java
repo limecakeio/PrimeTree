@@ -16,9 +16,14 @@ import org.springframework.security.web.authentication.rememberme.InvalidCookieE
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.security.crypto.codec.Utf8;
 
+/**This class is a TokenRememberMeService which reads the Cookie-id-string out of a header token and provides a backdoor for swagger
+ * @author Florian Kutz
+ *
+ */
 public class CustomTokenBasedRememberMeService extends TokenBasedRememberMeServices{
 
-    private static final String secretWordForSwagger = "Fuck";
+    private static final String secretWordForSwaggerToAuthenticateAsAnUser = "I'mAnUser",
+    		secretWordForSwaggerToAuthenticateAsAnAdmin="I'mAnAdmin";
 
 	public CustomTokenBasedRememberMeService(String key, UserDetailsService userDetailsService) {
         super(key, userDetailsService);
@@ -44,13 +49,21 @@ public class CustomTokenBasedRememberMeService extends TokenBasedRememberMeServi
 	 */
 	@Override
 	protected String[] decodeCookie(String cookieValue) throws InvalidCookieException {
-		if(cookieValue.equals(secretWordForSwagger)){
+		if(cookieValue.equals(secretWordForSwaggerToAuthenticateAsAnUser)){
 			String[] swaggerAuthenticationFields={
 				"akessler",
 				""+Long.MAX_VALUE,
 				makeTokenSignature(Long.MAX_VALUE,
 						"akessler", "123")
 			};
+			return swaggerAuthenticationFields;
+		}else if(cookieValue.equals(secretWordForSwaggerToAuthenticateAsAnAdmin)){
+			String[] swaggerAuthenticationFields={
+					"mmustermann",
+					""+Long.MAX_VALUE,
+					makeTokenSignature(Long.MAX_VALUE,
+							"mmustermann", "123")
+				};
 			return swaggerAuthenticationFields;
 		}else{
 			return super.decodeCookie(cookieValue);
