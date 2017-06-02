@@ -1,0 +1,23 @@
+<div class="listing-preview">
+  <div class="listing-header">
+    <p>Biete / Verkauf</p> <!-- Requires dynamic population -->
+  </div>
+  <div class="listing-image">
+    <img [src]="imagesrc" alt="" class="listing-image"/>
+    <div class="listing-price">
+      <p>{{listing.price}} €</p>
+    </div>
+  </div>
+  <div class="listing-heading">
+    <h3 class="listing-title">
+      <a [routerLink]="['/listing', listing.id]">{{listing.title}}</a>
+    </h3>
+  </div>
+
+  <div class="listing-footer">
+    <!-- MAY NEED TO ARRANGE A SEPARATE COMPONENT FOR THIS? -->
+    <div class="fave-container">
+      <span class="glyphicon glyphicon-certificate"></span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div [formGroup]="form">
+  <div class="input-group"><!-- Verkaufspreis form element -->
+    <span>Beschreibung</span>
+    <textarea type="text"
+    name="description"
+    [(ngModel)]="model.description"
+    formControlName="description"
+    class="form-control"
+    aria-label="Eine textuelle Beschreibung des Inserates."></textarea>
+  </div>
+</div>

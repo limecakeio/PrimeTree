@@ -2,16 +2,20 @@ import { Injectable } from '@angular/core';
 import { NetworkService } from './network.service';
 import { NetworkRequest } from './network.request';
 import { Response, ResponseOptions } from '@angular/http';
+
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { SecurityModel } from '../security/security.model';
+
+import { UserService } from '../model/user/user';
 
 @Injectable()
 export class MockNetworkService extends NetworkService {
-  private mock : MockServer = new MockServer(this.securityModel);
+  private mock : MockServer = new MockServer(this.userService);
 
 
-  constructor(private securityModel : SecurityModel) {
+  constructor(
+    private userService : UserService
+  ) {
     super();
   }
 
@@ -26,6 +30,15 @@ export class MockNetworkService extends NetworkService {
   }
 
 }
+
+/**
+ * describs an function which controlls one ressource
+ */
+interface ControllerHandlerFunction {
+  (networkRequest : NetworkRequest) : Observable<Response>;
+}
+
+
 
 class MockServer {
   private listingReposetory : any[] = [
@@ -145,7 +158,17 @@ class MockServer {
     password: '123'
   }];
 
-  constructor(private securityModel : SecurityModel) {
+  handlers : any = [];
+
+  private registerhandler(path : string, handler : ControllerHandlerFunction) : void {
+
+  }
+
+
+
+  constructor(
+    private userService : UserService
+  ) {
 
   }
 
@@ -228,8 +251,8 @@ class MockServer {
     let exisitingUser : boolean = false;
     for (let i = 0; i < this.userReposetory.length && !exisitingUser; i++) {
       // console.log(this.userReposetory[i], this.securityModel);
-      if (this.userReposetory[i].username === this.securityModel.username &&
-        this.userReposetory[i].password === this.securityModel.password
+      if (this.userReposetory[i].username === this.userService.user.username &&
+        this.userReposetory[i].password === this.userService.user.password
       ) {
         exisitingUser = true;
       }
@@ -270,7 +293,7 @@ class MockServer {
     if (missingProperties.length === 0) {
       body.id = this.listingReposetory.length + 1;
       body.active = true;
-      body.creator = this.securityModel.username;
+      body.creator = this.userService.user.username;
       console.log(body); // For testing purposes
       this.listingReposetory.push(body);
       // console.log(this.listingReposetory);

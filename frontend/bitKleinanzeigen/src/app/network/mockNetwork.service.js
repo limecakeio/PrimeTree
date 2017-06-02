@@ -18,13 +18,13 @@ var network_service_1 = require("./network.service");
 var network_request_1 = require("./network.request");
 var http_1 = require("@angular/http");
 var Subject_1 = require("rxjs/Subject");
-var security_model_1 = require("../security/security.model");
+var user_1 = require("../model/user/user");
 var MockNetworkService = (function (_super) {
     __extends(MockNetworkService, _super);
-    function MockNetworkService(securityModel) {
+    function MockNetworkService(userService) {
         var _this = _super.call(this) || this;
-        _this.securityModel = securityModel;
-        _this.mock = new MockServer(_this.securityModel);
+        _this.userService = userService;
+        _this.mock = new MockServer(_this.userService);
         return _this;
     }
     MockNetworkService.prototype.send = function (request) {
@@ -39,12 +39,12 @@ var MockNetworkService = (function (_super) {
 }(network_service_1.NetworkService));
 MockNetworkService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [security_model_1.SecurityModel])
+    __metadata("design:paramtypes", [user_1.UserService])
 ], MockNetworkService);
 exports.MockNetworkService = MockNetworkService;
 var MockServer = (function () {
-    function MockServer(securityModel) {
-        this.securityModel = securityModel;
+    function MockServer(userService) {
+        this.userService = userService;
         this.listingReposetory = [
             {
                 title: "Test Listing 1",
@@ -161,7 +161,10 @@ var MockServer = (function () {
                 username: 'mmustermann',
                 password: '123'
             }];
+        this.handlers = [];
     }
+    MockServer.prototype.registerhandler = function (path, handler) {
+    };
     MockServer.prototype.notFound = function (networkRequest) {
         var source = new Subject_1.Subject();
         var observable = source.asObservable();
@@ -242,8 +245,8 @@ var MockServer = (function () {
         var exisitingUser = false;
         for (var i = 0; i < this.userReposetory.length && !exisitingUser; i++) {
             // console.log(this.userReposetory[i], this.securityModel);
-            if (this.userReposetory[i].username === this.securityModel.username &&
-                this.userReposetory[i].password === this.securityModel.password) {
+            if (this.userReposetory[i].username === this.userService.user.username &&
+                this.userReposetory[i].password === this.userService.user.password) {
                 exisitingUser = true;
             }
         }
@@ -280,7 +283,7 @@ var MockServer = (function () {
         if (missingProperties.length === 0) {
             body.id = this.listingReposetory.length + 1;
             body.active = true;
-            body.creator = this.securityModel.username;
+            body.creator = this.userService.user.username;
             console.log(body); // For testing purposes
             this.listingReposetory.push(body);
             // console.log(this.listingReposetory);

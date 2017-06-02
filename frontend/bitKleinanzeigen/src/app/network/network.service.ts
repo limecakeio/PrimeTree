@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { NetworkRequest } from './network.request';
 import { Observable } from 'rxjs/Observable';
-import { Response } from '@angular/http';
+import { Response, Request } from '@angular/http';
 
 export abstract class NetworkService {
 
-  send(request : NetworkRequest) : Observable<Response> {
-    return new Observable<Response>();
-  };
+  public abstract send(request : NetworkRequest) : Observable<Response>;
 
   networkRequest() : NetworkRequest {
-    return new NetworkRequest();
+    let request : NetworkRequest = new NetworkRequest();
+    request
+    .setHostname('141.19.145.175')
+    .setPort(8080);
+    return request;
   };
 
 }

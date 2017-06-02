@@ -1,26 +1,42 @@
 import { RequestMethod } from '@angular/http';
 
+export interface NetworkHeader {
+  field : string;
+  value : string;
+}
+
+export interface NetworkQuery {
+  key : string;
+  values : string[]
+}
+
 export class NetworkRequest {
 
-  private headers : any[] = [];
+  private protocol : string = 'http://';
+
+  private headers : NetworkHeader[];
+  private hasHeaders : boolean = false;
 
   private hostname : string = 'localhost';
 
   private port : number;
   private hasPort : boolean = false;
 
-  private query : string = '';
+  private queries : NetworkQuery[] = [];
   private hasQuery : boolean = false;
 
-  private path : string = '';
+  private paths : string[] = [];
   private hasPath : boolean = false;
 
   private body : any = null;
 
-  private verb : RequestMethod;
+  private method : RequestMethod;
 
-  setHttpMethod(verb : RequestMethod) : NetworkRequest {
-    this.verb = verb;
+  /**
+   * Sets the method in accordance of the argument.
+   */
+  setHttpMethod(method : RequestMethod) : NetworkRequest {
+    this.method = method;
     return this;
   }
 
@@ -38,19 +54,31 @@ export class NetworkRequest {
   addPath(path : string) : NetworkRequest {
     if (!this.hasPath) {
       this.hasPath = true;
-      this.path += path;
-    } else {
-      this.path += '/' + path;
     }
+    this.paths.push(path);
     return this;
   }
 
+  /**
+   * Adds a query to the request.
+   * Overwrites a former query with the same key.
+   */
   addQuery(key : string, value : string) : NetworkRequest {
     if (!this.hasQuery) {
       this.hasQuery = true;
-      this.query += key + '=' + value;
-    } else {
-      this.query += '&' + key + '=' + value;
+    }
+    let found : boolean = false;
+    for (let i = 0; i < this.queries.length && !found; i++) {
+      if (this.queries[i].key === key) {
+        this.queries[i].values[0] = value;
+        found = true;
+      }
+    }
+    if (!found) {
+      this.queries.push({
+        key: key,
+        values: [value]
+      })
     }
     return this;
   }
@@ -60,34 +88,70 @@ export class NetworkRequest {
     return this;
   }
 
-  addHeader(key : string, value : string) : NetworkRequest {
+  setProtocol(protocol : string) {
+    this.protocol = protocol + '//';
+  }
+
+  addHeader(field : string, value : string) : NetworkRequest {
     this.headers.push({
-      key: key,
-      value: value
-    });
+      field: field,
+      value : value
+    })
+    return this;
+  }
+
+  /**
+   * Appends the value to an existing query or creates a new one if no appropriate key exists.
+   */
+  appendQuery(key : string, value : string) : NetworkRequest {
+    let found : boolean = false;
+    for (let i = 0; i < this.queries.length && !found; i++) {
+      if (this.queries[i].key === key) {
+        found = true;
+        this.queries[i].values.push(value);
+      }
+    }
+    if (!found) {
+      this.queries.push({
+        key: key,
+        values: [value]
+      });
+    }
     return this;
   }
 
   getUrl() : string {
-    let url : string = 'http://';
+    let url : string;
+    url = this.protocol;
     url += this.hostname;
     if (this.hasPort) {
       url += ':' + this.port;
     }
-    if (this.hasPath) {
-      url += '/' + this.path;
-    }
-    if (this.hasQuery) {
-      url += '?' + this.query;
-    }
+    this.paths.forEach((path : string) => {
+      url += '/' + path;
+    });
+    this.queries.forEach((query : NetworkQuery) => {
+      url += '?' + query.key + '=' + query.values[0];
+      for (let i = 1; i < query.values.length; i++) {
+        url += ',' + query.values[i];
+      }
+    });
     return url;
+  }
+
+  getQueries() : NetworkQuery[] {
+    return this.queries;
+  }
+
+  getPaths() : string[] {
+    return this.paths;
   }
 
   getHeaders() : any[] {
     return this.headers;
   }
 
-  hasHeaders() : boolean {
+  headerCount() : boolean {
     return this.headers.length > 0;
   }
 
@@ -100,7 +164,7 @@ export class NetworkRequest {
   }
 
   getHttpMethod() : RequestMethod {
-    return this.verb;
+    return this.method;
   }
 
 }
