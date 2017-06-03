@@ -8,6 +8,7 @@ import BackendServer.Exceptions.GalleryIndexOutOfLimitException;
 import BackendServer.Exceptions.ListingNotFoundException;
 import BackendServer.Exceptions.MainImageNotSupportedException;
 import BackendServer.Exceptions.NoImageGallerySupportedException;
+import BackendServer.Exceptions.PathNotTemporaryException;
 import BackendServer.Exceptions.WrongFormatException;
 import BackendServer.Listings.Entities.Listing;
 
@@ -216,6 +217,7 @@ public interface PersistenceAdapter {
 
 	/**This method deletes a temporaryImage
 	 * @param imagePath: the public imagePath
+	 * @throws PathNotTemporaryException 
 	 */
-	public void deleteTemporaryImage(String imagePath);
+	public void deleteTemporaryImage(String imagePath) throws PathNotTemporaryException;
 }
