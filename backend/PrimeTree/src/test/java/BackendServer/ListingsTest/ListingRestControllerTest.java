@@ -651,7 +651,7 @@ public class ListingRestControllerTest{
 		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
 		testRESTController.galleryImageUpload(0,0, request, response, file);
 		request = new MockHttpServletRequest("DELETE", "listing/upload/gallery/{listingId}/{galleryIndex}");
-		testRESTController.listingGalleryDelete(0, 0, request, response);
+		testRESTController.listingGalleryDelete(0, request, response);
 		assertEquals(HttpServletResponse.SC_OK, response.getStatus());
 	}
 	
@@ -666,7 +666,7 @@ public class ListingRestControllerTest{
 		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
 		testRESTController.galleryImageUpload(0, 0, request, response, file);
 		request = new MockHttpServletRequest("DELETE", "listing/upload/gallery/{listingId}/{galleryIndex}");
-		testRESTController.listingGalleryDelete(-1, 0, request, response);
+		testRESTController.listingGalleryDelete(-1, request, response);
 		assertEquals(HttpServletResponse.SC_NOT_FOUND, response.getStatus());
 	}
 	
@@ -681,7 +681,7 @@ public class ListingRestControllerTest{
 		request = new MockHttpServletRequest("PUT", "listing/upload/main-image/{id}");
 		testRESTController.galleryImageUpload(0, 0, request, response, file);
 		request = new MockHttpServletRequest("DELETE", "listing/upload/gallery/{listingId}/{galleryIndex}");
-		testRESTController.listingGalleryDelete(0, -1, request, response);
+		testRESTController.listingGalleryDelete(0,  request, response);
 		assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
 	}
 	
