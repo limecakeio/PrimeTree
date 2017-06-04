@@ -473,37 +473,37 @@ public class PersistenceAdapterTest {
 		listingDataForRideShareRequestWithMissingAttributeToLocation.put(Constants.listingDataFieldFromLocation, "4");
 		listingDataForRideShareRequestWithMissingAttributeToLocation.put(Constants.listingDataFieldTravelDateAndTime, new Date().getTime()+100000);
 		
-		NameOfAPointpngFile="test.png";
+		NameOfAPointpngFile="D:/Users/Florian Kutz/Pictures/TestImage.png";
 		inputStream=new FileInputStream(NameOfAPointpngFile);
 		fileDataOfAPointpng=new byte[inputStream.available()];
 		inputStream.read(fileDataOfAPointpng);
 
-		NameOfAPointjpgFile="test.jpg";
+		NameOfAPointjpgFile="D:/Users/Florian Kutz/Pictures/testImage.jpg";
 		inputStream=new FileInputStream(NameOfAPointjpgFile);
 		fileDataOfAPointjpg=new byte[inputStream.available()];
 		inputStream.read(fileDataOfAPointjpg);
 
-		NameOfAPointjpegFile="test.jpeg";
-		inputStream=new FileInputStream(NameOfAPointjpegFile);
-		fileDataOfAPointjpeg=new byte[inputStream.available()];
-		inputStream.read(fileDataOfAPointjpeg);
+//		NameOfAPointjpegFile="test.jpeg";
+//		inputStream=new FileInputStream(NameOfAPointjpegFile);
+//		fileDataOfAPointjpeg=new byte[inputStream.available()];
+//		inputStream.read(fileDataOfAPointjpeg);
 		
-		NameOfAPointPNGFile="test.PNG";
+		NameOfAPointPNGFile="D:/Users/Florian Kutz/Pictures/testImage (2).PNG";
 		inputStream=new FileInputStream(NameOfAPointPNGFile);
 		fileDataOfAPointPNG=new byte[inputStream.available()];
 		inputStream.read(fileDataOfAPointPNG);
 
-		NameOfAPointJPGFile="test.JPG";
-		inputStream=new FileInputStream(NameOfAPointJPGFile);
-		fileDataOfAPointJPG=new byte[inputStream.available()];
-		inputStream.read(fileDataOfAPointJPG);
+//		NameOfAPointJPGFile="test.JPG";
+//		inputStream=new FileInputStream(NameOfAPointJPGFile);
+//		fileDataOfAPointJPG=new byte[inputStream.available()];
+//		inputStream.read(fileDataOfAPointJPG);
+//
+//		NameOfAPointJPEGFile="test.JPEG";
+//		inputStream=new FileInputStream(NameOfAPointJPEGFile);
+//		fileDataOfAPointJPEG=new byte[inputStream.available()];
+//		inputStream.read(fileDataOfAPointJPEG);
 
-		NameOfAPointJPEGFile="test.JPEG";
-		inputStream=new FileInputStream(NameOfAPointJPEGFile);
-		fileDataOfAPointJPEG=new byte[inputStream.available()];
-		inputStream.read(fileDataOfAPointJPEG);
-
-		NameOfAPointtxtFile="test.txt";
+		NameOfAPointtxtFile="D:/Users/Florian Kutz/Pictures/test.txt";
 		inputStream=new FileInputStream(NameOfAPointtxtFile);
 		fileDataOfAPointtxt=new byte[inputStream.available()];
 		inputStream.read(fileDataOfAPointtxt);
@@ -931,7 +931,7 @@ public class PersistenceAdapterTest {
 	//-------------------------------------deleteListingById--------------------------------------------
 	
 	@Test(expected=ListingNotFoundException.class)
-	public void testDeleteListingWithalidId() throws ListingNotFoundException, WrongFormatException{
+	public void testDeleteListingWithValidId() throws ListingNotFoundException, WrongFormatException{
 		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
 		try{
 			persistenceAdapter.deleteListingById(newId);
@@ -957,7 +957,7 @@ public class PersistenceAdapterTest {
 	@Test
 	public void testIsOwnerOfListingWithExpectedResultFalse() throws WrongFormatException, ListingNotFoundException{
 		long newId=persistenceAdapter.persistNewListing(correctListingDataForSellItemCreateWithoutExtraFields, 0);
-		assertTrue(persistenceAdapter.isOwnerOfListing(newId, 1));
+		assertFalse(persistenceAdapter.isOwnerOfListing(newId, 1));
 	}
 	
 	//-------------------------------------uploadPicture--------------------------------------------
@@ -998,8 +998,8 @@ public class PersistenceAdapterTest {
 		
 		SellItem ListingWithUploadedImage=(SellItem) persistenceAdapter.getListingById(newId);
 		String publicPathOfUploadedPicture=ListingWithUploadedImage.getPicture();
-		assertEquals(publicPathOfUploadedPicture.substring(publicPathOfUploadedPicture.length()-4),
-				NameOfAPointPNGFile.substring(NameOfAPointPNGFile.length()-4));
+		assertEquals(publicPathOfUploadedPicture.substring(publicPathOfUploadedPicture.length()-4).toLowerCase(),
+				NameOfAPointPNGFile.substring(NameOfAPointPNGFile.length()-4).toLowerCase());
 	}
 	
 	@Test

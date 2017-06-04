@@ -66,9 +66,9 @@ public class BorrowRequest extends RequestListing{
 	
 	public JSONObject toJSON() {
 		JSONObject json = super.toJSON();
-		json.accumulate(Constants.listingDataFieldPicture, this.getPicture());
-		json.accumulate(Constants.listingDataFieldBorrowFromDate, this.getBorrowFromDate());
-		json.accumulate(Constants.listingDataFieldBorrowToDate, this.getBorrowToDate());
+		json.put(Constants.listingDataFieldPicture, this.getPicture());
+		json.put(Constants.listingDataFieldBorrowFromDate, this.getBorrowFromDate());
+		json.put(Constants.listingDataFieldBorrowToDate, this.getBorrowToDate());
 		return json;
 	}
 	

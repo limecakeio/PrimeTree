@@ -123,13 +123,13 @@ public class RideSharing extends Offering {
 	@Override
 	public JSONObject toJSON() {
 		JSONObject json = super.toJSON();
-		json.accumulate(Constants.listingDataFieldFromLocation, this.getFromLocation());
-		json.accumulate(Constants.listingDataFieldJourneyStops, this.getJourneyStops());
-		json.accumulate(Constants.listingDataFieldToLocation, this.getToLocation());
+		json.put(Constants.listingDataFieldFromLocation, this.getFromLocation());
+		json.put(Constants.listingDataFieldJourneyStops, this.getJourneyStops());
+		json.put(Constants.listingDataFieldToLocation, this.getToLocation());
 		if(this.isSeatsLimited()){
-			json.accumulate(Constants.listingDataFieldAvailableSeats, this.getAvailableSeats());
+			json.put(Constants.listingDataFieldAvailableSeats, this.getAvailableSeats());
 		}
-		json.accumulate(Constants.listingDataFieldTravelDateAndTime, this.getTravelDateAndTime());
+		json.put(Constants.listingDataFieldTravelDateAndTime, this.getTravelDateAndTime());
 		return json;
 	}
 

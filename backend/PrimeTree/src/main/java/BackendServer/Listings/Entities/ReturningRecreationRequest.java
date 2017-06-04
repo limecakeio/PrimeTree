@@ -68,7 +68,7 @@ public class ReturningRecreationRequest extends RecreationRequest{
 
 	public JSONObject toJSON() {
 		JSONObject json = super.toJSON();
-		json.accumulate(Constants.listingDataFieldPicture, this.getPicture());
+		json.put(Constants.listingDataFieldPicture, this.getPicture());
 		return json;
 	}
 	

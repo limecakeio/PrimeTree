@@ -1,5 +1,6 @@
 package BackendServer.Listings.Entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -117,7 +118,7 @@ public abstract class Listing {
 	}
 	
 	public void setImageOfGallery(String pathName, int galleryIndex) throws NoImageGallerySupportedException{
-		this.getImageGallery()[galleryIndex]=pathName;
+		this.getImageGallery().set(galleryIndex, pathName);
 	}
 
 	public Collection<Comment> getComments() {
@@ -200,17 +201,17 @@ public abstract class Listing {
 	 */
 	public JSONObject toJSON() {
 		JSONObject json = new JSONObject();
-		json.accumulate(Constants.listingDataFieldId, this.getListingId());
-		json.accumulate(Constants.listingDataFieldActive, this.isActive());
-		json.accumulate(Constants.listingDataFieldCreateDate, this.getCreateDate().getTime());
-		json.accumulate(Constants.listingDataFieldCreator, this.getOwner());
-		json.accumulate(Constants.listingDataFieldDescription, this.getDescription());
-		json.accumulate(Constants.listingDataFieldDeadLine, this.getExpiryDate());
-		json.accumulate(Constants.listingDataFieldLocation, this.getLocation());
-		json.accumulate(Constants.listingDataFieldTitle, this.getTitle());
-		json.accumulate(Constants.listingDataFieldListingType, this.getType());
-		json.accumulate(Constants.listingDataFieldComments, this.commentsToJSONArray());
-		json.accumulate(Constants.listingDataFieldDeadLine, this.getExpiryDate().getTime());
+		json.put(Constants.listingDataFieldId, this.getListingId());
+		json.put(Constants.listingDataFieldActive, this.isActive());
+		json.put(Constants.listingDataFieldCreateDate, this.getCreateDate().getTime());
+		json.put(Constants.listingDataFieldCreator, this.getOwner());
+		json.put(Constants.listingDataFieldDescription, this.getDescription());
+		json.put(Constants.listingDataFieldDeadLine, this.getExpiryDate());
+		json.put(Constants.listingDataFieldLocation, this.getLocation());
+		json.put(Constants.listingDataFieldTitle, this.getTitle());
+		json.put(Constants.listingDataFieldListingType, this.getType());
+		json.put(Constants.listingDataFieldComments, this.commentsToJSONArray());
+		json.put(Constants.listingDataFieldDeadLine, this.getExpiryDate().getTime());
 		return json;
 	}
 	
@@ -220,10 +221,10 @@ public abstract class Listing {
 	 * @return a JSONArray with all comments to this listing as JSONObject
 	 */
 	private JSONArray commentsToJSONArray() {
-		JSONArray commentsAsJSONArray=new JSONArray(comments.size());
-		Iterator commentIterator=comments.iterator();
+		JSONArray commentsAsJSONArray=new JSONArray(comments.toArray());
+		Iterator<Comment> commentIterator=comments.iterator();
 		for(int index=0;index<comments.size();index++){
-			commentsAsJSONArray.put(index, ((Comment) commentIterator.next()).toJSON());
+			commentsAsJSONArray.put(index, commentIterator.next().toJSON());
 		}
 		return commentsAsJSONArray;
 	}
@@ -273,7 +274,7 @@ public abstract class Listing {
 	 * @return the filenames with paths of the imageGallery
 	 * @throws NoImageGallerySupportedException if the type has no imageGallery
 	 */
-	public String[] getImageGallery() throws NoImageGallerySupportedException {
+	public List<String> getImageGallery() throws NoImageGallerySupportedException {
 		throw new NoImageGallerySupportedException();
 	}
 
@@ -295,7 +296,9 @@ public abstract class Listing {
 	public boolean matchFilterOptions(String query, String[] location, boolean b, int price_min, int price_max,
 			String[] type, String kind) {
 		return this.matchFilterOptions(location, b, price_min, price_max, type, kind) 
-				&& (this.getTitle().contains(query) || this.getDescription().contains(query));
+				&& query!=null
+				&& (this.getTitle().contains(query) || this.getDescription().contains(query))
+				;
 	}
 	
 	public void setPicture(String picture) throws MainImageNotSupportedException{
