@@ -1,0 +1,10 @@
+<div class="">
+  <input
+  id="'FilterRadioComponent' + {{filterString}}"
+  (click)="changeFilterValue($event)"
+  type="radio"
+  [name]="filterPropertyName"
+  [value]="filterPropertyName"
+  [checked]="true">
+  <label for="'FilterRadioComponent' + {{filterString}}">{{filterString}}</label>
+</div>

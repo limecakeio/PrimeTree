@@ -6,47 +6,62 @@ import {
   ModuleWithComponentFactories,
   Provider
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
+import { ListingDescriptor} from './listing.descriptor';
+import { ListingDescriptorHandler } from './listing-descriptor.handler';
 
-import { ListingComponent } from './listing.component';
-import { ListingPreviewComponent } from './listing-preview.component';
 import { ListingCreator } from './listing.creator';
-
 import { ListingController } from './listing.controller';
 import { ListingRepository } from './listing.repository';
-import { ListingPreviewPlaceholderComponent } from './listing-preview-placeholder.component';
-import { ListingDescriptor, ListingCreateFormComponent } from './listing.descriptor';
-import { ListingCreateComponent } from './listing-create.component';
-import { ListingCreateFormPlaceholderComponent } from './listing-create-form-placeholder.component';
-import { ListingDetailViewComponent } from './listing-detail-view.component';
-import { ListingDetailViewPlaceholderComponent } from './listing-detail-view-placeholder.component';
-import { ListingDescriptorHandler } from './listing-descriptor.handler';
+
+import { ListingOverviewViewportComponent } from './preview/listing-overview-viewport.component';
+import { ListingPreviewPlaceholderComponent } from './preview/listing-preview-placeholder.component';
+import { ListingCreateComponent } from './create/listing-create.component';
+import { ListingCreateFormPlaceholderComponent } from './create/listing-create-form-placeholder.component';
+import { ListingDetailViewComponent } from './detail/listing-detail-view.component';
+import { ListingDetailViewPlaceholderComponent } from './detail/listing-detail-view-placeholder.component';
+import { ListingDetailViewOverlayComponent } from './detail/listing-detail-view-overlay.component';
+import { FormModule } from '../../../form/form.module';
+
+import { ListingFilterComponent } from './filter/filter.component';
 
 import { ListingRoutingModule } from './listing.routing';
 
-
+// Add your own listing components in the entryComponents array
+import { ListingComponent, ListingPreviewComponent, ListingCreateFormComponent } from './listing.descriptor';
 import { SaleOfferPreviewComponent, SaleOfferCreateFormComponent, SaleOfferComponent } from '../offer/sale-offer/sale-offer.descriptor';
-import { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent } from '../offer/service-offer/service-offer.descriptor';
+import { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent, ServiceOfferComponent } from '../offer/service-offer/service-offer.descriptor';
 
 @NgModule({
   imports: [
+    FormModule,
+    CommonModule,
     ListingRoutingModule
   ],
   declarations: [
+    ListingCreateFormComponent,
     ListingComponent,
+    ListingPreviewComponent,
+    ListingOverviewViewportComponent,
     ListingPreviewPlaceholderComponent,
     ListingCreateFormPlaceholderComponent,
     ListingCreateComponent,
     ListingDetailViewComponent,
-    ListingDetailViewPlaceholderComponent
+    ListingDetailViewPlaceholderComponent,
+    ListingDetailViewOverlayComponent,
+    ListingFilterComponent
   ],
   exports: [
-    ListingComponent,
+    FormModule,
+    ListingOverviewViewportComponent,
     ListingPreviewPlaceholderComponent,
     ListingCreateFormPlaceholderComponent,
     ListingCreateComponent,
     ListingDetailViewComponent,
-    ListingDetailViewPlaceholderComponent
+    ListingDetailViewPlaceholderComponent,
+    ListingDetailViewOverlayComponent,
+    ListingFilterComponent
   ],
   providers: [
     ListingCreator,
@@ -54,20 +69,22 @@ import { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent } from '.
     ListingRepository
   ],
   entryComponents: [
-    ListingCreateFormComponent,
-    ListingComponent,
-    ListingPreviewComponent,
 
     SaleOfferPreviewComponent,
     SaleOfferCreateFormComponent,
     SaleOfferComponent,
-    
+
     ServiceOfferPreviewComponent,
-    ServiceOfferCreateFormComponent
+    ServiceOfferCreateFormComponent,
+    ServiceOfferComponent
   ]
 })
 export class ListingModule {
 
+  /**
+   * Angular ahead of time compiler doesn't support static methods with more than one statement.
+   * This statement must be an return.
+   */
   // static listingDescriptorHandler : ListingDescriptorHandler = new ListingDescriptorHandler();
   //
   // static getNewListingModule(listingDescriptors : typeof ListingDescriptor[]) : ModuleWithProviders {

@@ -2,6 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { FilterCheckboxComponent } from './elements/filter-checkbox/filter-checkbox.component';
+import { FilterMultiValueCheckboxComponent } from './elements/filter-multi-value-checkbox/filter-multi-value-checkbox.component';
+import { FilterRadioComponent } from './elements/filter-radio/filter-radio.component';
+
 import { DescriptionFormComponent } from './elements/description/description.component';
 import { ImageFormComponent } from './elements/image/image.component';
 import { PriceFormComponent } from './elements/price/price.component';
@@ -13,6 +17,10 @@ import { GalleryFormComponent } from './elements/gallery/gallery.component';
  */
 @NgModule({
   declarations: [
+    FilterCheckboxComponent,
+    FilterRadioComponent,
+    FilterMultiValueCheckboxComponent,
+    
     DescriptionFormComponent,
     ImageFormComponent,
     PriceFormComponent,
@@ -23,6 +31,11 @@ import { GalleryFormComponent } from './elements/gallery/gallery.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+
+    FilterCheckboxComponent,
+    FilterRadioComponent,
+    FilterMultiValueCheckboxComponent,
+
     DescriptionFormComponent,
     ImageFormComponent,
     PriceFormComponent,

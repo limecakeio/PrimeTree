@@ -9,11 +9,11 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var can_activate_user_model_1 = require("./can-activate-user.model");
 var authentication_1 = require("../authentication/authentication");
-var listings_1 = require("../model/listings/listings");
+var listing_overview_viewport_component_1 = require("../model/listings/listing/preview/listing-overview-viewport.component");
 var routes = [
     {
         path: 'home',
-        component: listings_1.ListingOverviewViewportComponent,
+        component: listing_overview_viewport_component_1.ListingOverviewViewportComponent,
         canActivate: [can_activate_user_model_1.CanActivateUser]
     }, {
         path: '',

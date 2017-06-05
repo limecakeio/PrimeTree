@@ -3,9 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CanActivateUser } from './can-activate-user.model';
 import { AuthenticationComponent } from '../authentication/authentication'
-import { ListingOverviewViewportComponent } from '../model/listings/listings';
-import { ListingCreateComponent } from '../model/listings/listing/listing-create.component';
-import { ListingDetailViewComponent } from '../model/listings/listing/listing-detail-view.component';
+import { ListingOverviewViewportComponent } from '../model/listings/listing/preview/listing-overview-viewport.component';
 
 const routes: Routes = [
   {

@@ -1,0 +1,8 @@
+.listing-image { /**TODO THESE SETTINGS ARE PRIOR TO IMAGES BEING ABLE TO LOAD*/
+  display: block;
+    width: 100%;
+    background-color: #eeefef;
+    background-size: 100% auto;
+    background-position: center;
+    background-repeat: no-repeat;
+}

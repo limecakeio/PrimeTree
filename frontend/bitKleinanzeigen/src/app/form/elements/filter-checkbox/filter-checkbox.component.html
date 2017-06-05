@@ -1,0 +1,9 @@
+<div class="">
+  <input
+    id="{{filterString}}"
+    (click)="changeFilterValue($event)"
+    type="checkbox"
+    [name]="filterPropertyName"
+    [value]="filterPropertyName">
+  <label for="{{filterString}}">{{filterString}}</label>
+</div>

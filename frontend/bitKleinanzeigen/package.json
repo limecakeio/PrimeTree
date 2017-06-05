@@ -39,11 +39,7 @@
     "@types/html2canvas": "^0.5.33",
     "angular-in-memory-web-api": "~0.3.0",
     "core-js": "^2.4.1",
-<<<<<<< HEAD
-    "jquery": "^3.2.1",
-=======
     "html2canvas": "0.5.0-beta4",
->>>>>>> e42f4dda6ecbeaa6ca0d7299a5cb631871241c21
     "rxjs": "5.0.1",
     "systemjs": "0.19.40",
     "zone.js": "^0.8.4"

@@ -2,9 +2,9 @@ import { Type } from '@angular/core';
 
 import { ListingDescriptor } from './listing.descriptor';
 import { ListingFactory } from './listing.factory';
-import { ListingPreviewComponent } from './listing-preview.component';
-import { ListingComponent } from './listing.component';
-import { ListingCreateFormComponent } from './listing-create-form.component';
+import { ListingPreviewComponent } from './preview/listing-preview.component';
+import { ListingComponent } from './detail/listing.component';
+import { ListingCreateFormComponent } from './create/listing-create-form.component';
 
 export class ListingDescriptorHandler {
 

@@ -1,12 +1,12 @@
 import { Type } from '@angular/core';
 
 import { ListingDescriptor } from '../../listing/listing.descriptor';
-import { ListingPreviewComponent } from '../../listing/listing-preview.component';
-import { ListingCreateFormComponent } from '../../listing/listing-create-form.component';
-import { ListingComponent } from '../../listing/listing.component';
+import { ListingPreviewComponent } from '../../listing/preview/listing-preview.component';
+import { ListingCreateFormComponent } from '../../listing/create/listing-create-form.component';
+import { ListingComponent } from '../../listing/detail/listing.component';
 
 import { SaleOfferPreviewComponent } from './sale-offer-preview.component';
-import { SaleOfferCreateFormComponent } from './sale-offer-create.component';
+import { SaleOfferCreateFormComponent } from './sale-offer-create-form.component';
 import { SaleOfferFactory } from './sale-offer.factory';
 import { SaleOfferComponent } from './sale-offer.component';
 

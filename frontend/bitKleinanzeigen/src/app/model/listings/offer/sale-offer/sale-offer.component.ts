@@ -1,12 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit
+} from '@angular/core';
+import {
+  DomSanitizer,
+  SafeStyle
+} from '@angular/platform-browser';
+
 import { SaleOffer } from './sale-offer.model';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 import { UserService } from '../../../user/user';
-import { ListingComponent } from '../../listing/listing.component';
+import { ListingComponent } from '../../listing/detail/listing.component';
 
 @Component({
-  selector: 'saleoffer',
+  selector: 'listing-detail-view-sale-offer',
   templateUrl: './sale-offer.component.html'
 })
 export class SaleOfferComponent extends ListingComponent implements OnInit {

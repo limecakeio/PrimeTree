@@ -1,17 +1,33 @@
-import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
-import { SaleOffer } from './sale-offer.model';
-import { DomSanitizer, SafeStyle, SafeUrl } from '@angular/platform-browser';
+import {
+  Component,
+  Input,
+  OnInit,
+  AfterViewInit,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
+import {
+  DomSanitizer,
+  SafeStyle,
+  SafeUrl
+} from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { ListingPreviewComponent } from '../../listing/listing-preview.component';
+
+import { SaleOffer } from './sale-offer.model';
+import { ListingPreviewComponent } from '../../listing/preview/listing-preview.component';
+import { PreviewService } from '../../../../view/preview/preview.service';
 
 @Component({
   selector: 'saleoffer-preview',
   templateUrl: './sale-offer-preview.component.html',
-  styleUrls: [ './sale-offer-preview.component.css' ]
+  styleUrls: [ './sale-offer-preview.component.css' ],
+  providers: [
+    PreviewService
+  ]
 })
-export class SaleOfferPreviewComponent extends ListingPreviewComponent implements OnInit {
+export class SaleOfferPreviewComponent extends ListingPreviewComponent implements OnChanges, OnInit {
 
-  @Input() listing : SaleOffer;
+  @Input() listing : SaleOffer = null;
 
   isOwner : boolean = false;
 
@@ -21,15 +37,21 @@ export class SaleOfferPreviewComponent extends ListingPreviewComponent implement
 
   constructor(
     private domSanitizer : DomSanitizer,
-    private router : Router
+    private router : Router,
+    public previewService : PreviewService
   ) {
-    super();
+    super(previewService);
   }
 
-  ngOnInit() {
-    console.log(this.listing, 'sale offer')
-    if (this.listing.mainImage) {
-      this.imagesrc = this.domSanitizer.bypassSecurityTrustUrl(this.listing.mainImage);
-    }
+  ngOnInit() : void {
+    console.log('ngOnInit', 'SaleOfferPreviewComponent', this.listing)
+  //   if (this.listing.mainImage) {
+  //     this.imagesrc = this.domSanitizer.bypassSecurityTrustUrl(this.listing.mainImage);
+  //   }
+  }
+
+  ngOnChanges(simpleChanges : SimpleChanges) : void {
+    console.log(this.listing, 'ngOnChanges')
+    this.previewService.sendModelToObservers(this.listing);
   }
 }
