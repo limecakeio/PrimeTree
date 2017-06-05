@@ -4,9 +4,10 @@ import { RouterModule } from '@angular/router';
 
 import { SaleOfferComponent } from './sale-offer.component';
 import { SaleOfferPreviewComponent } from './sale-offer-preview.component';
-import { SaleOfferCreateFormComponent } from './sale-offer-create.component';
+import { SaleOfferCreateFormComponent } from './sale-offer-create-form.component';
 
 import { FormModule } from '../../../../form/form.module';
+import { PreviewModule } from '../../../../view/preview/preview.module';
 
 @NgModule({
   declarations: [
@@ -18,12 +19,14 @@ import { FormModule } from '../../../../form/form.module';
     SaleOfferComponent,
     SaleOfferPreviewComponent,
     SaleOfferCreateFormComponent,
-    RouterModule
+    RouterModule,
+    PreviewModule
   ],
   imports: [
     CommonModule,
     FormModule,
-    RouterModule
+    RouterModule,
+    PreviewModule
   ],
   providers: [
 

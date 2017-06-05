@@ -1,7 +1,8 @@
 import { Component, HostListener } from '@angular/core';
 import { DomSanitizer, SafeStyle, SafeUrl } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
-import * as html2canvas from "html2canvas";
+// import * as html2canvas from "html2canvas"; // original 03062017
+// import html2canvas from 'html2canvas';
 
 import { FormService } from '../../forms.service';
 
@@ -241,9 +242,9 @@ export class ImageFormComponent {
     let cropper = <HTMLElement>document.querySelector("#crop-container");
     cropper.style.display = "none";
     let test = <HTMLElement>document.querySelector("#test-image");
-    html2canvas(test).then(function(canvas : any){
-      window.open(canvas.toDataURL("image/png"));
-    });
+    // html2canvas(test).then(function(canvas : any){
+    //   window.open(canvas.toDataURL("image/png"));
+    // });
   }
 
   input(event : any) {

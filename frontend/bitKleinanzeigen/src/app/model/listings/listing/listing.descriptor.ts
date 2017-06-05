@@ -1,9 +1,9 @@
 import { Type } from '@angular/core';
 
-import { ListingPreviewComponent } from './listing-preview.component';
-import { ListingCreateFormComponent } from './listing-create-form.component';
+import { ListingPreviewComponent } from './preview/listing-preview.component';
+import { ListingCreateFormComponent } from './create/listing-create-form.component';
 import { ListingFactory } from './listing.factory';
-import { ListingComponent } from './listing.component';
+import { ListingComponent } from './detail/listing.component';
 
 /**
  *

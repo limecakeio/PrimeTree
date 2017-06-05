@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { ListingCreateFormComponent } from '../../listing/listing-create-form.component';
+import { ListingCreateFormComponent } from '../../listing/create/listing-create-form.component';
 
 import { FormService } from '../../../../form/forms.service';
 import { ServiceOffer } from './service-offer.model';

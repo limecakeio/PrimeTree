@@ -1,0 +1,10 @@
+.fave-container span {
+  font-size: 20pt;
+  color: #8a8a88;
+  transition: color 0.35s linear;
+}
+
+.fave-container span:hover {
+  cursor: pointer;
+  color: #61615f;
+}

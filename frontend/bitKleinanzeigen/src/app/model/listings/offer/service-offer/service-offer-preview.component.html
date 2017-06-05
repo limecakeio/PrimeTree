@@ -3,19 +3,16 @@
     <p>Biete / Dienstleistung</p> <!-- Requires dynamic population -->
   </div>
   <div class="listing-image" >
-    <img [src]="imagesrc" alt="" class="listing-image"/>
-    <div class="listing-price">
-      <p>{{listing.price}} €</p>
-    </div>
+    <view-preview-image></view-preview-image>
+    <view-preview-price></view-preview-price>
   </div>
   <div class="listing-heading">
-    <h3 class="listing-title">{{listing.title}}</h3>
+    <view-preview-title></view-preview-title>
   </div>
 
   <div class="listing-footer">
+    <view-preview-location></view-preview-location>
     <!-- MAY NEED TO ARRANGE A SEPARATE COMPONENT FOR THIS? -->
-    <div class="fave-container">
-      <span class="glyphicon glyphicon-certificate"></span>
-    </div>
+    <view-preview-favourite></view-preview-favourite>
   </div>
 </div>

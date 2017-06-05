@@ -20,7 +20,11 @@ export default {
   plugins: [
       nodeResolve({jsnext: true, module: true}),
       commonjs({
-        include: 'node_modules/rxjs/**',
+        // include: 'node_modules/rxjs/**', // original 03062017
+        include: [
+          'node_modules/rxjs/**',
+          'node_modules/html2canvas/**'
+        ]
       }),
       uglify()
   ]

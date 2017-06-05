@@ -8,18 +8,14 @@ import { RESTNetworkService } from './rest-network.service';
 @NgModule({
   imports: [ HttpModule ],
   declarations: [  ],
-  providers: [ {
-    provide: NetworkService,
-    useClass: MockNetworkService
-<<<<<<< HEAD
-  }, SecurityModel ],
+  providers: [
+    {
+      provide: NetworkService,
+      useClass: MockNetworkService
+    }
+  ],
   exports: [ HttpModule ]
-=======
-  } ],
-  exports: [  ]
->>>>>>> e42f4dda6ecbeaa6ca0d7299a5cb631871241c21
 })
-
 export class NetworkModule {
 
 }
