@@ -26,6 +26,11 @@ div.bit-header::before, div.bit-header::after { /*HEADER ITEMS TO GO TO THE EDGE
   height: 100%;
 }
 
+.header-search-bar {
+  margin:0;
+  width:100%;
+}
+
 .header-search-bar input {
   background-color: transparent;
   box-shadow: none;

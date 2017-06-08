@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthenticationController } from '../authentication/authentication';
 import { UserService } from '../model/user/user.service';
 
+import { MessageService, Message } from '../shared/message.service';
+
 @Component({
   selector: 'navigation',
   templateUrl: './navigation.component.html',
@@ -16,7 +18,8 @@ export class NavigationComponent {
   constructor(
     private router : Router,
     private authenticationController : AuthenticationController,
-    public userService : UserService
+    public userService : UserService,
+    private messageService : MessageService
   ) {
     this.isAuthenticated = this.userService.authenticated;
   }
@@ -38,6 +41,12 @@ export class NavigationComponent {
       console.error(error);
     }, () => {
 
+    });
+  }
+
+  public activateListingFilter() : void {
+    this.messageService.sendMessage({
+      message: 'showListingFilter'
     });
   }
 

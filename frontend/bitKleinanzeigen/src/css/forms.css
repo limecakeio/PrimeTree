@@ -6,28 +6,83 @@ Team: Prime Tree
 Controls/Overwrites all form displays for the bIT Kleinanzeigen web-application.
 */
 
-/**FORM SETTINGS*/
-
-/*form {
-  width:80%;
-  padding: 10pt;
-  background-color: #f1fffa;
-  border-radius: 8pt;
-  border: 1px solid #b2b2b2;
+/**GENERAL FORM SETTINGS*/
+.listing-form {
+  display: table;
+  width:100%;
+  margin: 0 auto;
 }
 
-.form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #93b7be;
+.form-title {
+  position: relative;
+  padding: 5pt 0;
+  background-color: #CA5F05;
 }
-
-form h2 {
+.form-title h1 {
   text-align: center;
-  margin-bottom: 15pt;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight:bold;
+  font-size: 18px;
+  margin: 0;
 }
 
-form button {
+.form-title-controls {
+  position: absolute;
+  display: table;
+  width: 100%;
+  height: 100%;
+  top:0;
+  left: 0;
+}
+
+.form-title-controls .navigation {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.form-title-controls .navigation.back:before {
+  content: '<';
+  margin-left: 5pt;
+}
+
+.form-title-controls .navigation.exit {
+  text-align: right;
+}
+
+.form-title-controls .navigation.exit:before {
+  content: 'X';
+  margin-right: 5pt;
+}
+
+.form-group {
+  padding: 0pt 35pt;
+}
+
+/**FORM ELEMENTS AND INPUTS*/
+.input-group {
   margin: 10pt 0;
-}*/
+  width: 60%;
+}
+input.form-control,
+textarea.form-control {
+  border-radius: 0px;
+  background-color: #d8d7d7;
+  border-color: transparent;
+  font-weight: bold;
+  color: #7f8286;
+  /**Override the BS box-glow*/
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+input.form-control:focus,
+textarea.form-control:focus {
+  border-color: #7f8286;
+  background-color: #fff;
+}
+
+textarea.form-control {
+  font-weight: normal;
+}

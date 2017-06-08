@@ -1,0 +1,29 @@
+
+  select {
+    display: none;
+  }
+
+  ul {
+    margin:0;
+    padding: 0;
+    list-style: none;
+  }
+
+  ul li {
+    cursor: pointer;
+  }
+
+  /*ul li:last-child {
+    font-weight: bold;
+  }*/
+
+  ul li:before {
+    content: 'X';
+    margin-right: 5pt;
+    color: transparent;
+    transition: color 0.25s linear;
+  }
+
+  ul li.active:before {
+    color: #000;
+  }

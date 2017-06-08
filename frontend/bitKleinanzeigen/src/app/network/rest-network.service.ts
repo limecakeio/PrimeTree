@@ -19,6 +19,9 @@ export class RESTNetworkService extends NetworkService {
    * @return {Observable<Response>}
    */
   send(request : NetworkRequest) : Observable<Response> {
+    if (this.securityActive) {
+      request.addHeader(this.securityHeader.field, this.securityHeader.value);
+    }
     if (request.headerCount()) {
       let headers = new Headers();
       let headerArray = request.getHeaders();
@@ -55,9 +58,14 @@ export class RESTNetworkService extends NetworkService {
    */
   public networkRequest() : NetworkRequest {
     let request : NetworkRequest = new NetworkRequest();
-    request.setHostname('141.19.145.175')
-    .setPort(8080);
+    request.setHostname('141.19.145.176')
+    .setPort(8080)
+    .addPath('bitServer');
     return request;
+  }
+
+  public getServerAddress() : string {
+    return 'http://141.19.145.176:8080/bitServer';
   }
 
 

@@ -37,24 +37,29 @@ export class ListingCreateFormComponent {
 
   }
 
-  protected submitListing(updateRepository : boolean, callback? : (id : number) => void) : void {
-    if (this.form.valid) {
-      this.model.createDate = new Date().getTime();
-      this.model.type = this.listingType;
-      this.model.isActive = true;
-      this.model.expiryDate = null;
-      this.model.condition = 'bad';
-      let outputEmitObject : ListingFormEventModel = {
+
+  /** Emits the listing to the parent component where the data is proceeded and submited
+   * The callback function will be called after the listing was submitted to send additional information to the rest server.
+   * A callback function disables the automtical redirect to the home view after submiting the listing.
+   * Please use updateRepository() for a later redirect.*/
+  protected emitListing(callback? : (id : number) => void) : void {
+    let listingFormEventModel : ListingFormEventModel
+    if (callback) {
+      listingFormEventModel = {
         model : this.model,
-        updateRepository : updateRepository
+        updateRepository : true
       };
-      if (callback) {
-        outputEmitObject.callback = callback;
-      }
-      this.listingFormCreateFinished.emit(outputEmitObject);
+    } else {
+      listingFormEventModel = {
+        model : this.model,
+        updateRepository : false,
+        callback : callback
+      };
     }
+    this.listingFormCreateFinished.emit(listingFormEventModel);
   }
 
+  /** Calls the update method of the listing repository. Closes this view and does a route change. */
   protected updateRepository() : void {
     this.listingFormUpdateRepositoryOutput.emit();
   }

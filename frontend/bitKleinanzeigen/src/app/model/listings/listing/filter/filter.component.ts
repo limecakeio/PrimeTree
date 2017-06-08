@@ -1,11 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 import { ListingController } from '../listing.controller';
 import { ListingRequest } from '../listing.request';
 import { ListingRepository } from '../listing.repository';
 import { FormService } from '../../../../form/forms.service';
 
-interface FilterCriteria {
+import { Message, MessageService } from '../../../../shared/message.service';
+
+import { FilterListItem } from '../../../../form/elements/filter-list/filter-list.component';
+
+
+export interface FilterCriteria {
   location : string[];
   type : string[];
   kind : string;
@@ -23,6 +28,12 @@ interface FilterCriteria {
 })
 export class ListingFilterComponent {
 
+  public showOverlay : boolean = true;
+
+  public hideOverlay() {
+    this.showOverlay = !this.showOverlay;
+  }
+
   public price_min : number;
 
   public price_max : number;
@@ -35,19 +46,78 @@ export class ListingFilterComponent {
     type : []
   }
 
+  public loactionList : string[] = [
+    "Mannheim",
+    "Heidelberg",
+    "Köln",
+    "Nürnberg",
+    "München",
+    "Zug"
+  ];
+
+  public lisitingTypes : FilterListItem[] = [
+    {
+      displayText: 'Gegenstandsangebot',
+      value: 'SaleOffer'
+    } , {
+      displayText: 'Dienstleistungsangebote',
+      value: 'ServiceOffer'
+    } , {
+      displayText: 'Mitfahrgelegenheitsangebot',
+      value: 'RideShareOffer'
+    } , {
+      displayText: 'Verleih',
+      value: 'BorrowRequest'
+    } , {
+      displayText: 'Gegenstandsgesuch',
+      value: 'PurchaseRequest'
+    } , {
+      displayText: 'Mitfahrgelegenheitsgesuch',
+      value: 'RideShareRequest'
+    } , {
+      displayText: 'Freizeitangebote (wiederkehrend)',
+      value: 'ReoccuringRecreationRequest'
+    } , {
+      displayText: 'Freizeitangebote (einmalig)',
+      value: 'SingleRecreationRequest'
+    }
+  ];
+
+  public listingKinds : FilterListItem[] = [{
+    value: 'offer',
+    displayText: 'NUR ANGEBOTE'
+  }, {
+    displayText: 'NUR GESUCHE',
+    value: 'request'
+  }];
+
+  public selectAllTypes : FilterListItem = {
+    value: 'Alle Inserattypen selektieren'
+  };
+
   private listingRequest : ListingRequest;
+
+  @Output() closeOverlay : EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private formService : FormService,
     private listingController : ListingController,
-    private listingRepository : ListingRepository
+    private listingRepository : ListingRepository,
+    // private MessageService : MessageService
   ) {
      this.listingRequest = this.listingController.listingRequest();
      this.formService.model = this.model;
+
   }
 
+  public closeFilterOverlay() : void {
+    this.closeOverlay.emit();
+  }
+
+
+
   public filterChanged() : void {
-    console.log('listingRepository.update faked', this.model);
+    this.listingRepository.applyFilter(this.model);
   }
 
 }

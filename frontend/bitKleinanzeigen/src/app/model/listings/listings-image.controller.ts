@@ -25,7 +25,7 @@ export class ListingsImageController {
     .addPath('' + listingId)
     .setBody(formData);
     return this.networkService.send(networkRequest).map((response : Response) => {
-      if (response.status === 200) {
+      if (response.status === 201) {
         return;
       } else if (response.status === 401) {
         throw new Error('User must be authenticated to use this method!');

@@ -33,6 +33,7 @@ export class AuthenticationController {
     .setBody(user);
     return this.networkService.send(request).map((response : Response) => {
       if (response.status === 200) {
+        this.networkService.setSecurityHeader('api_key', response.headers.get('api_key'));
         return this.employeeFactory.createEmployee(response.json());
       }
       throw new Error('Some or all user credentials are wrong!');

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { PreviewService } from '../preview.service';
+import { UserService } from '../../../model/user/user.service';
 
 @Component({
   selector: 'view-preview-favourite',
@@ -15,8 +16,10 @@ export class FavouritePreviewViewComponent {
   public isFavourite : boolean;
 
   constructor(
-    private previewService : PreviewService
+    private previewService : PreviewService,
+    private userService : UserService
   ) {
+    console.log(this.userService)
     this.previewService.getModelObservable().subscribe((model : any) => {
       this.model = model;
     });

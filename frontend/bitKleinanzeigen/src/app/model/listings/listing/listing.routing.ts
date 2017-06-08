@@ -16,7 +16,7 @@ const listingRoutes : Routes = [
     children: [
       {
         path: 'create/:listingType',
-        component: ListingCreateComponent
+        component: ListingOverviewViewportComponent
       }, {
         path: 'filter',
         component: ListingFilterComponent

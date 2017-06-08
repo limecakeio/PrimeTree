@@ -11,6 +11,7 @@ var authentication_1 = require("./authentication/authentication");
 var navigation_1 = require("./navigation/navigation");
 var listings_module_1 = require("./model/listings/listings.module");
 var user_1 = require("./model/user/user");
+var shared_module_1 = require("./shared/shared.module");
 var network_module_1 = require("./network/network.module");
 var app_component_1 = require("./app.component");
 var router_1 = require("@angular/router");
@@ -32,6 +33,7 @@ AppModule = __decorate([
             navigation_1.NavigationModule,
             listings_module_1.ListingsModule,
             user_1.UserModule,
+            shared_module_1.SharedModule,
             router_1.RouterModule,
             routing_module_1.RoutingModule,
         ],

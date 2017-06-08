@@ -17,7 +17,7 @@ export interface PageCriteria {
 export class MockPageFilter {
 
 
-  constructor(private pageDivider : number = 2) {  }
+  constructor(private pageDivider : number = 4) {  }
 
   /**
    * Creates a page from the argument listings.
@@ -57,9 +57,10 @@ export class MockPageFilter {
     } else {
       page.pageNumber = 1;
     }
-    if (index > page.count) {
-      throw new Error('page > count');
-    }
+    // console.log('page ' + index + ' ' + page.count)
+    // if (index > page.count) {
+    //   throw new Error('page > count');
+    // }
     for (let i = 0; i < this.pageDivider && i + index < listings.length; i++) {
       page.listings.push(listings[i + index]);
     }

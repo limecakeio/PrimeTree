@@ -1,6 +1,8 @@
 import {
   Component,
-  Input
+  Input,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -17,9 +19,11 @@ import { Listing } from '../listing.model';
 })
 export class ListingComponent {
 
+  @Output() closeOverlay : EventEmitter<void> = new EventEmitter<void>();
 
   @Input() listing : Listing;
 
+  
 
   constructor(
 

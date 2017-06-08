@@ -9,6 +9,8 @@ import {
   ElementRef
 } from '@angular/core';
 
+import { MessageService, Message } from '../../../../shared/message.service';
+
 import { ListingRepository } from '../listing.repository';
 import { Listing } from '../listing.model';
 import { ListingPreviewComponent } from './listing-preview.component';
@@ -27,6 +29,7 @@ declare var jQuery: any;
 })
 export class ListingOverviewViewportComponent implements AfterViewInit {
 
+  public displayListingFilter : boolean = false;
 
   private listingDescriptorHandler : ListingDescriptorHandler;
 
@@ -40,7 +43,7 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
 
   @ViewChild('listingScroller') listingScroller: ElementRef;
 
-  public detailListingID : number = null;
+  public detailListingID : number;
 
   public lisitingDetailViewOverlayDisplayState : boolean = false;
 
@@ -51,24 +54,35 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
     this.lisitingDetailViewOverlayDisplayState = !this.lisitingDetailViewOverlayDisplayState;
   }
 
+  public closeDetailViewOverlay() : void {
+    this.lisitingDetailViewOverlayDisplayState = false;
+  }
+
   public findListingPreviewComponentTypeFromListingType(listingType : string) : Type<ListingPreviewComponent> {
     return this.listingDescriptorHandler.findListingPreviewComponentTypeFromListingType(listingType);
   }
 
   constructor(
     public listingRepository : ListingRepository,
-    private listingInformationService : ListingInformationService
+    private listingInformationService : ListingInformationService,
+    private messageService : MessageService
   ) {
     this.listings = this.listingRepository.listings;
     this.listingDescriptorHandler = this.listingInformationService.listingDescriptorHandler;
+    this.messageService.getObservable().subscribe((message : Message) => {
+      if (message.message === 'showListingFilter') {
+        this.displayListingFilter = true;
+      }
+    });
   }
 
   getListings() : Listing[] {
     return this.listingRepository.listings;
   }
 
-  /**Scrolls the displayed listings either forwards or backwards.
-  Also calls to load more listings if user has scrolled to the end*/
+  /*
+  * Scrolls the displayed listings either forwards or backwards.
+  */
   scrollListings(direction:string): void {
     const scrollSpeed = 750;
     let finalScrollPosition;
@@ -94,22 +108,22 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
     /*Scroll the listings*/
     jQuery(this.listingScroller.nativeElement).animate({
       scrollLeft: scrollDistance
-    }, scrollSpeed, function() {
-      /*If we have scrolled to the end we need to check for more listings*/
-      let scrollPosition = this.setSliderControls();
-      if(scrollPosition > this.listingWrapper.scrollWidth - this.listingWrapper.clientWidth-100) {
-        this.loadMoreListings()
-      }
-    }.bind(this));
+    }, scrollSpeed);
   }
 
   loadMoreListings() : void {
     //Show user that we are working
     let loadScreen = document.querySelector("#listing-loader");
     loadScreen.classList.add("active");
-    this.listingRepository.getNextListings();
-    loadScreen.classList.remove("active");
-    this.setViewport();
+    this.listingRepository.getNextListings().subscribe((moreListings : boolean) => {
+      if (moreListings) {
+        this.setViewport();
+      } else {
+        console.log(' No more listings! -> Need to make a message out of this! ')
+      }
+      loadScreen.classList.remove("active");
+    }, (error : Error) => {
+    });
   }
 
   updateListingCounter() {
@@ -121,20 +135,20 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
     }
   }
 
-  /**Sets the slider controls based on if they are required and returns the
-  final scroll position as a number*/
+  /*
+  * Sets the slider controls based on if they are required and returns the
+  * final scroll position as a number
+  */
   public setSliderControls(): Number {
 
-    if (typeof this.listingWrapper === 'undefined') {
+    if (!this.listingWrapper) {
       this.listingWrapper = document.querySelector("#listing-wrapper");
     }
 
     //Get the scroll position
     let scrollPosition = this.listingWrapper.scrollLeft;
-
     let scrollMax = this.listingWrapper.scrollWidth - this.listingWrapper.clientWidth;
 
-    console.log("Scroll Max is", scrollMax);
     //Check if we even need to offer scroll
     if(scrollMax > 0) {
       //Grab the controls
@@ -155,44 +169,16 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
     return this.listingWrapper.scrollLeft;
   }
 
-  /**Sets the listing viewport to achieve an optimal display across all devices*/
+  /*
+  * Sets the listing viewport to achieve an optimal display across all devices
+  */
   setViewport(): void {
-    //Calculate the availble space for the viewport
+    //Calculate and set the availble space for the viewport
     const headerHeight = document.querySelector("#header").clientHeight;
     const listingViewport = <any>document.querySelector("#listing-viewport");
-    const viewportHeight = this.windowHeight - headerHeight;
+    const viewportHeight = this.windowHeight - headerHeight - 5; //5 = Buffer to avoid body-scroll
     listingViewport.style.height = viewportHeight + "px";
 
-    /*Regardless of the device we are accessed from if a screen's height smaller
-    than 650px we display the listings on a single line*/
-    const viewPortMargin = 100; //Don't allow a listing to fill the entire container.
-
-    let listings = document.querySelectorAll(".listing");
-    let listingCubicSize;
-
-    if(viewportHeight < 650) {
-      //Display listings on a single row
-      for(let i = 0; i < listings.length; i++) {
-        listings[i].classList.add("single-row");
-      }
-      //Set the listing dimension
-      listingCubicSize = viewportHeight - viewPortMargin;
-    } else {
-      //Display listings wihtin two rows
-      for(let i = 0; i < listings.length; i++) {
-        listings[i].classList.remove("single-row");
-      }
-      listingCubicSize = (viewportHeight/2)- viewPortMargin;
-    }
-
-    //Apply the size to each listing and set its image-preview
-    let listingPreviews = <any>document.querySelectorAll(".listing-preview");
-    for(let i = 0; i < listings.length; i++) {
-      listingPreviews[i].style.width = listingCubicSize + "px";
-      listingPreviews[i].style.height = listingCubicSize + "px";
-      //Images to display in the OpenGraph ratio of 1:0.525
-      listingPreviews[i].querySelector(".listing-image").style.height = listingCubicSize * 0.525 + "px";
-    }
     this.setSliderControls();
   }
 
@@ -204,21 +190,22 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
     /*Set the listing container once component's been loaded*/
     this.listingWrapper = document.querySelector("#listing-wrapper");
 
-    /**Set an event listener for when scroll occurs*/
-    document.addEventListener('scroll', (e)=>{
+    /*
+    * Monitor scrolls on the listing wrapper
+    */
+    this.listingWrapper.addEventListener('scroll', (e:any)=>{
       /*If we have scrolled to the end we need to check for more listings*/
       let scrollPosition = this.setSliderControls();
-      if(scrollPosition > this.listingWrapper.scrollWidth - this.listingWrapper.clientWidth-100) {
+      if(scrollPosition >= this.listingWrapper.scrollWidth - this.listingWrapper.clientWidth) {
         this.loadMoreListings()
       }
     }, true);
-
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event:any) {
-    event.target.innerWidth;
-    event.target.innerHeight;
+    // event.target.innerWidth;
+    // event.target.innerHeight;
     this.windowWidth = window.innerWidth;
     this.windowHeight = window.innerHeight;
     this.setViewport();

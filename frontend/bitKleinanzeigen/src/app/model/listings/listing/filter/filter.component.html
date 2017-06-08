@@ -1,62 +1,22 @@
 <h1>Kategorien</h1>
-<form-element-filter-multi-value-checkbox
-  [filterString]="'Gegenstandsangebot'"
-  [filterPropertyName]="'type'"
-  [filterPropertyValue]="'SaleOffer'"
-  (filterChanged)="filterChanged()"
-></form-element-filter-multi-value-checkbox>
-<form-element-filter-multi-value-checkbox
-  [filterString]="'Dienstleistungsangebote'"
-  [filterPropertyName]="'type'"
-  [filterPropertyValue]="'ServiceOffer'"
-  (filterChanged)="filterChanged()"
-></form-element-filter-multi-value-checkbox>
-<form-element-filter-multi-value-checkbox
-  [filterString]="'Mitfahrgelegenheitsangebot'"
-  [filterPropertyName]="'type'"
-  [filterPropertyValue]="'RideShareOffer'"
-  (filterChanged)="filterChanged()"
-></form-element-filter-multi-value-checkbox>
-<form-element-filter-multi-value-checkbox
-  [filterString]="'Verleih'"
-  [filterPropertyName]="'type'"
-  [filterPropertyValue]="'BorrowRequest'"
-  (filterChanged)="filterChanged()"
-></form-element-filter-multi-value-checkbox>
-<form-element-filter-multi-value-checkbox
-  [filterString]="'Gegenstandsgesuch'"
-  [filterPropertyName]="'type'"
-  [filterPropertyValue]="'PurchaseRequest'"
-  (filterChanged)="filterChanged()"
-></form-element-filter-multi-value-checkbox>
-<form-element-filter-multi-value-checkbox
-  [filterString]="'Mitfahrgelegenheitsgesuch'"
-  [filterPropertyName]="'type'"
-  [filterPropertyValue]="'RideShareRequest'"
-  (filterChanged)="filterChanged()"
-></form-element-filter-multi-value-checkbox>
-<form-element-filter-multi-value-checkbox
-  [filterString]="'Freizeitangebote (wiederkehrend)'"
-  [filterPropertyName]="'type'"
-  [filterPropertyValue]="'ReoccuringRecreationRequest'"
-  (filterChanged)="filterChanged()"
-></form-element-filter-multi-value-checkbox>
-<form-element-filter-multi-value-checkbox
-  [filterString]="'Freizeitangebote (einmalig)'"
-  [filterPropertyName]="'type'"
-  [filterPropertyValue]="'SingleRecreationRequest'"
-  (filterChanged)="filterChanged()"
-></form-element-filter-multi-value-checkbox>
+<filter-list
+[filterPropertyName]="'type'"
+[filterListItems]="lisitingTypes"
+(filterChanged)="filterChanged()"
+[selectAll]="selectAllTypes"
+></filter-list>
 <h1>INSERAT ARTEN</h1>
-<form-element-filter-checkbox
-  [filterString]="'NUR GESUCHE'"
-  [filterPropertyName]="'kind'"
-  [filterPropertyValue]="'offer'"
-  (filterChanged)="filterChanged()"
-></form-element-filter-checkbox>
-<form-element-filter-checkbox
-  [filterString]="'NUR ANGEBOTE'"
-  [filterPropertyName]="'kind'"
-  [filterPropertyValue]="'request'"
-  (filterChanged)="filterChanged()"
-></form-element-filter-checkbox>
+<filter-list
+[filterPropertyName]="'kind'"
+[filterListItems]="listingKinds"
+(filterChanged)="filterChanged()"
+[mutuallyExclusive]="true"
+></filter-list>
+<h1>STANDORT</h1>
+<filter-list
+[filterPropertyName]="'location'"
+[filterListItems]="loactionList"
+(filterChanged)="filterChanged()"
+[selectAll]="'Alle Standorte auswählen'"
+></filter-list>
+<h3 (click)="closeFilterOverlay()">Filter Schließen</h3>
