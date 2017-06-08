@@ -1,0 +1,20 @@
+<select class="" id="">
+  <option
+  *ngFor="let filterListItem of filterList"
+  value="{{filterListItem.value}}">
+  {{filterListItem.displayText}}
+  </option>
+</select>
+<ul
+id="element-list">
+  <li
+  *ngFor="let filterListItem of filterList"
+  attr.data-id="{{filterListItem.value}}"
+  (click)="triggerFilter($event)"
+  >{{filterListItem.displayText}}</li>
+  <li
+  *ngIf="selectAllEnabled"
+  (click)="triggerAll()"
+  style="font-weight : bold"
+  >{{selectAllFilterListItem.displayText}}</li>
+</ul>

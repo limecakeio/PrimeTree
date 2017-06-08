@@ -1,0 +1,15 @@
+<select class="" id="">
+  <option
+  *ngFor="let listItem of listItems"
+  value="{{listItem}}">
+  {{listItem}}
+  </option>
+</select>
+<ul
+id="element-list">
+  <li
+  *ngFor="let listItem of listItems"
+  data-id="{{location}}"
+  (click)="triggerFilter($event)"
+  >{{listItem}}</li>
+</ul>

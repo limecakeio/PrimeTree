@@ -14,7 +14,7 @@ export class NetworkRequest {
 
   private protocol : string = 'http://';
 
-  private headers : NetworkHeader[];
+  private headers : NetworkHeader[] = [];
   private hasHeaders : boolean = false;
 
   private hostname : string = 'localhost';
@@ -130,12 +130,12 @@ export class NetworkRequest {
     this.paths.forEach((path : string) => {
       url += '/' + path;
     });
-    this.queries.forEach((query : NetworkQuery) => {
-      url += '?' + query.key + '=' + query.values[0];
-      for (let i = 1; i < query.values.length; i++) {
-        url += ',' + query.values[i];
+    if (this.queries.length > 0) {
+      for (let i = 0; i < this.queries.length; i++) {
+        url += ((i === 0) ? '?' : '&') + this.queries[i].key + '=' + this.queries[i].values.join(',');
       }
-    });
+    }
+
     return url;
   }
 

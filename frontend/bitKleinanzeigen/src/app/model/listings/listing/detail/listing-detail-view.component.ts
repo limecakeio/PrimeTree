@@ -1,7 +1,10 @@
 import {
   Component,
   Type,
-  OnInit
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges
  } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -17,7 +20,9 @@ import { Listing } from '../listing.model';
   templateUrl: './listing-detail-view.component.html',
   styleUrls: [ './listing-detail-view.component.css' ]
 })
-export class ListingDetailViewComponent implements OnInit {
+export class ListingDetailViewComponent implements OnInit, OnChanges {
+
+  @Input() listingID : number = 0;
 
   public listingDescriptorHandler : ListingDescriptorHandler;
 
@@ -31,11 +36,24 @@ export class ListingDetailViewComponent implements OnInit {
     private listingInformationService : ListingInformationService
   ) {
     this.listingDescriptorHandler = this.listingInformationService.listingDescriptorHandler;
-    this.listing = this.activatedRoute.snapshot.data['listing'];
+  }
+
+  ngOnChanges(simpleChanges : SimpleChanges) : void {
+    if (typeof simpleChanges['listingID']['currentValue'] === 'number') {
+      this.setListingAndLisitingType(this.listingID);
+    }
   }
 
   ngOnInit() : void {
-    this.listingController.getListing(this.activatedRoute.snapshot.params['id'])
+    // if (this.listingID >= 0) {
+    //   this.setListingAndLisitingType(this.listingID);
+    // } else {
+    //   this.setListingAndLisitingType(this.activatedRoute.snapshot.params['id']);
+    // }
+  }
+
+  private setListingAndLisitingType(listingID : number) {
+    this.listingController.getListing(listingID)
     .subscribe((listing : Listing) => {
       this.listing = listing;
       this.listingComponentType = this.listingDescriptorHandler.getListingComponentTypeFromListingType(listing.type);

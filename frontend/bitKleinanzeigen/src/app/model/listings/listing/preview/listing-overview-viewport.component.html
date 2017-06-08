@@ -1,7 +1,19 @@
-<listing-detail-view-overlay
+<!-- <listing-detail-view-overlay
 [listingID]="detailListingID"
 [lisitingDetailViewOverlayDisplayState]="lisitingDetailViewOverlayDisplayState">
-</listing-detail-view-overlay>
+</listing-detail-view-overlay> -->
+<listing-create overlay>
+</listing-create>
+<listing-detail-view
+[listingID]="detailListingID"
+[overlay]="false"
+selector="DetailView">
+</listing-detail-view>
+<listing-filter
+[overlay]="displayListingFilter"
+selector="ListingFilter"
+class="listing-filter">
+</listing-filter>
 <div id="listing-viewport" class="listing-viewport">
   <div class="listing-scroll-container">
     <div class="listing-wrapper" #listingScroller id="listing-wrapper">

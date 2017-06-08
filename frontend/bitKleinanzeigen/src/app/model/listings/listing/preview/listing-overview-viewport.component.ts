@@ -9,6 +9,8 @@ import {
   ElementRef
 } from '@angular/core';
 
+import { MessageService, Message } from '../../../../shared/message.service';
+
 import { ListingRepository } from '../listing.repository';
 import { Listing } from '../listing.model';
 import { ListingPreviewComponent } from './listing-preview.component';
@@ -27,6 +29,7 @@ declare var jQuery: any;
 })
 export class ListingOverviewViewportComponent implements AfterViewInit {
 
+  public displayListingFilter : boolean = false;
 
   private listingDescriptorHandler : ListingDescriptorHandler;
 
@@ -40,7 +43,7 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
 
   @ViewChild('listingScroller') listingScroller: ElementRef;
 
-  public detailListingID : number = null;
+  public detailListingID : number;
 
   public lisitingDetailViewOverlayDisplayState : boolean = false;
 
@@ -57,10 +60,16 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
 
   constructor(
     public listingRepository : ListingRepository,
-    private listingInformationService : ListingInformationService
+    private listingInformationService : ListingInformationService,
+    private messageService : MessageService
   ) {
     this.listings = this.listingRepository.listings;
     this.listingDescriptorHandler = this.listingInformationService.listingDescriptorHandler;
+    this.messageService.getObservable().subscribe((message : Message) => {
+      if (message.message === 'showListingFilter') {
+        this.displayListingFilter = true;
+      }
+    });
   }
 
   getListings() : Listing[] {
@@ -107,9 +116,20 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
     //Show user that we are working
     let loadScreen = document.querySelector("#listing-loader");
     loadScreen.classList.add("active");
-    this.listingRepository.getNextListings();
-    loadScreen.classList.remove("active");
-    this.setViewport();
+    this.listingRepository.getNextListings().subscribe((moreListings : boolean) => {
+      if (moreListings) {
+        loadScreen.classList.remove("active");
+        // this.setViewport();
+      } else {
+        loadScreen.classList.remove("active");
+        console.log(' No more listings! ')
+      }
+      this.setViewport();
+    }, (error : Error) => {
+      console.error(error);
+    }, () => {
+      this.setViewport();
+    });
   }
 
   updateListingCounter() {

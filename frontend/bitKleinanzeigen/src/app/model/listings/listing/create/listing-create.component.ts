@@ -1,5 +1,5 @@
-import { Component, Type } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, Type, Output, EventEmitter } from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 // import { FormService } from '../../../form/forms.service';
 
@@ -27,6 +27,12 @@ export class ListingCreateComponent {
 
   private listingDescriptorHandler : ListingDescriptorHandler;
 
+  @Output() showOverlay : EventEmitter<void> = new EventEmitter<void>();
+
+  @Output() closeOverlay : EventEmitter<void> = new EventEmitter<void>();
+
+  public createActive : boolean = false;
+
   constructor(
     private listingController : ListingController,
     private listingRepository : ListingRepository,
@@ -36,28 +42,46 @@ export class ListingCreateComponent {
     private listingInformationService : ListingInformationService
   ) {
     this.listingDescriptorHandler = this.listingInformationService.listingDescriptorHandler;
-    this.listingDescriptorHandler.findListingCreateFormComponentTypeFromLisitingType(this.activatedRoute.snapshot.params['listingType']);
-    this.listingCreateFormComponentType = this.listingDescriptorHandler.findListingCreateFormComponentTypeFromLisitingType(this.activatedRoute.snapshot.params['listingType']);
     this.userLocation = this.userService.userInformation.location;
+    this.router.events.subscribe((event : any) => {
+      if (event instanceof NavigationEnd) {
+        if (
+          this.activatedRoute.snapshot.url.length > 1 &&
+          this.activatedRoute.snapshot.url[0].path === 'create'
+        ) {
+          this.setUpListingCreateFormData();
+        }
+      }
+    });
+  }
+
+  private setUpListingCreateFormData() : void {
+    this.createActive = true;
+    this.listingType = this.activatedRoute.snapshot.params['listingType'];
+    this.listingDescriptorHandler.findListingCreateFormComponentTypeFromLisitingType(this.listingType);
+    this.listingCreateFormComponentType = this.listingDescriptorHandler.findListingCreateFormComponentTypeFromLisitingType(this.activatedRoute.snapshot.params['listingType']);
+    this.showOverlay.emit();
   }
 
   public listingCreateFormComponentType : Type<ListingCreateFormComponent>;
 
   public userLocation : string;
 
+  private listingType : string;
+
   /**
    * Submits all properties.
    */
   public create(event : ListingFormEventModel) : void {
-    console.log(event.model, 'create');
     event.model.creator = this.userService.user.username;
     event.model.location = this.userService.userInformation.location;
+    event.model.type = this.listingType;
     this.listingController.createListing(event.model).subscribe((listingId : number) => {
       if (event.hasOwnProperty('callback')) {
         event.callback(listingId);
       }
       if (event.updateRepository) {
-        this.listingRepository.update();
+        this.updateRepository();
       }
     }, (error : Error) => {
       console.error(error);
@@ -67,9 +91,9 @@ export class ListingCreateComponent {
   }
 
   public updateRepository() : void {
-    console.log('updateRepository called')
     this.listingRepository.update();
-    this.router.navigate(['home']);
+    this.closeOverlay.emit();
+    this.createActive = false;
   }
 
 }

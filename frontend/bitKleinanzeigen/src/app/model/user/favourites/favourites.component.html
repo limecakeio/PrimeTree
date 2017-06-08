@@ -1,0 +1,10 @@
+<div id="listing-viewport" class="listing-viewport">
+  <div class="listing" *ngFor="let favouriteListing of favouriteListings">
+    <listing-preview-placeholder
+      [listingComponentType]="getListingPreviewTypeFromListingType(favouriteListing.type)"
+      [listing]="favouriteListing" class="col-xs-12 col-sm-6 col-md-12"
+      (listingCreated)="updateListingCounter($event)"
+      (showListingDetailView)="triggerDetailViewOverlay($event)">
+    </listing-preview-placeholder>
+  </div>
+</div>

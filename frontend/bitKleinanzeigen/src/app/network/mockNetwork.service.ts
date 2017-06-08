@@ -12,11 +12,14 @@ import { UserService } from '../model/user/user';
 export class MockNetworkService extends NetworkService {
   private mock : MockServer = new MockServer(this.userService);
 
-
   constructor(
     private userService : UserService
   ) {
     super();
+  }
+
+  public getServerAddress() : string {
+    return 'http://localhost:3000';
   }
 
   send(request : NetworkRequest) : Observable<Response> {

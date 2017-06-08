@@ -27,6 +27,9 @@ var MockNetworkService = (function (_super) {
         _this.mock = new MockServer(_this.userService);
         return _this;
     }
+    MockNetworkService.prototype.getServerAddress = function () {
+        return 'http://localhost:3000';
+    };
     MockNetworkService.prototype.send = function (request) {
         return this.mock.receive(request);
     };

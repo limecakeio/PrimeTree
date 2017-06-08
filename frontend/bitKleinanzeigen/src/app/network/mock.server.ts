@@ -1,4 +1,4 @@
-import { Response, ResponseOptions } from '@angular/http';
+import { Response, ResponseOptions, RequestMethod, Headers } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject'
@@ -16,6 +16,11 @@ import { MockPageFilter, PageCriteria } from './mock-page.filter';
  * Only for testing purpose.
  */
 export class MockServer {
+
+  private securityHeader : NetworkHeader = {
+    field: 'api_key',
+    value: 'B2A03990DE7D7781D6ADCEA41CDCD2BC'
+  }
 
   private pageFilter : MockPageFilter;
 
@@ -85,10 +90,10 @@ export class MockServer {
     createDate: 1495804073888,
     description: 'Ein Sofa',
     expiryDate: 1495804713707,
-    id: 1,
+    id: 2,
     isActive: true,
     location: 'mannheim',
-    title: 'Test 500',
+    title: 'Test 2',
     price : 0,
     mainImage : 'assets/images/bit-ka-logo.png',
     imageGallery : [ 'assets/images/bit-ka-logo.png' ]
@@ -99,10 +104,10 @@ export class MockServer {
     createDate: 1495804073888,
     description: 'Ein Sofa',
     expiryDate: 1495804713707,
-    id: 2,
+    id: 3,
     isActive: true,
     location: 'mannheim',
-    title: 'Test 2',
+    title: 'Test 3',
     price : 250,
     mainImage : 'assets/images/bit-ka-logo.png',
     imageGallery : [ 'assets/images/bit-ka-logo.png' ],
@@ -114,15 +119,87 @@ export class MockServer {
     createDate: 1495804073888,
     description: 'Ein Sofa',
     expiryDate: 1495804713707,
-    id: 1,
+    id: 4,
     isActive: true,
     location: 'mannheim',
-    title: 'Test 3',
+    title: 'Test 4',
+    price : 50000,
+    mainImage : 'assets/images/bit-ka-logo.png',
+    imageGallery : [ 'assets/images/bit-ka-logo.png' ]
+  }, {
+    type: 'ServiceOffer',
+    creator: 'mmustermann',
+    comments: null,
+    createDate: 1495804073888,
+    description: 'Ein Sofa',
+    expiryDate: 1495804713707,
+    id: 5,
+    isActive: true,
+    location: 'mannheim',
+    title: 'Test 5',
+    price : 50000,
+    mainImage : 'assets/images/bit-ka-logo.png',
+    imageGallery : [ 'assets/images/bit-ka-logo.png' ]
+  }, {
+    type: 'ServiceOffer',
+    creator: 'mmustermann',
+    comments: null,
+    createDate: 1495804073888,
+    description: 'Ein Sofa',
+    expiryDate: 1495804713707,
+    id: 6,
+    isActive: true,
+    location: 'mannheim',
+    title: 'Test 6',
+    price : 50000,
+    mainImage : 'assets/images/bit-ka-logo.png',
+    imageGallery : [ 'assets/images/bit-ka-logo.png' ]
+  }, {
+    type: 'ServiceOffer',
+    creator: 'mmustermann',
+    comments: null,
+    createDate: 1495804073888,
+    description: 'Ein Sofa',
+    expiryDate: 1495804713707,
+    id: 7,
+    isActive: true,
+    location: 'mannheim',
+    title: 'Test 7',
+    price : 50000,
+    mainImage : 'assets/images/bit-ka-logo.png',
+    imageGallery : [ 'assets/images/bit-ka-logo.png' ]
+  }, {
+    type: 'ServiceOffer',
+    creator: 'mmustermann',
+    comments: null,
+    createDate: 1495804073888,
+    description: 'Ein Sofa',
+    expiryDate: 1495804713707,
+    id: 8,
+    isActive: true,
+    location: 'mannheim',
+    title: 'Test 8',
+    price : 50000,
+    mainImage : 'assets/images/bit-ka-logo.png',
+    imageGallery : [ 'assets/images/bit-ka-logo.png' ]
+  }, {
+    type: 'ServiceOffer',
+    creator: 'mmustermann',
+    comments: null,
+    createDate: 1495804073888,
+    description: 'Ein Sofa',
+    expiryDate: 1495804713707,
+    id: 9,
+    isActive: true,
+    location: 'mannheim',
+    title: 'Test 9',
     price : 50000,
     mainImage : 'assets/images/bit-ka-logo.png',
     imageGallery : [ 'assets/images/bit-ka-logo.png' ]
   }
 ];
+
+  private favourites : number[] = [2, 3, 1, 4];
 
   constructor(
 
@@ -160,6 +237,17 @@ export class MockServer {
       } else if (paths[1] === 'logout') {
         urlFound = true;
         responseOptions = this.logout(networkRequest);
+      } else if (paths[1] === 'favourites') {
+        if (networkRequest.getHttpMethod() === RequestMethod.Get) {
+          urlFound = true;
+          responseOptions = this.getFavourites(networkRequest);
+        } else if (networkRequest.getHttpMethod() === RequestMethod.Post) {
+          urlFound = true;
+          responseOptions = this.postFavourite(networkRequest);
+        } else if (paths.length > 2) {
+          urlFound = true;
+          responseOptions = this.deleteFavourite(networkRequest);
+        }
       }
     } else if (paths[0] === 'listings') {
       if (paths.length < 1) {
@@ -192,17 +280,49 @@ export class MockServer {
   public getListing(networkRequest : NetworkRequest) : ResponseOptions {
     let responseOptions : ResponseOptions = this.responseOptions();
     let id : any = networkRequest.getPaths()[1];
-    console.log(id, 'id');
+    // console.log(id, 'id');
     this.listings.forEach((listing : any) => {
-      console.log(listing.id == id, 'listing')
+      // console.log(listing.id == id, 'listing')
       if (listing.id == id) {
-        console.log('found')
+        // console.log('found')
         responseOptions.status = 200;
         responseOptions.body = listing;
         return responseOptions;
       }
     });
     // responseOptions.status = 404;
+    return responseOptions;
+  }
+
+  private getFavourites(networkRequest : NetworkRequest) : ResponseOptions {
+    let responseOptions : ResponseOptions = this.responseOptions();
+    responseOptions.status = 200;
+    responseOptions.body = {
+      ids: this.favourites
+    };
+    // responseOptions.status = 404;
+    return responseOptions;
+  }
+
+  private postFavourite(networkRequest : NetworkRequest) : ResponseOptions {
+    let responseOptions : ResponseOptions = this.responseOptions();
+    let id : number = networkRequest.getBody().listingID;
+    this.favourites.push(id);
+    responseOptions.status = 201;
+    return responseOptions;
+  }
+
+  private deleteFavourite(networkRequest : NetworkRequest) : ResponseOptions {
+    let responseOptions : ResponseOptions = this.responseOptions();
+    let id : number = parseInt(networkRequest.getPaths()[2]);
+    let found : boolean = false;
+    for (let i = 0; i < this.favourites.length && !found; i++) {
+      if (this.favourites[i] === id) {
+        found = true;
+        this.favourites.splice(i, 1);
+      }
+    }
+    responseOptions.status = 201;
     return responseOptions;
   }
 
@@ -237,6 +357,8 @@ export class MockServer {
         if (this.users[i][0].username === body.username && this.users[i][0].password === body.password) {
           responseOptions.body = this.users[i][1];
           responseOptions.status = 200;
+          responseOptions.headers = new Headers();
+          responseOptions.headers.append(this.securityHeader.field, this.securityHeader.value);
           this.activeUser.username = body.username;
           this.activeUser.password = body.password;
           this.activeUser.authenticated = true;
@@ -311,7 +433,7 @@ export class MockServer {
   }
 
   private getActiveListings(networkRequest : NetworkRequest) : ResponseOptions {
-    console.log(networkRequest.getUrl(), 'onetwothree')
+    // console.log(networkRequest.getUrl(), 'onetwothree')
     let responseOptions : ResponseOptions = this.responseOptions();
     if (this.activeUser.authenticated) {
       responseOptions.status = 200;
