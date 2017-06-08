@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 import { PreviewService } from '../preview.service';
@@ -25,8 +25,9 @@ export class ImagePreviewViewComponent {
     this.previewService.getModelObservable().subscribe((model : any) => {
       this.isDataAvailable = true;
       this.model = model;
+      //If we have an image set it
       if (this.model.mainImage) {
-        this.imagesrc = this.domSanitizer.bypassSecurityTrustUrl(this.model.mainImage);
+        this.imagesrc = this.domSanitizer.bypassSecurityTrustStyle('url(' + this.model.mainImage + ')');
       }
     });
   }

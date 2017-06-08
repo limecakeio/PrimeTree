@@ -1,0 +1,7 @@
+.location-element p {
+  text-transform: capitalize;
+}
+
+.location-element span {
+  margin-right: 5pt;
+}

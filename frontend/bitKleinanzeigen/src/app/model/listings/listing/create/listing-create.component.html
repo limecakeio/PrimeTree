@@ -1,7 +1,5 @@
 <listing-create-form-placeholder
-*ngIf="createActive"
-  (listingcreated)="create($event)"
-  [listingFormType]="listingCreateFormComponentType"
+  (listingcreated)="submitListing($event)"
+  [listingType]="listingType"
   (updateRepository)="updateRepository()"
-  [userLocation]="userLocation"
 ></listing-create-form-placeholder>

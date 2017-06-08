@@ -7,6 +7,125 @@ The following css-file contains all app-wide settings for the bit Kleinanzeigen
 Web-application
 */
 
+/**Listing colours -> Setting the background colour of the different
+listing-type containers*/
+.sale-offer {
+  background-color: #CA5F05;
+}
+
+.service-offer {
+  background-color: #B92784;
+}
+
+/**CUSTOM ICONS FOR bIT Kleinanzeigen*/
+@font-face {
+  font-family: 'bit';
+  src:  url('../assets/icons/bit.eot?4mx7vx');
+  src:  url('../assets/icons/bit.eot?4mx7vx#iefix') format('embedded-opentype'),
+    url('../assets/icons/bit.ttf?4mx7vx') format('truetype'),
+    url('../assets/icons/bit.woff?4mx7vx') format('woff'),
+    url('../assets/icons/bit.svg?4mx7vx#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon"], [class*=" icon"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'bit' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.car:before {
+  content: "\e900";
+}
+.send:before {
+  content: "\e901";
+}
+.dashboard:before {
+  content: "\e902";
+}
+.listing-service:before {
+  content: "\e903";
+}
+.turn-off:before {
+  content: "\e904";
+}
+.logout:before {
+  content: "\e905";
+}
+.location:before {
+  content: "\e906";
+}
+.search:before {
+  content: "\e907";
+}
+.account:before {
+  content: "\e908";
+}
+.listing-request:before {
+  content: "\e909";
+}
+.menu:before {
+  content: "\e90b";
+}
+.listing-borrow:before {
+  content: "\e90d";
+  color: #8b8c8c;
+}
+.listing-sell:before {
+  content: "\e90e";
+  color: #8b8c8c;
+}
+.listing-recreation:before {
+  content: "\e911";
+}
+.error:before {
+  content: "\e913";
+}
+.listing-offer:before {
+  content: "\e914";
+  color: #8b8c8c;
+}
+.info:before {
+  content: "\e915";
+  color: #8b8c8c;
+}
+.filter:before {
+  content: "\e916";
+  color: #8b8c8c;
+}
+.add:before {
+  content: "\e917";
+  color: #8b8c8c;
+}
+.favourite:before {
+  content: "\e90a";
+}
+.map:before {
+  content: "\e90c";
+}
+.sucess:before {
+  content: "\e912";
+}
+.scroll-backward:before {
+  content: "\e918";
+}
+.scroll-forward:before {
+  content: "\e919";
+}
+.back:before {
+  content: "\e91a";
+}
+
 /**HTML DOCUMENT SETTINGS*/
 * {
   font-family: Verdana, Arial, Tahoma;
@@ -18,7 +137,7 @@ h1, h2, h3, h4, h5,
 }
 /**BODY SETTINGS*/
 body {
-  overflow:hidden;
+  overflow-y:auto;
 }
 
 /**MAIN VIEWPORT SECTION*/

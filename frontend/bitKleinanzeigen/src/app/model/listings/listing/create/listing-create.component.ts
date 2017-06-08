@@ -33,49 +33,40 @@ export class ListingCreateComponent {
 
   public createActive : boolean = false;
 
+  // ListingCreateFormComponent will be instancieted if this property holds a proper listing type.
+  public listingType : string;
+
   constructor(
     private listingController : ListingController,
     private listingRepository : ListingRepository,
     private activatedRoute : ActivatedRoute,
     private router : Router,
     private userService : UserService,
-    private listingInformationService : ListingInformationService
   ) {
-    this.listingDescriptorHandler = this.listingInformationService.listingDescriptorHandler;
-    this.userLocation = this.userService.userInformation.location;
+    // this.userLocation = this.userService.userInformation.location;
     this.router.events.subscribe((event : any) => {
       if (event instanceof NavigationEnd) {
         if (
-          this.activatedRoute.snapshot.url.length > 1 &&
+          this.activatedRoute.snapshot.url.length === 2 &&
           this.activatedRoute.snapshot.url[0].path === 'create'
         ) {
-          this.setUpListingCreateFormData();
+          this.listingType = this.activatedRoute.snapshot.params['listingType'];
+          this.showOverlay.emit();
         }
       }
     });
   }
 
-  private setUpListingCreateFormData() : void {
-    this.createActive = true;
-    this.listingType = this.activatedRoute.snapshot.params['listingType'];
-    this.listingDescriptorHandler.findListingCreateFormComponentTypeFromLisitingType(this.listingType);
-    this.listingCreateFormComponentType = this.listingDescriptorHandler.findListingCreateFormComponentTypeFromLisitingType(this.activatedRoute.snapshot.params['listingType']);
-    this.showOverlay.emit();
-  }
-
-  public listingCreateFormComponentType : Type<ListingCreateFormComponent>;
-
-  public userLocation : string;
-
-  private listingType : string;
-
   /**
-   * Submits all properties.
+   * Completes additional needed listing properties and submits it to the server.
+   * Execute possible callback functions in ListingFormEventModel.
    */
-  public create(event : ListingFormEventModel) : void {
+  public submitListing(event : ListingFormEventModel) : void {
     event.model.creator = this.userService.user.username;
     event.model.location = this.userService.userInformation.location;
     event.model.type = this.listingType;
+    event.model.isActive = true;
+    event.model.createDate = new Date().getTime();
     this.listingController.createListing(event.model).subscribe((listingId : number) => {
       if (event.hasOwnProperty('callback')) {
         event.callback(listingId);
@@ -85,15 +76,14 @@ export class ListingCreateComponent {
       }
     }, (error : Error) => {
       console.error(error);
-    }, () => {
-
     });
   }
 
+  /** Calls the ListingRepository update method, hides the overlay and navigates to the overview page.*/
   public updateRepository() : void {
     this.listingRepository.update();
     this.closeOverlay.emit();
-    this.createActive = false;
+    this.router.navigate(['home']);
   }
 
 }

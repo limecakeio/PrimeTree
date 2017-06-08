@@ -1,36 +1,28 @@
 <div class="bit-logo"><img src="./assets/images/bit-ka-logo.png"/></div>
 <section id="login-form-section" class="login-form-wrapper">
-  <div class="form-container">
-    <form id="login-form" class="login-form"
-    novalidate
-    [formGroup]="form"
-    (ngSubmit)="authenticate()">
-      <div class="form-group">
-        <div class="form-title">
+  <div class="login-form-container">
+    <form id="login-form" class="login-form" novalidate [formGroup]="form" (ngSubmit)="authenticate()">
+      <div class="form-group login-form-group">
+        <div class="login-form-title">
           <h2>Login</h2>
         </div>
-        <div class="input-group"><!-- Überschrift form element -->
-          <span>Benutzername</span>
+        <div class="input-group">
           <input type="text"
           name="username"
           [(ngModel)]="user.username"
           formControlName="username"
           class="form-control"
-          aria-label="Benuternameeingabe">
+          placeholder="Benutzername">
         </div>
-        <div class="input-group"><!-- Verkaufspreis form element -->
-          <span>Kennwort</span>
+        <div class="input-group">
           <input type="password"
           name="password"
           [(ngModel)]="user.password"
           formControlName="password"
           class="form-control"
-          aria-label="Kennworteingabe">
+          placeholder="Kennwort">
         </div>
-        <button type="button"
-        [disabled]="form.invalid"
-        class="btn btn-primary"
-        (click)="authenticate()">Login</button>
+        <button type="button" [disabled]="form.invalid" class="btn btn-primary" (click)="authenticate()">Anmelden</button>
       </div>
     </form>
   </div>

@@ -2,19 +2,28 @@
 id="listing-create-sellitem-form"
 novalidate
 [formGroup]="form"
-(ngSubmit)="submit()">
-  <div class="form-group">
-    <form-element-title></form-element-title>
-    <form-element-description></form-element-description>
-    <form-element-price></form-element-price>
-    <form-element-image></form-element-image>
-    <button
-    type="button"
-    name="button"
-    (click) = "submit()"
-    class="btn btn-primary"
-    [disabled]="form.invalid">
-      Gegenstandsverkaufsinserat erstellen
-    </button>
+(ngSubmit)="submit()" class="listing-form">
+
+<div class="form-title">
+  <h1>Inserat erstellen: Biete / Verkauf</h1>
+  <div class="form-title-controls">
+    <div class="navigation back" title="Zurück"></div>
+    <div class="navigation exit" title="Abbrechen"></div>
   </div>
+</div>
+
+<div class="form-group">
+  <form-element-image></form-element-image>
+  <form-element-title></form-element-title>
+  <form-element-description></form-element-description>
+  <form-element-price></form-element-price>
+  <button
+  type="button"
+  name="button"
+  (click) = "submit()"
+  class="btn btn-primary"
+  [disabled]="form.invalid">
+  Verkaufsinserat erstellen
+</button>
+</div>
 </form>

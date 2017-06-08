@@ -3,6 +3,8 @@ import {
   Type,
   Input,
   OnInit,
+  Output,
+  EventEmitter,
   OnChanges,
   SimpleChanges
  } from '@angular/core';
@@ -23,6 +25,8 @@ import { Listing } from '../listing.model';
 export class ListingDetailViewComponent implements OnInit, OnChanges {
 
   @Input() listingID : number = 0;
+
+  @Output() closeOverlay : EventEmitter<void> = new EventEmitter<void>();
 
   public listingDescriptorHandler : ListingDescriptorHandler;
 
@@ -50,6 +54,10 @@ export class ListingDetailViewComponent implements OnInit, OnChanges {
     // } else {
     //   this.setListingAndLisitingType(this.activatedRoute.snapshot.params['id']);
     // }
+  }
+
+  public hideOverlay() : void {
+    this.closeOverlay.emit();
   }
 
   private setListingAndLisitingType(listingID : number) {

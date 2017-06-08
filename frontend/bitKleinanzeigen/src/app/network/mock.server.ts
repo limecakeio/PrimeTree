@@ -13,7 +13,7 @@ import { MockPageFilter, PageCriteria } from './mock-page.filter';
 
 /**
  * This class mocks a listing rest server.
- * Only for testing purpose.
+ * Only for testing purpose. 
  */
 export class MockServer {
 
@@ -73,14 +73,14 @@ export class MockServer {
     creator: 'mmustermann',
     comments: null,
     createDate: 1495804073888,
-    description: 'Ein Sofa',
+    description: 'Hält die Getränke kühl und die Mitarbeiter happy happy happy!',
     expiryDate: 1495804713707,
     id: 1,
     isActive: true,
     location: 'mannheim',
-    title: 'Test 1',
+    title: 'Retro Kühlschränke zu vertickern!!!',
     price : 500,
-    mainImage : 'assets/images/bit-ka-logo.png',
+    mainImage : 'https://www.thekitchentimes.com/wp-content/uploads/2012/09/gorenje-fridge.jpg',
     imageGallery : [ 'assets/images/bit-ka-logo.png' ],
     condition : 'new'
   }, {
@@ -88,28 +88,28 @@ export class MockServer {
     creator: 'mmustermann',
     comments: null,
     createDate: 1495804073888,
-    description: 'Ein Sofa',
+    description: 'Kein Bock selbst den Rasen zu mähen? Ruft meinen Sohn an, der hat eh nix zu tun!',
     expiryDate: 1495804713707,
     id: 2,
     isActive: true,
     location: 'mannheim',
-    title: 'Test 2',
+    title: 'Mein Sohn mäht das Gras für lau!',
     price : 0,
-    mainImage : 'assets/images/bit-ka-logo.png',
+    mainImage : 'https://www.greenmoxie.com/wp/wp-content/uploads/lawn-alternatives-850x400.jpg',
     imageGallery : [ 'assets/images/bit-ka-logo.png' ]
   }, {
     type: 'SaleOffer',
     creator: 'mmustermann',
     comments: null,
     createDate: 1495804073888,
-    description: 'Ein Sofa',
+    description: 'He (my husband) is always playing with it, so its got to go!',
     expiryDate: 1495804713707,
     id: 3,
     isActive: true,
     location: 'mannheim',
-    title: 'Test 3',
+    title: 'Sony Playstation 2 for all the Soccer Fans!',
     price : 250,
-    mainImage : 'assets/images/bit-ka-logo.png',
+    mainImage : 'http://www.geeky-gadgets.com/wp-content/uploads/2015/12/playstation-42-1.jpg',
     imageGallery : [ 'assets/images/bit-ka-logo.png' ],
     condition : 'used'
   }, {
@@ -117,14 +117,14 @@ export class MockServer {
     creator: 'mmustermann',
     comments: null,
     createDate: 1495804073888,
-    description: 'Ein Sofa',
+    description: 'Meine Schwester Chantal, Schulabbrecherin bei vollem Herzen, lackiert Euch die Fingernägel!',
     expiryDate: 1495804713707,
     id: 4,
     isActive: true,
     location: 'mannheim',
-    title: 'Test 4',
+    title: 'Macht Euch die Nägel schön!',
     price : 50000,
-    mainImage : 'assets/images/bit-ka-logo.png',
+    mainImage : 'http://ghk.h-cdn.co/assets/15/49/1600x800/landscape-1449063635-painting-nails.jpg',
     imageGallery : [ 'assets/images/bit-ka-logo.png' ]
   }, {
     type: 'ServiceOffer',
@@ -264,6 +264,11 @@ export class MockServer {
       if (paths[1] === 'create') {
         urlFound = true;
         responseOptions = this.createListing(networkRequest);
+      }  else if (paths[1] === 'upload') {
+        if (paths[2] === 'main-image') {
+          urlFound = true;
+          responseOptions = this.listingMainImageUpload(networkRequest);
+        }
       } else {
         urlFound = true;
         responseOptions = this.getListing(networkRequest);
@@ -275,6 +280,23 @@ export class MockServer {
     let response : Response = new Response(responseOptions);
     console.log('Mockresponse: ', response);
     return response;
+  }
+
+  private listingMainImageUpload(networkRequest : NetworkRequest) : ResponseOptions {
+    let responseOptions : ResponseOptions = this.responseOptions();
+    let id : number = parseInt(networkRequest.getPaths()[3]);
+    console.log(id, 'id')
+    let found : boolean = false;
+    for (let i = 0; i < this.listings.length && !found; i++) {
+      if (id === this.listings[i].id) {
+        found = true;
+        this.listings[i].mainImage = 'assets/images/bit-ka-logo.png';
+        console.log(this.listings)
+      }
+    }
+    console.log(found)
+    responseOptions.status = 201;
+    return responseOptions;
   }
 
   public getListing(networkRequest : NetworkRequest) : ResponseOptions {
@@ -463,7 +485,10 @@ export class MockServer {
   private createListing(networkRequest : NetworkRequest) : ResponseOptions {
     let responseOptions : ResponseOptions = this.responseOptions();
     if (this.activeUser.authenticated) {
-      this.listings.push(networkRequest.getBody());
+      let listing : any = networkRequest.getBody();
+      listing.id = this.listings.length + 1;
+      listing.comments = [];
+      this.listings.push(listing);
       let id : number = this.listings.length;
       responseOptions.body = {
         id : id

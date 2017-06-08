@@ -1,16 +1,17 @@
 <div class="listing-preview" (click)="previewClick($event)">
-  <div class="listing-header">
-    <p>Biete / Verkauf</p> <!-- Requires dynamic population -->
+  <div class="listing-header sale-offer">
+    <p>Biete / Verkauf</p>
   </div>
   <div class="listing-image">
     <view-preview-image></view-preview-image>
     <view-preview-price></view-preview-price>
-
   </div>
   <div class="listing-heading">
     <view-preview-title></view-preview-title>
   </div>
-
+  <div class="listing-body">
+    <view-preview-location></view-preview-location>
+  </div>
   <div class="listing-footer">
     <!-- MAY NEED TO ARRANGE A SEPARATE COMPONENT FOR THIS? -->
     <view-preview-favourite></view-preview-favourite>

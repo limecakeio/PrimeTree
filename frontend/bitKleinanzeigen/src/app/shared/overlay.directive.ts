@@ -17,7 +17,7 @@ import { Message, MessageService } from './message.service';
     '(closeOverlay)' : 'closeOverlay()'
   }
 })
-export class OverlayDirective implements OnInit {
+export class OverlayDirective implements OnChanges {
 
   @Input() overlay : boolean;
 

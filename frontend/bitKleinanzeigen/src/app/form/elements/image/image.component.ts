@@ -37,8 +37,11 @@ export class ImageFormComponent {
   data : any;
   imagesrc : SafeUrl = '';
   image : SafeStyle;
+  imageFile : any;
   imgWidth: number;
   imgHeight: number;
+  targetCanvasWidth: "600";
+  targetCanvasHeight: "315";
   imagePreviewContainer: any;
 
 
@@ -110,16 +113,14 @@ export class ImageFormComponent {
   /**Generates and presents an image file from the uploader*/
   private preloadImage(imageFile : File) : void {
 
-    /** TODO Upload the image to the server for processing*/
-    //Generate a unique, alphanumeric target name to avoid collisions
-    let utn = ((+new Date) + Math.random()* 100).toString(32).replace(/\W/g, '');
+    let ImageComponent : ImageFormComponent = this;
 
-    /** TODO Upload the image to the server*/
-    //Track and display the progress of the upload
+    //Set the image's file
+    ImageComponent.imageFile = imageFile;
 
     /*GENERATE IMAGE PREVIEW*/
     let imageResult = new Image();
-    let ImageComponent : ImageFormComponent = this;
+
 
     imageResult.onload = function() {
       /*Set the images dimensions*/
@@ -238,13 +239,28 @@ export class ImageFormComponent {
   }
 
   public captureImage() : void {
-    /*Hide the crop container*/
-    let cropper = <HTMLElement>document.querySelector("#crop-container");
-    cropper.style.display = "none";
-    let test = <HTMLElement>document.querySelector("#test-image");
-    // html2canvas(test).then(function(canvas : any){
-    //   window.open(canvas.toDataURL("image/png"));
-    // });
+
+    let ImageComponent : ImageFormComponent = this;
+
+    const fr = new FileReader();
+    fr.readAsDataURL(this.imageFile);
+
+    fr.onloadend = function() {
+      //Create a canvas for the image
+      let canvas = document.createElement("canvas");
+      canvas.setAttribute("width", ImageComponent.targetCanvasWidth);
+      canvas.setAttribute("height", ImageComponent.targetCanvasHeight);
+      canvas.setAttribute("id", "capture-canvas");
+      let ctx = canvas.getContext('2d');
+
+      //Reflect the state of the image
+      let imgRatio = ImageComponent.imgWidth / ImageComponent.imgHeight;
+      let xPos = ImageComponent.imagePreviewContainer.style.backgroundPositionX;
+      let yPos = ImageComponent.imagePreviewContainer.style.backgroundPositionY;
+      let height;
+      let width;
+    }
+
   }
 
   input(event : any) {
@@ -253,6 +269,7 @@ export class ImageFormComponent {
     let path : string = URL.createObjectURL(this.data.imageAsFile);
     let reader : FileReader = new FileReader();
     reader.onloadend = () => {
+      console.log("FILE READER READ IMAGE");
       this.image = this.domSanitizer.bypassSecurityTrustStyle('url(' + reader.result + ')');
     }
     reader.readAsDataURL(this.data.imageAsFile);

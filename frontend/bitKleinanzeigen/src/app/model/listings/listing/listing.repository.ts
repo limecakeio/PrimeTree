@@ -64,7 +64,7 @@ export class ListingRepository {
    and the page with listings which match the filter criteria*/
   public applyFilter(filterCriteria : FilterCriteria) : void {
     let listingRequest : ListingRequest = this.listingController.listingRequest();
-    // this.listingCount = 0;
+    this.listingCount = 0;
     if (filterCriteria.kind) {
       listingRequest.setListingKind(filterCriteria.kind);
     }
@@ -95,7 +95,6 @@ export class ListingRepository {
     this.listings = [];
     this.listingCount = 0;
     this.listingController.getActiveListings().subscribe((page : Page) => {
-      console.log(page, 'page')
       this.page = page;
       this.listingCount = page.listings.length;
       this.buildPairArraysFromPage(page);
@@ -115,6 +114,7 @@ export class ListingRepository {
       this.listingController.loadNewPageSite(this.page).subscribe((page : Page) => {
         this.state = State.WAITING;
         this.page = page;
+        this.listingCount += this.page.listings.length;
         this.buildPairArraysFromPage(page);
         this.loadingSubject.next(true);
       }, (error : Error) => {
