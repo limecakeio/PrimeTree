@@ -23,10 +23,10 @@
 .image-box label {
   cursor: pointer;
   font-size: 14pt;
-  font-weight:100;
-  color: ##175DA9;
-  background-color: #fff;
-  border: 1px dashed #175DA9;
+  font-weight:bold;
+  color: #7f8286;
+  background-color: #d8d7d7;
+  border: 1px solid transparent;
   text-align: center;
   padding: 35pt;
   display: block;
@@ -35,9 +35,8 @@
 
 .image-box label:hover,
 .image-box.is-dragover label {
-  color: #fff;
-  border-color: #fff;
-  background-color: #7294B2;
+  border-color: #d8d7d7;
+  background-color: #fff;
 }
 
 .image-box-input {

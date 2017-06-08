@@ -1,10 +1,19 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+
+import { FilterCriteria } from './filter/filter.component';
 
 import { Listing } from './listing.model';
 import { ListingController } from './listing.controller';
+import { ListingRequest } from './listing.request';
 import { User, UserService } from '../../user/user';
 import { Page } from './page.model';
 
+
+enum State {
+  WAITING, WORKING
+}
 /**
  * This class distributes the listing and collects them.
  */
@@ -15,6 +24,12 @@ export class ListingRepository {
   public listingCount : number;
 
   private page : Page;
+
+  private loadingSubject : Subject<boolean> = new Subject<boolean>();
+
+  private loadingObservable : Observable<boolean> = this.loadingSubject.asObservable();
+
+  private state : State = State.WAITING;
 
   constructor(
     private listingController : ListingController,
@@ -45,27 +60,41 @@ export class ListingRepository {
     });
   }
 
+  /** Creates a ListingRequest out of the criterias and updates the listing array
+   and the page with listings which match the filter criteria*/
+  public applyFilter(filterCriteria : FilterCriteria) : void {
+    let listingRequest : ListingRequest = this.listingController.listingRequest();
+    if (filterCriteria.kind) {
+      listingRequest.setListingKind(filterCriteria.kind);
+    }
+    filterCriteria.location.forEach((location : string) => {
+      listingRequest.addLocation(location);
+    });
+    if (filterCriteria.price_max && filterCriteria.price_min) {
+      listingRequest.setPriceMax(filterCriteria.price_max);
+      listingRequest.setPriceMin(filterCriteria.price_min);
+    }
+    filterCriteria.type.forEach((listingType : string) => {
+      listingRequest.addListingType(listingType);
+    });
+    this.listingController.getActiveListings(listingRequest).subscribe((page : Page) => {
+      this.page = page;
+      this.listings = []; // remove former listing pairs
+      this.buildPairArraysFromPage(page);
+      this.listingCount = page.listings.length;
+    }, (error : Error) => {
+      console.log(error);
+    });
+  }
+
   /**
    * Updates all listings
    */
   public update() : void {
-    if (this.userService.userInformation.isAdmin) {
-      this.updateAsAdmin();
-    } else {
-      this.updateAsEmployee();
-    }
-  }
-
-  private updateAsAdmin() : void {
-
-  }
-
-  private updateAsEmployee() : void {
     this.listingController.getActiveListings().subscribe((page : Page) => {
       this.page = page;
       this.listingCount = page.listings.length;
       this.buildPairArraysFromPage(page);
-      this.getNextListings();
     }, (error : Error) => {
       console.error(error);
     }, () => {
@@ -73,22 +102,29 @@ export class ListingRepository {
     });
   }
 
-  public getNextListings() : void {
-    if (this.page.pageNumber === this.page.pages) {
-      this.page.pageNumber = 1;
+  /** Loads more listings from the server. The Observable returns true if the loading was successful else false*/
+  public getNextListings() : Observable<boolean> {
+    if (this.page.pageNumber <= this.page.pages && this.state === State.WAITING) {
+      this.state = State.WORKING;
+      console.log(this.page.pageNumber + ' ' + this.page.pages, 'pages')
+      this.listingController.loadNewPageSite(this.page).subscribe((page : Page) => {
+        this.page = page;
+        this.listingCount += this.page.listings.length;
+        this.buildPairArraysFromPage(page);
+        this.loadingSubject.next(true);
+      }, (error : Error) => {
+        console.error(error);
+      }, () => {
+        this.state = State.WAITING;
+      });
+    } else {
+      this.loadingSubject.next(false);
     }
-    this.listingController.loadNewPageSite(this.page).subscribe((page : Page) => {
-      this.page = page;
-      this.buildPairArraysFromPage(page);
-    }, (error : Error) => {
-      console.error(error);
-    }, () => {
-
-    });
+    return this.loadingObservable;
   }
 
   private buildPairArraysFromPage(page : Page) {
-    console.log(page);
+    console.log('buildPairArraysFromPage')
     let i = 0;
     let pairArray : Listing[] = [];
     page.listings.forEach((listing : Listing) => {

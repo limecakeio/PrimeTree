@@ -14,7 +14,7 @@ import { PreviewService } from '../../../../view/preview/preview.service';
 @Component({
   selector: 'service-offer-preview',
   templateUrl: './service-offer-preview.component.html',
-  styleUrls: [ './service-offer-preview.component.css' ],
+  styleUrls: ['../../../listing/preview/listing-preview.component.css'],
   providers: [
     PreviewService
   ]

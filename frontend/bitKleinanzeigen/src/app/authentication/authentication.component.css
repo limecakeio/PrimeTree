@@ -1,28 +1,78 @@
+/**Dislay the logo on the login page*/
 .bit-logo {
-  margin:10pt 0;
+  margin:10pt 0 25pt 0;
   width: 100%;
   text-align: center;
 }
 
 .bit-logo img {
-  width:30%;
+  width:75%;
   height: auto;
   vertical-align: baseline;
 }
 
-.login-form-wrapper {
-display: flex;
-width: 100%;
-align-items: center;
-justify-content: space-around;
-}
-.form-container {
-background-color: #e61a3f;
-color: #fff;
-padding: 35pt 35pt;
-display: table;
+/**Set up the login-form*/
+.login-form-container {
+  position: relative;
+  display: table;
+  width:92%;
+  margin: 0 auto;
 }
 
+.login-form-group {
+  padding: 30px 0 0 0;
+}
+
+.login-form-group div,
+.login-form-group button {
+  display: table;
+  margin: 12pt auto;
+}
+
+/*Make the form look like a post-it, using CSS*/
 .login-form {
   display: table-cell;
+  background-color: #e61a3f;
+  color: #fff;
+}
+
+.login-form:before{
+    content: "";
+    width: calc(100% - 50px);
+    height: 50px;
+    position: absolute;
+    top: 100%;
+    right: 50px;
+    background: #e61a3f;
+}
+
+.login-form:after {
+    content: "";
+    width: 0;
+    height: 0;
+    margin-left: -50px;
+    position: absolute;
+    top: 100%;
+    left: 100%;
+    border: 25px solid #F4A197;
+    border-right: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+}
+
+/**Special responsive behaviour*/
+@media (min-width: 480px) { /*Tablets*/
+  .bit-logo img { width:60%;}
+  .login-form-container {width: 60%;}
+}
+@media (min-width: 768px) { /*Large Tablet*/
+  .bit-logo img {width:40%;}
+  .login-form-container {width: 40%;}
+}
+@media (min-width: 992px) { /*Large Tablet*/
+  .bit-logo img {width:30%;}
+  .login-form-container {width: 30%;}
+}
+@media (min-width: 1200px) { /*XXL Desktops*/
+  .bit-logo img {width:25%;}
+  .login-form-container {width: 25%;}
 }

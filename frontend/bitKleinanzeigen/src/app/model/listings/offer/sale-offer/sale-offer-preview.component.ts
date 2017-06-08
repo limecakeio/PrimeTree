@@ -20,7 +20,7 @@ import { PreviewService } from '../../../../view/preview/preview.service';
 @Component({
   selector: 'saleoffer-preview',
   templateUrl: './sale-offer-preview.component.html',
-  styleUrls: [ './sale-offer-preview.component.css' ],
+  styleUrls: [ '../../../listing/preview/listing-preview.component.css' ],
   providers: [
     PreviewService
   ]
