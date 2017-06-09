@@ -64,6 +64,8 @@ export class ListingRepository {
    and the page with listings which match the filter criteria*/
   public applyFilter(filterCriteria : FilterCriteria) : void {
     let listingRequest : ListingRequest = this.listingController.listingRequest();
+    this.listingCount = 0;
+
     if (filterCriteria.kind) {
       listingRequest.setListingKind(filterCriteria.kind);
     }
@@ -91,6 +93,9 @@ export class ListingRepository {
    * Updates all listings
    */
   public update() : void {
+    this.listings = [];
+    this.listingCount = 0;
+
     this.listingController.getActiveListings().subscribe((page : Page) => {
       this.page = page;
       this.listingCount = page.listings.length;
@@ -104,10 +109,14 @@ export class ListingRepository {
 
   /** Loads more listings from the server. The Observable returns true if the loading was successful else false*/
   public getNextListings() : Observable<boolean> {
+
+    console.log(this.page.pageNumber + ' ' + this.page.pages, 'pages' + ' ' + this.state)
+
     if (this.page.pageNumber <= this.page.pages && this.state === State.WAITING) {
       this.state = State.WORKING;
       console.log(this.page.pageNumber + ' ' + this.page.pages, 'pages')
       this.listingController.loadNewPageSite(this.page).subscribe((page : Page) => {
+        this.state = State.WAITING;
         this.page = page;
         this.listingCount += this.page.listings.length;
         this.buildPairArraysFromPage(page);
@@ -115,7 +124,7 @@ export class ListingRepository {
       }, (error : Error) => {
         console.error(error);
       }, () => {
-        this.state = State.WAITING;
+
       });
     } else {
       this.loadingSubject.next(false);

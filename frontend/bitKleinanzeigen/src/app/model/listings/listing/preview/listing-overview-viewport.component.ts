@@ -9,8 +9,7 @@ import {
   ElementRef
 } from '@angular/core';
 
-//import { MessageService, Message } from '../../../../shared/message.service';
-
+import { MessageService, Message } from '../../../../shared/message.service';
 import { ListingRepository } from '../listing.repository';
 import { Listing } from '../listing.model';
 import { ListingPreviewComponent } from './listing-preview.component';
@@ -48,11 +47,15 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
   public lisitingDetailViewOverlayDisplayState : boolean = false;
 
   /**Triggers a detail view overlay if a preview is clicked*/
-  // public triggerDetailViewOverlay(id : number) : void {
-  //   console.log('detail-view-overlay triggerd for:', id);
-  //   this.detailListingID = id;
-  //   this.lisitingDetailViewOverlayDisplayState = !this.lisitingDetailViewOverlayDisplayState;
-  // }
+  public triggerDetailViewOverlay(id : number) : void {
+    console.log('detail-view-overlay triggerd for:', id);
+    this.detailListingID = id;
+    this.lisitingDetailViewOverlayDisplayState = !this.lisitingDetailViewOverlayDisplayState;
+  }
+
+  public closeDetailViewOverlay() : void {
+    this.lisitingDetailViewOverlayDisplayState = false;
+  }
 
   public findListingPreviewComponentTypeFromListingType(listingType : string) : Type<ListingPreviewComponent> {
     return this.listingDescriptorHandler.findListingPreviewComponentTypeFromListingType(listingType);
@@ -61,15 +64,16 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
   constructor(
     public listingRepository : ListingRepository,
     private listingInformationService : ListingInformationService,
-    //private messageService : MessageService
+
+    private messageService : MessageService
   ) {
     this.listings = this.listingRepository.listings;
     this.listingDescriptorHandler = this.listingInformationService.listingDescriptorHandler;
-    // this.messageService.getObservable().subscribe((message : Message) => {
-    //   if (message.message === 'showListingFilter') {
-    //     this.displayListingFilter = true;
-    //   }
-    // });
+    this.messageService.getObservable().subscribe((message : Message) => {
+      if (message.message === 'showListingFilter') {
+        this.displayListingFilter = true;
+      }
+    });
   }
 
   getListings() : Listing[] {

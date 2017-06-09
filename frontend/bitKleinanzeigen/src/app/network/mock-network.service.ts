@@ -20,7 +20,14 @@ export class MockNetworkService extends NetworkService {
     this.mockServer = new MockServer();
   }
 
+  public getServerAddress() : string {
+    return 'http://localhost:3000';
+  }
+
   public send(networkRequest : NetworkRequest) : Observable<Response> {
+    if (this.securityActive) {
+      networkRequest.addHeader(this.securityHeader.field, this.securityHeader.value);
+    }
     return this.mockServer.process(networkRequest);
   }
 

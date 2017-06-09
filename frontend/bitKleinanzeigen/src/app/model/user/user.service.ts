@@ -19,4 +19,5 @@ export class UserService {
 
   public authenticated : boolean = false;
 
+  public favourites : number[] = [1, 2, 3];
 }

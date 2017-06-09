@@ -2,6 +2,7 @@
 var NetworkRequest = (function () {
     function NetworkRequest() {
         this.protocol = 'http://';
+        this.headers = [];
         this.hasHeaders = false;
         this.hostname = 'localhost';
         this.hasPort = false;
@@ -100,12 +101,11 @@ var NetworkRequest = (function () {
         this.paths.forEach(function (path) {
             url += '/' + path;
         });
-        this.queries.forEach(function (query) {
-            url += '?' + query.key + '=' + query.values[0];
-            for (var i = 1; i < query.values.length; i++) {
-                url += ',' + query.values[i];
+        if (this.queries.length > 0) {
+            for (var i = 0; i < this.queries.length; i++) {
+                url += ((i === 0) ? '?' : '&') + this.queries[i].key + '=' + this.queries[i].values.join(',');
             }
-        });
+        }
         return url;
     };
     NetworkRequest.prototype.getQueries = function () {

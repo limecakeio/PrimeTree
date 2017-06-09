@@ -28,8 +28,6 @@ export class ServiceOfferCreateFormComponent extends ListingCreateFormComponent 
   }
 
   submit() : void {
-    super.submitListing(false, (id : number) => {
-      console.log('ServiceOffer', id);
-    });
+    super.emitListing();
   }
 }

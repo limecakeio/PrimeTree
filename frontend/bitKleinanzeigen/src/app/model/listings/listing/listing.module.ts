@@ -8,6 +8,8 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { SharedModule } from '../../../shared/shared.module';
+
 import { ListingDescriptor} from './listing.descriptor';
 import { ListingDescriptorHandler } from './listing-descriptor.handler';
 
@@ -37,7 +39,8 @@ import { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent, ServiceO
   imports: [
     FormModule,
     CommonModule,
-    ListingRoutingModule
+    ListingRoutingModule,
+    SharedModule
   ],
   declarations: [
     ListingCreateFormComponent,
@@ -54,6 +57,7 @@ import { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent, ServiceO
   ],
   exports: [
     FormModule,
+    SharedModule,
     ListingOverviewViewportComponent,
     ListingPreviewPlaceholderComponent,
     ListingCreateFormPlaceholderComponent,

@@ -27,8 +27,8 @@
     <div class="collapse navbar-collapse navbar-icon-links-container" id="bitNavbar">
       <!-- BOF ICON MENU [WILL BE REPLACED WITH CUSTOM LOGOS!]-->
       <ul class="nav navbar-nav navbar-right icon-menu">
-        <li><a href="#" title="Filter" routerLink="/listing/filter"><span class="icon filter"></span></a></li>
-        <li><a href="#" title="Meine Merkliste"><span class="icon favourite"></span></a></li>
+        <li><a title="Filter"><span class="icon filter" (click)="activateListingFilter()"></span></a></li>
+        <li><a href="#" title="Meine Merkliste" routerLink="user/favourites"><span class="icon favourite"></span></a></li>
         <li><a href="#" title="Mein Profil"><span class="icon account"></span></a></li>
         <li><a href="#" routerLink="/login" (click)="logout()" title="Logoff"><span class="icon logout"></span></a></li>
       </ul>

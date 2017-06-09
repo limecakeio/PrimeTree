@@ -1,0 +1,7 @@
+.overlay::before {
+  transition: width 3s linear100ms
+}
+
+.listing-filter {
+
+}

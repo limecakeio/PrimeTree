@@ -4,10 +4,8 @@ import { ListingController } from '../listing.controller';
 import { ListingRequest } from '../listing.request';
 import { ListingRepository } from '../listing.repository';
 import { FormService } from '../../../../form/forms.service';
-
-//import { Message, MessageService } from '../../../../shared/message.service';
-
-//import { FilterListItem } from '../../../../form/elements/filter-list/filter-list.component';
+import { Message, MessageService } from '../../../../shared/message.service';
+import { FilterListItem } from '../../../../form/elements/filter-list/filter-list.component';
 
 
 export interface FilterCriteria {
@@ -55,45 +53,45 @@ export class ListingFilterComponent {
     "Zug"
   ];
 
-  // public lisitingTypes : FilterListItem[] = [
-  //   {
-  //     displayText: 'Gegenstandsangebot',
-  //     value: 'SaleOffer'
-  //   } , {
-  //     displayText: 'Dienstleistungsangebote',
-  //     value: 'ServiceOffer'
-  //   } , {
-  //     displayText: 'Mitfahrgelegenheitsangebot',
-  //     value: 'RideShareOffer'
-  //   } , {
-  //     displayText: 'Verleih',
-  //     value: 'BorrowRequest'
-  //   } , {
-  //     displayText: 'Gegenstandsgesuch',
-  //     value: 'PurchaseRequest'
-  //   } , {
-  //     displayText: 'Mitfahrgelegenheitsgesuch',
-  //     value: 'RideShareRequest'
-  //   } , {
-  //     displayText: 'Freizeitangebote (wiederkehrend)',
-  //     value: 'ReoccuringRecreationRequest'
-  //   } , {
-  //     displayText: 'Freizeitangebote (einmalig)',
-  //     value: 'SingleRecreationRequest'
-  //   }
-  // ];
+  public lisitingTypes : FilterListItem[] = [
+    {
+      displayText: 'Gegenstandsangebot',
+      value: 'SaleOffer'
+    } , {
+      displayText: 'Dienstleistungsangebote',
+      value: 'ServiceOffer'
+    } , {
+      displayText: 'Mitfahrgelegenheitsangebot',
+      value: 'RideShareOffer'
+    } , {
+      displayText: 'Verleih',
+      value: 'BorrowRequest'
+    } , {
+      displayText: 'Gegenstandsgesuch',
+      value: 'PurchaseRequest'
+    } , {
+      displayText: 'Mitfahrgelegenheitsgesuch',
+      value: 'RideShareRequest'
+    } , {
+      displayText: 'Freizeitangebote (wiederkehrend)',
+      value: 'ReoccuringRecreationRequest'
+    } , {
+      displayText: 'Freizeitangebote (einmalig)',
+      value: 'SingleRecreationRequest'
+    }
+  ];
 
-  // public listingKinds : FilterListItem[] = [{
-  //   value: 'offer',
-  //   displayText: 'NUR ANGEBOTE'
-  // }, {
-  //   displayText: 'NUR GESUCHE',
-  //   value: 'request'
-  // }];
+  public listingKinds : FilterListItem[] = [{
+    value: 'offer',
+    displayText: 'NUR ANGEBOTE'
+  }, {
+    displayText: 'NUR GESUCHE',
+    value: 'request'
+  }];
 
-  // public selectAllTypes : FilterListItem = {
-  //   value: 'Alle Inserattypen selektieren'
-  // };
+  public selectAllTypes : FilterListItem = {
+    value: 'Alle Inserattypen selektieren'
+  };
 
   private listingRequest : ListingRequest;
 
@@ -113,8 +111,6 @@ export class ListingFilterComponent {
   public closeFilterOverlay() : void {
     this.closeOverlay.emit();
   }
-
-
 
   public filterChanged() : void {
     this.listingRepository.applyFilter(this.model);

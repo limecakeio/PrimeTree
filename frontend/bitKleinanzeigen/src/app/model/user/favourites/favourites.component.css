@@ -16,8 +16,6 @@
   display:flex;
   align-items: center;
   position: relative;
-  min-height: 350px;
-  overflow: hidden;
 }
 
 .listing-scroll-container { /**Required to hide scroll-bar*/
@@ -38,8 +36,25 @@
   display: table;
 }
 
-.listing {
+.listing{
   display:table-cell;
+}
+
+/**HEIGHT FIX*/
+@media (max-height: 500px) {
+  .listing-viewport {
+    height: 300px !important
+  };
+}
+
+/**TABLET-SETTINGS*/
+@media (min-width: 768px) {
+  .listing.single-row {
+    display: table-cell;
+  }
+  .listing {
+    display: block;
+  }
 }
 
 /*HIDING HORIZONAL SCROLLBARS IS TRICKY*/
@@ -139,20 +154,4 @@ display:none;
   animation-name: rotateElement;
   animation-duration: 1.25s;
   animation-iteration-count: infinite;
-}
-
-/**Special responsive behaviour*/
-@media (min-width: 480px) { /*Tablets*/
-
-}
-@media (min-width: 768px) and (min-height: 768px)  { /*Large Tablet*/
-  .listing {
-    display:block;
-  }
-}
-@media (min-width: 992px) { /*Large Tablet*/
-
-}
-@media (min-width: 1200px) { /*XXL Desktops*/
-
 }
