@@ -7,6 +7,7 @@ import { ListingOverviewViewportComponent } from './preview/listing-overview-vie
 import { ListingDetailViewComponent } from './detail/listing-detail-view.component';
 
 import { ListingFilterComponent } from './filter/filter.component';
+import { ListingSearchComponent } from './search/search.component';
 
 import { CanActivateUser } from '../../../routing/can-activate-user.model'
 
@@ -20,7 +21,12 @@ const listingRoutes : Routes = [
       }, {
         path: 'filter',
         component: ListingFilterComponent
-      }, {
+      }, 
+      {
+        path: 'search',
+        component: ListingSearchComponent
+      },
+      {
         path: ':id',
         component: ListingDetailViewComponent
       }, {

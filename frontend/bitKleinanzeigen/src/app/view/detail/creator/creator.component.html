@@ -1,0 +1,6 @@
+<div class="" *ngIf="isDataAvailable">
+  <p>{{creator.firstName}} {{creator.lastName}}</p>
+  <p>Ort: {{creator.location}}</p>
+  <p>Erstelldatum: {{getTimeStringFromUnixTime(model.createDate)}}</p>
+  <p>Anzeigenummer: {{model.id}}</p>
+</div>

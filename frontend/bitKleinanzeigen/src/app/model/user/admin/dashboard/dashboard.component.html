@@ -1,0 +1,12 @@
+<h1>Admin Dashboard</h1>
+<h2>Inserate</h2>
+<div class="" *ngFor="let listing of listings">
+  <p>{{listing.title}}</p>
+</div>
+<div class="" *ngIf="listings">
+  <p>Weitere Inserate anzeigen</p>
+</div>
+<h2>Mitarbeiter</h2>
+<div class="" *ngFor="let user of users">
+  <p>{{user.firstName}} {{user.lastName}}</p>
+</div>

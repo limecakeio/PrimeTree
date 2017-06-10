@@ -104,7 +104,7 @@ export class UserController {
   public removeFavourite(listingId : number) : Observable<void> {
     let networkRequest : NetworkRequest = this.networkService.networkRequest();
     networkRequest
-    .setHttpMethod(RequestMethod.Get)
+    .setHttpMethod(RequestMethod.Delete)
     .addPath('user')
     .addPath('favourites')
     .addPath('' + listingId);

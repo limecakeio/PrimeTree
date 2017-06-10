@@ -1,0 +1,17 @@
+<h1>User Profil</h1>
+<div class="">
+  <p>Name: {{userService.userInformation.firstName}} {{userService.userInformation.lastName}}</p>
+  <p>Position: {{userService.userInformation.position}}</p>
+  <p>E-Mail: {{userService.userInformation.eMail}}</p>
+  <p>Tel.: {{userService.userInformation.phone}}</p>
+  <p>Standort: {{userService.userInformation.location}}</p>
+</div>
+<h2>Eigene Inserate</h2>
+<div class="" *ngFor="let listing of ownListings">
+  <div class="">
+    <span>{{listing.title}}</span>
+    <button type="button" name="button" (click)="activateListing(listing.id)" *ngIf="!listing.isActive">Aktivieren</button>
+    <button type="button" name="button" (click)="deactivateListing(listing.id)" *ngIf="listing.isActive">Dektivieren</button>
+    <button type="button" name="button" (click)="removeListing(listing.id)">Löschen</button>
+  </div>
+</div>

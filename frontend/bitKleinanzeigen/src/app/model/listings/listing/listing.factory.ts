@@ -15,7 +15,7 @@ export class ListingFactory {
   }
 
   private vitalListingProperties : string[] = [
-    'comments', 'createDate', 'creator', 'description', 'expiryDate', 'id',
+    'comments', 'createDate', 'creatorID', 'description', 'expiryDate', 'id',
     'isActive', 'location', 'title', 'type'
   ];
 

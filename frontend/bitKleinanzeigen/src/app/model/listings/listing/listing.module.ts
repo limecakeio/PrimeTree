@@ -30,10 +30,15 @@ import { ListingFilterComponent } from './filter/filter.component';
 
 import { ListingRoutingModule } from './listing.routing';
 
+import { ListingSearchComponent } from './search/search.component';
+import { ListingSearchService } from './search/search.service';
+
 // Add your own listing components in the entryComponents array
 import { ListingComponent, ListingPreviewComponent, ListingCreateFormComponent } from './listing.descriptor';
 import { SaleOfferPreviewComponent, SaleOfferCreateFormComponent, SaleOfferComponent } from '../offer/sale-offer/sale-offer.descriptor';
 import { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent, ServiceOfferComponent } from '../offer/service-offer/service-offer.descriptor';
+
+import { RideShareOfferModule, RideShareOfferPreviewComponent, RideShareOfferComponent, RideShareOfferCreateFormComponent } from '../offer/rideshare-offer/rideshare-offer.module';
 
 @NgModule({
   imports: [
@@ -53,7 +58,8 @@ import { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent, ServiceO
     ListingDetailViewComponent,
     ListingDetailViewPlaceholderComponent,
     ListingDetailViewOverlayComponent,
-    ListingFilterComponent
+    ListingFilterComponent,
+    ListingSearchComponent
   ],
   exports: [
     FormModule,
@@ -65,12 +71,14 @@ import { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent, ServiceO
     ListingDetailViewComponent,
     ListingDetailViewPlaceholderComponent,
     ListingDetailViewOverlayComponent,
-    ListingFilterComponent
+    ListingFilterComponent,
+    ListingSearchComponent
   ],
   providers: [
     ListingCreator,
     ListingController,
-    ListingRepository
+    ListingRepository,
+    ListingSearchService
   ],
   entryComponents: [
 
@@ -80,7 +88,11 @@ import { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent, ServiceO
 
     ServiceOfferPreviewComponent,
     ServiceOfferCreateFormComponent,
-    ServiceOfferComponent
+    ServiceOfferComponent,
+
+    RideShareOfferPreviewComponent,
+    RideShareOfferComponent,
+    RideShareOfferCreateFormComponent
   ]
 })
 export class ListingModule {

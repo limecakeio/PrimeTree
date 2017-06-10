@@ -5,8 +5,10 @@ import { ListingsModule } from '../listings/listings.module';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { FavouritesComponent } from './favourites/favourites.component';
+import { UserProfilComponent } from './profil/profil.component';
 
-import { UserRoutingModule } from './user.routing';
+import { UserRoutingModule } from './routing/user.routing';
+import { UserAdminDashboardComponent } from './admin/dashboard/dashboard.component';
 
 @NgModule({
   imports: [
@@ -14,10 +16,15 @@ import { UserRoutingModule } from './user.routing';
     ListingsModule
   ],
   declarations: [
-    FavouritesComponent
+    FavouritesComponent,
+    UserProfilComponent,
+    UserAdminDashboardComponent
   ],
   exports: [
-    FavouritesComponent
+    FavouritesComponent,
+    UserProfilComponent,
+    UserAdminDashboardComponent,
+    UserRoutingModule
   ],
   providers: [
     UserService,

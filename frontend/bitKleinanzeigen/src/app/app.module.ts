@@ -1,7 +1,7 @@
 import { NgModule, OnInit }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AuthenticationModule } from './authentication/authentication';
+import { AuthenticationModule } from './authentication/authentication.module';
 import { NavigationModule } from './navigation/navigation';
 import { ListingsModule } from './model/listings/listings.module';
 import { UserModule } from './model/user/user';
@@ -17,14 +17,13 @@ import { RoutingModule } from './routing/routing.module';
   imports: [
     BrowserModule,
     NetworkModule,
+    RouterModule,
+    RoutingModule,
     AuthenticationModule,
     NavigationModule,
     ListingsModule,
     UserModule,
-    SharedModule,
-    
-    RouterModule,
-    RoutingModule,
+    SharedModule
   ],
   declarations: [ AppComponent ],
   bootstrap:    [ AppComponent ],

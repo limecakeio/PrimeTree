@@ -4,6 +4,7 @@
 export class Comment {
   commentID : number;
   userID : number;
-  createDate : Date;
-  comment : string;
+  createDate : number;
+  message : string;
+  userImage : string;
 }

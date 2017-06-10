@@ -36,6 +36,8 @@ export class AuthenticationComponent {
     this.authenticationController.authenticate(this.user).subscribe((employee : Employee) => {
       this.userService.userInformation = employee;
       this.userService.authenticated = true;
+      this.user.username = '';
+      this.user.password = '';
       this.router.navigate(['home']);
     }, (error : Error) => {
       console.error(error);
