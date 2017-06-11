@@ -10,14 +10,14 @@ import { RideShareOfferComponent } from './rideshare-offer.component';
 import { RideShareOfferPreviewComponent } from './rideshare-offer-preview.component';
 import { RideShareOfferFactory } from './rideshare-offer.factory';
 
-export class SaleOfferDescriptor extends ListingDescriptor {
+export class RideShareOfferDescriptor extends ListingDescriptor {
 
   public listingPreviewComponentType() : Type<ListingPreviewComponent> {
     return RideShareOfferPreviewComponent;
   }
 
   public listingType() : string {
-    return 'SaleOffer';
+    return 'RideShareOffer';
   }
 
   public listingCreateForm() : Type<ListingCreateFormComponent> {

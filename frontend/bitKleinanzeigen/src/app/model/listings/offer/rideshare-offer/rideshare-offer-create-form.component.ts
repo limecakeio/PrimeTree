@@ -15,6 +15,8 @@ import { RideShareOffer } from './rideshare-offer.model';
 })
 export class RideShareOfferCreateFormComponent extends ListingCreateFormComponent {
 
+  form : FormGroup;
+
   constructor(
     private service : FormService,
   ) {

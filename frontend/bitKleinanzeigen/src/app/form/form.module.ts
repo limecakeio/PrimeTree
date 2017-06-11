@@ -13,6 +13,7 @@ import { ImageFormComponent } from './elements/image/image.component';
 import { PriceFormComponent } from './elements/price/price.component';
 import { TitleFormComponent } from './elements/title/title.component';
 import { GalleryFormComponent } from './elements/gallery/gallery.component';
+import { LocationFormComponent } from './elements/location/location.component';
 
 /**
  * This module collects all components and services which pertain to building forms.
@@ -29,7 +30,8 @@ import { GalleryFormComponent } from './elements/gallery/gallery.component';
     ImageFormComponent,
     PriceFormComponent,
     TitleFormComponent,
-    GalleryFormComponent
+    GalleryFormComponent,
+    LocationFormComponent
   ],
   exports: [
     CommonModule,
@@ -41,12 +43,13 @@ import { GalleryFormComponent } from './elements/gallery/gallery.component';
     FilterRadioComponent,
     FilterMultiValueCheckboxComponent,
     FilterListComponent,
-    
+
     DescriptionFormComponent,
     ImageFormComponent,
     PriceFormComponent,
     TitleFormComponent,
-    GalleryFormComponent
+    GalleryFormComponent,
+    LocationFormComponent
   ],
   imports: [
     CommonModule,
