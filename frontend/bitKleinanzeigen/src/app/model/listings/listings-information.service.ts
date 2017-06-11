@@ -5,6 +5,7 @@ import { ListingDescriptor } from './listing/listing.descriptor';
 
 import { SaleOfferDescriptor } from './offer/sale-offer/sale-offer.descriptor';
 import { ServiceOfferDescriptor } from './offer/service-offer/service-offer.descriptor';
+import { RideShareOfferDescriptor } from './offer/rideshare-offer/rideshare-offer.descriptor';
 
 @Injectable()
 export class ListingInformationService {
@@ -17,6 +18,7 @@ export class ListingInformationService {
     this.listingDescriptorHandler.addListingDescriptorTypeof(ListingDescriptor);
     this.listingDescriptorHandler.addListingDescriptorTypeof(SaleOfferDescriptor);
     this.listingDescriptorHandler.addListingDescriptorTypeof(ServiceOfferDescriptor);
+    this.listingDescriptorHandler.addListingDescriptorTypeof(RideShareOfferDescriptor);
   }
 
 }

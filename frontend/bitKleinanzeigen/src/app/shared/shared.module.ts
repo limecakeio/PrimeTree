@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 
 import { MessageService, Message } from './message.service';
 import { OverlayDirective } from './overlay.directive';
+import { StatisticsService } from './statistics.service';
+import { StatisticsController } from './statistics.controller';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { OverlayDirective } from './overlay.directive';
     CommonModule
   ],
   providers: [
-    MessageService
+    MessageService,
+    StatisticsService,
+    StatisticsController
   ]
 })
 export class SharedModule {

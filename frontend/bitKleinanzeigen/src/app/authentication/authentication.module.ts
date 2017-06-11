@@ -5,6 +5,7 @@ import { AuthenticationComponent } from './authentication.component';
 import { AuthenticationController } from './authentication.controller';
 
 import { NetworkModule } from '../network/network';
+import { SharedModule } from '../shared/shared.module';
 
 /**
  * Collects all files and templates which pertains to authentication.

@@ -62,7 +62,6 @@ export class ListingCreateComponent {
    * Execute possible callback functions in ListingFormEventModel.
    */
   public submitListing(event : ListingFormEventModel) : void {
-    event.model.creator = this.userService.user.username;
     event.model.location = this.userService.userInformation.location;
     event.model.type = this.listingType;
     event.model.isActive = true;

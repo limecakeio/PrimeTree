@@ -11,7 +11,7 @@ export  class Listing {
   comments : Comment[];
 
   type: string;
-  creator : string;
+  creatorID : number;
   createDate : Date;
   expiryDate : Date;
   id : number;

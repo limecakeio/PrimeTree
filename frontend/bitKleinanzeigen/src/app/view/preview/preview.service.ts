@@ -16,12 +16,10 @@ export class PreviewService {
   }
 
   public sendModelToObservers(model : any) : void {
-    console.log(model, 'sendModelToObservers')
     this.subject.next(model);
   }
 
   public getModelObservable() : Observable<any> {
-    console.log('getModelObservable')
     return this.observable;
   }
 

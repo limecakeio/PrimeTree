@@ -8,6 +8,8 @@ import { EmployeeFactory } from '../model/user/employee.factory';
 
 import { NetworkService, NetworkRequest, RequestMethod, Response } from '../network/network';
 
+import { StatisticsService } from '../shared/statistics.service';
+import { UserService } from '../model/user/user.service';
 /**
  * This controller handles all required functionalities for authentication.
  */
@@ -16,7 +18,11 @@ export class AuthenticationController {
 
   private employeeFactory : EmployeeFactory;
 
-  constructor(private networkService : NetworkService) {
+  constructor(
+    private networkService : NetworkService,
+    private userService : UserService,
+    private statisticsService : StatisticsService
+  ) {
     this.employeeFactory = new EmployeeFactory();
   }
 
@@ -33,7 +39,9 @@ export class AuthenticationController {
     .setBody(user);
     return this.networkService.send(request).map((response : Response) => {
       if (response.status === 200) {
-        this.networkService.setSecurityHeader('api_key', response.headers.get('api_key'));
+        // this.networkService.setSecurityHeader('api_key', response.headers.get('api_key'));
+        this.userService.updateFavourites();
+        this.statisticsService.updateStatistics();
         return this.employeeFactory.createEmployee(response.json());
       }
       throw new Error('Some or all user credentials are wrong!');

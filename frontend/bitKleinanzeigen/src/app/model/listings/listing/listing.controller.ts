@@ -223,7 +223,7 @@ export class ListingController {
     });
   }
 
-  public deactivateListing(listingId : string) : Observable<void> {
+  public deactivateListing(listingId : number) : Observable<void> {
     let networkRequest : NetworkRequest = this.networkService.networkRequest();
     networkRequest
     .setHttpMethod(RequestMethod.Post)
@@ -242,14 +242,17 @@ export class ListingController {
     });
   }
 
-  public postComment(listingId : number, comment : Comment) : Observable<number> {
+  public createComment(listingId : number, comment : string) : Observable<number> {
     let networkRequest : NetworkRequest = this.networkService.networkRequest();
     networkRequest
     .setHttpMethod(RequestMethod.Post)
     .addPath('listing')
     .addPath('' + listingId)
     .addPath('comment')
-    .setBody(comment);
+    .setBody({
+      message : comment,
+      createDate : new Date().getTime()
+    });
     return this.networkService.send(networkRequest).map((response : Response) => {
       if (response.status === 201) {
         return response.json().id;

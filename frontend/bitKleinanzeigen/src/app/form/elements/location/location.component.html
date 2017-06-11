@@ -1,0 +1,13 @@
+<div [formGroup]="form" *ngIf="isDataAvailable">
+  <div class="input-group">
+    <input
+    [type]="locationPropertyName"
+    [name]="locationPropertyName"
+    [(ngModel)]="model.locationPropertyName"
+    [formControlName]="locationPropertyName"
+    class="form-control"
+    aria-label="Verkaufspreis"
+    placeholder="Ihr Standort"
+    >
+  </div>
+</div>

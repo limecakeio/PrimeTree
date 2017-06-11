@@ -9,6 +9,7 @@ import { Message, MessageService } from '../../../../shared/message.service';
 
 import { FilterListItem } from '../../../../form/elements/filter-list/filter-list.component';
 
+import { StatisticsService } from '../../../../shared/statistics.service';
 
 export interface FilterCriteria {
   location : string[];
@@ -103,11 +104,12 @@ export class ListingFilterComponent {
     private formService : FormService,
     private listingController : ListingController,
     private listingRepository : ListingRepository,
+    private statisticsService : StatisticsService
     // private MessageService : MessageService
   ) {
      this.listingRequest = this.listingController.listingRequest();
      this.formService.model = this.model;
-
+    //  this.loactionList = this.statisticsService.statistics.
   }
 
   public closeFilterOverlay() : void {

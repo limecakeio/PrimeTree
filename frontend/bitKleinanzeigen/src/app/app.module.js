@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
-var authentication_1 = require("./authentication/authentication");
+var authentication_module_1 = require("./authentication/authentication.module");
 var navigation_1 = require("./navigation/navigation");
 var listings_module_1 = require("./model/listings/listings.module");
 var user_1 = require("./model/user/user");
@@ -29,13 +29,13 @@ AppModule = __decorate([
         imports: [
             platform_browser_1.BrowserModule,
             network_module_1.NetworkModule,
-            authentication_1.AuthenticationModule,
+            router_1.RouterModule,
+            routing_module_1.RoutingModule,
+            authentication_module_1.AuthenticationModule,
             navigation_1.NavigationModule,
             listings_module_1.ListingsModule,
             user_1.UserModule,
-            shared_module_1.SharedModule,
-            router_1.RouterModule,
-            routing_module_1.RoutingModule,
+            shared_module_1.SharedModule
         ],
         declarations: [app_component_1.AppComponent],
         bootstrap: [app_component_1.AppComponent],

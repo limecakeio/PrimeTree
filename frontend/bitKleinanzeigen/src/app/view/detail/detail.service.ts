@@ -14,7 +14,8 @@ export class DetailViewService {
     this.detailViewSubject.next(model);
   }
 
-  public getModelObservable() : Observable<any> {
+  /** Returns an Observable to capture the model, when it is ready*/
+  public getModel() : Observable<any> {
     return this.detailViewObservable;
   }
 }
