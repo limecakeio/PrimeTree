@@ -13,7 +13,7 @@ import { ListingDescriptor } from './listing/listing.descriptor';
 import { SaleOfferDescriptor } from './offer/sale-offer/sale-offer.descriptor';
 import { ServiceOfferDescriptor } from './offer/service-offer/service-offer.descriptor';
 import { ServiceOfferModule } from './offer/service-offer/service-offer.module';
-
+import { RideShareOfferModule } from './offer/rideshare-offer/rideshare-offer.module';
 import { ListingInformationService } from './listings-information.service';
 
 import { FormModule } from '../../form/form.module';
@@ -29,7 +29,8 @@ import { FormModule } from '../../form/form.module';
     ListingModule,
     // ListingOverviewViewportComponent,
     SaleOfferModule,
-    ServiceOfferModule
+    ServiceOfferModule,
+    RideShareOfferModule
   ],
   imports: [
     FormsModule,
@@ -37,6 +38,7 @@ import { FormModule } from '../../form/form.module';
     CommonModule,
     SaleOfferModule,
     ServiceOfferModule,
+    RideShareOfferModule,
     FormModule,
     ListingModule
     // ListingModule.getNewListingModule([

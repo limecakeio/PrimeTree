@@ -38,15 +38,20 @@ export class ListingDetailViewPlaceholderComponent implements OnChanges {
 
 
   ngOnChanges(simpleChanges : SimpleChanges) {
-    if (simpleChanges['listingComponentType'] && simpleChanges['listingComponentType']['currentValue']) {
-      if (this.listingDetailViewCreated) { // destroy an existing component
-        this.listingDetailViewComponentRef.destroy();
-      }
-      let listingDetailViewComponentFactory : ComponentFactory<ListingComponent> = this.componentFactoryResolver.resolveComponentFactory(this.listingComponentType);
-      this.listingDetailViewComponentRef = this.viewContainerRef.createComponent(listingDetailViewComponentFactory);
-      // Inject it into the view
-      (<ListingComponent>this.listingDetailViewComponentRef.instance).listing = this.listing;
-      this.listingDetailViewCreated = true;
+    // console.log(simpleChanges, 'simpleChanges')
+    // if (simpleChanges['listingComponentType'] && simpleChanges['listingComponentType']['currentValue']) {
+    //   if (this.listingDetailViewCreated) { // destroy an existing component
+    //     this.listingDetailViewComponentRef.destroy();
+    //   }
+    //   this.viewContainerRef.clear();
+    //   let listingDetailViewComponentFactory : ComponentFactory<ListingComponent> = this.componentFactoryResolver.resolveComponentFactory(this.listingComponentType);
+    //   this.listingDetailViewComponentRef = this.viewContainerRef.createComponent(listingDetailViewComponentFactory);
+    //   // Inject it into the view
+    //   (<ListingComponent>this.listingDetailViewComponentRef.instance).listing = this.listing;
+    //   this.listingDetailViewCreated = true;
+    // }
+    if (this.listing) {
+      this.buildAndDisplayListingDetailViewComponent();
     }
 
     // if (typeof this.listingComponentType !== 'undefined') {
@@ -56,6 +61,18 @@ export class ListingDetailViewPlaceholderComponent implements OnChanges {
     //   // Inject it into the view
     //   (<ListingComponent>listingPreviewComponentRef.instance).listing = this.listing;
     // }
+  }
+
+  private buildAndDisplayListingDetailViewComponent() : void {
+    if (this.listingDetailViewCreated) { // destroy an existing component
+      this.listingDetailViewComponentRef.destroy();
+    }
+    this.viewContainerRef.clear();
+    let listingDetailViewComponentFactory : ComponentFactory<ListingComponent> = this.componentFactoryResolver.resolveComponentFactory(this.listingComponentType);
+    this.listingDetailViewComponentRef = this.viewContainerRef.createComponent(listingDetailViewComponentFactory);
+    // Inject it into the view
+    (<ListingComponent>this.listingDetailViewComponentRef.instance).listing = this.listing;
+    this.listingDetailViewCreated = true;
   }
 
 

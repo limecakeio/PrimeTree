@@ -42,7 +42,7 @@ export class MockServer {
       password: '123'
     }, {
       userID: 1,
-      userImage: '123',
+      userImage: 'assets/images/bit-ka-logo.png',
       firstName: 'Anne',
       lastName: 'Kessler',
       isAdmin: false,
@@ -56,10 +56,10 @@ export class MockServer {
       password: '123'
     }, {
       userID: 2,
-      userImage: '456',
+      userImage: 'assets/images/bit-ka-logo.png',
       firstName: 'Marigold',
       lastName: 'Mustermann',
-      isAdmin: false,
+      isAdmin: true,
       phone: '12345678910',
       location: 'Hamburg',
       position: 'Lakai',
@@ -70,8 +70,14 @@ export class MockServer {
   private listings : any[] = [
   {
     type: 'SaleOffer',
-    creator: 'mmustermann',
-    comments: null,
+    creatorID: 2,
+    comments: [{
+      userID : 1,
+      commentID : 1,
+      createDate : new Date().getTime(),
+      message: 'Würd ich nicht kaufen!',
+      userImage : 'assets/images/bit-ka-logo.png'
+    }],
     createDate: 1495804073888,
     description: 'Hält die Getränke kühl und die Mitarbeiter happy happy happy!',
     expiryDate: 1495804713707,
@@ -85,8 +91,8 @@ export class MockServer {
     condition : 'new'
   }, {
     type: 'ServiceOffer',
-    creator: 'mmustermann',
-    comments: null,
+    creatorID: 2,
+    comments: [],
     createDate: 1495804073888,
     description: 'Kein Bock selbst den Rasen zu mähen? Ruft meinen Sohn an, der hat eh nix zu tun!',
     expiryDate: 1495804713707,
@@ -99,8 +105,8 @@ export class MockServer {
     imageGallery : [ 'assets/images/bit-ka-logo.png' ]
   }, {
     type: 'SaleOffer',
-    creator: 'mmustermann',
-    comments: null,
+    creatorID: 2,
+    comments: [],
     createDate: 1495804073888,
     description: 'He (my husband) is always playing with it, so its got to go!',
     expiryDate: 1495804713707,
@@ -114,8 +120,8 @@ export class MockServer {
     condition : 'used'
   }, {
     type: 'ServiceOffer',
-    creator: 'mmustermann',
-    comments: null,
+    creatorID: 1,
+    comments: [],
     createDate: 1495804073888,
     description: 'Meine Schwester Chantal, Schulabbrecherin bei vollem Herzen, lackiert Euch die Fingernägel!',
     expiryDate: 1495804713707,
@@ -128,8 +134,8 @@ export class MockServer {
     imageGallery : [ 'assets/images/bit-ka-logo.png' ]
   }, {
     type: 'ServiceOffer',
-    creator: 'mmustermann',
-    comments: null,
+    creatorID: 2,
+    comments: [],
     createDate: 1495804073888,
     description: 'Ein Sofa',
     expiryDate: 1495804713707,
@@ -142,8 +148,8 @@ export class MockServer {
     imageGallery : [ 'assets/images/bit-ka-logo.png' ]
   }, {
     type: 'ServiceOffer',
-    creator: 'mmustermann',
-    comments: null,
+    creatorID: 2,
+    comments: [],
     createDate: 1495804073888,
     description: 'Ein Sofa',
     expiryDate: 1495804713707,
@@ -156,8 +162,8 @@ export class MockServer {
     imageGallery : [ 'assets/images/bit-ka-logo.png' ]
   }, {
     type: 'ServiceOffer',
-    creator: 'mmustermann',
-    comments: null,
+    creatorID: 2,
+    comments: [],
     createDate: 1495804073888,
     description: 'Ein Sofa',
     expiryDate: 1495804713707,
@@ -170,8 +176,8 @@ export class MockServer {
     imageGallery : [ 'assets/images/bit-ka-logo.png' ]
   }, {
     type: 'ServiceOffer',
-    creator: 'mmustermann',
-    comments: null,
+    creatorID: 2,
+    comments: [],
     createDate: 1495804073888,
     description: 'Ein Sofa',
     expiryDate: 1495804713707,
@@ -184,8 +190,8 @@ export class MockServer {
     imageGallery : [ 'assets/images/bit-ka-logo.png' ]
   }, {
     type: 'ServiceOffer',
-    creator: 'mmustermann',
-    comments: null,
+    creatorID: 2,
+    comments: [],
     createDate: 1495804073888,
     description: 'Ein Sofa',
     expiryDate: 1495804713707,
@@ -248,9 +254,15 @@ export class MockServer {
           urlFound = true;
           responseOptions = this.deleteFavourite(networkRequest);
         }
+      } else if (paths.length === 2) {
+        urlFound = true;
+        responseOptions = this.getUser(networkRequest);
       }
+    } else if (paths[0] === 'users') {
+      urlFound = true;
+      responseOptions = this.getUsers(networkRequest);
     } else if (paths[0] === 'listings') {
-      if (paths.length < 1) {
+      if (paths.length === 1) {
         urlFound = true;
         responseOptions = this.getListings(networkRequest);
       } else if (paths[1] === 'active') {
@@ -259,6 +271,12 @@ export class MockServer {
       } else if (paths[1] === 'inactive') {
         urlFound = true;
         responseOptions = this.getInactiveListings(networkRequest);
+      } else if (paths[1] === 'own') {
+        urlFound = true;
+        responseOptions = this.getOwnListings(networkRequest);
+      } else if (paths[1] === 'search') {
+        urlFound = true;
+        responseOptions = this.searchListings(networkRequest);
       }
     } else if (paths[0] === 'listing') {
       if (paths[1] === 'create') {
@@ -269,10 +287,18 @@ export class MockServer {
           urlFound = true;
           responseOptions = this.listingMainImageUpload(networkRequest);
         }
-      } else {
-        urlFound = true;
-        responseOptions = this.getListing(networkRequest);
+      } else if (networkRequest.getPaths().length === 2){
+        if (networkRequest.getHttpMethod() === RequestMethod.Get) {
+          urlFound = true;
+          responseOptions = this.getListing(networkRequest);
+        } else if (networkRequest.getHttpMethod() === RequestMethod.Delete) {
+          urlFound = true;
+          responseOptions = this.removeListing(networkRequest);
+        }
       }
+    } else if (paths[0] === 'statistics') {
+      urlFound = true;
+      responseOptions = this.getStatistics(networkRequest);
     }
     if (!urlFound) {
       responseOptions = this.notFound();
@@ -280,6 +306,102 @@ export class MockServer {
     let response : Response = new Response(responseOptions);
     console.log('Mockresponse: ', response);
     return response;
+  }
+
+  private removeListing(networkRequest : NetworkRequest) : ResponseOptions {
+    let responseOptions : ResponseOptions = this.responseOptions();
+    let id : number = parseInt(networkRequest.getPaths()[1]);
+    let found : boolean = false;
+    let arrayIndex : number = -1;
+    console.log(id)
+    for (let i = 0; i < this.listings.length && !found; i++) {
+      if (this.listings[i].id === id) {
+        found = true;
+        arrayIndex = i;
+      }
+    }
+    if (found) {
+      if (this.listings[arrayIndex].creatorID === this.getActiveUserID()) {
+        responseOptions.status = 200;
+        this.listings.splice(arrayIndex, 1);
+      } else {
+        responseOptions.status = 403;
+      }
+    } else {
+      responseOptions.status = 404;
+    }
+    return responseOptions;
+  }
+
+  private searchListings(networkRequest : NetworkRequest) : ResponseOptions {
+    let responseOptions : ResponseOptions = this.responseOptions();
+    responseOptions.status = 200;
+    let searchQuery : string = networkRequest.getQueries().find(query => query.key === 'query').values[0];
+    console.log(searchQuery);
+    let body : any = {};
+    body['listings'] = this.listings.filter(listing =>
+      listing.title.indexOf(searchQuery) > -1 || listing.description.indexOf(searchQuery) > -1);
+    let min_price = 0, max_price = 0;
+    body.listings.forEach((listing : any) => {
+        if (listing.price) {
+          if (listing.price > max_price) {
+            max_price = listing.price;
+          }
+        } else {
+          min_price = 0;
+        }
+    });
+    body['min_price'] = min_price;
+    body['max_price'] = max_price;
+    body['count'] = body.listings.length;
+    responseOptions.body = body;
+    return responseOptions;
+  }
+
+  private getUsers(networkRequest : NetworkRequest) : ResponseOptions {
+    let responseOptions : ResponseOptions = this.responseOptions();
+    let users : any[] = [];
+    if (this.activeUser.isAdmin) {
+      responseOptions.status = 200;
+      this.users.forEach(user => {
+        users.push({
+          userID : user[1].userID,
+          userImage : user[1].userImage,
+          firstName : user[1].firstName,
+          lastName : user[1].lastName,
+          isAdmin : user[1].isAdmin,
+          eMail : user[1].eMail
+        })
+      });
+      responseOptions.body = {};
+      responseOptions.body['users'] = users;
+    } else {
+      responseOptions.status = 403;
+    }
+    return responseOptions;
+  }
+
+  private getUser(networkRequest : NetworkRequest) : ResponseOptions {
+    let responseOptions : ResponseOptions = this.responseOptions();
+    let userID : number = parseInt(networkRequest.getPaths()[1]);
+    let employee = this.users.filter(user => user[1].userID === userID);
+    if (employee.length !== 1) {
+      responseOptions.status = 404;
+    } else {
+      responseOptions.status = 200;
+      responseOptions.body = employee[0][1];
+    }
+    return responseOptions;
+  }
+
+  private getOwnListings(networkRequest : NetworkRequest) : ResponseOptions {
+    let responseOptions : ResponseOptions = this.responseOptions();
+    let userID : number = this.getActiveUserID();
+    let body = {};
+    body['listings'] = this.listings.filter(listing => listing.creatorID === userID);
+    responseOptions.body = body;
+    responseOptions.status = 200;
+    return responseOptions;
   }
 
   private listingMainImageUpload(networkRequest : NetworkRequest) : ResponseOptions {
@@ -330,6 +452,7 @@ export class MockServer {
     let responseOptions : ResponseOptions = this.responseOptions();
     let id : number = networkRequest.getBody().listingID;
     this.favourites.push(id);
+    console.log(id + ' marked as favourite!')
     responseOptions.status = 201;
     return responseOptions;
   }
@@ -344,7 +467,7 @@ export class MockServer {
         this.favourites.splice(i, 1);
       }
     }
-    responseOptions.status = 201;
+    responseOptions.status = 200;
     return responseOptions;
   }
 
@@ -412,9 +535,10 @@ export class MockServer {
 
   /**
    * Returns a card with the specific listings which match the request queries.
-   * This method is private only.
+   * This method is admin only.
    */
   private getListings(networkRequest : NetworkRequest) : ResponseOptions {
+    console.log('getListings')
     let responseOptions : ResponseOptions = this.responseOptions();
     if (this.activeUser.authenticated) {
       if (this.activeUser.isAdmin) {
@@ -488,6 +612,7 @@ export class MockServer {
       let listing : any = networkRequest.getBody();
       listing.id = this.listings.length + 1;
       listing.comments = [];
+      listing.creatorID = this.getActiveUserID();
       this.listings.push(listing);
       let id : number = this.listings.length;
       responseOptions.body = {
@@ -497,6 +622,39 @@ export class MockServer {
     } else {
       responseOptions.status = 401;
     }
+    return responseOptions;
+  }
+
+  private getActiveUserID() : number {
+    return this.users.filter((user : [any, any]) => {
+      console.log(user);
+      return user[0].username === this.activeUser.username;
+    })[0][1].userID;
+  }
+
+  private getStatistics(networkRequest : NetworkRequest) : ResponseOptions {
+    let responseOptions : ResponseOptions = this.responseOptions();
+    let body : any = {};
+    body.locations = [
+      {
+        locationName : 'Mannheim',
+        numberOfListings : 9
+      }
+    ];
+    body.numberOfListings = this.listings.length;
+    body.numberOfActiveListings = this.listings.filter(listing => listing.isActive).length;
+    body.numberOfInactiveListings = this.listings.filter(listing => !listing.isActive).length;
+    body.listingTypes = [{
+      listingTypeName: 'SaleOffer',
+      numberOfListings: this.listings.filter(listing => listing.type === 'SaleOffer').length
+    }, {
+      listingTypeName : 'ServiceOffer',
+      numberOfListings: this.listings.filter(listing => listing.type === 'ServiceOffer').length
+    }];
+    body.numberOfUsers = this.users.length;
+    body.numberOfAdmins = this.users.filter(user => user[1].isAdmin).length;
+    responseOptions.body = body;
+    responseOptions.status = 200;
     return responseOptions;
   }
 

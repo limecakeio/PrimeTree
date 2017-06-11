@@ -1,0 +1,6 @@
+<div class="" *ngIf="isDataAvailable">
+  <p>{{model.description}}</p>
+  <div class="" *ngFor="let comment of model.comments">
+    <p>{{comment.message}}</p>
+  </div>
+</div>

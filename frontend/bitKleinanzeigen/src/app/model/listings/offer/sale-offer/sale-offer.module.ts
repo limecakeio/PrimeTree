@@ -8,6 +8,7 @@ import { SaleOfferCreateFormComponent } from './sale-offer-create-form.component
 
 import { FormModule } from '../../../../form/form.module';
 import { PreviewModule } from '../../../../view/preview/preview.module';
+import { DetailModule } from '../../../../view/detail/detail.module';
 
 @NgModule({
   declarations: [
@@ -20,13 +21,15 @@ import { PreviewModule } from '../../../../view/preview/preview.module';
     SaleOfferPreviewComponent,
     SaleOfferCreateFormComponent,
     RouterModule,
-    PreviewModule
+    PreviewModule,
+    DetailModule
   ],
   imports: [
     CommonModule,
     FormModule,
     RouterModule,
-    PreviewModule
+    PreviewModule,
+    DetailModule
   ],
   providers: [
 

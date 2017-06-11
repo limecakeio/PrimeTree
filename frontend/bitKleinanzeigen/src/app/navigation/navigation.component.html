@@ -11,7 +11,7 @@
       <div class="user-actions">
         <form class="navbar-form navbar-left">
           <div class="input-group header-search-bar">
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" (change)="search($event)">
             <div class="input-group-btn">
               <button class="btn btn-default" type="submit">
                 <i class="icon search"></i>
@@ -29,8 +29,8 @@
       <ul class="nav navbar-nav navbar-right icon-menu">
         <li><a title="Filter"><span class="icon filter" (click)="activateListingFilter()"></span></a></li>
         <li><a href="#" title="Meine Merkliste" routerLink="user/favourites"><span class="icon favourite"></span></a></li>
-        <li><a href="#" title="Mein Profil"><span class="icon account"></span></a></li>
-        <li><a href="#" routerLink="/login" (click)="logout()" title="Logoff"><span class="icon logout"></span></a></li>
+        <li><a href="#" title="Mein Profil" routerLink="user/profil"><span class="icon account"></span></a></li>
+        <li><a href="#" routerLink="user/login" (click)="logout()" title="Logoff"><span class="icon logout"></span></a></li>
       </ul>
       <!-- EOF ICON MENU -->
     </div>

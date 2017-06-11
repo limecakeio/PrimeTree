@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { CanActivateUser } from './can-activate-user.model';
-import { AuthenticationComponent } from '../authentication/authentication'
+import { AuthenticationComponent } from '../authentication/authentication.component';
 import { ListingOverviewViewportComponent } from '../model/listings/listing/preview/listing-overview-viewport.component';
 
 const routes: Routes = [
@@ -11,8 +11,13 @@ const routes: Routes = [
     component: ListingOverviewViewportComponent,
     canActivate: [ CanActivateUser ]
   }, {
-    path: '',
+    path: 'user/login',
     component: AuthenticationComponent
+  },
+  {
+    path: '',
+    component: ListingOverviewViewportComponent,
+    canActivate: [ CanActivateUser ]
   }
 ];
 

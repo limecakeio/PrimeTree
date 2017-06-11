@@ -10,6 +10,7 @@ import { ListingRequest } from './listing.request';
 import { User, UserService } from '../../user/user';
 import { Page } from './page.model';
 
+import { ListingSearchService } from './search/search.service';
 
 enum State {
   WAITING, WORKING
@@ -33,7 +34,8 @@ export class ListingRepository {
 
   constructor(
     private listingController : ListingController,
-    private userService : UserService
+    private userService : UserService,
+    private listingSearchService : ListingSearchService
   ) {
     this.update();
   }

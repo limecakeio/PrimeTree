@@ -13,9 +13,14 @@ import { SaleOffer } from './sale-offer.model';
 import { UserService } from '../../../user/user';
 import { ListingComponent } from '../../listing/detail/listing.component';
 
+import { DetailViewService } from '../../../../view/detail/detail.service';
+
 @Component({
   selector: 'listing-detail-view-sale-offer',
-  templateUrl: './sale-offer.component.html'
+  templateUrl: './sale-offer.component.html',
+  providers: [
+    DetailViewService
+  ]
 })
 export class SaleOfferComponent extends ListingComponent implements OnInit {
 
@@ -25,7 +30,7 @@ export class SaleOfferComponent extends ListingComponent implements OnInit {
   image : SafeStyle;
 
   constructor(
-
+    private detailViewService : DetailViewService
   ) {
     super();
   }
@@ -33,6 +38,6 @@ export class SaleOfferComponent extends ListingComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.detailViewService.sendModelToSubscribers(this.listing);
   }
 }

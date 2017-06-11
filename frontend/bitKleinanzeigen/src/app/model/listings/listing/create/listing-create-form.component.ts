@@ -43,8 +43,9 @@ export class ListingCreateFormComponent {
    * A callback function disables the automtical redirect to the home view after submiting the listing.
    * Please use updateRepository() for a later redirect.*/
   protected emitListing(callback? : (id : number) => void) : void {
-    let listingFormEventModel : ListingFormEventModel
-    if (callback) {
+    let listingFormEventModel : ListingFormEventModel;
+    console.log(callback, this);
+    if (!callback) {
       listingFormEventModel = {
         model : this.model,
         updateRepository : true
