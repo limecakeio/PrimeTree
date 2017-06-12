@@ -1,22 +1,41 @@
-<h1>Kategorien</h1>
-<filter-list
-[filterPropertyName]="'type'"
-[filterListItems]="lisitingTypes"
-(filterChanged)="filterChanged()"
-[selectAll]="selectAllTypes"
-></filter-list>
-<h1>INSERAT ARTEN</h1>
-<filter-list
-[filterPropertyName]="'kind'"
-[filterListItems]="listingKinds"
-(filterChanged)="filterChanged()"
-[mutuallyExclusive]="true"
-></filter-list>
-<h1>STANDORT</h1>
-<filter-list
-[filterPropertyName]="'location'"
-[filterListItems]="loactionList"
-(filterChanged)="filterChanged()"
-[selectAll]="'Alle Standorte auswählen'"
-></filter-list>
-<h3 (click)="closeFilterOverlay()">Filter Schließen</h3>
+<div class="listing-filter-content">
+  <div class="filter-header container-fluid">
+    <div class="row">
+      <div class="col-xs-8">
+        <h1><span class="icon filter"></span> Filter</h1>
+      </div>
+      <div class="col-xs-4">
+        <h3 (click)="closeFilterOverlay()"><span class="icon close"></span> Filter Schließen</h3>
+      </div>
+    </div>
+  </div>
+  <div class="filter-body container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <h2>Kategorien</h2>
+        <filter-list
+        [filterPropertyName]="'type'"
+        [filterListItems]="lisitingTypes"
+        (filterChanged)="filterChanged()"
+        [selectAll]="selectAllTypes"
+        ></filter-list>
+        <h2>Inserat Arten</h2>
+        <filter-list
+        [filterPropertyName]="'kind'"
+        [filterListItems]="listingKinds"
+        (filterChanged)="filterChanged()"
+        [mutuallyExclusive]="true"
+        ></filter-list>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <h2>Standort</h2>
+        <filter-list
+        [filterPropertyName]="'location'"
+        [filterListItems]="loactionList"
+        (filterChanged)="filterChanged()"
+        [selectAll]="'Alle Standorte auswählen'"
+        ></filter-list>
+      </div>
+    </div>
+  </div>
+</div>

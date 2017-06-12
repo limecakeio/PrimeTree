@@ -1,8 +1,5 @@
-.listing-detail-view-overlay {
-  position: absolute;
-  z-index: 1000;
-  background-color: rgba(0,0,0,0.75);
-  width: 100%;
-  height: 100%;
-  display: none;
+.listing-detail-content {
+  display: table;
+  width: 90%;
+  margin: 5em auto;
 }

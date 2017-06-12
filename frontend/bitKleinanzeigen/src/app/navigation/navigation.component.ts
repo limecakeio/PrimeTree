@@ -60,7 +60,7 @@ export class NavigationComponent {
 
   public activateListingFilter() : void {
     this.messageService.sendMessage({
-      message: 'showListingFilter'
+      message: 'toggleListingFilter'
     });
   }
 

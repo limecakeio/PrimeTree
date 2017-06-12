@@ -113,7 +113,7 @@ listing-type containers*/
 .map:before {
   content: "\e90c";
 }
-.sucess:before {
+.success:before {
   content: "\e912";
 }
 .scroll-backward:before {
@@ -143,4 +143,13 @@ body {
 /**MAIN VIEWPORT SECTION*/
 section {
 
+}
+
+/**OVERLAY*/
+.overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.75);
+  z-index: 9999;
+  overflow-y: auto;
 }

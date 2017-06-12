@@ -1,12 +1,22 @@
-.listing-filter {
-  left: -100%;
-  width: 0%;
-  transition: 2s linear;
+.listing-filter,
+.listing-detail-view {
+  width:0%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  display: block;
 }
 
-.listing-filter.overlay {
-  /*left: 0%;*/
+.listing-filter.overlay,
+.listing-detail-view.overlay {
   width: 100%;
+  overflow-y: auto;
+  transition: width 0.35s linear;
+  background-color: rgba(0,0,0,0.75);
+  transition: width, background-color 0.35s linear;
 }
 
 /**
@@ -143,6 +153,9 @@ display:none;
 
 /**Special responsive behaviour*/
 @media (min-width: 480px) { /*Tablets*/
+  .listing-filter.overlay {
+    width: 85%;
+  }
 
 }
 @media (min-width: 768px) and (min-height: 768px)  { /*Large Tablet*/
@@ -151,6 +164,9 @@ display:none;
   }
 }
 @media (min-width: 992px) { /*Large Tablet*/
+  .listing-filter.overlay {
+    width: 60%;
+  }
 
 }
 @media (min-width: 1200px) { /*XXL Desktops*/
