@@ -79,11 +79,9 @@ listing-type containers*/
 }
 .listing-borrow:before {
   content: "\e90d";
-  color: #8b8c8c;
 }
 .listing-sell:before {
   content: "\e90e";
-  color: #8b8c8c;
 }
 .listing-recreation:before {
   content: "\e911";

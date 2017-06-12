@@ -1,6 +1,21 @@
-<div class="" *ngIf="isDataAvailable">
-  <p>{{creator.firstName}} {{creator.lastName}}</p>
-  <p>Ort: {{creator.location}}</p>
-  <p>Erstelldatum: {{getTimeStringFromUnixTime(model.createDate)}}</p>
-  <p>Anzeigenummer: {{model.id}}</p>
+<div class="profile-detail-container container-fluid" *ngIf="isDataAvailable">
+  <div class="row">
+    <div class="col-xs-3 profile-data-column">
+      <img src="{{creator.userImage}}" />
+    </div>
+    <div class="col-xs-9 profile-data-column">
+      <div class="profile-data name">
+        <h3>{{creator.firstName}} {{creator.lastName}}</h3>
+      </div>
+      <div class="profile-data user-location">
+        <p>Ort: {{creator.location}}</p>
+      </div>
+      <div class="profile-data create-date">
+        <p>Erstelldatum: {{getTimeStringFromUnixTime(model.createDate)}}</p>
+      </div>
+      <div class="profile-data listing-id">
+        <p>Anzeigenummer: {{model.id}}</p>
+      </div>
+    </div>
+  </div>
 </div>

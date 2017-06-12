@@ -56,7 +56,7 @@ export class MockServer {
       password: '123'
     }, {
       userID: 2,
-      userImage: 'assets/images/bit-ka-logo.png',
+      userImage: 'https://pbs.twimg.com/profile_images/839900475205955585/FMzXSOkV.jpg',
       firstName: 'Marigold',
       lastName: 'Mustermann',
       isAdmin: true,
@@ -79,7 +79,7 @@ export class MockServer {
       userImage : 'assets/images/bit-ka-logo.png'
     }],
     createDate: 1495804073888,
-    description: 'Hält die Getränke kühl und die Mitarbeiter happy happy happy!',
+    description: 'My moneys in that office, right? If she start giving me some bullshit about it aint there, and we got to go someplace else and get it, Im gonna shoot you in the head then and there. Then Im gonna shoot that bitch in the kneecaps, find out where my goddamn money is. She gonna tell me too. Hey, look at me when Im talking to you, motherfucker. You listen: we go in there, and that Winston or anybody else is in there, you the first motherfucker to get shot. You understand?',
     expiryDate: 1495804713707,
     id: 1,
     isActive: true,

@@ -13,6 +13,8 @@ export class CallToActionDetailViewComponent {
 
   @Input() action : string = 'hat nicht funktioniert';
 
+  @Input() listingIcon : string = '';
+
   public isDataAvailable : boolean = false;
 
   public creator : Employee;

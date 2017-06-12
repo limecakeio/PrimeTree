@@ -50,11 +50,11 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
   public triggerDetailViewOverlay(id : number) : void {
     console.log('detail-view-overlay triggerd for:', id);
     this.detailListingID = id;
-    this.lisitingDetailViewOverlayDisplayState = !this.lisitingDetailViewOverlayDisplayState;
+    this.lisitingDetailViewOverlayDisplayState = true;
   }
 
   public closeDetailViewOverlay() : void {
-    this.lisitingDetailViewOverlayDisplayState = false;
+    // this.lisitingDetailViewOverlayDisplayState = false;
   }
 
   public findListingPreviewComponentTypeFromListingType(listingType : string) : Type<ListingPreviewComponent> {

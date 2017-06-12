@@ -1,6 +1,27 @@
 .listing-detail-content {
-  display: table;
-  width: 90%;
-  margin: 5em auto;
   color: #fff;
+}
+
+.listing-detail-header {
+  padding: 5pt 0;
+}
+
+.listing-detail-header h1 {
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.listing-title-cta-container {
+  margin:1em 0;
+}
+
+.title-cta-col {
+  padding-left: 0;
+}
+
+.cta-element {
+  margin-bottom: 10pt;
+  text-align: right;
 }

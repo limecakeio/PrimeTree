@@ -1,6 +1,18 @@
 <div class="" *ngIf="isDataAvailable">
-  <p>{{model.description}}</p>
-  <div class="" *ngFor="let comment of model.comments">
-    <p>{{comment.message}}</p>
+  <div class="listing-detail-description">
+    <h2 data-toggle="collapse" data-target="#listing-description" class="toggle-title">Beschreibung <span class="glyphicon"></span></h2>
+    <div id="listing-description" class="listing-description collapse in">
+      <p>{{model.description}}</p>
+    </div>
   </div>
-</div>
+
+  <div class="listing-detail-comments">
+    <h2 data-toggle="collapse" data-target="#listing-comments" class="toggle-title collapsed">Kommentare <span class="glyphicon"></span></h2>
+    <div class="listing-comments collapse"  id="listing-comments">
+      <div class="listing-detail-comment" *ngFor="let comment of model.comments">
+        <div class="comment">
+          <p>{{comment.message}}</p>
+        </div>
+      </div>
+    </div>
+  </div>

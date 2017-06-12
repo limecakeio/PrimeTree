@@ -19,6 +19,10 @@
   transition: width, background-color 0.35s linear;
 }
 
+.listing-detail-view.overlay {
+  background-color: rgba(104,105,106, 0.90);
+}
+
 /**
 * Controls the displays for all listing-relevant pages
 */
