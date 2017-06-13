@@ -23,7 +23,7 @@ import { ListingCreateComponent } from './create/listing-create.component';
 import { ListingCreateFormPlaceholderComponent } from './create/listing-create-form-placeholder.component';
 import { ListingDetailViewComponent } from './detail/listing-detail-view.component';
 import { ListingDetailViewPlaceholderComponent } from './detail/listing-detail-view-placeholder.component';
-import { ListingDetailViewOverlayComponent } from './detail/listing-detail-view-overlay.component';
+// import { ListingDetailViewOverlayComponent } from './detail/listing-detail-view-overlay.component';
 import { FormModule } from '../../../form/form.module';
 
 import { ListingFilterComponent } from './filter/filter.component';
@@ -57,7 +57,6 @@ import { RideShareOfferModule, RideShareOfferPreviewComponent, RideShareOfferCom
     ListingCreateComponent,
     ListingDetailViewComponent,
     ListingDetailViewPlaceholderComponent,
-    ListingDetailViewOverlayComponent,
     ListingFilterComponent,
     ListingSearchComponent
   ],
@@ -70,7 +69,6 @@ import { RideShareOfferModule, RideShareOfferPreviewComponent, RideShareOfferCom
     ListingCreateComponent,
     ListingDetailViewComponent,
     ListingDetailViewPlaceholderComponent,
-    ListingDetailViewOverlayComponent,
     ListingFilterComponent,
     ListingSearchComponent
   ],

@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 
 import { MessageService, Message } from '../../../../shared/message.service';
-
 import { ListingRepository } from '../listing.repository';
 import { Listing } from '../listing.model';
 import { ListingPreviewComponent } from './listing-preview.component';
@@ -51,11 +50,11 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
   public triggerDetailViewOverlay(id : number) : void {
     console.log('detail-view-overlay triggerd for:', id);
     this.detailListingID = id;
-    this.lisitingDetailViewOverlayDisplayState = !this.lisitingDetailViewOverlayDisplayState;
+    this.lisitingDetailViewOverlayDisplayState = true;
   }
 
   public closeDetailViewOverlay() : void {
-    this.lisitingDetailViewOverlayDisplayState = false;
+    // this.lisitingDetailViewOverlayDisplayState = false;
   }
 
   public findListingPreviewComponentTypeFromListingType(listingType : string) : Type<ListingPreviewComponent> {
@@ -65,6 +64,7 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
   constructor(
     public listingRepository : ListingRepository,
     private listingInformationService : ListingInformationService,
+
     private messageService : MessageService
   ) {
     this.listings = this.listingRepository.listings;
@@ -174,6 +174,10 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
   */
   setViewport(): void {
     //Calculate and set the availble space for the viewport
+    // console.log('document.querySelector("#header")', document.querySelector("#header"))
+    // if (!document.querySelector("#header")) {
+    //   return;
+    // }
     const headerHeight = document.querySelector("#header").clientHeight;
     const listingViewport = <any>document.querySelector("#listing-viewport");
     const viewportHeight = this.windowHeight - headerHeight - 5; //5 = Buffer to avoid body-scroll

@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 
 import { Comment } from '../../../model/listings/listing/comment.model';
 import { DetailViewService } from '../detail.service';
 import { ListingController } from '../../../model/listings/listing/listing.controller';
 import { Listing } from '../../../model/listings/listing/listing.model';
+import { UserService } from '../../../model/user/user.service';
 
 @Component({
   selector: 'view-detail-description',
@@ -16,14 +19,19 @@ export class DescriptionDetailViewComponent {
 
   public model : any;
 
+  public form : FormGroup = new FormGroup({});
+
+  public commentText : string = '';
+
   constructor(
     private detailViewService : DetailViewService,
-    private listingController : ListingController
+    private listingController : ListingController,
+    public userService : UserService
   ) {
     this.detailViewService.getModel().subscribe((model : any) => {
       this.isDataAvailable = true;
       this.model = model;
-      this.isDataAvailable = true;
+      this.form.addControl('comment', new FormControl('comment', Validators.required));
     });
   }
 
@@ -33,11 +41,9 @@ export class DescriptionDetailViewComponent {
     });
   }
 
-// TODO: Decide whether the comment is created in a form or something else
-// TODO: Change this method after the decision is made
-// IDEA: Change the rest interface that POST: /listing/:id/comment returns the newly created comment
   public addCommment() : void {
-    this.listingController.createComment(this.model.id, 'Testkommentar').subscribe(() => {
+    this.listingController.createComment(this.model.id, this.commentText).subscribe(() => {
+      this.commentText = '';
       this.listingController.getListing(this.model.id).subscribe((listing : Listing) => {
         this.model.comments = listing.comments;
       });

@@ -4,9 +4,7 @@ import { ListingController } from '../listing.controller';
 import { ListingRequest } from '../listing.request';
 import { ListingRepository } from '../listing.repository';
 import { FormService } from '../../../../form/forms.service';
-
 import { Message, MessageService } from '../../../../shared/message.service';
-
 import { FilterListItem } from '../../../../form/elements/filter-list/filter-list.component';
 
 import { StatisticsService } from '../../../../shared/statistics.service';
@@ -31,7 +29,7 @@ export class ListingFilterComponent {
 
   public showOverlay : boolean = true;
 
-  public hideOverlay() {
+  public hideFilterOverlay() {
     this.showOverlay = !this.showOverlay;
   }
 
@@ -98,7 +96,7 @@ export class ListingFilterComponent {
 
   private listingRequest : ListingRequest;
 
-  @Output() closeOverlay : EventEmitter<void> = new EventEmitter<void>();
+  @Output() hideOverlay : EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private formService : FormService,
@@ -113,10 +111,8 @@ export class ListingFilterComponent {
   }
 
   public closeFilterOverlay() : void {
-    this.closeOverlay.emit();
+    this.hideOverlay.emit();
   }
-
-
 
   public filterChanged() : void {
     this.listingRepository.applyFilter(this.model);
