@@ -57,7 +57,7 @@ export class ListingDetailViewComponent implements OnInit, OnChanges {
   }
 
   public hideOverlay() : void {
-    this.closeOverlay.emit();
+    // this.closeOverlay.emit();
   }
 
   private setListingAndLisitingType(listingID : number) {

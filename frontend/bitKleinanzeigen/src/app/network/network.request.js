@@ -63,7 +63,8 @@ var NetworkRequest = (function () {
         return this;
     };
     NetworkRequest.prototype.setProtocol = function (protocol) {
-        this.protocol = protocol + '//';
+        this.protocol = protocol + '://';
+        return this;
     };
     NetworkRequest.prototype.addHeader = function (field, value) {
         this.headers.push({
@@ -97,6 +98,9 @@ var NetworkRequest = (function () {
         url += this.hostname;
         if (this.hasPort) {
             url += ':' + this.port;
+        }
+        if (!this.hasPath && this.hasQuery) {
+            url += '/';
         }
         this.paths.forEach(function (path) {
             url += '/' + path;

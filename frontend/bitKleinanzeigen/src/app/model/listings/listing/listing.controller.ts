@@ -90,7 +90,6 @@ export class ListingController {
     request
     .setHttpMethod(RequestMethod.Post)
     .addPath('listing')
-    .addPath('create')
     .setBody(listing);
     return this.networkService.send(request).map((response : Response) => {
       if (response.status === 201) {
@@ -242,7 +241,7 @@ export class ListingController {
     });
   }
 
-  public createComment(listingId : number, comment : string) : Observable<number> {
+  public createComment(listingId : number, comment : string) : Observable<void> {
     let networkRequest : NetworkRequest = this.networkService.networkRequest();
     networkRequest
     .setHttpMethod(RequestMethod.Post)
@@ -255,7 +254,7 @@ export class ListingController {
     });
     return this.networkService.send(networkRequest).map((response : Response) => {
       if (response.status === 201) {
-        return response.json().id;
+        return;
       } else if (response.status === 401) {
         throw new Error('User must be  authenticated to use this method!');
       } else if (response.status === 403) {
@@ -308,6 +307,7 @@ export class ListingController {
   public searchListings(query : string, listingRequest? : ListingRequest) : Observable<ListingList> {
     let networkRequest : NetworkRequest = (listingRequest) ? listingRequest.getRequest() : this.networkService.networkRequest();
     networkRequest
+    .setHttpMethod(RequestMethod.Get)
     .addQuery('query', query)
     .addPath('listings')
     .addPath('search');

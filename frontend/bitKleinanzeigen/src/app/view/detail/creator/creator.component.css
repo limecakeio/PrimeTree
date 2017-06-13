@@ -1,0 +1,13 @@
+.profile-data-column {
+  padding: 10pt 10pt 10pt 0;
+}
+
+.profile-data h3 {
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.profile-data p {
+  margin:0;
+}

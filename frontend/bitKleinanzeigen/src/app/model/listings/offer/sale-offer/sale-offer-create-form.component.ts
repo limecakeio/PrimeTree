@@ -39,8 +39,8 @@ export class SaleOfferCreateFormComponent extends ListingCreateFormComponent{
   }
 
   submit() : void {
-    this.model.condition = Condition.NEW;
-    this.model.expiryDate = null;
+    // this.model.condition = Condition.New;
+    // this.model.expiryDate = null;
     this.emitListing((id : number) => {
       if (this.data.imageAsFile) {
         this.listingsImageController.listingMainImageUpload(id, this.data.imageAsFile).subscribe(() => {

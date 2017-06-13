@@ -12,6 +12,8 @@ export class LocationFormComponent implements OnInit {
 
   @Input() locationPropertyName : string;
 
+  @Input() labelText : string;
+
   public model : any;
 
   public form : FormGroup;
@@ -33,6 +35,9 @@ export class LocationFormComponent implements OnInit {
       if (!this.model[this.locationPropertyName]) { // check whether a property of this name exisits and create it if not
         this.model[this.locationPropertyName] = '';
       }
+    }
+    if (typeof this.labelText !== 'string') {
+      this.labelText = this.locationPropertyName;
     }
   }
 

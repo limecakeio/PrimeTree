@@ -5,7 +5,7 @@ import { Page } from '../model/listings/listing/page.model';
  * This interface describes all criterias the listings can be filtered.
  */
 export interface PageCriteria {
-  loaction? : string[];
+  location? : string[];
   price_min? : number;
   price_max? : number;
   type?: string[];
@@ -23,6 +23,7 @@ export class MockPageFilter {
    * Creates a page from the argument listings.
    */
   public createPage(listings : any[], criteria : PageCriteria) : Page {
+    console.log(criteria);
     if (criteria.hasOwnProperty('kind')) {
       if (criteria.kind === 'offer') {
         listings = listings.filter(this.kindOfferFilter);
@@ -31,7 +32,7 @@ export class MockPageFilter {
       }
     }
     if (criteria.hasOwnProperty('location')) {
-      listings = this.locationFilter(listings, criteria.loaction);
+      listings = this.locationFilter(listings, criteria.location);
     }
     if (criteria.hasOwnProperty('price_min') && criteria.hasOwnProperty('price_max')) {
       listings = this.priceFilter(listings, criteria.price_min, criteria.price_max);
@@ -127,6 +128,7 @@ export class MockPageFilter {
    * Filters the argument listings by the argument locations.
    */
   private locationFilter(listings : any[], locations : string[]) : any[] {
+    console.log('locationFilter')
     let listingsMatch : any[] = [];
     listings.forEach((listing) => {
       let found : boolean = false;
