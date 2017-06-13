@@ -34,7 +34,6 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
 
   listings : Listing[];
   windowWidth: number;
-  windowHeight: number;
   scrollOffset: number;
   listingWrapper: any;
   listingWidth: number;
@@ -117,7 +116,7 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
     loadScreen.classList.add("active");
     this.listingRepository.getNextListings().subscribe((moreListings : boolean) => {
       if (moreListings) {
-        this.setViewport();
+        this.setSliderControls();
       } else {
         console.log(' No more listings! -> Need to make a message out of this! ')
       }
@@ -131,7 +130,7 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
 
     //Check when all the listings have been created and served before setting the viewport
     if (this.listingCounter === this.listingRepository.listingCount) {
-      this.setViewport();
+      this.setSliderControls();
     }
   }
 
@@ -169,23 +168,9 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
     return this.listingWrapper.scrollLeft;
   }
 
-  /*
-  * Sets the listing viewport to achieve an optimal display across all devices
-  */
-  setViewport(): void {
-    //Calculate and set the availble space for the viewport
-    const headerHeight = document.querySelector("#header").clientHeight;
-    const listingViewport = <any>document.querySelector("#listing-viewport");
-    const viewportHeight = this.windowHeight - headerHeight - 5; //5 = Buffer to avoid body-scroll
-    listingViewport.style.height = viewportHeight + "px";
-
-    this.setSliderControls();
-  }
-
   ngAfterViewInit(): void {
     /*Set required window dimensions*/
     this.windowWidth = window.innerWidth;
-    this.windowHeight = window.innerHeight;
 
     /*Set the listing container once component's been loaded*/
     this.listingWrapper = document.querySelector("#listing-wrapper");
@@ -204,11 +189,8 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event:any) {
-    // event.target.innerWidth;
-    // event.target.innerHeight;
     this.windowWidth = window.innerWidth;
-    this.windowHeight = window.innerHeight;
-    this.setViewport();
+    this.setSliderControls();
   }
 
 }

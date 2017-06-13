@@ -12,9 +12,9 @@ import { DetailModule } from '../../../../view/detail/detail.module';
 
 @NgModule({
   declarations: [
-    SaleOfferComponent,
     SaleOfferPreviewComponent,
-    SaleOfferCreateFormComponent
+    SaleOfferCreateFormComponent,
+    SaleOfferComponent
   ],
   exports: [
     SaleOfferComponent,
@@ -31,9 +31,7 @@ import { DetailModule } from '../../../../view/detail/detail.module';
     PreviewModule,
     DetailModule
   ],
-  providers: [
-
-  ]
+  providers: []
 })
 export class SaleOfferModule {
 

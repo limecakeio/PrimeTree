@@ -151,3 +151,15 @@ section {
   z-index: 9999;
   overflow-y: auto;
 }
+
+/**Custom bIT Kleinanzeigen Button Styles*/
+.btn-listing {
+  color: #242325;
+  border-radius: 0;
+  text-transform: uppercase;
+}
+
+.btn-listing.btn-create {
+  background-color: #e5143f;
+  color:#fff;
+}
