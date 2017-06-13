@@ -2,10 +2,9 @@ import {
   Directive,
   ElementRef,
   Input,
-  OnChanges,
   Renderer2,
-  SimpleChanges,
-  OnInit
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 
 import { Message, MessageService } from './message.service';

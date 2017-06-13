@@ -29,9 +29,11 @@
 .listing-viewport {
   display:flex;
   align-items: center;
-  position: relative;
-  min-height: 350px;
   overflow: hidden;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  top: 65pt;
 }
 
 .listing-scroll-container { /**Required to hide scroll-bar*/

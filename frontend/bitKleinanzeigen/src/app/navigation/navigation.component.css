@@ -52,13 +52,6 @@ div.bit-header::before, div.bit-header::after { /*HEADER ITEMS TO GO TO THE EDGE
   box-shadow: none;
 }
 
-.btn-listing {
-  background-color: #e5143f;
-  color: #fff;
-  border-radius: 0;
-  text-transform: uppercase;
-}
-
 .icon-menu .icon {
   color: #8a8a88;
   font-size: 16pt;

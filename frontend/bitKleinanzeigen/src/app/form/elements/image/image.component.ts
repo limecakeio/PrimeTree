@@ -49,6 +49,7 @@ export class ImageFormComponent {
       element.addEventListener(event, handle);
     });
   }
+
   /*
   * These events enable the user to drag and drop an image file into the uploader
   */
@@ -77,6 +78,7 @@ export class ImageFormComponent {
       this.preloadImage(event.dataTransfer.files[0]);
     });
   };
+
   /*
   * We also allow the user to click and choose a file from their system
   */
@@ -89,14 +91,17 @@ export class ImageFormComponent {
     }
     reader.readAsDataURL(this.data.imageAsFile);
   }
+
   /*
   * Generates and presents a preview from the uploader
   * @imageFile the file submitted by the uploader
   */
   private preloadImage(imageFile : File) : void {
+
     /*GENERATE IMAGE PREVIEW*/
     let imageResult = new Image();
     imageResult.src = URL.createObjectURL(imageFile);
+
     let ImageComponent : ImageFormComponent = this; //Binding this to async method
     imageResult.onload = function() {
       /**Save the image*/
@@ -106,6 +111,7 @@ export class ImageFormComponent {
       ImageComponent.imgHeight = imageResult.height;
       /*Set the image's ratio*/
       ImageComponent.imgRatio = imageResult.height / imageResult.width;
+
       /*Hide the image upload*/
       let imageInputContainer = document.querySelector(".image-input-container");
       imageInputContainer.classList.remove("active");
@@ -126,13 +132,16 @@ export class ImageFormComponent {
   /**Calculates the best position for an image to be displayed within the cropper
   and sets the zommer function accordingly*/
   private setDimensionsAndZoomer() : void {
+
     let zoomRange = <HTMLInputElement>document.querySelector("#zoom-range");
+
     /*Get the image container's dimensions to calculate the perfect width*/
     let ipcWidth = this.imagePreviewContainer.clientWidth;
     let ipcHeight = this.imagePreviewContainer.clientHeight;
     if(this.isLandscape()) {
       /*Center the image position for lanscape images*/
       this.imagePreviewContainer.style.backgroundPosition = "0px 0px";
+
       if(ipcWidth * this.imgRatio < ipcHeight) {
         this.imgSize = "auto " + ipcHeight + "px";
         zoomRange.min = ipcHeight + "";
@@ -153,6 +162,7 @@ export class ImageFormComponent {
       zoomRange.value = ipcHeight + "";
     }
   }
+
   /*
   * Returns true if the current image's orientation is landscape
   */
@@ -183,6 +193,7 @@ export class ImageFormComponent {
       imagePreviewContainer.style.backgroundPositionX = currentXpos + moveBy + "px";
     }
   }
+
   /*
   * Resets the image container's contents to their initial state
   */
@@ -206,18 +217,18 @@ export class ImageFormComponent {
     let xPos = parseFloat(this.imagePreviewContainer.style.backgroundPositionX);
     let yPos = parseFloat(this.imagePreviewContainer.style.backgroundPositionY);
 
-    // console.log('xPos', xPos, )
     let dimensionFactor = this.targetCanvasHeight - this.imageContainerHeight;
      //Filter out the first size then convert and add the factor
     let backgroundHeight = parseFloat(this.imgSize.replace(/^\S+/, "")) + dimensionFactor;
     let backgroundWidth = backgroundHeight / this.imgRatio;
+
     //Create a canvas for the image
     let canvas = document.createElement("canvas");
     canvas.setAttribute("width", this.targetCanvasWidth + "px");
     canvas.setAttribute("height", this.targetCanvasHeight + "px");
     canvas.setAttribute("id", "capture-canvas");
     let ctx = canvas.getContext('2d');
-    // ctx.drawImage
+
     ctx.drawImage(this.imageElement, xPos, yPos, backgroundWidth, backgroundHeight, 0, 0, this.targetCanvasWidth, this.targetCanvasHeight);
     //Save the canvas image
     // this.data.imageAsFile = canvas.toDataURL();
@@ -226,6 +237,7 @@ export class ImageFormComponent {
     })
     // let image : File = new File(canvas.toDataURL(), 'main-image.png', "image/png")
     console.log("Final image result as base64", this.data.imageAsFile);
+
     //Display the result to the user
     this.imagePreviewContainer.appendChild(canvas);
   }
@@ -240,13 +252,16 @@ export class ImageFormComponent {
   //   return new Blob([ab], { type: 'image/jpeg' });
   // }
 
+
   ngAfterViewInit() : void {
     this.imagePreviewContainer = <HTMLElement>document.querySelector("#file-input-image");
   }
+
   /**Handle events*/
   ngOnInit() : void {
     this.handleEvents();
   }
+
   /**Listen to the window to adapt image container on changes*/
   @HostListener('window:resize', ['$event'])
   onResize(event:any) {

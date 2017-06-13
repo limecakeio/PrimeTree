@@ -2,6 +2,11 @@
   padding: 10pt 10pt 10pt 0;
 }
 
+.profile-data-column img {
+  width: 100%;
+  height: auto;
+}
+
 .profile-data h3 {
   font-size: 14px;
   font-weight: bold;

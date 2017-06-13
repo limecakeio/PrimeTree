@@ -13,17 +13,19 @@
     cursor: pointer;
   }
 
-  /*ul li:last-child {
+  ul li p {
     font-weight: bold;
-  }*/
+  }
 
-  ul li:before {
-    content: 'X';
-    margin-right: 5pt;
+  ul li span {
     color: transparent;
     transition: color 0.25s linear;
   }
 
-  ul li.active:before {
-    color: #000;
+  ul li:hover span {
+    color: #d4d2d5;
+  }
+
+  ul li p.active span {
+    color: #b6dc76;
   }

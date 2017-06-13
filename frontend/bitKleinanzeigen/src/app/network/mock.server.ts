@@ -133,19 +133,20 @@ export class MockServer {
     mainImage : 'http://ghk.h-cdn.co/assets/15/49/1600x800/landscape-1449063635-painting-nails.jpg',
     imageGallery : [ 'assets/images/bit-ka-logo.png' ]
   }, {
-    type: 'ServiceOffer',
+    type: 'SaleOffer',
     creatorID: 2,
     comments: [],
     createDate: 1495804073888,
-    description: 'Ein Sofa',
+    description: 'Ein old-school Eisschrank um die Drinks cool zu halten!',
     expiryDate: 1495804713707,
     id: 5,
     isActive: true,
-    location: 'mannheim',
-    title: 'Test 5',
-    price : 50000,
-    mainImage : 'assets/images/bit-ka-logo.png',
-    imageGallery : [ 'assets/images/bit-ka-logo.png' ]
+    location: 'Nürnberg',
+    title: 'Eisschrank für die kalte Seele',
+    price : 123.45,
+    mainImage : 'http://medien.markt.de/bilder/2013/04/28/20/51c60de1/medium_image/0/alter_gruenderzeit_eisschrank.jpg',
+    imageGallery : [ 'assets/images/bit-ka-logo.png' ],
+    condition : 'used'
   }, {
     type: 'ServiceOffer',
     creatorID: 2,

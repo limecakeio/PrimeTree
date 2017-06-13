@@ -22,6 +22,21 @@
 }
 
 .cta-element {
-  margin-bottom: 10pt;
-  text-align: right;
+  margin: 10pt 0;
+  text-align: left;
+}
+
+.action-buttons-column {
+  padding-left:0;
+}
+
+/*Responsive settings*/
+@media (min-width: 768px) {
+  .cta-element {
+    margin-top: 0;
+    text-align: right;
+  }
+  .action-buttons-column {
+    padding-right:0;
+  }
 }

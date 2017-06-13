@@ -11,7 +11,7 @@ id="element-list">
   *ngFor="let filterListItem of filterList"
   attr.data-id="{{filterListItem.value}}"
   (click)="triggerFilter($event)"
-  >{{filterListItem.displayText}}</li>
+  ><p><span class="icon success"></span> {{filterListItem.displayText}}</p></li>
   <li
   *ngIf="selectAllEnabled"
   (click)="triggerAll()"
