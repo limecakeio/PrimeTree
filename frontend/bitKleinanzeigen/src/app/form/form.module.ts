@@ -7,6 +7,7 @@ import { FilterMultiValueCheckboxComponent } from './elements/filter-multi-value
 import { FilterRadioComponent } from './elements/filter-radio/filter-radio.component';
 import { LocationFilter } from './elements/filter-location/filter-location.component';
 import { FilterListComponent } from './elements/filter-list/filter-list.component';
+import { FilterGoogleMapsComponent } from './elements/filter-google-maps/filter-google-maps.component';
 
 import { DescriptionFormComponent } from './elements/description/description.component';
 import { ImageFormComponent } from './elements/image/image.component';
@@ -14,6 +15,9 @@ import { PriceFormComponent } from './elements/price/price.component';
 import { TitleFormComponent } from './elements/title/title.component';
 import { GalleryFormComponent } from './elements/gallery/gallery.component';
 import { LocationFormComponent } from './elements/location/location.component';
+import { ConditionFormComponent } from './elements/condition/condition.component';
+import { ExpiryDateFormComponent } from './elements/expiry-date/expiry-date.component';
+import { JourneyStopsFormComponent } from './elements/journey-stops/journey-stops.component';
 
 /**
  * This module collects all components and services which pertain to building forms.
@@ -25,13 +29,17 @@ import { LocationFormComponent } from './elements/location/location.component';
     FilterMultiValueCheckboxComponent,
     LocationFilter,
     FilterListComponent,
+    FilterGoogleMapsComponent,
 
     DescriptionFormComponent,
     ImageFormComponent,
     PriceFormComponent,
     TitleFormComponent,
     GalleryFormComponent,
-    LocationFormComponent
+    LocationFormComponent,
+    ConditionFormComponent,
+    ExpiryDateFormComponent,
+    JourneyStopsFormComponent
   ],
   exports: [
     CommonModule,
@@ -43,13 +51,17 @@ import { LocationFormComponent } from './elements/location/location.component';
     FilterRadioComponent,
     FilterMultiValueCheckboxComponent,
     FilterListComponent,
+    FilterGoogleMapsComponent,
 
     DescriptionFormComponent,
     ImageFormComponent,
     PriceFormComponent,
     TitleFormComponent,
     GalleryFormComponent,
-    LocationFormComponent
+    LocationFormComponent,
+    ConditionFormComponent,
+    ExpiryDateFormComponent,
+    JourneyStopsFormComponent
   ],
   imports: [
     CommonModule,

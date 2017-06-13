@@ -192,5 +192,4 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
     this.windowWidth = window.innerWidth;
     this.setSliderControls();
   }
-
 }

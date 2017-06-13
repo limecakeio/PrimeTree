@@ -3,17 +3,13 @@ import { DomSanitizer, SafeStyle, SafeUrl } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
 // import * as html2canvas from "html2canvas"; // original 03062017
 // import html2canvas from 'html2canvas';
-
 import { FormService } from '../../forms.service';
-
 @Component({
   selector: 'form-element-image',
   templateUrl: './image.component.html',
   styleUrls: [ './image.component.css' ]
 })
 export class ImageFormComponent {
-
-
   constructor(
     private formService : FormService,
     private domSanitizer : DomSanitizer
@@ -31,14 +27,12 @@ export class ImageFormComponent {
       this.data.imageAsFile = null;
     }
   }
-
   model : any;
   form : FormGroup;
   data : any;
   imagesrc : SafeUrl = '';
   image : SafeStyle;
   imageElement: HTMLImageElement;
-
   imgWidth: number;
   imgHeight: number;
   imgSize : string;
@@ -48,10 +42,7 @@ export class ImageFormComponent {
   ogRatio: number = 0.525;
   imageContainerHeight: number;
   imagePreviewContainer: any;
-
-
   private div : Element;
-
   private addMulipleEventListener(element : Element, eventstring : string, handle : any) : void {
     let events : string[] = eventstring.split(' ');
     events.forEach((event : string) => {
@@ -71,19 +62,16 @@ export class ImageFormComponent {
       event.preventDefault();
       event.stopPropagation();
     });
-
     this.addMulipleEventListener(this.div, 'dragover dragenter', (event : any) => {
       event.preventDefault();
       event.stopPropagation();
       this.div.classList.add('is-dragover');
     });
-
     this.addMulipleEventListener(this.div, 'dragleave dragend drop', (event : any) => {
       event.preventDefault();
       event.stopPropagation();
       this.div.classList.remove('is-dragover');
     });
-
     /**User drops a file into the dropper*/
     this.addMulipleEventListener(this.div, 'drop', (event : any) => {
       console.log("DATA TRANSFER", event.dataTransfer);
@@ -127,26 +115,20 @@ export class ImageFormComponent {
       /*Hide the image upload*/
       let imageInputContainer = document.querySelector(".image-input-container");
       imageInputContainer.classList.remove("active");
-
       /*Show the image preview - HAVE TO DO THIS FIRST TO GRAB CONTAINER DIMENSIONS LATER*/
       let resultImageContainer = document.querySelector(".result-image-container");
       resultImageContainer.classList.add("active");
-
       ImageComponent.setImageContainerDimensions();
-
       /*Inject image into preview as a background image*/
       ImageComponent.imagePreviewContainer.style.backgroundImage = "url('" + imageResult.src + "')";
       ImageComponent.setDimensionsAndZoomer();
     }
-
   }
-
   zoomImage() : void {
     let rangeSlider = <HTMLInputElement>document.querySelector("#zoom-range");
     //Adapt zoom-level to image-container background-image
     this.imgSize = "auto " + rangeSlider.value + "px";
   }
-
   /**Calculates the best position for an image to be displayed within the cropper
   and sets the zommer function accordingly*/
   private setDimensionsAndZoomer() : void {
@@ -156,7 +138,6 @@ export class ImageFormComponent {
     /*Get the image container's dimensions to calculate the perfect width*/
     let ipcWidth = this.imagePreviewContainer.clientWidth;
     let ipcHeight = this.imagePreviewContainer.clientHeight;
-
     if(this.isLandscape()) {
       /*Center the image position for lanscape images*/
       this.imagePreviewContainer.style.backgroundPosition = "0px 0px";
@@ -191,13 +172,11 @@ export class ImageFormComponent {
     }
     return false;
   }
-
   /**Sets the image container to the OpenGraph dimension of 1:0.525*/
   private setImageContainerDimensions() : void {
     let resultImageContainer = <HTMLElement>document.querySelector(".result-image-container");
     this.imageContainerHeight = resultImageContainer.clientWidth * this.ogRatio;
   }
-
   /**Moves an image into the direction as provided by the String parameter up, down, left or right*/
   public moveImage(direction : String) : void {
     let imagePreviewContainer = <HTMLElement>document.querySelector("#file-input-image");
@@ -221,7 +200,6 @@ export class ImageFormComponent {
   public resetImagePosition() {
     this.setDimensionsAndZoomer();
   }
-
   /**Resets the image upload, displaying only the upload form*/
   public removeImage() : void {
     const imagePreviewContainer = document.querySelector(".result-image-container");
@@ -233,7 +211,6 @@ export class ImageFormComponent {
     //Show the image dropper
     document.querySelector(".image-input-container").classList.add("active");
   }
-
   public captureImage() : void {
     //The image container is fluid, we need to adjust the image to reflect the current position and size
     //in order to draw it correctly onto the canvas
@@ -251,16 +228,29 @@ export class ImageFormComponent {
     canvas.setAttribute("height", this.targetCanvasHeight + "px");
     canvas.setAttribute("id", "capture-canvas");
     let ctx = canvas.getContext('2d');
-    ctx.drawImage(this.imageElement, xPos, yPos, backgroundWidth, backgroundHeight);
 
+    ctx.drawImage(this.imageElement, xPos, yPos, backgroundWidth, backgroundHeight, 0, 0, this.targetCanvasWidth, this.targetCanvasHeight);
     //Save the canvas image
-    this.data.imageAsFile = canvas.toDataURL();
+    // this.data.imageAsFile = canvas.toDataURL();
+    canvas.toBlob((image : Blob) => {
+      this.data.imageAsFile = image;
+    })
+    // let image : File = new File(canvas.toDataURL(), 'main-image.png', "image/png")
     console.log("Final image result as base64", this.data.imageAsFile);
 
     //Display the result to the user
     this.imagePreviewContainer.appendChild(canvas);
   }
 
+  //  dataURItoBlob(dataURI : string) {
+  //   var byteString = atob(dataURI.split(',')[1]);
+  //   var ab = new ArrayBuffer(byteString.length);
+  //   var ia = new Uint8Array(ab);
+  //   for (var i = 0; i < byteString.length; i++) {
+  //       ia[i] = byteString.charCodeAt(i);
+  //   }
+  //   return new Blob([ab], { type: 'image/jpeg' });
+  // }
 
 
   ngAfterViewInit() : void {
@@ -268,7 +258,6 @@ export class ImageFormComponent {
   }
 
   /**Handle events*/
-
   ngOnInit() : void {
     this.handleEvents();
   }

@@ -1,0 +1,15 @@
+<div [formGroup]="form">
+  <div class="input-group">
+    <span class="condition-background">Zustand </span>
+    <select
+    formControlName="condition"
+    class=""
+    name="condition"
+    [(ngModel)]="model.condition"
+    formControlName="condition"
+    >
+      <option value="New">Neu</option>
+      <option value="Used">Gebraucht</option>
+    </select>
+  </div>
+</div>

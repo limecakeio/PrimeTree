@@ -88,8 +88,9 @@ export class NetworkRequest {
     return this;
   }
 
-  setProtocol(protocol : string) {
-    this.protocol = protocol + '//';
+  setProtocol(protocol : string) : NetworkRequest {
+    this.protocol = protocol + '://';
+    return this;
   }
 
   addHeader(field : string, value : string) : NetworkRequest {
@@ -126,6 +127,9 @@ export class NetworkRequest {
     url += this.hostname;
     if (this.hasPort) {
       url += ':' + this.port;
+    }
+    if (!this.hasPath && this.hasQuery) {
+      url += '/';
     }
     this.paths.forEach((path : string) => {
       url += '/' + path;

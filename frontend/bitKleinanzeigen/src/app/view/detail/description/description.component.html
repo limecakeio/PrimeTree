@@ -8,11 +8,38 @@
 
   <div class="listing-detail-comments">
     <h2 data-toggle="collapse" data-target="#listing-comments" class="toggle-title collapsed">Kommentare <span class="glyphicon"></span></h2>
+<<<<<<< HEAD
     <div class="listing-comments collapse"  id="listing-comments">
       <div class="listing-detail-comment" *ngFor="let comment of model.comments">
         <div class="comment">
           <p>{{comment.message}}</p>
         </div>
       </div>
+=======
+    <div class="listing-comments collapse"  id="listing-comments" [formGroup]="form">
+      <div class="listing-detail-comment" *ngFor="let comment of model.comments">
+        <div class="comment">
+          <p>{{comment.message}}</p>
+          <button
+          type="button"
+          name="button"
+          (click)="removeComment(comment.commentID)"
+          *ngIf="comment.userID === userService.userInformation.userID"
+          >Löschen</button>
+        </div>
+      </div>
+      <textarea
+      name="name"
+      rows="1"
+      cols="80"
+      [(ngModel)]="commentText"
+      formControlName="comment"
+      ></textarea>
+      <button
+      type="button"
+      name="button"
+      (click)="addCommment()"
+      [disabled]="commentText.length === 0">Kommentar erstellen</button>
+>>>>>>> 5beb1f29b94937703214acab29b53af2d93a0bdb
     </div>
   </div>

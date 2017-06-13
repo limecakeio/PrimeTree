@@ -27,15 +27,14 @@
         [mutuallyExclusive]="true"
         ></filter-list>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+      <div class="col-xs-12">
         <h2>Standort</h2>
-        <filter-list
-        [filterPropertyName]="'location'"
-        [filterListItems]="loactionList"
-        (filterChanged)="filterChanged()"
-        [selectAll]="'Alle Standorte auswählen'"
-        ></filter-list>
+        <filter-google-maps
+        (filterChanged)="filterChanged()">
+        </filter-google-maps>
       </div>
+
     </div>
   </div>
 </div>

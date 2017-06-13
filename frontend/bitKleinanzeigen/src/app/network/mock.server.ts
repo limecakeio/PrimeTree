@@ -280,9 +280,11 @@ export class MockServer {
         responseOptions = this.searchListings(networkRequest);
       }
     } else if (paths[0] === 'listing') {
-      if (paths[1] === 'create') {
-        urlFound = true;
-        responseOptions = this.createListing(networkRequest);
+      if (paths.length === 1) {
+        if (networkRequest.getHttpMethod() === RequestMethod.Post) {
+          urlFound = true;
+          responseOptions = this.createListing(networkRequest);
+        }
       }  else if (paths[1] === 'upload') {
         if (paths[2] === 'main-image') {
           urlFound = true;
@@ -296,6 +298,14 @@ export class MockServer {
           urlFound = true;
           responseOptions = this.removeListing(networkRequest);
         }
+      } else if (networkRequest.getPaths().length === 3) {
+        if (networkRequest.getPaths()[2] === 'comment') {
+          urlFound = true;
+          responseOptions = this.postComment(networkRequest);
+        }
+      } else if (networkRequest.getPaths().length === 4) {
+        urlFound = true;
+        responseOptions = this.removeComment(networkRequest);
       }
     } else if (paths[0] === 'statistics') {
       urlFound = true;
@@ -307,6 +317,41 @@ export class MockServer {
     let response : Response = new Response(responseOptions);
     console.log('Mockresponse: ', response);
     return response;
+  }
+
+  private removeComment(networkRequest : NetworkRequest) : ResponseOptions {
+    let responseOptions : ResponseOptions = this.responseOptions();
+    let listingID : number = parseInt(networkRequest.getPaths()[1]);
+    let commentID : number = parseInt(networkRequest.getPaths()[3]);
+    let listing : any = this.listings.find(listing => listing.id === listingID);
+    let found : boolean = false;
+    for (let i = 0; i < listing.comments.length && !found; i++) {
+      if (listing.comments[i].commentID === commentID) {
+        listing.comments.splice(i, 1);
+        found = true;
+      }
+    }
+    if (found) {
+      responseOptions.status = 200;
+    } else {
+      responseOptions.status = 403;
+    }
+    return responseOptions;
+  }
+
+  private postComment(networkRequest : NetworkRequest) : ResponseOptions {
+    let responseOptions : ResponseOptions = this.responseOptions();
+    let id : number = parseInt(networkRequest.getPaths()[1]);
+    let listing : any = this.listings.find(listing => listing.id === id);
+    listing.comments.push({
+      commentID : listing.comments.length,
+      userID : this.getActiveUserID(),
+      createDate : networkRequest.getBody().createDate,
+      message : networkRequest.getBody().message,
+      userImage : this.users.find(user => user[1].id === this.getActiveUserID())
+    });
+    responseOptions.status = 201;
+    return responseOptions;
   }
 
   private removeListing(networkRequest : NetworkRequest) : ResponseOptions {
@@ -408,16 +453,13 @@ export class MockServer {
   private listingMainImageUpload(networkRequest : NetworkRequest) : ResponseOptions {
     let responseOptions : ResponseOptions = this.responseOptions();
     let id : number = parseInt(networkRequest.getPaths()[3]);
-    console.log(id, 'id')
     let found : boolean = false;
     for (let i = 0; i < this.listings.length && !found; i++) {
       if (id === this.listings[i].id) {
         found = true;
         this.listings[i].mainImage = 'assets/images/bit-ka-logo.png';
-        console.log(this.listings)
       }
     }
-    console.log(found)
     responseOptions.status = 201;
     return responseOptions;
   }
@@ -563,7 +605,7 @@ export class MockServer {
       if (query.key === 'page') {
         criteria.page = parseInt(query.values[0]);
       } else if (query.key === 'location') {
-        criteria.loaction = query.values;
+        criteria.location = query.values;
       } else if (query.key === 'price_min') {
         criteria.price_min = parseInt(query.values[0]);
       } else if (query.key === 'price_max') {
@@ -640,6 +682,12 @@ export class MockServer {
       {
         locationName : 'Mannheim',
         numberOfListings : 9
+      }, {
+        locationName: 'Zug',
+        numberOfListings: 80
+      }, {
+        locationName: 'Heidelberg',
+        numberOfListings: 20
       }
     ];
     body.numberOfListings = this.listings.length;

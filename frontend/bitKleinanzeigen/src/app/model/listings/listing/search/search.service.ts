@@ -20,8 +20,8 @@ export class ListingSearchService {
   ) {
     // console.log('ListingSearchService')
     this.messageService.getObservable().subscribe((message : Message) => {
-      console.log(message)
       if (message.message === 'ListingSearch') {
+        console.log('searchMessage', message)
         this.listingController.searchListings(message.payload).subscribe((listingList : ListingList) => {
           this.listingSearchResults = listingList;
         });
