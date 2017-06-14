@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeStyle, SafeUrl } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
 // import * as html2canvas from "html2canvas"; // original 03062017
@@ -28,20 +28,29 @@ export class ImageFormComponent {
     }
   }
   model : any;
+  @ViewChild("imageInputContainer") imageInputContainer : ElementRef;
   form : FormGroup;
+
   data : any;
-  imagesrc : SafeUrl = '';
-  image : SafeStyle;
+  /**ORIGINAL IMAGE*/
   imageElement: HTMLImageElement;
   imgWidth: number;
   imgHeight: number;
-  imgSize : string;
   imgRatio : number;
+
+  /*PARSED IMAGE RESULT [DYNAMIC]*/
+  imgPosX: number = 0;
+  imgPosY: number = 0;
+  backgroundImgSize : string;
+  @ViewChild("resultImage") resultImage : ElementRef;
+  resultImageContainerHeight: number;
+
+
+  /*CANVAS FOR FINAL IMAGE*/
   targetCanvasWidth: number = 600;
   targetCanvasHeight: number = 315;
   ogRatio: number = 0.525;
-  imageContainerHeight: number;
-  imagePreviewContainer: any;
+
   private div : Element;
   private addMulipleEventListener(element : Element, eventstring : string, handle : any) : void {
     let events : string[] = eventstring.split(' ');
@@ -74,7 +83,6 @@ export class ImageFormComponent {
     });
     /**User drops a file into the dropper*/
     this.addMulipleEventListener(this.div, 'drop', (event : any) => {
-      console.log("DATA TRANSFER", event.dataTransfer);
       this.preloadImage(event.dataTransfer.files[0]);
     });
   };
@@ -83,14 +91,7 @@ export class ImageFormComponent {
   * We also allow the user to click and choose a file from their system
   */
   imageInput(event : any) {
-    console.log('asd')
     this.preloadImage(event.target.files[0]);
-    let path : string = URL.createObjectURL(this.data.imageAsFile);
-    let reader : FileReader = new FileReader();
-    reader.onloadend = () => {
-      this.image = this.domSanitizer.bypassSecurityTrustStyle('url(' + reader.result + ')');
-    }
-    reader.readAsDataURL(this.data.imageAsFile);
   }
 
   /*
@@ -103,32 +104,37 @@ export class ImageFormComponent {
     let imageResult = new Image();
     imageResult.src = URL.createObjectURL(imageFile);
 
-    let ImageComponent : ImageFormComponent = this; //Binding this to async method
+    let ImageComponent : ImageFormComponent = this; //Binding "this" to async method
+
     imageResult.onload = function() {
       /**Save the image*/
       ImageComponent.imageElement = imageResult;
       /*Set the images dimensions*/
       ImageComponent.imgWidth = imageResult.width;
       ImageComponent.imgHeight = imageResult.height;
+
       /*Set the image's ratio*/
       ImageComponent.imgRatio = imageResult.height / imageResult.width;
 
       /*Hide the image upload*/
-      let imageInputContainer = document.querySelector(".image-input-container");
-      imageInputContainer.classList.remove("active");
+      ImageComponent.imageInputContainer.nativeElement.classList.remove("active");
+
       /*Show the image preview - HAVE TO DO THIS FIRST TO GRAB CONTAINER DIMENSIONS LATER*/
-      let resultImageContainer = document.querySelector(".result-image-container");
-      resultImageContainer.classList.add("active");
+      ImageComponent.resultImage.nativeElement.classList.add("active");
+
       ImageComponent.setImageContainerDimensions();
+
       /*Inject image into preview as a background image*/
-      ImageComponent.imagePreviewContainer.style.backgroundImage = "url('" + imageResult.src + "')";
+      ImageComponent.resultImage.nativeElement.style.backgroundImage = "url('" + imageResult.src + "')";
       ImageComponent.setDimensionsAndZoomer();
     }
   }
   zoomImage() : void {
     let rangeSlider = <HTMLInputElement>document.querySelector("#zoom-range");
+    console.log("RangeSlider min", rangeSlider.min, "RangeSlider max", rangeSlider.max, "Range slider current value", rangeSlider.value);
     //Adapt zoom-level to image-container background-image
-    this.imgSize = "auto " + rangeSlider.value + "px";
+    this.backgroundImgSize = "auto " + rangeSlider.value + "px";
+    console.log("Setting background image size to:", this.backgroundImgSize);
   }
   /**Calculates the best position for an image to be displayed within the cropper
   and sets the zommer function accordingly*/
@@ -137,30 +143,41 @@ export class ImageFormComponent {
     let zoomRange = <HTMLInputElement>document.querySelector("#zoom-range");
 
     /*Get the image container's dimensions to calculate the perfect width*/
-    let ipcWidth = this.imagePreviewContainer.clientWidth;
-    let ipcHeight = this.imagePreviewContainer.clientHeight;
+    let ipcWidth = this.resultImage.nativeElement.clientWidth;
+    let ipcHeight = this.resultImageContainerHeight;
+
     if(this.isLandscape()) {
       /*Center the image position for lanscape images*/
-      this.imagePreviewContainer.style.backgroundPosition = "0px 0px";
+      this.imgPosX = 0;
+      this.imgPosY = 0;
 
-      if(ipcWidth * this.imgRatio < ipcHeight) {
-        this.imgSize = "auto " + ipcHeight + "px";
+      if(ipcWidth * this.imgRatio < ipcHeight) { //Image height does NOT fill container
+        this.backgroundImgSize = "auto " + ipcHeight + "px";
+
+        //The width of the image may overflow, so we center it horizontally
+        let widthOverflow = ipcHeight/this.imgRatio;
+        this.imgPosX -= widthOverflow / 4;
+
         zoomRange.min = ipcHeight + "";
         zoomRange.max = this.imgHeight + "";
         zoomRange.value = ipcHeight + "";
       } else {
-        this.imgSize = "auto " + (ipcWidth * this.imgRatio) + "px";
+        this.backgroundImgSize = "auto " + (ipcWidth * this.imgRatio) + "px";
+        //The height of the image may overflow, so we center it vertically
+        let heightOverflow = (ipcWidth * this.imgRatio) - ipcHeight;
+        this.imgPosY -= heightOverflow / 4;
+
         zoomRange.min = ipcWidth * this.imgRatio + "";
-        zoomRange.max = this.imgWidth + "";
+        zoomRange.max = this.imgHeight + "";
         zoomRange.value = ipcWidth * this.imgRatio + "";
       }
     } else { //TODO...do we really want to allow this? There might be a better way!
       /*Center the image position for profile/square images*/
-      this.imagePreviewContainer.style.backgroundPosition = ipcWidth/2 - this.imgWidth/4 + "px 0px";
-      this.imagePreviewContainer.style.backgroundSize = "auto " + ipcHeight + "px";
-      zoomRange.min = "0";
-      zoomRange.max = this.imgHeight + "";
-      zoomRange.value = ipcHeight + "";
+      // this.imagePreviewContainer.style.backgroundPosition = ipcWidth/2 - this.imgWidth/4 + "px 0px";
+      // this.imagePreviewContainer.style.backgroundImgSize = "auto " + ipcHeight + "px";
+      // zoomRange.min = "0";
+      // zoomRange.max = this.imgHeight + "";
+      // zoomRange.value = ipcHeight + "";
     }
   }
 
@@ -175,23 +192,22 @@ export class ImageFormComponent {
   }
   /**Sets the image container to the OpenGraph dimension of 1:0.525*/
   private setImageContainerDimensions() : void {
-    let resultImageContainer = <HTMLElement>document.querySelector(".result-image-container");
-    this.imageContainerHeight = resultImageContainer.clientWidth * this.ogRatio;
+    this.resultImageContainerHeight = this.resultImage.nativeElement.clientWidth * this.ogRatio;
   }
   /**Moves an image into the direction as provided by the String parameter up, down, left or right*/
   public moveImage(direction : String) : void {
     let imagePreviewContainer = <HTMLElement>document.querySelector("#file-input-image");
-    let currentXpos = parseFloat(imagePreviewContainer.style.backgroundPositionX);
-    let currentYpos = parseFloat(imagePreviewContainer.style.backgroundPositionY);
-    const moveBy = 20;
+    const moveBy = 20; //TODO Set this based on the zoom factor
     if(direction === 'up') {
-      imagePreviewContainer.style.backgroundPositionY = currentYpos - moveBy + "px";
+      this.imgPosY -= moveBy;
     } else if (direction === 'down') {
-      imagePreviewContainer.style.backgroundPositionY = currentYpos + moveBy + "px";
+      this.imgPosY += moveBy;
     } else if (direction === 'left') {
-      imagePreviewContainer.style.backgroundPositionX = currentXpos - moveBy + "px";
+      this.imgPosX -= moveBy;
     } else if (direction === 'right') {
-      imagePreviewContainer.style.backgroundPositionX = currentXpos + moveBy + "px";
+      this.imgPosX += moveBy;
+    } else {
+      throw new Error("Invalid direction to move image by");
     }
   }
 
@@ -215,12 +231,9 @@ export class ImageFormComponent {
   public captureImage() : void {
     //The image container is fluid, we need to adjust the image to reflect the current position and size
     //in order to draw it correctly onto the canvas
-    let xPos = parseFloat(this.imagePreviewContainer.style.backgroundPositionX);
-    let yPos = parseFloat(this.imagePreviewContainer.style.backgroundPositionY);
-
-    let dimensionFactor = this.targetCanvasHeight - this.imageContainerHeight;
+    let dimensionFactor = this.targetCanvasHeight - this.resultImageContainerHeight;
      //Filter out the first size then convert and add the factor
-    let backgroundHeight = parseFloat(this.imgSize.replace(/^\S+/, "")) + dimensionFactor;
+    let backgroundHeight = parseFloat(this.backgroundImgSize.replace(/^\S+/, "")) + dimensionFactor;
     let backgroundWidth = backgroundHeight / this.imgRatio;
 
     //Create a canvas for the image
@@ -230,7 +243,7 @@ export class ImageFormComponent {
     canvas.setAttribute("id", "capture-canvas");
     let ctx = canvas.getContext('2d');
 
-    ctx.drawImage(this.imageElement, xPos, yPos, backgroundWidth, backgroundHeight, 0, 0, this.targetCanvasWidth, this.targetCanvasHeight);
+    ctx.drawImage(this.imageElement, this.imgPosX, this.imgPosY, backgroundWidth, backgroundHeight, 0, 0, this.targetCanvasWidth, this.targetCanvasHeight);
     //Save the canvas image
     // this.data.imageAsFile = canvas.toDataURL();
     canvas.toBlob((image : Blob) => {
@@ -241,7 +254,7 @@ export class ImageFormComponent {
     console.log("Final image result as base64", this.data.imageAsFile);
 
     //Display the result to the user
-    this.imagePreviewContainer.appendChild(canvas);
+    this.resultImage.nativeElement.appendChild(canvas);
   }
 
   //  dataURItoBlob(dataURI : string) {
@@ -253,11 +266,6 @@ export class ImageFormComponent {
   //   }
   //   return new Blob([ab], { type: 'image/jpeg' });
   // }
-
-
-  ngAfterViewInit() : void {
-    this.imagePreviewContainer = <HTMLElement>document.querySelector("#file-input-image");
-  }
 
   /**Handle events*/
   ngOnInit() : void {
