@@ -27,11 +27,11 @@ export interface FilterCriteria {
 })
 export class ListingFilterComponent {
 
-  public showOverlay : boolean = true;
-
-  public hideFilterOverlay() {
-    this.showOverlay = !this.showOverlay;
-  }
+  // public showOverlay : boolean = true;
+  //
+  // public hideFilterOverlay() {
+  //   this.showOverlay = !this.showOverlay;
+  // }
 
   public price_min : number;
 
@@ -98,6 +98,8 @@ export class ListingFilterComponent {
 
   @Output() hideOverlay : EventEmitter<void> = new EventEmitter<void>();
 
+  @Output() showOverlay : EventEmitter<void> = new EventEmitter<void>();
+
   constructor(
     private formService : FormService,
     private listingController : ListingController,
@@ -114,7 +116,11 @@ export class ListingFilterComponent {
     this.hideOverlay.emit();
   }
 
-  public filterChanged() : void {
+  public showFilterOverlay() : void {
+    this.showOverlay.emit();
+  }
+
+  public filterChanged() :  void {
     this.listingRepository.applyFilter(this.model);
   }
 

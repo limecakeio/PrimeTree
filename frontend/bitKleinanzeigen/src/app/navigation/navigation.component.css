@@ -14,10 +14,18 @@ div.bit-header::before, div.bit-header::after { /*HEADER ITEMS TO GO TO THE EDGE
 }
 
 .logo-link {
-  height: 60pt;
+  height: 50pt;
+  padding: 5px 0 5px 15px;
 }
 
 .user-actions {
+  position: fixed;
+  height: 40pt;
+  background-color: #fff;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
   padding: 0 15px;
 }
 
@@ -86,6 +94,7 @@ div.bit-header::before, div.bit-header::after { /*HEADER ITEMS TO GO TO THE EDGE
   }
 
   .user-actions {
+    position: static;
     padding: auto;
   }
 }

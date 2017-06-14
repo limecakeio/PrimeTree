@@ -28,6 +28,8 @@ export class ListingDetailViewComponent implements OnInit, OnChanges {
 
   @Output() closeOverlay : EventEmitter<void> = new EventEmitter<void>();
 
+  @Output() showOverlay : EventEmitter<void> = new EventEmitter<void>();
+
   public listingDescriptorHandler : ListingDescriptorHandler;
 
   public listingComponentType : Type<ListingComponent>;
@@ -45,6 +47,7 @@ export class ListingDetailViewComponent implements OnInit, OnChanges {
   ngOnChanges(simpleChanges : SimpleChanges) : void {
     if (typeof simpleChanges['listingID']['currentValue'] === 'number') {
       this.setListingAndLisitingType(this.listingID);
+      this.showDetailViewOverlay();
     }
   }
 
@@ -54,6 +57,9 @@ export class ListingDetailViewComponent implements OnInit, OnChanges {
     // } else {
     //   this.setListingAndLisitingType(this.activatedRoute.snapshot.params['id']);
     // }
+  }
+  public showDetailViewOverlay() : void {
+    this.showOverlay.emit();
   }
 
   public hideOverlay() : void {

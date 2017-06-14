@@ -27,7 +27,8 @@ export class RESTNetworkService extends NetworkService {
       let headers = new Headers();
       let headerArray = request.getHeaders();
       headerArray.forEach(header => {
-        headers.append(header.key, header.value);
+        console.log(header)
+        headers.append(header.field, header.value);
       });
       return this.sendRequestWithHeaders(request, headers);
     } else {
@@ -59,14 +60,14 @@ export class RESTNetworkService extends NetworkService {
    */
   public networkRequest() : NetworkRequest {
     let request : NetworkRequest = new NetworkRequest();
-    request.setHostname('141.19.157.70')
+    request.setHostname('141.19.152.37')
     .setPort(8080)
     // .addPath('bitServer');
     return request;
   }
 
   public getServerAddress() : string {
-    return 'http://141.19.157.70:8080';
+    return 'http://141.19.152.37:8080/';
   }
 
 

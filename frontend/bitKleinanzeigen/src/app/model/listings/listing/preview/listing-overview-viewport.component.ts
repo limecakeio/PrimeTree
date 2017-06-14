@@ -117,12 +117,19 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
     this.listingRepository.getNextListings().subscribe((moreListings : boolean) => {
       if (moreListings) {
         this.setSliderControls();
+        loadScreen.classList.remove("active");
       } else {
         console.log(' No more listings! -> Need to make a message out of this! ')
+        loadScreen.classList.remove("active");
       }
       loadScreen.classList.remove("active");
     }, (error : Error) => {
+      console.log(error)
+      loadScreen.classList.remove("active");
+    }, () => {
+      loadScreen.classList.remove("active");
     });
+    loadScreen.classList.remove("active");
   }
 
   updateListingCounter() {

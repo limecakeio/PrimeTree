@@ -1,6 +1,3 @@
-.overlay::before {
-  transition: width 3s linear;
-}
 
 .listing-filter-content {
   color: #fff;
@@ -21,4 +18,8 @@
   text-align: right;
   padding: 5pt;
   cursor: pointer;
+}
+
+span.close-filter {
+  color: #fff;
 }

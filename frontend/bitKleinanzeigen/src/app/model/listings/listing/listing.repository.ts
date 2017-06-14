@@ -65,6 +65,7 @@ export class ListingRepository {
   /** Creates a ListingRequest out of the criterias and updates the listing array
    and the page with listings which match the filter criteria*/
   public applyFilter(filterCriteria : FilterCriteria) : void {
+    console.log('filter is appling')
     let listingRequest : ListingRequest = this.listingController.listingRequest();
     this.listingCount = 0;
 
@@ -82,6 +83,7 @@ export class ListingRepository {
       listingRequest.addListingType(listingType);
     });
     this.listingController.getActiveListings(listingRequest).subscribe((page : Page) => {
+      console.log('filter is applied')
       this.page = page;
       this.listings = []; // remove former listing pairs
       this.buildPairArraysFromPage(page);
@@ -114,7 +116,7 @@ export class ListingRepository {
 
     console.log(this.page.pageNumber + ' ' + this.page.pages, 'pages' + ' ' + this.state)
 
-    if (this.page.pageNumber <= this.page.pages && this.state === State.WAITING) {
+    if (this.page.pageNumber < this.page.pages && this.state === State.WAITING) {
       this.state = State.WORKING;
       console.log(this.page.pageNumber + ' ' + this.page.pages, 'pages')
       this.listingController.loadNewPageSite(this.page).subscribe((page : Page) => {

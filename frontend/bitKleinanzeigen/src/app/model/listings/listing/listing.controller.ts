@@ -324,6 +324,7 @@ export class ListingController {
   public getOwnListings() : Observable<Listing[]> {
     let networkRequest : NetworkRequest = this.networkService.networkRequest();
     networkRequest
+    .setHttpMethod(RequestMethod.Get)
     .addPath('listings')
     .addPath('own');
     return this.networkService.send(networkRequest).map((response : Response) => {
