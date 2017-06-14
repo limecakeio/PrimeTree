@@ -9,6 +9,7 @@ import { FavouriteDetailViewComponent } from './favourite/favourite.component';
 import { CallToActionDetailViewComponent } from './call-to-action/call-to-action.component';
 import { ImageDetailViewComponent } from './image/image.component';
 import { PriceDetailViewComponent } from './price/price.component';
+import { CloseDetailViewComponent } from './close/close.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { PriceDetailViewComponent } from './price/price.component';
     FavouriteDetailViewComponent,
     CallToActionDetailViewComponent,
     ImageDetailViewComponent,
-    PriceDetailViewComponent
+    PriceDetailViewComponent,
+    CloseDetailViewComponent
   ],
   exports: [
     SharedModule,
@@ -28,7 +30,8 @@ import { PriceDetailViewComponent } from './price/price.component';
     FavouriteDetailViewComponent,
     CallToActionDetailViewComponent,
     ImageDetailViewComponent,
-    PriceDetailViewComponent
+    PriceDetailViewComponent,
+    CloseDetailViewComponent
   ],
   imports: [
     SharedModule

@@ -1,3 +1,5 @@
 <div class="listing-detail-call-to-action" *ngIf="isDataAvailable">
-  <button class="btn btn-listing"><span [class]="listingIcon + ' icon'"></span> {{action}}</button>
+  <!-- <button class="btn btn-listing"><span [class]="listingIcon + ' icon'"></span> {{action}}</button> -->
+  <!-- <a [href]="'mailto:' + creator.eMail" [class]="listingIcon + ' icon'"></a>{{action}} -->
+  <button class="btn btn-listing" (click)="mailTo()"><span [class]="listingIcon + ' icon'"></span> {{action}}</button>
 </div>

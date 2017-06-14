@@ -34,4 +34,11 @@ export class CallToActionDetailViewComponent {
     });
   }
 
+  public mailTo() : void {
+    let a : HTMLAnchorElement = document.createElement('a');
+    a.href = 'mailto:' + this.creator.eMail + '?subject=Kaufanfrage für Artikel ' + this.model.id + " bei bIT Kleinanzeigen";
+    a.href += '&body=Hallo, ich möchte gerne Deinen Artikel: ' + this.model.title + ' ... von dir kaufen.'; 
+    a.click();
+  }
+
 }

@@ -83,6 +83,7 @@ export class ImageFormComponent {
   * We also allow the user to click and choose a file from their system
   */
   imageInput(event : any) {
+    console.log('asd')
     this.preloadImage(event.target.files[0]);
     let path : string = URL.createObjectURL(this.data.imageAsFile);
     let reader : FileReader = new FileReader();
@@ -97,7 +98,7 @@ export class ImageFormComponent {
   * @imageFile the file submitted by the uploader
   */
   private preloadImage(imageFile : File) : void {
-
+    this.data.imageAsFile = imageFile;
     /*GENERATE IMAGE PREVIEW*/
     let imageResult = new Image();
     imageResult.src = URL.createObjectURL(imageFile);
@@ -234,7 +235,8 @@ export class ImageFormComponent {
     // this.data.imageAsFile = canvas.toDataURL();
     canvas.toBlob((image : Blob) => {
       this.data.imageAsFile = image;
-    })
+      this.data.imageFileType = '.png';
+    }, 'image/png')
     // let image : File = new File(canvas.toDataURL(), 'main-image.png', "image/png")
     console.log("Final image result as base64", this.data.imageAsFile);
 

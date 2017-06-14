@@ -40,7 +40,7 @@ export class FilterGoogleMapsComponent implements AfterViewInit{
     /** Google maps needs a resize to display the map.*/
     this.messageService.getObservable().subscribe((message : Message) =>  {
       if (message.message === 'toggleListingFilter') {
-        google.maps.event.trigger(this.map, "resize");
+        this.loadGoogleMapsApi();
       }
     })
     // this.loadGoogleMapsApi();
@@ -48,13 +48,14 @@ export class FilterGoogleMapsComponent implements AfterViewInit{
   }
 
   ngAfterViewInit() : void {
-    console.log(this.filerMapElement)
-    this.loadGoogleMapsApi();
+    // console.log(this.filerMapElement)
+    // this.loadGoogleMapsApi();
   }
 
   /** Loads the google maps api files async and appeds the neccesarrily script tag to the body */
   public loadGoogleMapsApi() : void {
     if (typeof google !== 'undefined') {
+      this.initMap();
       return;
     }
     window['initMap'] = () => {
@@ -70,7 +71,7 @@ export class FilterGoogleMapsComponent implements AfterViewInit{
   public initMap() : void {
     this.map = new google.maps.Map(this.filerMapElement.nativeElement, {
       center: {lat: 50, lng: 10},
-      zoom: 8
+      zoom: 5
     });
 
     this.infowindow = new google.maps.InfoWindow();
@@ -117,18 +118,13 @@ export class FilterGoogleMapsComponent implements AfterViewInit{
          if (!found) {
            this.formService.model.location.push(location);
          }
+         google.maps.event.trigger(this.map, "resize");
          this.filterChanged.emit();
        })
-      //  this.markerWithTimeOut(marker , this.i*5000);
-       // WINinfo
-       console.log(listingCount + ' Inserate')
        var infowindow = new google.maps.InfoWindow({
          maxWidth: 600,
          content: listingCount + ' Inserate'
        });
-      //  infowindow.setOptions({maxWidth: 300})
-      // let infoDiv : Element = infowindow.getDiv();
-      // console.log(infoDiv)
        google.maps.event.trigger(this.map, "resize");
        infowindow.open(this.map,marker);
       } else {

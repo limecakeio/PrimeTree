@@ -93,6 +93,9 @@ listing-type containers*/
   content: "\e914";
   color: #8b8c8c;
 }
+.exit:before {
+  content: '\e91b';
+}
 .info:before {
   content: "\e915";
   color: #8b8c8c;

@@ -7,6 +7,7 @@ import { DetailViewService } from '../detail.service';
 import { ListingController } from '../../../model/listings/listing/listing.controller';
 import { Listing } from '../../../model/listings/listing/listing.model';
 import { UserService } from '../../../model/user/user.service';
+import { NetworkService } from '../../../network/network.service';
 
 @Component({
   selector: 'view-detail-description',
@@ -26,11 +27,17 @@ export class DescriptionDetailViewComponent {
   constructor(
     private detailViewService : DetailViewService,
     private listingController : ListingController,
-    public userService : UserService
+    public userService : UserService,
+    private networkService : NetworkService
   ) {
     this.detailViewService.getModel().subscribe((model : any) => {
       this.isDataAvailable = true;
       this.model = model;
+      this.model.comments.forEach((comment : any) => {
+          if (comment.userImage.indexOf('http') === -1) {
+            comment.userImage = this.networkService.getServerAddress() + comment.userImage;
+          }
+      });
       this.form.addControl('comment', new FormControl('comment', Validators.required));
     });
   }
@@ -46,8 +53,20 @@ export class DescriptionDetailViewComponent {
       this.commentText = '';
       this.listingController.getListing(this.model.id).subscribe((listing : Listing) => {
         this.model.comments = listing.comments;
+        this.model.comments.forEach((comment : any) => {
+            if (comment.userImage.indexOf('http') === -1) {
+              comment.userImage = this.networkService.getServerAddress() + comment.userImage;
+            }
+        });
       });
     });
+  }
+
+  public getTimeFromUnixTime(unixTime : number) : string {
+    let time : string = '';
+    let date : Date = new Date(unixTime);
+    time += date.getUTCDay() + "." + date.getMonth() + "." + date.getFullYear() + " um " + date.getUTCHours() + ":" + date.getUTCMinutes() + ":" + date.getUTCSeconds();
+    return time;
   }
 
 }
