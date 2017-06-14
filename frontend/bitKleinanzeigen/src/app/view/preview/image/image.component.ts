@@ -30,7 +30,7 @@ export class ImagePreviewViewComponent {
       this.model = model;
       //If we have an image set it
       if (this.model.mainImage) {
-        if (this.model.mainImage.indexOf(this.networkService.getServerAddress()) === -1) {
+        if (this.model.mainImage.indexOf('http') === -1) {
           this.model.mainImage = this.networkService.getServerAddress() + this.model.mainImage;
         }
         this.imagesrc = this.domSanitizer.bypassSecurityTrustStyle('url(' + this.model.mainImage + ')');

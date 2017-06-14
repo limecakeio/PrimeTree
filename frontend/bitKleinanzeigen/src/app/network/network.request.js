@@ -1,3 +1,4 @@
+"use strict";
 var NetworkRequest = (function () {
     function NetworkRequest() {
         this.protocol = 'http://';
@@ -134,5 +135,5 @@ var NetworkRequest = (function () {
     };
     return NetworkRequest;
 }());
-export { NetworkRequest };
+exports.NetworkRequest = NetworkRequest;
 //# sourceMappingURL=network.request.js.map

@@ -34,7 +34,7 @@ export class DescriptionDetailViewComponent {
       this.isDataAvailable = true;
       this.model = model;
       this.model.comments.forEach((comment : any) => {
-          if (comment.userImage.indexOf(this.networkService.getServerAddress()) === -1) {
+          if (comment.userImage.indexOf('http') === -1) {
             comment.userImage = this.networkService.getServerAddress() + comment.userImage;
           }
       });
@@ -54,7 +54,7 @@ export class DescriptionDetailViewComponent {
       this.listingController.getListing(this.model.id).subscribe((listing : Listing) => {
         this.model.comments = listing.comments;
         this.model.comments.forEach((comment : any) => {
-            if (comment.userImage.indexOf(this.networkService.getServerAddress()) === -1) {
+            if (comment.userImage.indexOf('http') === -1) {
               comment.userImage = this.networkService.getServerAddress() + comment.userImage;
             }
         });

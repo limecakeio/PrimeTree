@@ -1,27 +1,28 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { CanActivateUser } from './can-activate-user.model';
-import { AuthenticationComponent } from '../authentication/authentication.component';
-import { ListingOverviewViewportComponent } from '../model/listings/listing/preview/listing-overview-viewport.component';
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var can_activate_user_model_1 = require("./can-activate-user.model");
+var authentication_component_1 = require("../authentication/authentication.component");
+var listing_overview_viewport_component_1 = require("../model/listings/listing/preview/listing-overview-viewport.component");
 var routes = [
     {
         path: 'home',
-        component: ListingOverviewViewportComponent,
-        canActivate: [CanActivateUser]
+        component: listing_overview_viewport_component_1.ListingOverviewViewportComponent,
+        canActivate: [can_activate_user_model_1.CanActivateUser]
     }, {
         path: 'user/login',
-        component: AuthenticationComponent
+        component: authentication_component_1.AuthenticationComponent
     },
     {
         path: '',
-        component: ListingOverviewViewportComponent,
-        canActivate: [CanActivateUser]
+        component: listing_overview_viewport_component_1.ListingOverviewViewportComponent,
+        canActivate: [can_activate_user_model_1.CanActivateUser]
     }
 ];
 var RoutingModule = (function () {
@@ -30,11 +31,11 @@ var RoutingModule = (function () {
     return RoutingModule;
 }());
 RoutingModule = __decorate([
-    NgModule({
-        imports: [RouterModule.forRoot(routes)],
-        exports: [RouterModule],
-        providers: [CanActivateUser]
+    core_1.NgModule({
+        imports: [router_1.RouterModule.forRoot(routes)],
+        exports: [router_1.RouterModule],
+        providers: [can_activate_user_model_1.CanActivateUser]
     })
 ], RoutingModule);
-export { RoutingModule };
+exports.RoutingModule = RoutingModule;
 //# sourceMappingURL=routing.module.js.map

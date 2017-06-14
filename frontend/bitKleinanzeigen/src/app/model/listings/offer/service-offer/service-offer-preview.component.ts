@@ -14,8 +14,8 @@ import { PreviewService } from '../../../../view/preview/preview.service';
 @Component({
   selector: 'service-offer-preview',
   templateUrl: './service-offer-preview.component.html',
-  // styleUrls: [ '../../../listing/preview/listing-preview.component.css'], // JIT
-  styleUrls: [ '../../listing/preview/listing-preview.component.css'], // AOT
+  styleUrls: [ '../../../listing/preview/listing-preview.component.css'], // JIT
+  // styleUrls: [ '../../listing/preview/listing-preview.component.css'], // AOT
   providers: [
     PreviewService
   ]

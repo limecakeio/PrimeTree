@@ -28,7 +28,9 @@ export class CreatorDetailViewComponent {
       this.model = model;
       this.userController.getUser(this.model.creatorID).subscribe((employee : Employee) => {
         this.creator = employee;
-        this.creator.userImage = this.networkService.getServerAddress() + this.creator.userImage;
+        if (this.creator.userImage.indexOf('http') === -1) {
+          this.creator.userImage = this.networkService.getServerAddress() + this.creator.userImage;
+        }
         this.isDataAvailable = true;
       });
     });

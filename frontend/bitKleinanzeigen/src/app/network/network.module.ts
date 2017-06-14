@@ -11,7 +11,7 @@ import { RESTNetworkService } from './rest-network.service';
   providers: [
     {
       provide: NetworkService,
-      useClass: RESTNetworkService
+      useClass: MockNetworkService
     }
   ],
   exports: [ HttpModule ]
