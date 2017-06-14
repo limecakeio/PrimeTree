@@ -13,7 +13,7 @@ export class ListingsImageController {
     private networkService : NetworkService
   ) {  }
 
-  public listingMainImageUpload(listingId : number, file : File) : Observable<void> {
+  public listingMainImageUpload(listingId : number, file : File, fileType ? : string) : Observable<void> {
     let formData : FormData = new FormData();
     formData.append('file', file);
     let networkRequest : NetworkRequest = this.networkService.networkRequest();
@@ -24,6 +24,9 @@ export class ListingsImageController {
     .addPath('main-image')
     .addPath('' + listingId)
     .setBody(formData);
+    if (fileType) {
+      networkRequest.addHeader('fileType', fileType);
+    }
     return this.networkService.send(networkRequest).map((response : Response) => {
       if (response.status === 201) {
         return;

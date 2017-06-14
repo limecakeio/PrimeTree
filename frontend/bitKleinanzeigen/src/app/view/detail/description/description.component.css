@@ -23,3 +23,56 @@ h2.toggle-title.collapsed span:after {
 .listing-description p {
   padding-left: 11pt;
 }
+
+/**STYLING FOR COMMENTS*/
+.listing-comments {
+  margin-bottom: 1em;
+}
+
+.comment {
+  border: 1px solid #ccc;
+  background-color: rgba(242, 244, 243, 1);
+  margin-bottom: 5pt;
+}
+
+.comment-image-column {
+  text-align: center;
+}
+.comment-image-column img {
+  width:80%;
+  height: auto;
+}
+
+.comment-column {
+  padding: 5pt;
+}
+
+.comment-message-column {
+  position: relative;
+}
+
+.comment-message-column p {
+  color: #666769;
+  margin:0;
+}
+
+.comment-info p {
+  font-size:10px;
+}
+
+.comment-delete {
+  color: transparent;
+  cursor: pointer;
+  position: absolute;
+  top:5px;
+  right: 5px;
+  transition: color 0.15s linear;
+}
+.comment-message-column:hover .comment-delete {
+  color: #E5143F;
+}
+
+.listing-submit-comment textarea {
+  width:100%;
+  color: #666769;
+}

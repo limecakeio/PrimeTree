@@ -42,7 +42,7 @@ export class MockServer {
       password: '123'
     }, {
       userID: 1,
-      userImage: 'assets/images/bit-ka-logo.png',
+      userImage: 'http://vignette1.wikia.nocookie.net/ozwikia/images/b/b7/Aileen_Quinn_as_Annie.jpg',
       firstName: 'Anne',
       lastName: 'Kessler',
       isAdmin: false,
@@ -76,7 +76,7 @@ export class MockServer {
       commentID : 1,
       createDate : new Date().getTime(),
       message: 'Würd ich nicht kaufen!',
-      userImage : 'assets/images/bit-ka-logo.png'
+      userImage : 'https://pbs.twimg.com/profile_images/839900475205955585/FMzXSOkV.jpg'
     }],
     createDate: 1495804073888,
     description: 'My moneys in that office, right? If she start giving me some bullshit about it aint there, and we got to go someplace else and get it, Im gonna shoot you in the head then and there. Then Im gonna shoot that bitch in the kneecaps, find out where my goddamn money is. She gonna tell me too. Hey, look at me when Im talking to you, motherfucker. You listen: we go in there, and that Winston or anybody else is in there, you the first motherfucker to get shot. You understand?',
@@ -348,7 +348,7 @@ export class MockServer {
       userID : this.getActiveUserID(),
       createDate : networkRequest.getBody().createDate,
       message : networkRequest.getBody().message,
-      userImage : this.users.find(user => user[1].id === this.getActiveUserID())
+      userImage : this.users.find(user => user[1].userID === this.getActiveUserID())[1].userImage
     });
     responseOptions.status = 201;
     return responseOptions;

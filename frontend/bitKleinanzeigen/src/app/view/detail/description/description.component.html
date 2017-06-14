@@ -8,38 +8,45 @@
 
   <div class="listing-detail-comments">
     <h2 data-toggle="collapse" data-target="#listing-comments" class="toggle-title collapsed">Kommentare <span class="glyphicon"></span></h2>
-<<<<<<< HEAD
-    <div class="listing-comments collapse"  id="listing-comments">
-      <div class="listing-detail-comment" *ngFor="let comment of model.comments">
-        <div class="comment">
-          <p>{{comment.message}}</p>
-        </div>
-      </div>
-=======
     <div class="listing-comments collapse"  id="listing-comments" [formGroup]="form">
       <div class="listing-detail-comment" *ngFor="let comment of model.comments">
-        <div class="comment">
-          <p>{{comment.message}}</p>
-          <button
-          type="button"
-          name="button"
-          (click)="removeComment(comment.commentID)"
-          *ngIf="comment.userID === userService.userInformation.userID"
-          >Löschen</button>
+        <div class="comment container-fluid">
+          <div class="row">
+            <div class="col-xs-2 comment-column comment-image-column">
+              <img src="{{comment.userImage}}" />
+            </div>
+            <div class="col-xs-10 comment-column comment-message-column">
+              <div class="comment-info">
+                <p>Am {{getTimeFromUnixTime(comment.createDate)}}: </p>
+                <!-- <p>{{user.firstName}} schrieb:</p> -->
+              </div>
+              <p>{{comment.message}}</p>
+              <span
+              class="icon exit comment-delete"
+              title="Kommentar löschen"
+              (click)="removeComment(comment.commentId)"
+              *ngIf="comment.userID === userService.userInformation.userID"></span>
+            </div>
+          </div>
         </div>
       </div>
-      <textarea
-      name="name"
-      rows="1"
-      cols="80"
-      [(ngModel)]="commentText"
-      formControlName="comment"
-      ></textarea>
-      <button
-      type="button"
-      name="button"
-      (click)="addCommment()"
-      [disabled]="commentText.length === 0">Kommentar erstellen</button>
->>>>>>> 5beb1f29b94937703214acab29b53af2d93a0bdb
+      <div class="listing-submit-comment">
+        <textarea
+        name="name"
+        rows="3"
+        [(ngModel)]="commentText"
+        formControlName="comment"
+        placeholder="Gebe ein Kommentar ein"
+        ></textarea>
+        <button
+        type="button"
+        name="button"
+        class="btn btn-listing"
+        (click)="addCommment()"
+        [disabled]="commentText.length === 0">
+        <span class="icon send"></span> Abschicken
+      </button>
+      </div>
+
     </div>
   </div>

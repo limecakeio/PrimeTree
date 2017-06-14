@@ -30,10 +30,7 @@
   display:flex;
   align-items: center;
   overflow: hidden;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  top: 65pt;
+  position: relative;
 }
 
 .listing-scroll-container { /**Required to hide scroll-bar*/
@@ -162,8 +159,23 @@ display:none;
   .listing-filter.overlay {
     width: 85%;
   }
-
 }
+
+@media (min-width: 480px) and (min-height: 768px) {
+  .listing {
+    display:block;
+  }
+}
+
+@media (min-width: 768px) {
+  .listing-viewport {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    top: 75pt;
+  }
+}
+
 @media (min-width: 768px) and (min-height: 768px)  { /*Large Tablet*/
   .listing {
     display:block;

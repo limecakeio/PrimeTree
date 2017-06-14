@@ -114,7 +114,8 @@ export class FilterListComponent  implements OnChanges {
     let found : boolean = false;
     let value : string;
     for (let i = 0; i < this.filterList.length && !found; i++) {
-      if (this.filterList[i].displayText === name) {
+      // if (this.filterList[i].displayText === name) {
+      if (name.indexOf(this.filterList[i].displayText) > -1) {
         found = true;
         value = this.filterList[i].value;
       }

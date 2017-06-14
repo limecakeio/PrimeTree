@@ -4,6 +4,7 @@
 
 .listing-detail-header {
   padding: 5pt 0;
+  position: relative;
 }
 
 .listing-detail-header h1 {
