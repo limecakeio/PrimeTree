@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { UserService } from '../user.service';
 import { ListingController } from '../../listings/listing/listing.controller';
 import { Listing } from '../../listings/listing/listing.model';
 import { ListingRepository } from '../../listings/listing/listing.repository';
+
+import { MessageService } from '../../../shared/message.service';
 
 @Component({
   selector: 'user-profil',
@@ -16,7 +19,9 @@ export class UserProfilComponent implements OnInit {
   constructor(
     public userService : UserService,
     private listingController : ListingController,
-    private listingRepository : ListingRepository
+    private listingRepository : ListingRepository,
+    private router : Router,
+    private messageService : MessageService
   ) {  }
 
   ngOnInit() : void {
@@ -50,9 +55,19 @@ export class UserProfilComponent implements OnInit {
           this.ownListings.splice(i, 1);
         }
       }
-      console.log(found)
       if (found) {
         this.listingRepository.update();
+      }
+    });
+  }
+
+  public changeListing(listingID : number) {
+    this.router.navigate(['listing', 'edit', listingID]).then((fulfilled : boolean) => {
+      if (fulfilled) {
+        this.messageService.sendMessage({
+          message : 'ListingEditOverlay',
+          payload: 'show'
+        })
       }
     });
   }

@@ -5,6 +5,8 @@ import { ListingFactory } from './listing.factory';
 import { ListingPreviewComponent } from './preview/listing-preview.component';
 import { ListingComponent } from './detail/listing.component';
 import { ListingCreateFormComponent } from './create/listing-create-form.component';
+import { ListingFormComponent } from './form/listing-form.component';
+import { Listing } from './listing.model';
 
 export class ListingDescriptorHandler {
 
@@ -22,22 +24,31 @@ export class ListingDescriptorHandler {
   }
 
 /**Returns a listing factory which is used to create a detailed listing object*/
-  public findListingFactoryFromListingType(listingType : string) : ListingFactory {
-    return this.findListingDescriptorFromListingType(listingType).listingFactory();
+  public getListingFactoryFromListingType(listingType : string) : ListingFactory {
+    return this.findListingDescriptorFromListingType(listingType).getListingFactory();
   }
 
 /**Returns the type */
-  public findListingPreviewComponentTypeFromListingType(listingType : string) : Type<ListingPreviewComponent> {
-    return this.findListingDescriptorFromListingType(listingType).listingPreviewComponentType();
+  public getListingPreviewComponentTypeFromListingType(listingType : string) : Type<ListingPreviewComponent> {
+    return this.findListingDescriptorFromListingType(listingType).getListingPreviewComponentTypeClassName();
   }
 
-  public findListingCreateFormComponentTypeFromLisitingType(listingType : string) : Type<ListingCreateFormComponent> {
-    return this.findListingDescriptorFromListingType(listingType).listingCreateForm();
+  public getListingCreateFormComponentTypeFromLisitingType(listingType : string) : Type<ListingCreateFormComponent> {
+    return this.findListingDescriptorFromListingType(listingType).getListingCreateFormComponentTypeClassName();
+  }
+
+  public getListingFormComponentTypeFromLisitingType(listingType : string) : Type<ListingFormComponent> {
+    return this.findListingDescriptorFromListingType(listingType).getListingFormComponentTypeClassName();
   }
 
   /**Attempts to match and return a listingComponentType based on a listing type*/
   public getListingComponentTypeFromListingType(listingType : string) : Type<ListingComponent> {
     return this.findListingDescriptorFromListingType(listingType).getListingComponentTypeClassName();
+  }
+
+
+  public getListingFromListingType(listingType : string) : Listing {
+    return this.findListingDescriptorFromListingType(listingType).getListing();
   }
 
   /**
@@ -46,7 +57,7 @@ export class ListingDescriptorHandler {
    */
   private findListingDescriptorFromListingType(listingType : string) : ListingDescriptor {
     for (let i = 0; i < this.listingsDescriptors.length; i++) {
-      if (this.listingsDescriptors[i].listingType() === listingType) {
+      if (this.listingsDescriptors[i].getListingType() === listingType) {
         return this.listingsDescriptors[i];
       }
     }
@@ -57,7 +68,7 @@ export class ListingDescriptorHandler {
   public getAllListingPreviewComponentTypes() : Type<ListingPreviewComponent>[] {
     let listingPreviewComponentTypes : Type<ListingPreviewComponent>[] = [];
     this.listingsDescriptors.forEach((listingsDescriptor : ListingDescriptor) => {
-      listingPreviewComponentTypes.push(listingsDescriptor.listingPreviewComponentType());
+      listingPreviewComponentTypes.push(listingsDescriptor.getListingPreviewComponentTypeClassName());
     });
     return listingPreviewComponentTypes;
   }
@@ -70,10 +81,10 @@ export class ListingDescriptorHandler {
     return listingComponentTypes;
   }
 
-  public getAllListingCreateFormComponentTypes() : Type<ListingCreateFormComponent>[] {
+  public getAllListingCreateComponentTypes() : Type<ListingCreateFormComponent>[] {
     let listingCreateFormComponentType : Type<ListingCreateFormComponent>[] = [];
     this.listingsDescriptors.forEach((listingsDescriptor : ListingDescriptor) => {
-      listingCreateFormComponentType.push(listingsDescriptor.listingCreateForm());
+      listingCreateFormComponentType.push(listingsDescriptor.getListingCreateFormComponentTypeClassName());
     });
     return listingCreateFormComponentType;
   }
@@ -82,8 +93,8 @@ export class ListingDescriptorHandler {
     let componentTypes : Type<any>[] = [];
     this.listingsDescriptors.forEach((listingDescriptor : ListingDescriptor) => {
       componentTypes.push(
-        listingDescriptor.listingCreateForm(),
-        listingDescriptor.listingPreviewComponentType(),
+        listingDescriptor.getListingFormComponentTypeClassName(),
+        listingDescriptor.getListingPreviewComponentTypeClassName(),
         listingDescriptor.getListingComponentTypeClassName()
       );
     });

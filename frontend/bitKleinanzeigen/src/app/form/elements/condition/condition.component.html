@@ -1,4 +1,4 @@
-<div [formGroup]="form">
+<div [formGroup]="form" *ngIf="isModelAvailable">
   <div class="input-group">
     <span class="condition-background">Zustand </span>
     <select
@@ -8,8 +8,9 @@
     [(ngModel)]="model.condition"
     formControlName="condition"
     >
-      <option value="New">Neu</option>
-      <option value="Used">Gebraucht</option>
+      <!-- <option value="New">Neu</option>
+      <option value="Used">Gebraucht</option> -->
+      <option [value]="conditionOption.value" *ngFor="let conditionOption of conditionOptions">{{conditionOption.name}}</option>
     </select>
   </div>
 </div>

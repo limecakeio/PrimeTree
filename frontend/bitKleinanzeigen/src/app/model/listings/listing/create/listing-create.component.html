@@ -1,5 +1,40 @@
-<listing-create-form-placeholder
+<div class="listing-create-kind-choose" *ngIf="listingKind.length === 0">
+  <div class="listing-create-kind-offer" (click)="setListingKind('offer')">
+    ANGEBOT
+  </div>
+  <div class="listing-create-kind-request" (click)="setListingKind('kind')">
+    GESUCH
+  </div>
+</div>
+<div class="listing-create-type-choose" *ngIf="listingKind.length > 0 &&  listingType.length === 0">
+  <div class="listing-create-type-offer-choose" *ngIf="listingKind === 'offer'">
+    <div class="listing-create-type-offer-sale-offer" (click)="setListingType('SaleOffer')">
+      Gegenstandsangebot
+    </div>
+    <div class="listing-create-type-offer-ride-share-request" (click)="setListingType('RideShareOffer')">
+      Mitfahrgelegenheitsangebot
+    </div>
+    <div class="listing-create-type-offer-service-offer" (click)="setListingType('ServiceOffer')">
+      Dienstleistungsangebot
+    </div>
+  </div>
+  <div class="listing-create-type-offer-choose" *ngIf="listingKind === 'request'">
+    <div class="listing-create-type-request-sale-offer" (click)="setListingType('SaleOffer')">
+      Gegenstandsgesuch
+    </div>
+  </div>
+</div>
+<!--  *ngIf="listingType && listing"-->
+<!-- <listing-create-form-placeholder *ngIf="listingType"
   (listingcreated)="submitListing($event)"
   [listingType]="listingType"
   (updateRepository)="updateRepository()"
-></listing-create-form-placeholder>
+></listing-create-form-placeholder> -->
+<listing-form-placeholder
+  *ngIf="listingType.length > 0"
+  (listingSubmit)="submitListing($event)"
+  (updateRepository)="updateRepository()"
+  (closeForm)="closeForm()"
+  (returnForm)="returnForm()"
+  [listingType]="listingType"
+></listing-form-placeholder>

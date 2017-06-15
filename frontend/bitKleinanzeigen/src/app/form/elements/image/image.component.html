@@ -1,47 +1,69 @@
-<div [formGroup]="form">
-  <div class="input-group main-image-upload-container" id="main-image-upload">
-    <div class="image-box">
-      <input id="image-input" type="file" name="file" class="image-box-input" accept="image/*" (change)="imageInput($event)">
-      <div
-      class="image-input-container active"
-      #imageInputContainer>
+<div class="main-image-wrapper">
+  <div [formGroup]="form">
+    <div class="input-group main-image-upload-container" id="main-image-upload">
+      <div class="image-box">
+        <input id="image-input" type="file" name="file" class="image-box-input" accept="image/*" (change)="imageInput($event)">
+        <div
+        class="image-input-container active"
+        #imageInputContainer>
         <label for="image-input" id="image-dropper">
           <span class="glyphicon glyphicon-camera"></span>
           <p>Hier klicken oder Bild ablegen.</p>
-        </label>
-      </div>
+          <div class="image-input-notice">
+            <ul>
+              <li>Bild muss mindestens {{minImageWidth}}px breit und {{minImageHeight}}px hoch sein.</li>
+              <li>Erlaubte Dateitypen: <span *ngFor="let type of validFileTypes; let isLast">
+                {{type}}{{isLast ? '' : ', '}}
+              </span>
+            </li>
+          </ul>
+        </div>
+      </label>
     </div>
   </div>
-  <!-- LOADING PREVIEW HERE -->
-  <div class="result-image-container">
-    <div id="file-input-image"
-    class="result-image"
-    [style.backgroundSize] = "backgroundImgSize"
-    [style.backgroundPositionX.px] = "imgPosX"
-    [style.backgroundPositionY.px] = "imgPosY"
-    [style.height.px] = "resultImageContainerHeight"
-    #resultImage>
-    <div id="crop-container" class="cropper"></div>
+</div>
+<!-- LOADING PREVIEW HERE -->
+<div class="result-image-container">
+
+  <div class="result-image"
+  [style.backgroundSize] = "backgroundImgSize"
+  [style.backgroundPositionX.px] = "imgPosX"
+  [style.backgroundPositionY.px] = "imgPosY"
+  [style.height.px] = "resultImageContainerHeight"
+  #resultImage>
+  <div class="remove-image-container" (click)="removeImage()">
+    <span class="icon exit"></span> Abbrechen
   </div>
   <div class="image-controls-wrapper">
     <div id="zoom-container" class="zoomer">
-      <input type="range" id="zoom-range" (change)="zoomImage()" (input)="zoomImage()" />
+      <input type="range" id="zoom-range" (change)="zoomImage()" (input)="zoomImage()" #zoomRange />
     </div>
     <div id="positioning-container" class="positions-container">
       <ul class="positons">
-        <li><span class="glyphicon glyphicon-circle-arrow-up" (click)="moveImage('up')" title="Bild hoch bewegen."></span></li>
-        <li><span class="glyphicon glyphicon-circle-arrow-down" (click)="moveImage('down')" title="Bild runter bewegen."></span></li>
-        <li><span class="glyphicon glyphicon-circle-arrow-left" (click)="moveImage('left')" title="Bild links bewegen."></span></li>
-        <li><span class="glyphicon glyphicon-circle-arrow-right" (click)="moveImage('right')" title="Bild rechts bewegen."></span></li>
-        <li><span (click)="captureImage()">Capture</span>
-        </ul>
-      </div>
-      <div id="reset-image-container" class="reset-image-position">
-        <span class="glyphicon glyphicon-refresh" (click)="resetImagePosition()" title="Bildposition zurücksetzen."></span>
-      </div>
-      <div class="remove-image-container">
-        <span class="glyphicon glyphicon-trash" (click)="removeImage()" title="Bild entfernen."></span>
-      </div>
+        <li><span class="glyphicon glyphicon-circle-arrow-up" (click)="moveImage('up')" (mousedown)="moveImage('up')" title="Bild nach oben bewegen."></span></li>
+        <li><span class="glyphicon glyphicon-circle-arrow-down" (click)="moveImage('down')" title="Bild nach unten bewegen."></span></li>
+        <li><span class="glyphicon glyphicon-circle-arrow-left" (click)="moveImage('left')" title="Bild nach links bewegen."></span></li>
+        <li><span class="glyphicon glyphicon-circle-arrow-right" (click)="moveImage('right')" title="Bild nach rechts bewegen."></span></li>
+      </ul>
+    </div>
+    <div id="reset-image-container" class="reset-image-position">
+      <span class="glyphicon glyphicon-refresh" (click)="resetImagePosition()" title="Bildposition zurücksetzen."></span>
     </div>
   </div>
+  <button type="button" class="btn btn-listing" (click)="captureImage()">Bild Speichern</button>
+</div>
+
+
+<div class="final-image-container container" #finalImageContainer>
+  <div class="row">
+    <div class="col-sm-12 final-image-image">
+      <img #finalImage />
+    </div>
+    <div class="col-sm-12 final-image-remove">
+      <button type="button" class="btn btn-listing" (click)="removeImage()"><span class="glyphicons glyphicons-trash"></span> Bild löschen</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
 </div>

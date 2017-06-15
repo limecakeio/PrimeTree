@@ -1,0 +1,31 @@
+<form
+id="listing-create-sellitem-form"
+novalidate
+[formGroup]="form"
+(ngSubmit)="submit()" class="listing-form">
+
+<div class="form-title">
+  <h1>Inserat {{formStateText}}: Biete / Verkauf</h1>
+  <div class="form-title-controls">
+    <div class="navigation back" title="Zurück" (click)="returnForm()"></div>
+    <div class="navigation exit" title="Abbrechen" (click)="closeForm()"></div>
+  </div>
+</div>
+
+<div class="form-group">
+  <form-element-image></form-element-image>
+  <form-element-title></form-element-title>
+  <form-element-description></form-element-description>
+  <form-element-price></form-element-price>
+  <form-element-condition></form-element-condition>
+  <form-element-expiry-date></form-element-expiry-date>
+  <button
+  type="button"
+  name="button"
+  (click) = "submit()"
+  class="btn btn-primary"
+  [disabled]="form.invalid">
+  Verkaufsinserat {{formStateText}}
+</button>
+</div>
+</form>

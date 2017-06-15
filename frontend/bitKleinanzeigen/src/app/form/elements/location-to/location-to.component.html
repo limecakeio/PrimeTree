@@ -1,0 +1,10 @@
+<div [formGroup]="form" *ngIf="isModelAvailable">
+  <div class="input-group">
+    <input type="text"
+    name="toLocation"
+    [(ngModel)]="model.toLocation"
+    formControlName="toLocation"
+    class="form-control"
+    aria-label="Zielort" placeholder="Zielort der Reise">
+  </div>
+</div>

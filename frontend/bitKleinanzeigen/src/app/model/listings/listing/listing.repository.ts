@@ -137,7 +137,6 @@ export class ListingRepository {
   }
 
   private buildPairArraysFromPage(page : Page) {
-    console.log('buildPairArraysFromPage')
     let i = 0;
     let pairArray : Listing[] = [];
     page.listings.forEach((listing : Listing) => {

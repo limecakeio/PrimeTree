@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { FormService } from '../../forms.service';
+import { FormContextService } from '../../form-context.service';
 
 /**
  * Provides templates and models for adding a description to a listing.
@@ -12,20 +12,25 @@ import { FormService } from '../../forms.service';
 })
 export class DescriptionFormComponent {
 
-  form : FormGroup;
+  public isModelAvailable : boolean = false;
 
-  model : any;
+  public form : FormGroup;
 
-  data : any;
+  public model : any;
 
-  constructor(private formService : FormService) {
-    this.model = this.formService.model;
-    this.data = this.formService.data;
-    this.form = this.formService.form;
-    if (!this.model.description) {
-      this.model.description = null;
-    }
-    this.form.addControl('description', new FormControl('description', Validators.required));
+  private data : any;
+
+  constructor(private formContextService : FormContextService) {
+    this.data = this.formContextService.data;
+    this.form = this.formContextService.form;
+    this.formContextService.getContext().subscribe(() => {
+      this.model = this.formContextService.model;
+      if (!this.model.description) {
+        this.model.description = '';
+      }
+      this.form.addControl('description', new FormControl('description', Validators.required));
+      this.isModelAvailable = true;
+    })
   }
 
 }

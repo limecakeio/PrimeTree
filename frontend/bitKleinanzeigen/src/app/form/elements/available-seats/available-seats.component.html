@@ -1,0 +1,10 @@
+<div [formGroup]="form" *ngIf="isModelAvailable">
+  <div class="input-group">
+    <input type="number"
+    name="availableSeats"
+    [(ngModel)]="model.availableSeats"
+    formControlName="availableSeats"
+    class="form-control"
+    aria-label="VerfügbareSitzplätze" placeholder="Anzahl der zur Verfügung stehenden Sitzplätze">
+  </div>
+</div>

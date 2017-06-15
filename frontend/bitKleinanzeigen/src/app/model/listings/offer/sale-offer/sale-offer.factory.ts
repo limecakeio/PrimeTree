@@ -21,7 +21,6 @@ export class SaleOfferFactory extends ListingFactory {
       }
       return true;
     }
-    console.log(body, super.checkProperties(body));
     return false;
   }
 

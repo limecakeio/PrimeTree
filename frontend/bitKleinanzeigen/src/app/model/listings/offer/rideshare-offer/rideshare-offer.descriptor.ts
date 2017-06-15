@@ -4,27 +4,38 @@ import { ListingDescriptor } from '../../listing/listing.descriptor';
 import { ListingPreviewComponent } from '../../listing/preview/listing-preview.component';
 import { ListingCreateFormComponent } from '../../listing/create/listing-create-form.component';
 import { ListingComponent } from '../../listing/detail/listing.component';
+import { ListingFormComponent } from '../../listing/form/listing-form.component';
 
 import { RideShareOfferCreateFormComponent } from './rideshare-offer-create-form.component';
 import { RideShareOfferComponent } from './rideshare-offer.component';
 import { RideShareOfferPreviewComponent } from './rideshare-offer-preview.component';
 import { RideShareOfferFactory } from './rideshare-offer.factory';
+import { RideShareOffer } from './rideshare-offer.model';
+import { RideshareOfferFormComponent } from './rideshare-offer-form.component';
 
 export class RideShareOfferDescriptor extends ListingDescriptor {
 
-  public listingPreviewComponentType() : Type<ListingPreviewComponent> {
+  public getListing() : RideShareOffer {
+    return new RideShareOffer();
+  }
+
+  public getListingPreviewComponentTypeClassName() : Type<ListingPreviewComponent> {
     return RideShareOfferPreviewComponent;
   }
 
-  public listingType() : string {
+  public getListingFormComponentTypeClassName() : Type<ListingFormComponent> {
+    return RideshareOfferFormComponent;
+  }
+
+  public getListingType() : string {
     return 'RideShareOffer';
   }
 
-  public listingCreateForm() : Type<ListingCreateFormComponent> {
+  public getListingCreateFormComponentTypeClassName() : Type<ListingCreateFormComponent> {
     return RideShareOfferCreateFormComponent;
   }
 
-  public listingFactory() : RideShareOfferFactory {
+  public getListingFactory() : RideShareOfferFactory {
     return new RideShareOfferFactory('SaleOffer');
   }
 
@@ -33,3 +44,5 @@ export class RideShareOfferDescriptor extends ListingDescriptor {
   }
 
 }
+
+export { RideShareOfferPreviewComponent, RideShareOfferComponent,  RideShareOfferCreateFormComponent, RideshareOfferFormComponent}
