@@ -86,25 +86,29 @@ export class ImageFormComponent {
     let imageResult = new Image();
     imageResult.src = path;
 
-    let ImageComponent : ImageFormComponent = this; //Binding this to async method
+    let ImageComponent : ImageFormComponent = this; //Binding "this" to async method
+
     imageResult.onload = function() {
       /**Save the image*/
       ImageComponent.imageElement = imageResult;
       /*Set the images dimensions*/
       ImageComponent.imgWidth = imageResult.width;
       ImageComponent.imgHeight = imageResult.height;
+
+      ImageComponent.validateImageDimensions();
+
       /*Set the image's ratio*/
       ImageComponent.imgRatio = imageResult.height / imageResult.width;
 
       /*Hide the image upload*/
-      let imageInputContainer = document.querySelector(".image-input-container");
-      imageInputContainer.classList.remove("active");
+      ImageComponent.imageInputContainer.nativeElement.classList.remove("active");
+
       /*Show the image preview - HAVE TO DO THIS FIRST TO GRAB CONTAINER DIMENSIONS LATER*/
-      let resultImageContainer = document.querySelector(".result-image-container");
-      resultImageContainer.classList.add("active");
+      ImageComponent.resultImage.nativeElement.classList.add("active");
+
       ImageComponent.setImageContainerDimensions();
       /*Inject image into preview as a background image*/
-      ImageComponent.imagePreviewContainer.style.backgroundImage = "url('" + imageResult.src + "')";
+      ImageComponent.resultImage.nativeElement.style.backgroundImage = "url('" + imageResult.src + "')";
       ImageComponent.setDimensionsAndZoomer();
     }
   }

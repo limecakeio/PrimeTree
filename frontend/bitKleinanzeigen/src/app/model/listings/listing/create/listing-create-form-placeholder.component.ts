@@ -15,7 +15,7 @@ import {
 
 import { ListingCreateFormComponent } from './listing-create-form.component';
 import { Listing } from '../listing.model';
-import { ListingFormEventModel } from './listing-create.component';
+// import { ListingFormEventModel } from './listing-create.component';
 import { ListingInformationService } from '../../listings-information.service';
 
 @Component({
@@ -24,7 +24,7 @@ import { ListingInformationService } from '../../listings-information.service';
 })
 export class ListingCreateFormPlaceholderComponent implements OnChanges {
 
-  @Output() listingcreated : EventEmitter<ListingFormEventModel> = new EventEmitter<ListingFormEventModel>();
+  // @Output() listingcreated : EventEmitter<ListingFormEventModel> = new EventEmitter<ListingFormEventModel>();
 
   @Output() updateRepository : EventEmitter<void> = new EventEmitter<void>();
 
@@ -93,9 +93,9 @@ export class ListingCreateFormPlaceholderComponent implements OnChanges {
       this.updateRepository.emit();
     });
 
-    componentRef.instance.listingFormCreateFinished.subscribe((listingFormEventModel : ListingFormEventModel) => {
-      this.listingcreated.emit(listingFormEventModel);
-    });
+    // componentRef.instance.listingFormCreateFinished.subscribe((listingFormEventModel : ListingFormEventModel) => {
+    //   this.listingcreated.emit(listingFormEventModel);
+    // });
   }
 
 }

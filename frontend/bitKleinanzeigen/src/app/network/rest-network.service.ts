@@ -68,7 +68,7 @@ export class RESTNetworkService extends NetworkService {
     let request : NetworkRequest = new NetworkRequest();
     request.setHostname(this.hostname)
     .setPort(8080)
-    // .addPath('bitServer');
+    .addPath('bitServer');
     return request;
   }
 
