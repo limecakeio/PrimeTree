@@ -57,7 +57,7 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
   }
 
   public findListingPreviewComponentTypeFromListingType(listingType : string) : Type<ListingPreviewComponent> {
-    return this.listingDescriptorHandler.findListingPreviewComponentTypeFromListingType(listingType);
+    return this.listingDescriptorHandler.getListingPreviewComponentTypeFromListingType(listingType);
   }
 
   constructor(

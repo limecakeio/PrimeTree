@@ -8,6 +8,12 @@ import { NetworkRequest } from './network.request';
 @Injectable()
 export class RESTNetworkService extends NetworkService {
 
+  private protocol : string = 'http';
+  private hostname : string = '141.19.145.176';
+  private port : number = 8080;
+  private basePath : string = 'bitServer';
+
+
   constructor(
     private http : Http
   ) {
@@ -60,14 +66,14 @@ export class RESTNetworkService extends NetworkService {
    */
   public networkRequest() : NetworkRequest {
     let request : NetworkRequest = new NetworkRequest();
-    request.setHostname('141.19.152.37')
+    request.setHostname(this.hostname)
     .setPort(8080)
     // .addPath('bitServer');
     return request;
   }
 
   public getServerAddress() : string {
-    return 'http://141.19.152.37:8080/';
+    return this.protocol + './/' + this.hostname + ':' + this.port + '/' + this.basePath;
   }
 
 

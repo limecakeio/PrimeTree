@@ -49,12 +49,6 @@ export class FilterCheckboxComponent implements OnChanges {
     // event.preventDefault();
     // event.stopPropagation();
     let checkboxStatus : boolean = this.filterValueChecked;
-    console.log(
-      this.filterPropertyValue,
-      this.filterValueChecked,
-      this.data[this.filterPropertyName + 'FilterCheckboxChecked'],
-      checkboxStatus
-    )
     if (this.filterValueChecked) {
       this.filterValueChecked = false;
       this.data[this.filterPropertyName + 'FilterCheckboxChecked'] = false;
@@ -68,12 +62,6 @@ export class FilterCheckboxComponent implements OnChanges {
         checkboxStatus = true;
       }
     }
-    console.log(
-      this.filterPropertyValue,
-      this.filterValueChecked,
-      this.data[this.filterPropertyName + 'FilterCheckboxChecked'],
-      checkboxStatus
-    )
     return !checkboxStatus;
   }
 

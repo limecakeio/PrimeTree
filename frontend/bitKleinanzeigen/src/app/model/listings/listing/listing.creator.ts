@@ -30,7 +30,7 @@ export class ListingCreator {
     let message : string;
     if (typeof body === 'object' && body.hasOwnProperty('type')) {
       // let factory : ListingFactory = this.getListingFactory(body.type);
-      let listingFactory : ListingFactory = this.listingDescriptorHandler.findListingFactoryFromListingType(body.type);
+      let listingFactory : ListingFactory = this.listingDescriptorHandler.getListingFactoryFromListingType(body.type);
       if (listingFactory !== null) {
         return listingFactory.createListing(body);
       } else {

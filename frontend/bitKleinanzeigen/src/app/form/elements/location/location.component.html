@@ -1,4 +1,4 @@
-<div [formGroup]="form" *ngIf="isDataAvailable">
+<!-- <div [formGroup]="form" *ngIf="isDataAvailable">
   <div class="input-group">
     <input
     [type]="locationPropertyName"
@@ -7,6 +7,18 @@
     [formControlName]="locationPropertyName"
     class="form-control"
     [placeholder]="labelText"
+    >
+  </div>
+</div> -->
+<div [formGroup]="form" *ngIf="isModelAvailable">
+  <div class="input-group">
+    <input
+    type="text"
+    [name]="locationProperty"
+    [(ngModel)]="'model.' + locationProperty"
+    [formControlName]="locationProperty"
+    class="form-control"
+    [placeholder]="locationDisplay"
     >
   </div>
 </div>

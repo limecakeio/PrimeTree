@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { FormService } from '../../forms.service';
+import { FormContextService } from '../../form-context.service';
 
 /**
  * Provides templates and models for adding a description to a listing.
@@ -12,6 +12,8 @@ import { FormService } from '../../forms.service';
   styleUrls: [ './expiry-date.component.css' ]
 })
 export class ExpiryDateFormComponent {
+
+  public isModelAvailable : boolean = false;
 
   form : FormGroup;
 
@@ -29,16 +31,21 @@ export class ExpiryDateFormComponent {
 
   public year : number;
 
-  constructor(private formService : FormService) {
-    this.model = this.formService.model;
-    this.data = this.formService.data;
-    this.form = this.formService.form;
-    if (!this.model.expriyDate) {
-      this.model.expriyDate = null;
-    }
-    this.form.addControl('day', new FormControl('day'));
-    this.form.addControl('month', new FormControl('month'));
-    this.form.addControl('year', new FormControl('year'));
+  constructor(
+    private formContextService : FormContextService
+  ) {
+    this.data = this.formContextService.data;
+    this.form = this.formContextService.form;
+    this.formContextService.getContext().subscribe(() => {
+      this.model = this.formContextService.model;
+      if (!this.model.expiryDate) {
+        this.model.expiryDate = null;
+      }
+      this.form.addControl('day', new FormControl('day'));
+      this.form.addControl('month', new FormControl('month'));
+      this.form.addControl('year', new FormControl('year'));
+      this.isModelAvailable = true;
+    })
   }
 
   public addExpiryDateToModel() : void {

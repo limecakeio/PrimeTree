@@ -8,6 +8,7 @@ import { DetailModule } from '../../../../view/detail/detail.module';
 import { RideShareOfferCreateFormComponent } from './rideshare-offer-create-form.component';
 import { RideShareOfferComponent } from './rideshare-offer.component';
 import { RideShareOfferPreviewComponent } from './rideshare-offer-preview.component';
+import { RideshareOfferFormComponent } from './rideshare-offer-form.component';
 
 @NgModule({
   imports: [
@@ -18,16 +19,18 @@ import { RideShareOfferPreviewComponent } from './rideshare-offer-preview.compon
   declarations: [
     RideShareOfferCreateFormComponent,
     RideShareOfferPreviewComponent,
-    RideShareOfferComponent
+    RideShareOfferComponent,
+    RideshareOfferFormComponent
   ],
   exports: [
     RideShareOfferCreateFormComponent,
     RideShareOfferPreviewComponent,
-    RideShareOfferComponent
+    RideShareOfferComponent,
+    RideshareOfferFormComponent
   ],
   providers: [  ]
 })
 export class RideShareOfferModule {
 
 }
-export { RideShareOfferPreviewComponent, RideShareOfferComponent,  RideShareOfferCreateFormComponent}
+export { RideShareOfferPreviewComponent, RideShareOfferComponent,  RideShareOfferCreateFormComponent, RideshareOfferFormComponent}

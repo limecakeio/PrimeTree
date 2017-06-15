@@ -43,7 +43,6 @@ export class ListingPreviewComponent implements OnChanges {
   // }
 
   ngOnChanges(simpleChanges : SimpleChanges) : void {
-    console.log(this.listing, 'ListingPreviewComponent')
     this.previewService.sendModelToObservers(this.listing);
   }
 

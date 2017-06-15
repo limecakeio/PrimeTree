@@ -61,7 +61,7 @@ export class RideShareOfferFactory extends ListingFactory {
       listing.journeyStops = body['journeyStops'];
     }
     if (body.hasOwnProperty('availableSeats')) {
-      listing.journeyStops = body['availableSeats'];
+      listing.availableSeats = body['availableSeats'];
     }
   }
 

@@ -70,7 +70,7 @@ export class MockServer {
   private listings : any[] = [
   {
     type: 'SaleOffer',
-    creatorID: 2,
+    creatorID: 1,
     comments: [{
       userID : 1,
       commentID : 1,
@@ -88,7 +88,7 @@ export class MockServer {
     price : 500,
     mainImage : 'https://www.thekitchentimes.com/wp-content/uploads/2012/09/gorenje-fridge.jpg',
     imageGallery : [ 'assets/images/bit-ka-logo.png' ],
-    condition : 'new'
+    condition : 'New'
   }, {
     type: 'ServiceOffer',
     creatorID: 2,
@@ -117,7 +117,7 @@ export class MockServer {
     price : 250,
     mainImage : 'http://www.geeky-gadgets.com/wp-content/uploads/2015/12/playstation-42-1.jpg',
     imageGallery : [ 'assets/images/bit-ka-logo.png' ],
-    condition : 'used'
+    condition : 'Used'
   }, {
     type: 'ServiceOffer',
     creatorID: 1,
@@ -146,7 +146,7 @@ export class MockServer {
     price : 123.45,
     mainImage : 'http://medien.markt.de/bilder/2013/04/28/20/51c60de1/medium_image/0/alter_gruenderzeit_eisschrank.jpg',
     imageGallery : [ 'assets/images/bit-ka-logo.png' ],
-    condition : 'used'
+    condition : 'Used'
   }, {
     type: 'ServiceOffer',
     creatorID: 2,
@@ -203,6 +203,22 @@ export class MockServer {
     price : 50000,
     mainImage : 'http://ghk.h-cdn.co/assets/15/49/1600x800/landscape-1449063635-painting-nails.jpg',
     imageGallery : [ 'assets/images/bit-ka-logo.png' ]
+  }, {
+    type: 'RideShareOffer',
+    creatorID: 2,
+    comments: [],
+    createDate: 1495804073888,
+    description: 'Ein Sofa',
+    expiryDate: 1495804713707,
+    id: 9,
+    isActive: true,
+    location: 'mannheim',
+    title: 'Macht Euch die Nägel schön!',
+    fromLocation: 'Mannheim',
+    journeyStops: ['A', 'B', 'C'],
+    toLocation: 'Köln',
+    availableSeats: 5,
+    travelDateAndTime: 1495804073888
   }
 ];
 
@@ -297,6 +313,9 @@ export class MockServer {
         } else if (networkRequest.getHttpMethod() === RequestMethod.Delete) {
           urlFound = true;
           responseOptions = this.removeListing(networkRequest);
+        } else if (networkRequest.getHttpMethod() === RequestMethod.Post) {
+          urlFound = true;
+          responseOptions = this.editListing(networkRequest);
         }
       } else if (networkRequest.getPaths().length === 3) {
         if (networkRequest.getPaths()[2] === 'comment') {
@@ -317,6 +336,28 @@ export class MockServer {
     let response : Response = new Response(responseOptions);
     console.log('Mockresponse: ', response);
     return response;
+  }
+
+  private editListing(networkRequest : NetworkRequest) : ResponseOptions {
+    let responseOptions : ResponseOptions = this.responseOptions();
+    let listingID : number = parseInt(networkRequest.getPaths()[1]);
+    let found : boolean = false;
+    if (networkRequest.getBody().creatorID !== this.getActiveUserID()) {
+      responseOptions.status = 403;
+      return responseOptions;
+    }
+    for (let i = 0; i < this.listings.length && !found; i++) {
+      if (this.listings[i].id === listingID) {
+        found = true;
+        this.listings[i] = networkRequest.getBody();
+      }
+    }
+    if (found) {
+      responseOptions.status = 200;
+    } else {
+      responseOptions.status = 404;
+    }
+    return responseOptions;
   }
 
   private removeComment(networkRequest : NetworkRequest) : ResponseOptions {

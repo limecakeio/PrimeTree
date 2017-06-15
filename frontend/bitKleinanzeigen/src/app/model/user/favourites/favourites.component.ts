@@ -37,7 +37,7 @@ export class FavouritesComponent {
   }
 
   public getListingPreviewTypeFromListingType(listingType : string) {
-    return this.listingInformationService.listingDescriptorHandler.findListingPreviewComponentTypeFromListingType(listingType);
+    return this.listingInformationService.listingDescriptorHandler.getListingPreviewComponentTypeFromListingType(listingType);
   }
 
   private getFavourites() : void {

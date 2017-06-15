@@ -18,10 +18,15 @@ const listingRoutes : Routes = [
       {
         path: 'create/:listingType',
         component: ListingOverviewViewportComponent
-      }, {
+      },
+      {
+        path: 'edit/:listingID',
+        component: ListingOverviewViewportComponent
+      },
+      {
         path: 'filter',
         component: ListingFilterComponent
-      }, 
+      },
       {
         path: 'search',
         component: ListingSearchComponent

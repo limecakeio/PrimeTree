@@ -1,0 +1,9 @@
+<listing-form-placeholder
+  *ngIf="listingType"
+  (listingSubmit)="submitListing($event)"
+  (updateRepository)="updateRepository()"
+  (closeForm)="closeForm()"
+  (returnForm)="returnForm()"
+  [listingType]="listingType"
+  [listing]="listing"
+></listing-form-placeholder>

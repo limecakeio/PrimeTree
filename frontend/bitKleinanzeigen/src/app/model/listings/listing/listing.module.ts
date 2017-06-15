@@ -24,6 +24,11 @@ import { ListingCreateFormPlaceholderComponent } from './create/listing-create-f
 import { ListingDetailViewComponent } from './detail/listing-detail-view.component';
 import { ListingDetailViewPlaceholderComponent } from './detail/listing-detail-view-placeholder.component';
 // import { ListingDetailViewOverlayComponent } from './detail/listing-detail-view-overlay.component';
+import { ListingFormComponent } from './form/listing-form.component';
+import { ListingFormPlaceholderComponent } from './form/listing-form-placeholder.component';
+
+import { ListingEditComponent } from './edit/listing-edit.component';
+
 import { FormModule } from '../../../form/form.module';
 
 import { ListingFilterComponent } from './filter/filter.component';
@@ -35,10 +40,10 @@ import { ListingSearchService } from './search/search.service';
 
 // Add your own listing components in the entryComponents array
 import { ListingComponent, ListingPreviewComponent, ListingCreateFormComponent } from './listing.descriptor';
-import { SaleOfferPreviewComponent, SaleOfferCreateFormComponent, SaleOfferComponent } from '../offer/sale-offer/sale-offer.descriptor';
+import { SaleOfferPreviewComponent, SaleOfferCreateFormComponent, SaleOfferComponent, SaleOfferFormComponent } from '../offer/sale-offer/sale-offer.descriptor';
 import { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent, ServiceOfferComponent } from '../offer/service-offer/service-offer.descriptor';
 
-import { RideShareOfferModule, RideShareOfferPreviewComponent, RideShareOfferComponent, RideShareOfferCreateFormComponent } from '../offer/rideshare-offer/rideshare-offer.module';
+import { RideShareOfferModule, RideShareOfferPreviewComponent, RideShareOfferComponent, RideShareOfferCreateFormComponent, RideshareOfferFormComponent } from '../offer/rideshare-offer/rideshare-offer.module';
 
 @NgModule({
   imports: [
@@ -58,7 +63,10 @@ import { RideShareOfferModule, RideShareOfferPreviewComponent, RideShareOfferCom
     ListingDetailViewComponent,
     ListingDetailViewPlaceholderComponent,
     ListingFilterComponent,
-    ListingSearchComponent
+    ListingSearchComponent,
+    ListingFormComponent,
+    ListingFormPlaceholderComponent,
+    ListingEditComponent
   ],
   exports: [
     FormModule,
@@ -70,7 +78,10 @@ import { RideShareOfferModule, RideShareOfferPreviewComponent, RideShareOfferCom
     ListingDetailViewComponent,
     ListingDetailViewPlaceholderComponent,
     ListingFilterComponent,
-    ListingSearchComponent
+    ListingSearchComponent,
+    ListingFormComponent,
+    ListingFormPlaceholderComponent,
+    ListingEditComponent
   ],
   providers: [
     ListingCreator,
@@ -79,10 +90,12 @@ import { RideShareOfferModule, RideShareOfferPreviewComponent, RideShareOfferCom
     ListingSearchService
   ],
   entryComponents: [
+    ListingFormComponent,
 
     SaleOfferPreviewComponent,
     SaleOfferCreateFormComponent,
     SaleOfferComponent,
+    SaleOfferFormComponent,
 
     ServiceOfferPreviewComponent,
     ServiceOfferCreateFormComponent,
@@ -90,7 +103,8 @@ import { RideShareOfferModule, RideShareOfferPreviewComponent, RideShareOfferCom
 
     RideShareOfferPreviewComponent,
     RideShareOfferComponent,
-    RideShareOfferCreateFormComponent
+    RideShareOfferCreateFormComponent,
+    RideshareOfferFormComponent
   ]
 })
 export class ListingModule {

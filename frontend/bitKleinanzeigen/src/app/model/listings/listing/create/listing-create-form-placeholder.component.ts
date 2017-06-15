@@ -81,7 +81,7 @@ export class ListingCreateFormPlaceholderComponent implements OnChanges {
     // Remove existing ListingCreateFormComponents from view.
     this.viewContainerRef.clear();
 
-    let componentType : Type<ListingCreateFormComponent> = this.listingInformationService.listingDescriptorHandler.findListingCreateFormComponentTypeFromLisitingType(this.listingType);
+    let componentType : Type<ListingCreateFormComponent> = this.listingInformationService.listingDescriptorHandler.getListingCreateFormComponentTypeFromLisitingType(this.listingType);
 
     let componentFactory : ComponentFactory<ListingCreateFormComponent> = this.componentFactoryResolver.resolveComponentFactory(componentType);
     let componentRef : ComponentRef<ListingCreateFormComponent> = this.viewContainerRef.createComponent(componentFactory);

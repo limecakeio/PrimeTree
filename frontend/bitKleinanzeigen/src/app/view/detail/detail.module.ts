@@ -11,6 +11,12 @@ import { ImageDetailViewComponent } from './image/image.component';
 import { PriceDetailViewComponent } from './price/price.component';
 import { CloseDetailViewComponent } from './close/close.component';
 
+import { AvailableSeatsViewComponent } from './available-seats/available-seats.component';
+import { JourneyStopsViewComponent } from './journey-stops/journey-stops.component';
+import { LocationFromViewComponent } from './location-from/location-from.component';
+import { LocationToViewComponent } from './location-to/location-to.component';
+import { TravelDateAndTimeViewComponent } from './travel-date-and-time/travel-date-and-time.component';
+
 @NgModule({
   declarations: [
     TitleDetailViewComponent,
@@ -20,7 +26,12 @@ import { CloseDetailViewComponent } from './close/close.component';
     CallToActionDetailViewComponent,
     ImageDetailViewComponent,
     PriceDetailViewComponent,
-    CloseDetailViewComponent
+    CloseDetailViewComponent,
+    AvailableSeatsViewComponent,
+    JourneyStopsViewComponent,
+    LocationFromViewComponent,
+    LocationToViewComponent,
+    TravelDateAndTimeViewComponent
   ],
   exports: [
     SharedModule,
@@ -31,7 +42,12 @@ import { CloseDetailViewComponent } from './close/close.component';
     CallToActionDetailViewComponent,
     ImageDetailViewComponent,
     PriceDetailViewComponent,
-    CloseDetailViewComponent
+    CloseDetailViewComponent,
+    AvailableSeatsViewComponent,
+    JourneyStopsViewComponent,
+    LocationFromViewComponent,
+    LocationToViewComponent,
+    TravelDateAndTimeViewComponent
   ],
   imports: [
     SharedModule

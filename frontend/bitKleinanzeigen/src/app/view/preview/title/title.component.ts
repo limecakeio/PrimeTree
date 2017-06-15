@@ -20,7 +20,6 @@ export class TitlePreviewViewComponent {
     private previewService : PreviewService
   ) {
     this.previewService.getModelObservable().subscribe((model : any) => {
-      console.log(model, 'previewService.model')
       this.isDataAvailable = true;
       this.model = model;
     }, (error : Error) => {

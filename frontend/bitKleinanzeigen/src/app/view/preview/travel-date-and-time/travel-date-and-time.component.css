@@ -1,0 +1,7 @@
+.travel-date-and-time-element p {
+  text-transform: capitalize;
+}
+
+.travel-date-and-time-element span {
+  margin-right: 5pt;
+}

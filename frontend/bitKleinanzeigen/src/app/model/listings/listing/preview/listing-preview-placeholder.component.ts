@@ -74,7 +74,6 @@ export class ListingPreviewPlaceholderComponent implements OnInit, OnChanges {
 
   ngOnChanges(simpleChanges : SimpleChanges) : void {
     this.listingSimpleChange = simpleChanges['listing'];
-    console.log(this.listingSimpleChange);
   }
 
 }

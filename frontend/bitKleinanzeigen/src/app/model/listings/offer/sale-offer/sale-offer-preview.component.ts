@@ -45,14 +45,12 @@ export class SaleOfferPreviewComponent extends ListingPreviewComponent implement
   }
 
   ngOnInit() : void {
-    console.log('ngOnInit', 'SaleOfferPreviewComponent', this.listing)
   //   if (this.listing.mainImage) {
   //     this.imagesrc = this.domSanitizer.bypassSecurityTrustUrl(this.listing.mainImage);
   //   }
   }
 
   ngOnChanges(simpleChanges : SimpleChanges) : void {
-    console.log(this.listing, 'ngOnChanges')
     this.previewService.sendModelToObservers(this.listing);
   }
 }

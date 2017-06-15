@@ -7,6 +7,7 @@ import { ImagePreviewViewComponent } from './image/image.component';
 import { PricePreviewViewComponent } from './price/price.component';
 import { TitlePreviewViewComponent } from './title/title.component';
 import { LocationPreviewViewComponent } from './location/loaction.component';
+import { TravelDateAndTimePreviewViewComponent } from './travel-date-and-time/travel-date-and-time.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { LocationPreviewViewComponent } from './location/loaction.component';
     ImagePreviewViewComponent,
     PricePreviewViewComponent,
     TitlePreviewViewComponent,
-    LocationPreviewViewComponent
+    LocationPreviewViewComponent,
+    TravelDateAndTimePreviewViewComponent
   ],
   exports: [
     FavouritePreviewViewComponent,
@@ -22,6 +24,7 @@ import { LocationPreviewViewComponent } from './location/loaction.component';
     PricePreviewViewComponent,
     TitlePreviewViewComponent,
     LocationPreviewViewComponent,
+    TravelDateAndTimePreviewViewComponent,
     CommonModule,
     RouterModule
   ],
