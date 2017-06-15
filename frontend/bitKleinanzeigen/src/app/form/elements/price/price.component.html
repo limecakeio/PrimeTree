@@ -1,4 +1,4 @@
-<div [formGroup]="form">
+<div [formGroup]="form" *ngIf="isModelAvailable">
 <div class="input-group">
   <input type="number"
   name="price"

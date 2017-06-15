@@ -4,34 +4,45 @@ import { ListingDescriptor } from '../../listing/listing.descriptor';
 import { ListingPreviewComponent } from '../../listing/preview/listing-preview.component';
 import { ListingCreateFormComponent } from '../../listing/create/listing-create-form.component';
 import { ListingComponent } from '../../listing/detail/listing.component';
+import { ListingFormComponent } from '../../listing/form/listing-form.component';
 
 import { SaleOfferPreviewComponent } from './sale-offer-preview.component';
 import { SaleOfferCreateFormComponent } from './sale-offer-create-form.component';
 import { SaleOfferFactory } from './sale-offer.factory';
 import { SaleOfferComponent } from './sale-offer.component';
+import { SaleOffer } from './sale-offer.model';
+import { SaleOfferFormComponent } from './sale-offer-form.component';
 
 export class SaleOfferDescriptor extends ListingDescriptor {
 
-  public listingPreviewComponentType() : Type<ListingPreviewComponent> {
+  public getListing() : SaleOffer {
+    return new SaleOffer();
+  }
+
+  public getListingPreviewComponentTypeClassName() : Type<SaleOfferPreviewComponent> {
     return SaleOfferPreviewComponent;
   }
 
-  public listingType() : string {
+  public getListingFormComponentTypeClassName() : Type<SaleOfferFormComponent> {
+    return SaleOfferFormComponent;
+  }
+
+  public getListingType() : string {
     return 'SaleOffer';
   }
 
-  public listingCreateForm() : Type<ListingCreateFormComponent> {
+  public getListingCreateFormComponentTypeClassName() : Type<SaleOfferCreateFormComponent> {
     return SaleOfferCreateFormComponent;
   }
 
-  public listingFactory() : SaleOfferFactory {
+  public getListingFactory() : SaleOfferFactory {
     return new SaleOfferFactory('SaleOffer');
   }
 
-  public getListingComponentTypeClassName() : Type<ListingComponent> {
+  public getListingComponentTypeClassName() : Type<SaleOfferComponent> {
     return SaleOfferComponent;
   }
 
 }
 
-export { SaleOfferPreviewComponent, SaleOfferCreateFormComponent, SaleOfferComponent }
+export { SaleOfferPreviewComponent, SaleOfferCreateFormComponent, SaleOfferComponent, SaleOfferFormComponent }

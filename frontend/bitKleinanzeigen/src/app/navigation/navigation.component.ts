@@ -25,7 +25,6 @@ export class NavigationComponent {
   }
 
   create() : void {
-    console.log(this.router.config, 'routerconfig')
     this.router.navigate(['listing/create/SaleOffer']);
   }
 

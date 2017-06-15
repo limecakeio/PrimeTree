@@ -1,8 +1,25 @@
-<div class="" *ngIf="true">
+<!-- <div class="" *ngIf="true">
   <div class="" *ngFor="let journeyStop of model.journeyStops; let index">
     <span>Zwischenhalt</span>
     <input type="text" name="" value="" [(ngModel)]="model.journeyStops[index]">
   </div>
   <label for="createNewJourneyStop">Neuer Zwischenstopp</label>
   <button id="createNewJourneyStop" type="button" name="button"></button>
+</div> -->
+<div class="" *ngIf="isModelAvailable" [formGroup]="form">
+  <div class="" *ngFor="let journeyStop of model.journeyStops">
+    <span>{{journeyStop}}</span>
+  </div>
+  <div class="">
+    <input
+      type="text"
+      name="journeyStop"
+      formControlName="journeyStop"
+      class="form-control"
+      aria-label="Zwischenhalt"
+      placeholder="Zwischenhalt"
+      [(ngModel)]="journeyStop"
+    >
+    <button type="button" name="button" (click)="createJourneyStop()">+</button>
+  </div>
 </div>

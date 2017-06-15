@@ -2,7 +2,9 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FormService } from '../../../../form/forms.service';
-import { ListingFormEventModel } from './listing-create.component';
+// import { ListingFormEventModel } from './listing-create.component';
+
+import { ListingSubmit } from '../form/listing-form.component';
 
 @Component({
   selector: 'listing-create-form',
@@ -17,7 +19,7 @@ import { ListingFormEventModel } from './listing-create.component';
 })
 export class ListingCreateFormComponent {
 
-  @Output('listingFormCreateFinished') listingFormCreateFinished : EventEmitter<ListingFormEventModel> = new EventEmitter<ListingFormEventModel>();
+  @Output('listingFormCreateFinished') listingFormCreateFinished : EventEmitter<ListingSubmit> = new EventEmitter<ListingSubmit>();
 
   @Output() listingFormUpdateRepositoryOutput : EventEmitter<void> = new EventEmitter<void>();
 
@@ -43,20 +45,20 @@ export class ListingCreateFormComponent {
    * A callback function disables the automtical redirect to the home view after submiting the listing.
    * Please use updateRepository() for a later redirect.*/
   protected emitListing(callback? : (id : number) => void) : void {
-    let listingFormEventModel : ListingFormEventModel;
-    console.log(callback, this);
-    if (!callback) {
-      listingFormEventModel = {
-        model : this.model,
-        updateRepository : true
-      };
-    } else {
-      listingFormEventModel = {
-        model : this.model,
-        updateRepository : false,
-        callback : callback
-      };
-    }
+    let listingFormEventModel : ListingSubmit;
+    // console.log(callback, this);
+    // if (!callback) {
+    //   listingFormEventModel = {
+    //     model : this.model,
+    //     updateRepository : true
+    //   };
+    // } else {
+    //   listingFormEventModel = {
+    //     model : this.model,
+    //     updateRepository : false,
+    //     callback : callback
+    //   };
+    // }
     this.listingFormCreateFinished.emit(listingFormEventModel);
   }
 

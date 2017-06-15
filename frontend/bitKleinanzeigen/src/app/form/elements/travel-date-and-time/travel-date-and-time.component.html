@@ -1,0 +1,20 @@
+<div [formGroup]="form" *ngIf="isModelAvailable">
+  <div class="input-group">
+    <span class="expiry-date-overlay">Reisezeit </span>
+    <select [(ngModel)]="day" formControlName="day" (change)="addTravelDateAndTimeToModel()">
+      <option [value]="day" *ngFor="let day of days">{{day}}</option>
+    </select>
+    <select [(ngModel)]="month" formControlName="month" (change)="addTravelDateAndTimeToModel()">
+      <option [value]="month" *ngFor="let month of months">{{month}}</option>
+    </select>
+    <select [(ngModel)]="year" formControlName="year" (change)="addTravelDateAndTimeToModel()">
+      <option [value]="year" *ngFor="let year of years">{{year}}</option>
+    </select>
+    <select [(ngModel)]="hour" formControlName="hour" (change)="addTravelDateAndTimeToModel()">
+      <option [value]="hour" *ngFor="let hour of hours">{{hour}}</option>
+    </select>
+    <select [(ngModel)]="minute" formControlName="minute" (change)="addTravelDateAndTimeToModel()">
+      <option [value]="minute" *ngFor="let minute of minutes">{{minute}}</option>
+    </select>
+  </div>
+</div>

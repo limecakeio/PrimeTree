@@ -1,1 +1,42 @@
-<h1>Angular bugs are funny</h1>
+<div class="listing-detail-header rideshare-offer">
+  <h1>Biete Mitfahrgelegenheit</h1>
+  <view-detail-close></view-detail-close>
+</div>
+<div class="container listing-detail-body">
+  <div class="row">
+    <div class="col-xs-12 col-md-6 listing-detail-column">
+      <view-detail-location-from></view-detail-location-from>
+      <view-detail-journey-stops></view-detail-journey-stops>
+      <view-detail-location-to></view-detail-location-to>
+      <view-detail-creator></view-detail-creator>
+      <div class="container-fluid listing-title-cta-container">
+        <div class="row">
+          <div class="col-xs-12 col-md-8 listing-title-column title-cta-col">
+            <view-detail-title></view-detail-title>
+          </div>
+          <div class="col-xs-12 col-md-4 listing-cta-column title-cta-col">
+            <div class="container-fluid action-buttons-container">
+              <div class="row">
+                <div class="col-xs-6 col-md-12 action-buttons-column">
+                  <div class="cta-element listing-favourite">
+                    <view-detail-favourite></view-detail-favourite>
+                  </div>
+                </div>
+                <div class="col-xs-6 col-md-12 action-buttons-column">
+                  <div class="cta-element listing-cta">
+                    <view-detail-call-to-action [action]="'Mitfahren'" [listingIcon]="listingIcon"></view-detail-call-to-action>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-6 listing-detail-column">
+      <view-detail-description></view-detail-description>
+      <view-detail-available-seats></view-detail-available-seats>
+      <view-detail-travel-date-and-time></view-detail-travel-date-and-time>
+    </div>
+  </div>
+</div>

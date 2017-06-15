@@ -1,7 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { FormService } from '../../forms.service';
+import { FormContextService } from '../../form-context.service';
+
+export interface LocationProperty {
+  property : string,
+  display : string
+}
 
 @Component({
   selector: 'form-element-location',
@@ -10,35 +15,33 @@ import { FormService } from '../../forms.service';
 })
 export class LocationFormComponent implements OnInit {
 
-  @Input() locationPropertyName : string;
+  public isModelAvailable : boolean = false;
 
-  @Input() labelText : string;
+  @Input() location : LocationProperty;
 
   public model : any;
 
   public form : FormGroup;
 
-  public isDataAvailable : boolean = false;
+  public locationProperty : string;
+
+  public locationDisplay : string;
 
   constructor(
-    private formService : FormService
+    private formContextService : FormContextService
   ) {
-    this.model = this.formService.model;
-    this.form = this.formService.form;
+    this.form = this.formContextService.form;
+    this.formContextService.getContext().subscribe(() => {
+      this.model = this.formContextService.model;
+      this.isModelAvailable = true;
+    })
   }
 
   /** Checks whether an input property name was submitted and throws an Error if not.*/
   public ngOnInit() : void {
-    if (typeof this.locationPropertyName !== 'string') {
-      throw new Error('No property name found for LocationFormComponent. Please add one as an @Input');
-    } else {
-      if (!this.model[this.locationPropertyName]) { // check whether a property of this name exisits and create it if not
-        this.model[this.locationPropertyName] = '';
-      }
-    }
-    if (typeof this.labelText !== 'string') {
-      this.labelText = this.locationPropertyName;
-    }
+    this.form.addControl(this.location.property, new FormControl(this.location.property, Validators.required));
+    this.locationProperty = this.location.property;
+    this.locationDisplay = this.location.display;
   }
 
 }

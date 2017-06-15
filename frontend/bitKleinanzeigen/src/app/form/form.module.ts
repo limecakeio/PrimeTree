@@ -18,6 +18,10 @@ import { LocationFormComponent } from './elements/location/location.component';
 import { ConditionFormComponent } from './elements/condition/condition.component';
 import { ExpiryDateFormComponent } from './elements/expiry-date/expiry-date.component';
 import { JourneyStopsFormComponent } from './elements/journey-stops/journey-stops.component';
+import { LocationFromFormComponent } from './elements/location-from/location-from.component';
+import { LocationToFormComponent } from './elements/location-to/location-to.component';
+import { AvailableSeatsFormComponent } from './elements/available-seats/available-seats.component';
+import { TravelDateAndTimeFormComponent } from './elements/travel-date-and-time/travel-date-and-time.component';
 
 /**
  * This module collects all components and services which pertain to building forms.
@@ -39,7 +43,11 @@ import { JourneyStopsFormComponent } from './elements/journey-stops/journey-stop
     LocationFormComponent,
     ConditionFormComponent,
     ExpiryDateFormComponent,
-    JourneyStopsFormComponent
+    JourneyStopsFormComponent,
+    LocationFromFormComponent,
+    LocationToFormComponent,
+    AvailableSeatsFormComponent,
+    TravelDateAndTimeFormComponent
   ],
   exports: [
     CommonModule,
@@ -61,7 +69,11 @@ import { JourneyStopsFormComponent } from './elements/journey-stops/journey-stop
     LocationFormComponent,
     ConditionFormComponent,
     ExpiryDateFormComponent,
-    JourneyStopsFormComponent
+    JourneyStopsFormComponent,
+    LocationFromFormComponent,
+    LocationToFormComponent,
+    AvailableSeatsFormComponent,
+    TravelDateAndTimeFormComponent
   ],
   imports: [
     CommonModule,

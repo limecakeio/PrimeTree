@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { FormService } from '../../forms.service';
+import { FormContextService } from '../../form-context.service';
 
 /**
  * Provides templates and models for adding the title to a listing.
@@ -12,20 +12,27 @@ import { FormService } from '../../forms.service';
 })
 export class TitleFormComponent {
 
+  public isModelAvailable : boolean = false;
+
   form : FormGroup;
 
   model : any;
 
   data : any;
 
-  constructor(private formService : FormService) {
-    this.model = this.formService.model;
-    this.data = this.formService.data;
-    this.form = this.formService.form;
-    if (!this.model.title) {
-      this.model.title = null;
-    }
-    this.form.addControl('title', new FormControl('title', Validators.required));
+  constructor(
+    private formContextService : FormContextService
+  ) {
+    this.data = this.formContextService.data;
+    this.form = this.formContextService.form;
+    this.formContextService.getContext().subscribe(() => {
+      this.model = this.formContextService.model;
+      if (!this.model.title) {
+        this.model.title = null;
+      }
+      this.form.addControl('title', new FormControl('title', Validators.required));
+      this.isModelAvailable = true;
+    })
   }
 
 }

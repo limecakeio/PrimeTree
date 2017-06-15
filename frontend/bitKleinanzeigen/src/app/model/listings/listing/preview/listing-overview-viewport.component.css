@@ -2,21 +2,17 @@
 .listing-detail-view {
   width:0%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0);
-  position: absolute;
-  left: 0;
-  top: 0;
   overflow: hidden;
   display: block;
+  transition: margin-left 1s linear;
+  background-color: #000;
 }
 
 .listing-filter.overlay,
 .listing-detail-view.overlay {
-  width: 100%;
+  width:100%;
   overflow-y: auto;
-  transition: width 0.35s linear;
-  background-color: rgba(0,0,0,0.75);
-  transition: width, background-color 0.35s linear;
+  transition: margin-left 1s linear;
 }
 
 .listing-detail-view.overlay {
@@ -183,7 +179,7 @@ display:none;
 }
 @media (min-width: 992px) { /*Large Tablet*/
   .listing-filter.overlay {
-    width: 60%;
+    width: 100%;
   }
 
 }
