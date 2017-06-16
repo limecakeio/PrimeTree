@@ -31,4 +31,8 @@ export class MockNetworkService extends NetworkService {
     return this.mockServer.process(networkRequest);
   }
 
+  public networkRequest() : NetworkRequest {
+    return new NetworkRequest();
+  };
+
 }

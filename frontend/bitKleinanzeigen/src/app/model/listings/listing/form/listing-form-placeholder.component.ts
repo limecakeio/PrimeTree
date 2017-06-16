@@ -51,6 +51,7 @@ export class ListingFormPlaceholderComponent implements OnChanges {
 
   /**Clears the view and creates a new listing form component. */
   private createListingFormComponent() : void {
+    console.log('createListingFormComponent')
     this.viewContainerRef.clear();
     let componentType : Type<ListingFormComponent> = this.listingInformationService.listingDescriptorHandler.getListingFormComponentTypeFromLisitingType(this.listingType);
 

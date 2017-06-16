@@ -1,39 +1,130 @@
-<div class="listing-create-kind-choose" *ngIf="listingKind.length === 0">
-  <div class="listing-create-kind-offer" (click)="setListingKind('offer')">
-    ANGEBOT
-  </div>
-  <div class="listing-create-kind-request" (click)="setListingKind('request')">
-    GESUCH
-  </div>
+<div class="section-header standard" (click)="returnForm()">
+  <h1>Inserat Erstellen</h1>
 </div>
-<div class="listing-create-type-choose" *ngIf="listingKind.length > 0 &&  listingType.length === 0">
-  <div class="listing-create-type-offer-choose" *ngIf="listingKind === 'offer'">
-    <div class="listing-create-type-offer-sale-offer" (click)="setListingType('SaleOffer')">
-      Gegenstandsangebot
-    </div>
-    <div class="listing-create-type-offer-ride-share-request" (click)="setListingType('RideShareOffer')">
-      Mitfahrgelegenheitsangebot
-    </div>
-    <div class="listing-create-type-offer-service-offer" (click)="setListingType('ServiceOffer')">
-      Dienstleistungsangebot
-    </div>
+
+<div class="listing-create-kind-choose" *ngIf="listingKind.length === 0">
+  <div class="listing-create-intro">
+    <h2>Bitte wähle...</h2>
   </div>
-  <div class="listing-create-type-offer-choose" *ngIf="listingKind === 'request'">
-    <div class="listing-create-type-request-borrow-request" (click)="setListingType('BorrowRequest')">
-      Ausleihe
-    </div>
-    <div class="listing-create-type-request-purchase-request" (click)="setListingType('PurchaseRequest')">
-      Gegenstandsgesuch
-    </div>
-    <div class="listing-create-type-request-rideshare-request" (click)="setListingType('RideShareRequest')">
-      Mitfahrgelegenheitsgesuch
-    </div>
-    <div class="listing-create-type-request-recreation-request" (click)="setListingType('RecreationRequest')">
-      Freizeitgesuch
+  <div class="listing-create-choices container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="listing-create-wrapper">
+          <div class="listing-create-kind-offer listing-create" (click)="setListingKind('offer')">
+            <div class="kind">
+              <p><span class="icon listing-offer"></span>Angebot</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="listing-create-wrapper">
+          <div class="listing-create-kind-request listing-create" (click)="setListingKind('request')">
+            <div class="kind">
+              <p><span class="icon listing-request"></span>Gesuch</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
+<div class="listing-create-type-choose" *ngIf="listingKind.length > 0 &&  listingType.length === 0">
+  <div class="listing-create-type-offer-choose" *ngIf="listingKind === 'offer'">
+    <div class="listing-create-intro">
+      <h2>Wofür möchtest Du ein Angebot erstellen?</h2>
+      <h2>Bitte wähle...</h2>
+    </div>
+    <div class="listing-create-choices container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-4">
+          <div class="listing-create-wrapper">
+            <div class="create-sale-offer listing-create sale-offer" (click)="setListingType('SaleOffer')">
+              <div class="type">
+                <p><span class="icon listing-sell"></span>Verkauf</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+          <div class="listing-create-wrapper">
+            <div class="create-rideshare-offer listing-create rideshare-offer" (click)="setListingType('RideShareOffer')">
+              <div class="type">
+                <p><span class="icon listing-rideshare"></span>Mitfahrgelegenheit</p>
+              </div>
+            </div>
+          </div>
+          </div>
+        <div class="col-xs-12 col-sm-4">
+          <div class="listing-create-wrapper">
+            <div class="create-service-offer listing-create service-offer" (click)="setListingType('ServiceOffer')">
+              <div class="type">
+                <p><span class="icon listing-service"></span>Dienstleistung</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="listing-create-type-request-choose" *ngIf="listingKind === 'request'">
+    <div class="listing-create-intro">
+      <h2>Wonach suchst Du?</h2>
+      <h2>Bitte wähle...</h2>
+    </div>
+    <div class="listing-create-choices container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-4">
+          <div class="listing-create-wrapper">
+            <div class="create-sale-request listing-create purchase-request" (click)="setListingType('PurchaseRequest')">
+              <div class="type">
+                <p><span class="icon listing-sell"></span>Kaufanfrage</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+          <div class="listing-create-wrapper">
+            <div class="create-sale-request listing-create service-request" (click)="setListingType('ServiceRequest')">
+              <div class="type">
+                <p><span class="icon listing-service"></span>Dienstleistung</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+          <div class="listing-create-wrapper">
+            <div class="create-sale-request listing-create recreation-request" (click)="setListingType('RecreationRequest')">
+              <div class="type">
+                <p><span class="icon listing-recreation"></span>Freizeitaktivität</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+          <div class="listing-create-wrapper">
+            <div class="create-sale-request listing-create borrow-request" (click)="setListingType('BorrowRequest')">
+              <div class="type">
+                <p><span class="icon listing-borrow"></span>Ausleihe</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+          <div class="listing-create-wrapper">
+            <div class="create-sale-request listing-create rideshare-request" (click)="setListingType('RideShareRequest')">
+              <div class="type">
+                <p><span class="icon listing-rideshare"></span>Mitfahrgelegenheit</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <!--  *ngIf="listingType && listing"-->
 <!-- <listing-create-form-placeholder *ngIf="listingType"
   (listingcreated)="submitListing($event)"

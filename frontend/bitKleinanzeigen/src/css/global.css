@@ -7,14 +7,167 @@ The following css-file contains all app-wide settings for the bit Kleinanzeigen
 Web-application
 */
 
-/**Listing colours -> Setting the background colour of the different
-listing-type containers*/
-.sale-offer {
-  background-color: #CA5F05;
+/**Listing colours -> Managing the colour behaviour for the different listing types*/
+
+/*
+ * SALE OFFER
+ */
+.sale-offer,
+.sale-offer:before {
+  background-color: #CA5F05!important;
+}
+/*Corner of post-it*/
+.sale-offer.listing-create:after {
+  border-left-color: #e4af82!important;
+  border-top-color: #e4af82!important;
+}
+/*Post-it hover effect*/
+.listing-create-wrapper:hover .sale-offer.listing-create,
+.listing-create-wrapper:hover .sale-offer.listing-create:before {
+  background-color: #d78743!important;
 }
 
-.service-offer {
-  background-color: #B92784;
+/*
+ * SERVICE OFFER
+ */
+.service-offer,
+.service-offer:before {
+  background-color: #B92784!important;
+}
+/*Corner of post-it*/
+.service-offer.listing-create:after {
+  border-left-color: #dc93c1!important;
+  border-top-color: #dc93c1!important;
+}
+/*Post-it hover effect*/
+.listing-create-wrapper:hover .service-offer.listing-create,
+.listing-create-wrapper:hover .service-offer.listing-create:before {
+  background-color: #ca5da2!important;
+}
+
+/*
+ * RIDESHARE OFFER
+ */
+.rideshare-offer,
+.rideshare-offer:before {
+  background-color: #674679!important;
+}
+/*Corner of post-it*/
+.rideshare-offer.listing-create:after {
+  border-left-color: #b3a2bc!important;
+  border-top-color: #b3a2bc!important;
+}
+/*Post-it hover effect*/
+.listing-create-wrapper:hover .rideshare-offer.listing-create,
+.listing-create-wrapper:hover .rideshare-offer.listing-create:before {
+  background-color: #8d749a!important;
+}
+
+/*
+ * PURCHASE REQUEST
+ */
+.purchase-request,
+.purchase-request:before {
+  background-color: #d78743!important;
+}
+
+/*Corner of post-it*/
+.purchase-request.listing-create:after {
+  border-left-color: #ebc3a1!important;
+  border-top-color: #ebc3a1!important;
+}
+
+/*Post-it hover effect*/
+.listing-create-wrapper:hover .purchase-request.listing-create,
+.listing-create-wrapper:hover .purchase-request.listing-create:before {
+  background-color: #e1a572!important;
+}
+
+/*
+ * RECREATION REQUEST
+ */
+ .recreation-request,
+ .recreation-request:before {
+   background-color: #20843c!important;
+ }
+
+ /*Corner of post-it*/
+ .recreation-request.listing-create:after {
+   border-left-color: #8fc19d!important;
+   border-top-color: #8fc19d!important;
+ }
+
+ /*Post-it hover effect*/
+ .listing-create-wrapper:hover .recreation-request.listing-create,
+ .listing-create-wrapper:hover .recreation-request.listing-create:before {
+   background-color: #57a26c!important;
+ }
+
+ /*
+  * BORROW REQUEST
+  */
+  .borrow-request,
+  .borrow-request:before {
+    background-color: #005a7d!important;
+  }
+
+  /*Corner of post-it*/
+  .borrow-request.listing-create:after {
+    border-left-color: #80acbe!important;
+    border-top-color: #80acbe!important;
+  }
+
+  /*Post-it hover effect*/
+  .listing-create-wrapper:hover .borrow-request.listing-create,
+  .listing-create-wrapper:hover .borrow-request.listing-create:before {
+    background-color: #40839d!important;
+  }
+
+  /*
+   * RIDESHARE REQUEST
+   */
+   .rideshare-request,
+   .rideshare-request:before {
+     background-color: #b0a7d1!important;
+   }
+
+   /*Corner of post-it*/
+   .rideshare-request.listing-create:after {
+     border-left-color: #d7d3e8!important;
+     border-top-color: #d7d3e8!important;
+   }
+
+   /*Post-it hover effect*/
+   .listing-create-wrapper:hover .rideshare-request.listing-create,
+   .listing-create-wrapper:hover .rideshare-request.listing-create:before {
+     background-color: #c3bddc!important;
+   }
+
+   /*
+    * SERVICE REQUEST
+    */
+    .service-request,
+    .service-request:before {
+      background-color: #e296c3!important;
+    }
+
+    /*Corner of post-it*/
+    .service-request.listing-create:after {
+      border-left-color: #f0cae1!important;
+      border-top-color: #f0cae1!important;
+    }
+
+    /*Post-it hover effect*/
+    .listing-create-wrapper:hover .service-request.listing-create,
+    .listing-create-wrapper:hover .service-request.listing-create:before {
+      background-color: #e9b0d2!important;
+    }
+
+/*
+ * USE THIS FOR TYPES THAT HAVEN'T BEEN SET YET
+ */
+.standard {
+  background-color: #D5D6D8!important;
 }
 
 /**CUSTOM ICONS FOR bIT Kleinanzeigen*/
@@ -44,7 +197,7 @@ listing-type containers*/
   -moz-osx-font-smoothing: grayscale;
 }
 
-.car:before {
+.listing-rideshare:before {
   content: "\e900";
 }
 .send:before {
@@ -91,22 +244,18 @@ listing-type containers*/
 }
 .listing-offer:before {
   content: "\e914";
-  color: #8b8c8c;
 }
 .exit:before {
   content: '\e91b';
 }
 .info:before {
   content: "\e915";
-  color: #8b8c8c;
 }
 .filter:before {
   content: "\e916";
-  color: #8b8c8c;
 }
 .add:before {
   content: "\e917";
-  color: #8b8c8c;
 }
 .favourite:before {
   content: "\e90a";
