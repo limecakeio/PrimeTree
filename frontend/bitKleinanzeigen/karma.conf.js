@@ -4,8 +4,10 @@ module.exports = function(config) {
   var appSrcBase = appBase;      // app source TS files
 
   // Testing helpers (optional) are conventionally in a folder called `testing`
-  var testingBase    = 'testing/'; // transpiled test JS and map files
-  var testingSrcBase = 'testing/'; // test source TS files
+// var testingBase    = 'testing/'; // transpiled test JS and map files
+//  var testingSrcBase = 'testing/'; // test source TS files
+	var testingBase    = 'src/test/'; // transpiled test JS and map files
+	var testingSrcBase = 'src/test/'; // test source TS files
 
   config.set({
     basePath: '',
@@ -14,7 +16,8 @@ module.exports = function(config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
-      require('karma-jasmine-html-reporter')
+      require('karma-jasmine-html-reporter'),
+	  require('karma-coverage')
     ],
 
     client: {
@@ -84,8 +87,10 @@ module.exports = function(config) {
     },
 
     exclude: [],
-    preprocessors: {},
-    reporters: ['progress', 'kjhtml'],
+    preprocessors: {
+		'src/app/**/*.js' : 'coverage'
+	},
+    reporters: ['progress', 'kjhtml', 'coverage'],
 
     port: 9876,
     colors: true,
