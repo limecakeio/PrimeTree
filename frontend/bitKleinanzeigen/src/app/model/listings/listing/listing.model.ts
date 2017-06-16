@@ -13,6 +13,7 @@ export  class Listing {
   type: string = '';
   creatorID : number = -1;
   createDate : number = null;
-  expiryDate : number = null
+  expiryDate : number = null;
+
   id : number = -1;
 }
