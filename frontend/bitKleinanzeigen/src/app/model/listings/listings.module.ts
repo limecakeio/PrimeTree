@@ -14,6 +14,10 @@ import { SaleOfferDescriptor } from './offer/sale-offer/sale-offer.descriptor';
 import { ServiceOfferDescriptor } from './offer/service-offer/service-offer.descriptor';
 import { ServiceOfferModule } from './offer/service-offer/service-offer.module';
 import { RideShareOfferModule } from './offer/rideshare-offer/rideshare-offer.module';
+import { BorrowRequestModule } from './request/borrow-request/borrow-request.module';
+import { PurchaseRequestModule } from './request/purchase-request/purchase-request.module';
+import { RideShareRequestModule } from './request/rideshare-request/rideshare-request.module';
+import { RecreationRequestModule } from './request/recreation-request/recreation-request.module';
 import { ListingInformationService } from './listings-information.service';
 
 import { FormModule } from '../../form/form.module';
@@ -30,7 +34,11 @@ import { FormModule } from '../../form/form.module';
     // ListingOverviewViewportComponent,
     SaleOfferModule,
     ServiceOfferModule,
-    RideShareOfferModule
+    RideShareOfferModule,
+    BorrowRequestModule,
+    PurchaseRequestModule,
+    RideShareRequestModule,
+    RecreationRequestModule
   ],
   imports: [
     FormsModule,
@@ -39,6 +47,11 @@ import { FormModule } from '../../form/form.module';
     SaleOfferModule,
     ServiceOfferModule,
     RideShareOfferModule,
+    BorrowRequestModule,
+    PurchaseRequestModule,
+    RideShareRequestModule,
+    RecreationRequestModule,
+
     FormModule,
     ListingModule
     // ListingModule.getNewListingModule([

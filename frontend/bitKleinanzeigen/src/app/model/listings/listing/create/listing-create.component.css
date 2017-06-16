@@ -1,0 +1,100 @@
+.section-header {
+  padding: 5pt 0;
+  position: relative;
+}
+
+.section-header h1 {
+  color: #57585A;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.listing-create-intro {
+  margin: 2em 0;
+}
+
+.listing-create-intro h2 {
+  text-transform: uppercase;
+  color: #57585A;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  margin: 1em;
+}
+
+/*Make the listing kinds appear as post-its*/
+
+.listing-create-choices {
+  overflow: hidden;
+}
+
+.listing-create-wrapper {
+  position: relative;
+  display: table;
+  width: 200px;
+  height: 160px; /*Accounting for corner-clip*/
+  margin: 1em auto 40px auto;
+}
+
+.listing-create  {
+  display: table-cell;
+  cursor: pointer;
+  background-color: #e61a3f;
+  color: #fff;
+  transition: background-color 0.25s linear;
+}
+
+.listing-create:before {
+    content: "";
+    width: calc(100% - 40px);
+    height: 40px;
+    position: absolute;
+    top: 100%;
+    right: 40px;
+    background: #e61a3f;
+    transition: background-color 0.25s linear;
+}
+
+.listing-create:hover,
+.listing-create:focus,
+.listing-create-wrapper:hover .listing-create:before {
+  background-color: #ec536f;
+}
+
+.listing-create:after {
+    content: "";
+    width: 0;
+    height: 0;
+    margin-left: -40px;
+    position: absolute;
+    top: 100%;
+    left: 100%;
+    border: 20px solid #f28c9f;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+}
+
+.kind,
+.type {
+  display: flex;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+}
+
+.kind p span,
+.type p span {
+  display: block;
+  margin: 20pt auto;
+  font-size: 25pt;
+}
+
+.kind p,
+.type p {
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+}

@@ -62,10 +62,12 @@ export class ListingCreateComponent {
   }
 
   public setListingKind(listingKind : string) : void {
+    console.log(listingKind)
     this.listingKind = listingKind;
   }
 
   public setListingType(listingType : string) : void {
+    console.log(listingType)
     this.listingType = listingType;
     this.listing = this.listingInformationService.listingDescriptorHandler.getListingFromListingType(listingType);
   }

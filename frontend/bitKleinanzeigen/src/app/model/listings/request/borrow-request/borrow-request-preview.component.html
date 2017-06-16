@@ -1,0 +1,19 @@
+<div class="listing-preview" (click)="previewClick($event)">
+  <div class="listing-header borrow-request">
+    <p>Gesuch / Ausleihe</p>
+  </div>
+  <div class="listing-image">
+    <view-preview-image></view-preview-image>
+  </div>
+  <div class="listing-heading">
+    <view-preview-title></view-preview-title>
+  </div>
+  <div class="listing-body">
+    <view-preview-date [dateProperty]="borrowFromDate"></view-preview-date>
+    <view-preview-date [dateProperty]="borrowToDate"></view-preview-date>
+  </div>
+  <div class="listing-footer">
+    <!-- MAY NEED TO ARRANGE A SEPARATE COMPONENT FOR THIS? -->
+    <view-preview-favourite></view-preview-favourite>
+  </div>
+</div>

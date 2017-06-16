@@ -1,5 +1,6 @@
 import { RequestMethod } from '@angular/http';
 
+/** Describs an normal http header.*/
 export interface NetworkHeader {
   field : string;
   value : string;
@@ -40,6 +41,7 @@ export class NetworkRequest {
     return this;
   }
 
+  /**Sets the hostname or ip for an request. Example setHostname('localhost') */
   setHostname(host : string) : NetworkRequest {
     this.hostname = host;
     return this;
@@ -51,6 +53,7 @@ export class NetworkRequest {
     return this;
   }
 
+  /**Adds a path to the url. Slashes before and after a path are automatically added. Example addPath('book') */
   addPath(path : string) : NetworkRequest {
     if (!this.hasPath) {
       this.hasPath = true;
@@ -83,16 +86,19 @@ export class NetworkRequest {
     return this;
   }
 
+  /**Sets a specific object as the body of this request. */
   setBody(body : any) : NetworkRequest {
     this.body = body;
     return this;
   }
 
+  /**Sets the protocol for this request. It is not necessary to add ://. Example setProtocol('https') */
   setProtocol(protocol : string) : NetworkRequest {
     this.protocol = protocol + '://';
     return this;
   }
 
+  /**Adds a new header for the request. Example addHeader('Content-Type', 'application/json') */
   addHeader(field : string, value : string) : NetworkRequest {
     this.headers.push({
       field: field,
@@ -121,6 +127,7 @@ export class NetworkRequest {
     return this;
   }
 
+  /**Builds a new url from the former specified request parameters. */
   getUrl() : string {
     let url : string;
     url = this.protocol;
@@ -151,12 +158,8 @@ export class NetworkRequest {
     return this.paths;
   }
 
-  getHeaders() : any[] {
+  getHeaders() : NetworkHeader[] {
     return this.headers;
-  }
-
-  headerCount() : boolean {
-    return this.headers.length > 0;
   }
 
   getBody() : any {

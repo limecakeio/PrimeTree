@@ -11,6 +11,8 @@ import { ServiceOfferCreateFormComponent } from './service-offer-create-form.com
 import { ServiceOfferFactory } from './service-offer.factory';
 import { ServiceOfferComponent } from './service-offer.component';
 import { ServiceOffer } from './service-offer.model';
+import { ServiceOfferFormComponent } from './service-offer-form.component';
+
 
 export class ServiceOfferDescriptor extends ListingDescriptor {
 
@@ -18,8 +20,8 @@ export class ServiceOfferDescriptor extends ListingDescriptor {
     return new ServiceOffer();
   }
 
-  public getListingFormComponentTypeClassName() : Type<ListingFormComponent> {
-    return ListingFormComponent;
+  public getListingFormComponentTypeClassName() : Type<ServiceOfferFormComponent> {
+    return ServiceOfferFormComponent;
   }
 
   public getListingPreviewComponentTypeClassName() : Type<ListingPreviewComponent> {
@@ -44,4 +46,4 @@ export class ServiceOfferDescriptor extends ListingDescriptor {
 
 }
 
-export { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent, ServiceOfferComponent }
+export { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent, ServiceOfferComponent, ServiceOfferFormComponent }

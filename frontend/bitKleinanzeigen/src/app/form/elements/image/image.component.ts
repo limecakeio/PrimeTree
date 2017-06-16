@@ -30,7 +30,7 @@ export class ImageFormComponent {
         this.data.imageAsFile = null;
       }
       if (this.model.mainImage) {
-        this.preLoadImageFromPath(this.model.mainImage);
+        this.loadImageFromPath(this.model.mainImage);
       }
       this.isModelAvailable = true;
     });
@@ -80,37 +80,10 @@ export class ImageFormComponent {
   /**
    * Generates and presents a preview from the image located at the path.
    */
-  private preLoadImageFromPath(path : string) : void {
-
-    /*GENERATE IMAGE PREVIEW*/
-    let imageResult = new Image();
-    imageResult.src = path;
-
-    let ImageComponent : ImageFormComponent = this; //Binding "this" to async method
-
-    imageResult.onload = function() {
-      /**Save the image*/
-      ImageComponent.imageElement = imageResult;
-      /*Set the images dimensions*/
-      ImageComponent.imgWidth = imageResult.width;
-      ImageComponent.imgHeight = imageResult.height;
-
-      ImageComponent.validateImageDimensions();
-
-      /*Set the image's ratio*/
-      ImageComponent.imgRatio = imageResult.height / imageResult.width;
-
-      /*Hide the image upload*/
-      ImageComponent.imageInputContainer.nativeElement.classList.remove("active");
-
-      /*Show the image preview - HAVE TO DO THIS FIRST TO GRAB CONTAINER DIMENSIONS LATER*/
-      ImageComponent.resultImage.nativeElement.classList.add("active");
-
-      ImageComponent.setImageContainerDimensions();
-      /*Inject image into preview as a background image*/
-      ImageComponent.resultImage.nativeElement.style.backgroundImage = "url('" + imageResult.src + "')";
-      ImageComponent.setDimensionsAndZoomer();
-    }
+  private loadImageFromPath(path : string) : void {
+    this.finalImage.nativeElement.src = path;
+    this.imageInputContainer.nativeElement.classList.remove('active');
+    this.finalImageContainer.nativeElement.classList.add('active');
   }
 
   /*

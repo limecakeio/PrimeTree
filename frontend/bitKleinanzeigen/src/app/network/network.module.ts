@@ -8,7 +8,7 @@ import { RESTNetworkService } from './rest-network.service';
 @NgModule({
   imports: [ HttpModule ],
   declarations: [  ],
-  providers: [
+  providers: [ // Change this if you want to use a mock or a real server.
     {
       provide: NetworkService,
       useClass: MockNetworkService

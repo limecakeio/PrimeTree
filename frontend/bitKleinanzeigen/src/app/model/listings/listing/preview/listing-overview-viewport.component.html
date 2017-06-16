@@ -1,6 +1,6 @@
 <div id="listing-viewport" class="listing-viewport">
   <listing-create
-  class="listing-create"
+  class="listing-create" style="width: 5000px;"
   overlay>
   </listing-create>
   <listing-edit
@@ -30,20 +30,17 @@
               (listingCreated)="updateListingCounter($event)"
               (showListingDetailView)="triggerDetailViewOverlay($event)">
             </listing-preview-placeholder>
-            <!-- <span *ngIf="last">{{setViewport()}}</span> -->
           </div>
         </div>
       </div>
     </div>
+    <!-- BOF CONTROLS FOR THE LISTING WRAPPER -->
+    <div class="listing-scroll-control backward" id="viewport-control-backward" (click)="scrollListings('backward')">
+      <span class="control backward icon scroll-backward" id="control-backward"></span>
+    </div>
+    <div class="listing-scroll-control forward" id="viewport-control-forward" (click)="scrollListings('forward')">
+      <span class="control forward icon scroll-forward"></span>
+    </div>
+    <!-- EOF CONTROLS FOR THE LISTING WRAPPER -->
   </div>
-
-  <!-- BOF CONTROLS FOR THE LISTING WRAPPER -->
-  <div class="listing-scroll-control backward" id="viewport-control-backward" (click)="scrollListings('backward')">
-    <span class="control backward icon scroll-backward" id="control-backward"></span>
-  </div>
-  <div class="listing-scroll-control forward" id="viewport-control-forward" (click)="scrollListings('forward')">
-    <span class="control forward icon scroll-forward"></span>
-  </div>
-  <!-- EOF CONTROLS FOR THE LISTING WRAPPER -->
-
 </div>

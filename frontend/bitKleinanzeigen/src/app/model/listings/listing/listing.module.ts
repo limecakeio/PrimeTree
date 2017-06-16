@@ -41,9 +41,13 @@ import { ListingSearchService } from './search/search.service';
 // Add your own listing components in the entryComponents array
 import { ListingComponent, ListingPreviewComponent, ListingCreateFormComponent } from './listing.descriptor';
 import { SaleOfferPreviewComponent, SaleOfferCreateFormComponent, SaleOfferComponent, SaleOfferFormComponent } from '../offer/sale-offer/sale-offer.descriptor';
-import { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent, ServiceOfferComponent } from '../offer/service-offer/service-offer.descriptor';
+import { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent, ServiceOfferComponent, ServiceOfferFormComponent } from '../offer/service-offer/service-offer.descriptor';
 
 import { RideShareOfferModule, RideShareOfferPreviewComponent, RideShareOfferComponent, RideShareOfferCreateFormComponent, RideshareOfferFormComponent } from '../offer/rideshare-offer/rideshare-offer.module';
+import { BorrowRequestComponent, BorrowRequestFormComponent, BorrowRequestPreviewComponent } from '../request/borrow-request/borrow-request.descriptor';
+import { PurchaseRequestComponent, PurchaseRequestFormComponent, PurchaseRequestPreviewComponent } from '../request/purchase-request/purchase-request.descriptor';
+import { RideShareRequestComponent, RideShareRequestPreviewComponent, RideshareRequestFormComponent } from '../request/rideshare-request/rideshare-request.descriptor';
+import { RecreationRequestComponent, RecreationRequestFormComponent, RecreationRequestPreviewComponent } from '../request/recreation-request/recreation-request.descriptor';
 
 @NgModule({
   imports: [
@@ -100,11 +104,28 @@ import { RideShareOfferModule, RideShareOfferPreviewComponent, RideShareOfferCom
     ServiceOfferPreviewComponent,
     ServiceOfferCreateFormComponent,
     ServiceOfferComponent,
+    ServiceOfferFormComponent,
 
     RideShareOfferPreviewComponent,
     RideShareOfferComponent,
     RideShareOfferCreateFormComponent,
-    RideshareOfferFormComponent
+    RideshareOfferFormComponent,
+
+    BorrowRequestComponent,
+    BorrowRequestFormComponent,
+    BorrowRequestPreviewComponent,
+
+    PurchaseRequestComponent,
+    PurchaseRequestFormComponent,
+    PurchaseRequestPreviewComponent,
+
+    RideShareRequestComponent,
+    RideShareRequestPreviewComponent,
+    RideshareRequestFormComponent,
+
+    RecreationRequestComponent,
+    RecreationRequestFormComponent,
+    RecreationRequestPreviewComponent
   ]
 })
 export class ListingModule {

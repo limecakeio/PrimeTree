@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { StatisticsController } from './statistics.controller';
 
+/**Describes all server data. */
 export interface Statistics {
 
   locations : {
@@ -23,6 +24,7 @@ export interface Statistics {
   numberOfAdmins : number;
 }
 
+/**Shares information about the server date. */
 @Injectable()
 export class StatisticsService {
 
@@ -32,6 +34,7 @@ export class StatisticsService {
     private statisticsController : StatisticsController
   ) {  }
 
+  /**Updates the statistic from the server, accessible over statistic. Can receive a callback which has the newest statistic from the server as a parameter.  */
   public updateStatistics(callback ? : (statistics : Statistics) => void) : void {
     this.statisticsController.getStatistics().subscribe((statistics : Statistics) => {
       this.statistics = statistics;

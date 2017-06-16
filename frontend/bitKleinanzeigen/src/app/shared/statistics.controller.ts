@@ -11,6 +11,7 @@ export class StatisticsController {
     private networkService : NetworkService
   ) {  }
 
+  /**Returns an Observable that returns to a Statistics object. */
   public getStatistics() : Observable<Statistics> {
     let networkRequest : NetworkRequest = this.networkService.networkRequest();
     networkRequest
