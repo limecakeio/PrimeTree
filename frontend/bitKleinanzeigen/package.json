@@ -37,6 +37,7 @@
     "@angular/router": "~4.0.0",
     "@types/angular": "^1.6.17",
     "@types/html2canvas": "^0.5.33",
+    "@types/jquery": "^2.0.47",
     "angular-in-memory-web-api": "~0.3.0",
     "core-js": "^2.4.1",
     "html2canvas": "0.5.0-beta4",
