@@ -1,0 +1,10 @@
+<div [formGroup]="form" *ngIf="isModelAvailable">
+  <div class="input-group">
+    <input type="text"
+    name="activityLocation"
+    [(ngModel)]="model.activityLocation"
+    formControlName="activityLocation"
+    class="form-control"
+    aria-label="Ort" placeholder="Ort der Freizeitaktivität">
+  </div>
+</div>

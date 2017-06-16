@@ -22,6 +22,11 @@ import { LocationFromFormComponent } from './elements/location-from/location-fro
 import { LocationToFormComponent } from './elements/location-to/location-to.component';
 import { AvailableSeatsFormComponent } from './elements/available-seats/available-seats.component';
 import { TravelDateAndTimeFormComponent } from './elements/travel-date-and-time/travel-date-and-time.component';
+import { DateFormComponent } from './elements/date/date.component';
+import { CategoryFormComponent } from './elements/category/category.component';
+import { LocationActivityFormComponent } from './elements/location-activity/location-activity.component';
+import { DateAndTimeFormComponent } from './elements/date-and-time/date-and-time.component';
+import { ReoccurenceFormComponent } from './elements/reoccurence/reoccurence.component';
 
 /**
  * This module collects all components and services which pertain to building forms.
@@ -47,7 +52,12 @@ import { TravelDateAndTimeFormComponent } from './elements/travel-date-and-time/
     LocationFromFormComponent,
     LocationToFormComponent,
     AvailableSeatsFormComponent,
-    TravelDateAndTimeFormComponent
+    TravelDateAndTimeFormComponent,
+    DateFormComponent,
+    CategoryFormComponent,
+    LocationActivityFormComponent,
+    DateAndTimeFormComponent,
+    ReoccurenceFormComponent
   ],
   exports: [
     CommonModule,
@@ -73,7 +83,12 @@ import { TravelDateAndTimeFormComponent } from './elements/travel-date-and-time/
     LocationFromFormComponent,
     LocationToFormComponent,
     AvailableSeatsFormComponent,
-    TravelDateAndTimeFormComponent
+    TravelDateAndTimeFormComponent,
+    DateFormComponent,
+    CategoryFormComponent,
+    LocationActivityFormComponent,
+    DateAndTimeFormComponent,
+    ReoccurenceFormComponent
   ],
   imports: [
     CommonModule,

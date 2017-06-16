@@ -2,7 +2,7 @@
   <div class="listing-create-kind-offer" (click)="setListingKind('offer')">
     ANGEBOT
   </div>
-  <div class="listing-create-kind-request" (click)="setListingKind('kind')">
+  <div class="listing-create-kind-request" (click)="setListingKind('request')">
     GESUCH
   </div>
 </div>
@@ -19,11 +19,21 @@
     </div>
   </div>
   <div class="listing-create-type-offer-choose" *ngIf="listingKind === 'request'">
-    <div class="listing-create-type-request-sale-offer" (click)="setListingType('SaleOffer')">
+    <div class="listing-create-type-request-borrow-request" (click)="setListingType('BorrowRequest')">
+      Ausleihe
+    </div>
+    <div class="listing-create-type-request-purchase-request" (click)="setListingType('PurchaseRequest')">
       Gegenstandsgesuch
+    </div>
+    <div class="listing-create-type-request-rideshare-request" (click)="setListingType('RideShareRequest')">
+      Mitfahrgelegenheitsgesuch
+    </div>
+    <div class="listing-create-type-request-recreation-request" (click)="setListingType('RecreationRequest')">
+      Freizeitgesuch
     </div>
   </div>
 </div>
+
 <!--  *ngIf="listingType && listing"-->
 <!-- <listing-create-form-placeholder *ngIf="listingType"
   (listingcreated)="submitListing($event)"

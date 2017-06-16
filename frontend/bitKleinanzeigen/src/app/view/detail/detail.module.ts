@@ -16,6 +16,11 @@ import { JourneyStopsViewComponent } from './journey-stops/journey-stops.compone
 import { LocationFromViewComponent } from './location-from/location-from.component';
 import { LocationToViewComponent } from './location-to/location-to.component';
 import { TravelDateAndTimeViewComponent } from './travel-date-and-time/travel-date-and-time.component';
+import { BorrowDateViewComponent } from './borrow-date/borrow-date.component';
+import { CategoryViewComponent } from './category/category.component';
+import { ConditionViewComponent } from './condition/condition.component';
+import { DateAndTimeViewComponent } from './date-and-time/date-and-time.component';
+import { ReoccurenceViewComponent } from './reoccurence/reoccurence.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +36,12 @@ import { TravelDateAndTimeViewComponent } from './travel-date-and-time/travel-da
     JourneyStopsViewComponent,
     LocationFromViewComponent,
     LocationToViewComponent,
-    TravelDateAndTimeViewComponent
+    TravelDateAndTimeViewComponent,
+    BorrowDateViewComponent,
+    CategoryViewComponent,
+    ConditionViewComponent,
+    DateAndTimeViewComponent,
+    ReoccurenceViewComponent
   ],
   exports: [
     SharedModule,
@@ -47,7 +57,12 @@ import { TravelDateAndTimeViewComponent } from './travel-date-and-time/travel-da
     JourneyStopsViewComponent,
     LocationFromViewComponent,
     LocationToViewComponent,
-    TravelDateAndTimeViewComponent
+    TravelDateAndTimeViewComponent,
+    BorrowDateViewComponent,
+    CategoryViewComponent,
+    ConditionViewComponent,
+    DateAndTimeViewComponent,
+    ReoccurenceViewComponent
   ],
   imports: [
     SharedModule

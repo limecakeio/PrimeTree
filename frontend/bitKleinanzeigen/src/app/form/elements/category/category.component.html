@@ -1,0 +1,14 @@
+<div [formGroup]="form" *ngIf="isModelAvailable">
+  <div class="input-group">
+    <span class="category-background">Kategorie </span>
+    <select
+    formControlName="category"
+    class=""
+    name="category"
+    [(ngModel)]="model.category"
+    formControlName="category"
+    >
+      <option [value]="categoryOption.value" *ngFor="let categoryOption of categoryOptions">{{categoryOption.name}}</option>
+    </select>
+  </div>
+</div>

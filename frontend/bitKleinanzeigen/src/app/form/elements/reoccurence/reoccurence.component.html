@@ -1,0 +1,14 @@
+<div [formGroup]="form" *ngIf="isModelAvailable">
+  <div class="input-group">
+    <span class="reoccurence-background">Wiederholung </span>
+    <select
+    formControlName="reoccurence"
+    class=""
+    name="reoccurence"
+    [(ngModel)]="model.reoccurence"
+    formControlName="reoccurence"
+    >
+      <option [value]="reoccurenceOption.value" *ngFor="let reoccurenceOption of reoccurenceOptions">{{reoccurenceOption.name}}</option>
+    </select>
+  </div>
+</div>

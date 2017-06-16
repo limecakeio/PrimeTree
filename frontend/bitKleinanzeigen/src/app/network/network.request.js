@@ -19,6 +19,7 @@ var NetworkRequest = (function () {
         this.method = method;
         return this;
     };
+    /**Sets the hostname or ip for an request. Example setHostname('localhost') */
     NetworkRequest.prototype.setHostname = function (host) {
         this.hostname = host;
         return this;
@@ -28,6 +29,7 @@ var NetworkRequest = (function () {
         this.port = port;
         return this;
     };
+    /**Adds a path to the url. Slashes before and after a path are automatically added. Example addPath('book') */
     NetworkRequest.prototype.addPath = function (path) {
         if (!this.hasPath) {
             this.hasPath = true;
@@ -58,14 +60,17 @@ var NetworkRequest = (function () {
         }
         return this;
     };
+    /**Sets a specific object as the body of this request. */
     NetworkRequest.prototype.setBody = function (body) {
         this.body = body;
         return this;
     };
+    /**Sets the protocol for this request. It is not necessary to add ://. Example setProtocol('https') */
     NetworkRequest.prototype.setProtocol = function (protocol) {
         this.protocol = protocol + '://';
         return this;
     };
+    /**Adds a new header for the request. Example addHeader('Content-Type', 'application/json') */
     NetworkRequest.prototype.addHeader = function (field, value) {
         this.headers.push({
             field: field,
@@ -92,6 +97,7 @@ var NetworkRequest = (function () {
         }
         return this;
     };
+    /**Builds a new url from the former specified request parameters. */
     NetworkRequest.prototype.getUrl = function () {
         var url;
         url = this.protocol;
@@ -120,9 +126,6 @@ var NetworkRequest = (function () {
     };
     NetworkRequest.prototype.getHeaders = function () {
         return this.headers;
-    };
-    NetworkRequest.prototype.headerCount = function () {
-        return this.headers.length > 0;
     };
     NetworkRequest.prototype.getBody = function () {
         return this.body;

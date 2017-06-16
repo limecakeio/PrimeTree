@@ -20,7 +20,7 @@ export class RESTNetworkService extends NetworkService {
     super();
   }
 
-  /** sends the request to the server with the specified data
+  /** Sends the request to the server with the specified data
    * @argument { NetworkRequest } request request which will be send
    * @return {Observable<Response>}
    */
@@ -28,12 +28,11 @@ export class RESTNetworkService extends NetworkService {
     if (this.securityActive) {
       request.addHeader(this.securityHeader.field, this.securityHeader.value);
     }
-    console.log(request, request.getUrl())
-    if (request.headerCount()) {
+    console.log(request, request.getUrl());
+    let headerArray = request.getHeaders()
+    if (headerArray.length > 0) {
       let headers = new Headers();
-      let headerArray = request.getHeaders();
       headerArray.forEach(header => {
-        console.log(header)
         headers.append(header.field, header.value);
       });
       return this.sendRequestWithHeaders(request, headers);
@@ -72,6 +71,7 @@ export class RESTNetworkService extends NetworkService {
     return request;
   }
 
+  /**Returns the server address formatted as protocol://hostname:port/basePath. */
   public getServerAddress() : string {
     return this.protocol + './/' + this.hostname + ':' + this.port + '/' + this.basePath;
   }

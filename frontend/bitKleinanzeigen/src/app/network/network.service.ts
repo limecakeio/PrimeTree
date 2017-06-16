@@ -9,6 +9,9 @@ export abstract class NetworkService {
 
   protected securityActive : boolean = false;
 
+  /** Adds a specific security header for all following requests.
+   * Example: setSecurityHeader('x-security', '123abc')
+   */
   public setSecurityHeader(field : string, value : string) {
     this.securityHeader = {
       field: field,
@@ -17,19 +20,13 @@ export abstract class NetworkService {
     this.securityActive = true;
   }
 
+  /**Sends the request to the server and returns an Observable which holds the response for this request */
   public abstract send(request : NetworkRequest) : Observable<Response>;
 
   /** Returns the server address as: protocol://ip:port*/
   public abstract getServerAddress() : string;
 
-  networkRequest() : NetworkRequest {
-    let request : NetworkRequest = new NetworkRequest();
-    request
-    .setHostname('141.19.145.175')
-    .setPort(8080);
-    return request;
-  };
-
-
+  /**Returns a NetworkRequest with all neccesary fields set to reach the server.*/
+  public abstract networkRequest() : NetworkRequest;
 
 }

@@ -219,6 +219,61 @@ export class MockServer {
     toLocation: 'Köln',
     availableSeats: 5,
     travelDateAndTime: 1495804073888
+  }, {
+    type: 'BorrowRequest',
+    creatorID: 2,
+    comments: [],
+    createDate: 1495804073888,
+    description: 'Ein Sofa',
+    expiryDate: 1495804713707,
+    id: 10,
+    isActive: true,
+    location: 'mannheim',
+    title: 'Brauche funktionierendes Angular!',
+    borrowFromDate: 1886709600000,
+    borrowToDate: 1883858400000
+  }, {
+    type: 'PurchaseRequest',
+    creatorID: 2,
+    comments: [],
+    createDate: 1495804073888,
+    description: 'Ein Sofa',
+    expiryDate: 1495804713707,
+    id: 11,
+    isActive: true,
+    location: 'mannheim',
+    title: 'Kaufgesuch!',
+    condition: 'New'
+  }, {
+    type: 'RideShareRequest',
+    creatorID: 2,
+    comments: [],
+    createDate: 1495804073888,
+    description: 'Ein Sofa',
+    expiryDate: 1495804713707,
+    id: 12,
+    isActive: true,
+    location: 'mannheim',
+    title: 'RideShareRequest!',
+    fromLocation: 'Mannheim',
+    toLocation: 'Köln',
+    travelDateAndTime: 1495804073888
+  }, {
+    type: 'RecreationRequest',
+    creatorID: 2,
+    comments: [],
+    createDate: 1495804073888,
+    description: 'Ein Sofa',
+    expiryDate: 1495804713707,
+    id: 13,
+    isActive: true,
+    location: 'mannheim',
+    title: 'RecreationRequest!',
+    category: 'Sport',
+    activityLocation: 'Köln',
+    startDateAndTime: 1495804073888,
+    endDateAndTime: 500,
+    reoccurence: 'Daily'
   }
 ];
 

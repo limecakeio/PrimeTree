@@ -1,0 +1,7 @@
+.start-date-and-time-element p {
+  text-transform: capitalize;
+}
+
+.start-date-and-time-element span {
+  margin-right: 5pt;
+}

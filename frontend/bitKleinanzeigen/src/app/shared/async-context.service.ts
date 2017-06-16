@@ -15,6 +15,8 @@ export class AsyncContextService {
     this.contextSubject.next(object);
   }
 
+  /**Components that needs to share the same model needs to subscribe to this method.*/
+  /**Returns an Observable which returns an object when putIntoContext is called from one component that shares this service.*/
   public getContext() : Observable<any> {
     return this.contextObservable;
   }
