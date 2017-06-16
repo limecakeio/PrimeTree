@@ -73,7 +73,7 @@ export class RESTNetworkService extends NetworkService {
 
   /**Returns the server address formatted as protocol://hostname:port/basePath. */
   public getServerAddress() : string {
-    return this.protocol + './/' + this.hostname + ':' + this.port + '/' + this.basePath;
+    return this.protocol + '://' + this.hostname + ':' + this.port + '/' + this.basePath;
   }
 
 
