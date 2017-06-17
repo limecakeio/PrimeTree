@@ -62,10 +62,26 @@ export class DescriptionDetailViewComponent {
     });
   }
 
+  /**Returns a time string formatted as date.month.year um hours:minutes:seconds. */
   public getTimeFromUnixTime(unixTime : number) : string {
     let time : string = '';
     let date : Date = new Date(unixTime);
-    time += date.getUTCDay() + "." + date.getMonth() + "." + date.getFullYear() + " um " + date.getUTCHours() + ":" + date.getUTCMinutes() + ":" + date.getUTCSeconds();
+    let dateOfMonth : number = date.getDate();
+    time += (dateOfMonth < 10) ? '0' + dateOfMonth : dateOfMonth;
+    time += '.';
+    let month : number = date.getMonth();
+    time += (month < 10) ? '0' + month : month;
+    time += '.';
+    let year : number = date.getFullYear();
+    time += year + ' um ';
+    let hours : number = date.getHours();
+    time += (hours < 10) ? '0' + hours : hours;
+    time += ':';
+    let minutes : number = date.getMinutes();
+    time += (minutes < 10) ? '0' + minutes : minutes;
+    time += ':';
+    let seconds : number = date.getSeconds();
+    time += (seconds < 10) ? '0' + seconds : seconds;
     return time;
   }
 

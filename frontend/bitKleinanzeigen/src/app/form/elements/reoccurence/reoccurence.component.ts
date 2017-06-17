@@ -56,7 +56,7 @@ export class ReoccurenceFormComponent {
       if (!this.model.reoccurence) {
         this.model.reoccurence = null;
       }
-      this.form.addControl('reoccurence', new FormControl('reoccurence', Validators.required));
+      this.form.addControl('reoccurence', new FormControl('', Validators.required));
       this.isModelAvailable = true;
     })
   }

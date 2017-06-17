@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var network_service_1 = require("./network.service");
-var mock_network_service_1 = require("./mock-network.service");
+var rest_network_service_1 = require("./rest-network.service");
 var NetworkModule = (function () {
     function NetworkModule() {
     }
@@ -21,7 +21,7 @@ NetworkModule = __decorate([
         providers: [
             {
                 provide: network_service_1.NetworkService,
-                useClass: mock_network_service_1.MockNetworkService
+                useClass: rest_network_service_1.RESTNetworkService
             }
         ],
         exports: [http_1.HttpModule]

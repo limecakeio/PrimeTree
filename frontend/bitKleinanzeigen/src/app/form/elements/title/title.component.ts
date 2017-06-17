@@ -30,7 +30,7 @@ export class TitleFormComponent {
       if (!this.model.title) {
         this.model.title = null;
       }
-      this.form.addControl('title', new FormControl('title', Validators.required));
+      this.form.addControl('title', new FormControl('', Validators.required));
       this.isModelAvailable = true;
     })
   }

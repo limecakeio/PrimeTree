@@ -30,7 +30,7 @@ export class PriceFormComponent {
       if (!this.model.price) {
         this.model.price = null;
       }
-      this.form.addControl('price', new FormControl('price', Validators.required));
+      this.form.addControl('price', new FormControl('', Validators.required));
             // Validators.compose(
             //   [Validators.required,
             //     Validators.pattern("^[0-9\.]+$")

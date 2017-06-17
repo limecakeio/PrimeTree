@@ -34,7 +34,7 @@ export class ListingController {
   /**Loads a new page site with the same filter criteria as the param Page. */
   public loadNewPageSite(page : Page) : Observable<Page> {
     let networkRequest : NetworkRequest = page.networkRequest;
-    networkRequest.addQuery('page', page.pageNumber + '');
+    networkRequest.addQuery('page', page.pageNumber +  1 + '');
     return this.networkService.send(networkRequest).map((response : Response) => {
       if (response.status === 200) {
         let page : Page = this.pageFactory.createPage(response.json());

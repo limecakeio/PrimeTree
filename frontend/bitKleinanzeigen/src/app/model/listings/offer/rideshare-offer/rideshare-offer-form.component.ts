@@ -44,6 +44,7 @@ export class RideshareOfferFormComponent extends ListingFormComponent {
   }
 
   submit() : void {
+    this.formContextService.model.title = 'VON ' + this.formContextService.model.fromLocation.toUpperCase() + ' NACH ' + this.formContextService.model.toLocation.toUpperCase();
     this.emitListing();
   }
 

@@ -50,7 +50,7 @@ export class CategoryFormComponent {
       if (!this.model.category) {
         this.model.category = null;
       }
-      this.form.addControl('category', new FormControl('category', Validators.required));
+      this.form.addControl('category', new FormControl('', Validators.required));
       this.isModelAvailable = true;
     })
   }

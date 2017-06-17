@@ -48,9 +48,9 @@ export class DateFormComponent implements OnInit {
     this.form = this.formContextService.form;
     this.formContextService.getContext().subscribe(() => {
       this.model = this.formContextService.model;
-      this.form.addControl('day', new FormControl('day'));
-      this.form.addControl('month', new FormControl('month'));
-      this.form.addControl('year', new FormControl('year'));
+      this.form.addControl('day', new FormControl(''));
+      this.form.addControl('month', new FormControl(''));
+      this.form.addControl('year', new FormControl(''));
       this.isModelAvailable = true;
     })
   }

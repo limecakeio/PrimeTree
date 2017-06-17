@@ -47,11 +47,11 @@ export class TravelDateAndTimeFormComponent {
       if (!this.model.expiryDate) {
         this.model.expiryDate = null;
       }
-      this.form.addControl('day', new FormControl('day', Validators.required));
-      this.form.addControl('month', new FormControl('month', Validators.required));
-      this.form.addControl('year', new FormControl('year', Validators.required));
-      this.form.addControl('hour', new FormControl('hour', Validators.required));
-      this.form.addControl('minute', new FormControl('minute', Validators.required));
+      this.form.addControl('day', new FormControl('', Validators.required));
+      this.form.addControl('month', new FormControl('', Validators.required));
+      this.form.addControl('year', new FormControl('', Validators.required));
+      this.form.addControl('hour', new FormControl('', Validators.required));
+      this.form.addControl('minute', new FormControl('', Validators.required));
       this.isModelAvailable = true;
     })
   }

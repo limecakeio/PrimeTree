@@ -47,7 +47,7 @@ export class ConditionFormComponent {
       if (!this.model.condition) {
         this.model['condition'] = "";
       }
-      this.form.addControl('condition', new FormControl('condition', Validators.required));
+      this.form.addControl('condition', new FormControl('', Validators.required));
       this.isModelAvailable = true;
     });
   }

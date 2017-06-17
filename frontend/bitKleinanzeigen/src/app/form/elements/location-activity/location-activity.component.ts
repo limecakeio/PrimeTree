@@ -30,7 +30,7 @@ export class LocationActivityFormComponent {
       if (!this.model.activityLocation) {
         this.model.activityLocation = '';
       }
-      this.form.addControl('activityLocation', new FormControl('activityLocation', Validators.required));
+      this.form.addControl('activityLocation', new FormControl('', Validators.required));
       this.isModelAvailable = true;
     })
   }
