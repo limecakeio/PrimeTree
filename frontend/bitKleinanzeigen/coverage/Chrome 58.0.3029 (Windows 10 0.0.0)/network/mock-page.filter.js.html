@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for network\mock-page.filter.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">network/</a> mock-page.filter.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">10.85% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>14/129</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/108</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">4.55% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">10.94% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>14/128</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
+var page_model_1 = require("../model/listings/listing/page.model");
+var MockPageFilter = (function () {
+<span class="fstat-no" title="function not covered" >    function MockPageFilter(pageDivider) {</span>
+<span class="cstat-no" title="statement not covered" >        if (pageDivider === void 0) { <span class="cstat-no" title="statement not covered" >pageDivider = 4; </span>}</span>
+<span class="cstat-no" title="statement not covered" >        this.pageDivider = pageDivider;</span>
+    }
+    /**
+     * Creates a page from the argument listings.
+     */
+    MockPageFilter.prototype.createPage = <span class="fstat-no" title="function not covered" >function (listings, criteria) {</span>
+<span class="cstat-no" title="statement not covered" >        console.log(criteria);</span>
+<span class="cstat-no" title="statement not covered" >        if (criteria.hasOwnProperty('kind')) {</span>
+<span class="cstat-no" title="statement not covered" >            if (criteria.kind === 'offer') {</span>
+<span class="cstat-no" title="statement not covered" >                listings = listings.filter(this.kindOfferFilter);</span>
+            }
+            else <span class="cstat-no" title="statement not covered" >if (criteria.kind === 'request') {</span>
+<span class="cstat-no" title="statement not covered" >                listings = listings.filter(this.kindRequestFilter);</span>
+            }
+        }
+<span class="cstat-no" title="statement not covered" >        if (criteria.hasOwnProperty('location')) {</span>
+<span class="cstat-no" title="statement not covered" >            listings = this.locationFilter(listings, criteria.location);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (criteria.hasOwnProperty('price_min') &amp;&amp; criteria.hasOwnProperty('price_max')) {</span>
+<span class="cstat-no" title="statement not covered" >            listings = this.priceFilter(listings, criteria.price_min, criteria.price_max);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (criteria.hasOwnProperty('type')) {</span>
+<span class="cstat-no" title="statement not covered" >            listings = this.typeFilter(listings, criteria.type);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (criteria.hasOwnProperty('sort')) {</span>
+<span class="cstat-no" title="statement not covered" >            listings = this.sort(listings, criteria.sort);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        var page = new page_model_1.Page();</span>
+<span class="cstat-no" title="statement not covered" >        page.count = listings.length;</span>
+<span class="cstat-no" title="statement not covered" >        page.pages = Math.ceil(listings.length / this.pageDivider);</span>
+<span class="cstat-no" title="statement not covered" >        page.price_max = this.getPriceMaximum(listings);</span>
+<span class="cstat-no" title="statement not covered" >        page.price_min = this.getPriceMinimum(listings);</span>
+<span class="cstat-no" title="statement not covered" >        page.listings = [];</span>
+<span class="cstat-no" title="statement not covered" >        var index = 0;</span>
+<span class="cstat-no" title="statement not covered" >        if (criteria.hasOwnProperty('page')) {</span>
+<span class="cstat-no" title="statement not covered" >            index = criteria.page * this.pageDivider;</span>
+<span class="cstat-no" title="statement not covered" >            page.pageNumber = criteria.page + 1;</span>
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            page.pageNumber = 1;</span>
+        }
+        // console.log('page ' + index + ' ' + page.count)
+        // if (index &gt; page.count) {
+        //   throw new Error('page &gt; count');
+        // }
+<span class="cstat-no" title="statement not covered" >        for (var i = 0; i &lt; this.pageDivider &amp;&amp; i + index &lt; listings.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >            page.listings.push(listings[i + index]);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return page;</span>
+    };
+    /**
+     * Returns the price minimum of all argument listings.
+     * All listings without a price property are set to a price of zero.
+     */
+    MockPageFilter.prototype.getPriceMinimum = <span class="fstat-no" title="function not covered" >function (listings) {</span>
+<span class="cstat-no" title="statement not covered" >        var min = 0;</span>
+<span class="cstat-no" title="statement not covered" >        var minFound = false;</span>
+<span class="cstat-no" title="statement not covered" >        for (var i = 0; i &lt; listings.length &amp;&amp; !minFound; i++) {</span>
+<span class="cstat-no" title="statement not covered" >            if (listings[i].hasOwnProperty('price')) {</span>
+<span class="cstat-no" title="statement not covered" >                if (listings[i].price &lt; min) {</span>
+<span class="cstat-no" title="statement not covered" >                    min = listings[i].price;</span>
+                }
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                min = 0;</span>
+<span class="cstat-no" title="statement not covered" >                minFound = true;</span>
+            }
+        }
+<span class="cstat-no" title="statement not covered" >        return min;</span>
+    };
+    MockPageFilter.prototype.getPriceMaximum = <span class="fstat-no" title="function not covered" >function (listings) {</span>
+<span class="cstat-no" title="statement not covered" >        var max = 0;</span>
+<span class="cstat-no" title="statement not covered" >        for (var i = 0; i &lt; listings.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >            if (listings[i].hasOwnProperty('price')) {</span>
+<span class="cstat-no" title="statement not covered" >                if (listings[i].price &gt; max) {</span>
+<span class="cstat-no" title="statement not covered" >                    max = listings[i].price;</span>
+                }
+            }
+        }
+<span class="cstat-no" title="statement not covered" >        return max;</span>
+    };
+    MockPageFilter.prototype.kindOfferFilter = <span class="fstat-no" title="function not covered" >function (element) {</span>
+<span class="cstat-no" title="statement not covered" >        if (element.type === 'SaleOffer' ||</span>
+            element.type === 'ServiceOffer' ||
+            element.type === 'RideShareOffer') {
+<span class="cstat-no" title="statement not covered" >            return true;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return false;</span>
+    };
+    MockPageFilter.prototype.kindRequestFilter = <span class="fstat-no" title="function not covered" >function (element) {</span>
+<span class="cstat-no" title="statement not covered" >        if (element.type === 'BorrowRequest' ||</span>
+            element.type === 'PurchaseRequest' ||
+            element.type === 'RideShareRequest' ||
+            element.type === 'ReoccuringRecreationRequest' ||
+            element.type === 'SingleRecreationRequest') {
+<span class="cstat-no" title="statement not covered" >            return true;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return false;</span>
+    };
+    /**
+     * Filters the argument listings by the argument locations.
+     */
+    MockPageFilter.prototype.locationFilter = <span class="fstat-no" title="function not covered" >function (listings, locations) {</span>
+<span class="cstat-no" title="statement not covered" >        console.log('locationFilter');</span>
+<span class="cstat-no" title="statement not covered" >        var listingsMatch = [];</span>
+<span class="cstat-no" title="statement not covered" >        listings.forEach(<span class="fstat-no" title="function not covered" >function (listing) {</span></span>
+<span class="cstat-no" title="statement not covered" >            var found = false;</span>
+<span class="cstat-no" title="statement not covered" >            for (var i = 0; i &lt; locations.length &amp;&amp; !found; i++) {</span>
+<span class="cstat-no" title="statement not covered" >                if (listing.location === locations[i]) {</span>
+<span class="cstat-no" title="statement not covered" >                    listingsMatch.push(listing);</span>
+                }
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        return listingsMatch;</span>
+    };
+    /**
+     * Filters the listings by price.
+     * A listing meet the criteria if its price is lower or same as the maximum price
+     * and if the price is higher or same as the minimum price.
+     * Short: min &lt;= price &lt;= max
+     */
+    MockPageFilter.prototype.priceFilter = <span class="fstat-no" title="function not covered" >function (listings, min, max) {</span>
+<span class="cstat-no" title="statement not covered" >        var listingsMatch = [];</span>
+<span class="cstat-no" title="statement not covered" >        listings.forEach(<span class="fstat-no" title="function not covered" >function (listing) {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (listing.hasOwnProperty('price')) {</span>
+<span class="cstat-no" title="statement not covered" >                if (listing.price &lt;= max &amp;&amp; listing.price &gt;= min) {</span>
+<span class="cstat-no" title="statement not covered" >                    listingsMatch.push(listing);</span>
+                }
+            }
+            else <span class="cstat-no" title="statement not covered" >if (min &lt;= 0) {</span>
+<span class="cstat-no" title="statement not covered" >                listingsMatch.push(listing);</span>
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        return listingsMatch;</span>
+    };
+    /**
+     * Filtes a listing array after types.
+     */
+    MockPageFilter.prototype.typeFilter = <span class="fstat-no" title="function not covered" >function (listings, types) {</span>
+<span class="cstat-no" title="statement not covered" >        var listingsMatch = [];</span>
+<span class="cstat-no" title="statement not covered" >        listings.forEach(<span class="fstat-no" title="function not covered" >function (listing) {</span></span>
+<span class="cstat-no" title="statement not covered" >            var found = false;</span>
+<span class="cstat-no" title="statement not covered" >            for (var i = 0; i &lt; types.length &amp;&amp; !found; i++) {</span>
+<span class="cstat-no" title="statement not covered" >                if (listing.type === types[i]) {</span>
+<span class="cstat-no" title="statement not covered" >                    listingsMatch.push(listing);</span>
+<span class="cstat-no" title="statement not covered" >                    found = true;</span>
+                }
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        return listingsMatch;</span>
+    };
+    /**
+     * Sorts the array by sort criteria.
+     * Criteria must be one of:
+     * alphabetical_asc, alphabetical_desc, date_asc, date_desc,
+     * location_asc, location_desc, price_asc, price_desc
+     */
+    MockPageFilter.prototype.sort = <span class="fstat-no" title="function not covered" >function (listings, sortCriteria) {</span>
+<span class="cstat-no" title="statement not covered" >        if (sortCriteria === 'alphabetical_asc') {</span>
+<span class="cstat-no" title="statement not covered" >            return listings.sort(<span class="fstat-no" title="function not covered" >function (a, b) {</span></span>
+<span class="cstat-no" title="statement not covered" >                return a.title - b.title;</span>
+            });
+        }
+        else <span class="cstat-no" title="statement not covered" >if (sortCriteria === 'alphabetical_desc') {</span>
+<span class="cstat-no" title="statement not covered" >            return listings.sort(<span class="fstat-no" title="function not covered" >function (a, b) {</span></span>
+<span class="cstat-no" title="statement not covered" >                return b.title - a.title;</span>
+            });
+        }
+        else <span class="cstat-no" title="statement not covered" >if (sortCriteria === 'date_asc') {</span>
+<span class="cstat-no" title="statement not covered" >            return listings.sort(<span class="fstat-no" title="function not covered" >function (a, b) {</span></span>
+<span class="cstat-no" title="statement not covered" >                return a.createDate - b.createDate;</span>
+            });
+        }
+        else <span class="cstat-no" title="statement not covered" >if (sortCriteria === 'date_desc') {</span>
+<span class="cstat-no" title="statement not covered" >            return listings.sort(<span class="fstat-no" title="function not covered" >function (a, b) {</span></span>
+<span class="cstat-no" title="statement not covered" >                return b.createDate - a.createDate;</span>
+            });
+        }
+        else <span class="cstat-no" title="statement not covered" >if (sortCriteria === 'location_asc') {</span>
+<span class="cstat-no" title="statement not covered" >            return listings.sort(<span class="fstat-no" title="function not covered" >function (a, b) {</span></span>
+<span class="cstat-no" title="statement not covered" >                return a.location - b.location;</span>
+            });
+        }
+        else <span class="cstat-no" title="statement not covered" >if (sortCriteria === 'location_desc') {</span>
+<span class="cstat-no" title="statement not covered" >            return listings.sort(<span class="fstat-no" title="function not covered" >function (a, b) {</span></span>
+<span class="cstat-no" title="statement not covered" >                return b.location - a.location;</span>
+            });
+        }
+        else <span class="cstat-no" title="statement not covered" >if (sortCriteria === 'price_asc') {</span>
+<span class="cstat-no" title="statement not covered" >            return listings.sort(<span class="fstat-no" title="function not covered" >function (a, b) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (a.hasOwnProperty('price') &amp;&amp; b.hasOwnProperty('price')) {</span>
+<span class="cstat-no" title="statement not covered" >                    return a.price - b.price;</span>
+                }
+                else <span class="cstat-no" title="statement not covered" >if (a.hasOwnProperty('price') &amp;&amp; !b.hasOwnProperty('price')) {</span>
+<span class="cstat-no" title="statement not covered" >                    return a;</span>
+                }
+                else <span class="cstat-no" title="statement not covered" >if (!a.hasOwnProperty('price') &amp;&amp; b.hasOwnProperty('price')) {</span>
+<span class="cstat-no" title="statement not covered" >                    return -b;</span>
+                }
+                else <span class="cstat-no" title="statement not covered" >if (!a.hasOwnProperty('price') &amp;&amp; !b.hasOwnProperty('price')) {</span>
+<span class="cstat-no" title="statement not covered" >                    return 0;</span>
+                }
+            });
+        }
+        else <span class="cstat-no" title="statement not covered" >if (sortCriteria === 'price_desc') {</span>
+<span class="cstat-no" title="statement not covered" >            return listings.sort(<span class="fstat-no" title="function not covered" >function (a, b) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (a.hasOwnProperty('price') &amp;&amp; b.hasOwnProperty('price')) {</span>
+<span class="cstat-no" title="statement not covered" >                    return b.price - a.price;</span>
+                }
+                else <span class="cstat-no" title="statement not covered" >if (a.hasOwnProperty('price') &amp;&amp; !b.hasOwnProperty('price')) {</span>
+<span class="cstat-no" title="statement not covered" >                    return -a;</span>
+                }
+                else <span class="cstat-no" title="statement not covered" >if (!a.hasOwnProperty('price') &amp;&amp; b.hasOwnProperty('price')) {</span>
+<span class="cstat-no" title="statement not covered" >                    return b;</span>
+                }
+                else <span class="cstat-no" title="statement not covered" >if (!a.hasOwnProperty('price') &amp;&amp; !b.hasOwnProperty('price')) {</span>
+<span class="cstat-no" title="statement not covered" >                    return 0;</span>
+                }
+            });
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            throw new Error('Invalid sort method!');</span>
+        }
+    };
+    return MockPageFilter;
+}());
+exports.MockPageFilter = MockPageFilter;
+//# sourceMappingURL=mock-page.filter.js.map</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Jun 17 2017 15:26:54 GMT+0200 (Mitteleuropäische Sommerzeit)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

@@ -19,6 +19,7 @@ import { PurchaseRequestModule } from './request/purchase-request/purchase-reque
 import { RideShareRequestModule } from './request/rideshare-request/rideshare-request.module';
 import { RecreationRequestModule } from './request/recreation-request/recreation-request.module';
 import { ListingInformationService } from './listings-information.service';
+import { ServiceRequestModule } from './request/service-request/service-request.module';
 
 import { FormModule } from '../../form/form.module';
 
@@ -38,7 +39,8 @@ import { FormModule } from '../../form/form.module';
     BorrowRequestModule,
     PurchaseRequestModule,
     RideShareRequestModule,
-    RecreationRequestModule
+    RecreationRequestModule,
+    ServiceRequestModule
   ],
   imports: [
     FormsModule,
@@ -51,7 +53,8 @@ import { FormModule } from '../../form/form.module';
     PurchaseRequestModule,
     RideShareRequestModule,
     RecreationRequestModule,
-
+    ServiceRequestModule,
+    
     FormModule,
     ListingModule
     // ListingModule.getNewListingModule([

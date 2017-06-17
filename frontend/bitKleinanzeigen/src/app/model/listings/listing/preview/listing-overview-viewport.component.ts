@@ -18,6 +18,7 @@ import { ListingDescriptor } from '../listing.descriptor';
 
 import { ListingDescriptorHandler } from '../listing-descriptor.handler';
 import { ListingInformationService } from '../../listings-information.service';
+import { ListingDetailViewComponent } from '../detail/listing-detail-view.component';
 
 declare var jQuery: any;
 
@@ -39,21 +40,29 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
   listingWidth: number;
   listingCounter : number = 0;
 
+  @ViewChild('listingViewPort') listingViewPort : ElementRef;
   @ViewChild('listingScroller') listingScroller: ElementRef;
+
+  @ViewChild('listingDetailViewComponent') listingDetailViewComponent : ListingDetailViewComponent;
+
+  /**Define Levels*/
+  @ViewChild("listingFilter") listingFilter : ElementRef;
+  @ViewChild("listingCreate") listingCreate : ElementRef;
+  @ViewChild("listingDetailView") listingDetailView : ElementRef;
+
+  levels : ElementRef[];
+
+
 
   public detailListingID : number;
 
   public lisitingDetailViewOverlayDisplayState : boolean = false;
 
-  /**Triggers a detail view overlay if a preview is clicked*/
-  public triggerDetailViewOverlay(id : number) : void {
-    console.log('detail-view-overlay triggerd for:', id);
+  /*
+   * Triggers a detail view overlay if a preview is clicked
+   */
+  public loadListingDetailView(id : number) : void {
     this.detailListingID = id;
-    this.lisitingDetailViewOverlayDisplayState = true;
-  }
-
-  public closeDetailViewOverlay() : void {
-    // this.lisitingDetailViewOverlayDisplayState = false;
   }
 
   public findListingPreviewComponentTypeFromListingType(listingType : string) : Type<ListingPreviewComponent> {
@@ -68,12 +77,59 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
   ) {
     this.listings = this.listingRepository.listings;
     this.listingDescriptorHandler = this.listingInformationService.listingDescriptorHandler;
-    this.messageService.getObservable().subscribe((message : Message) => {
-      if (message.message === 'showListingFilter') {
-        this.displayListingFilter = true;
-      }
+    this.messageService.getObservable().subscribe((message:Message) => {
+      this.messageReceiver(message);
     });
   }
+
+
+  /*
+   * Listens for incoming messages and manipulates the viewport beheaviour accordingly
+   */
+  private messageReceiver(message : Message) : void {
+    if (message.message === 'toggleListingFilter') {
+      this.listingFilter.nativeElement.classList.contains("active") ?
+      this.resetViewport() : this.displayLevel(this.listingFilter);
+    } else if (message.message === 'createListing') {
+      this.displayLevel(this.listingCreate);
+    } else if (message.message === 'resetViewport') {
+      this.resetViewport();
+    } else if(message.message === 'displayListingDetail') {
+      this.loadListingDetailView(message.payload);
+      this.displayLevel(this.listingDetailView);
+    }
+  };
+
+  /*
+   * Sets the forwarded level-element to be displayed and removes the
+   * display-class for any other level-elements which may be currently active
+   * in the viewport
+   * @argument activeLevel the HTML Element Reference to set to active.
+   */
+   private displayLevel(activeLevel:ElementRef) : void {
+     this.levels.forEach((level) => {
+       if(level !== activeLevel) {
+         level.nativeElement.classList.remove("active");
+       }
+     });
+     activeLevel.nativeElement.classList.add("active");
+     //Ensure to open up the display
+     this.listingViewPort.nativeElement.classList.add('slide-away');
+   }
+
+   /*
+    * Sets all levels to be hidden and returns the viewport to its
+    * original state
+    */
+    private resetViewport() : void {
+      //Hide all levels
+      this.levels.forEach((level) => {
+        level.nativeElement.classList.remove("active");
+      });
+      //Return viewport to original state
+      this.listingViewPort.nativeElement.classList.remove('slide-away');
+      this.setSliderControls();
+    }
 
   getListings() : Listing[] {
     return this.listingRepository.listings;
@@ -181,6 +237,12 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
 
     /*Set the listing container once component's been loaded*/
     this.listingWrapper = document.querySelector("#listing-wrapper");
+
+    this.levels = [
+       this.listingFilter,
+       this.listingCreate,
+       this.listingDetailView
+     ];
 
     /*
     * Monitor scrolls on the listing wrapper

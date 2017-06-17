@@ -15,7 +15,13 @@ module.exports.translate = function(load){
   baseHref.href = this.baseURL;
   baseHref = baseHref.pathname;
 
-  basePath = basePath.replace(baseHref, '');
+// BUG: Angular Bug (for Karma testing) see:
+// https://stackoverflow.com/questions/43301136/angular-testing-example-components-fail-to-load-templates-in-karma
+  // basePath = basePath.replace(baseHref, '');
+
+  if (!baseHref.startsWith('/base/')) { // it is not karma
+    basePath = basePath.replace(baseHref, '');
+  }
 
   load.source = load.source
     .replace(templateUrlRegex, function(match, quote, url){

@@ -1,31 +1,27 @@
-<div id="listing-viewport" class="listing-viewport">
-  <listing-create
-  class="listing-create" style="width: 5000px;"
-  overlay>
-  </listing-create>
+<div id="listing-viewport" class="listing-viewport" #listingViewPort>
+  <div class="listing-create level-down" #listingCreate>
+    <listing-create></listing-create>
+  </div>
   <listing-edit
-  class="listing-edit"
-  overlay>
+  class="listing-edit level-down"
+  >
   </listing-edit>
-  <listing-detail-view
-  class="listing-detail-view"
-  [listingID]="detailListingID"
-  [overlay]="lisitingDetailViewOverlayDisplayState"
-  selector="DetailView">
-  </listing-detail-view>
-  <listing-filter
-  [overlay]="displayListingFilter"
-  selector="ListingFilter"
-  class="listing-filter">
-  </listing-filter>
-  <div class="listing-scroll-container">
+  <div class="listing-detail-view level-down" #listingDetailView>
+    <listing-detail-view  [listingID]="detailListingID" #listingDetailViewComponent></listing-detail-view>
+  </div>
+
+  <div class="listing-filter level-down" #listingFilter>
+    <listing-filter></listing-filter>
+  </div>
+
+
+  <div class="listing-scroll-container main-viewport">
     <div class="listing-wrapper" #listingScroller id="listing-wrapper">
       <div class="listing-loader" id="listing-loader"><span class="glyphicon glyphicon-refresh"></span></div><!--SHOULD BE ITS OWN COMPONENT-->
       <div *ngFor="let listing of listingRepository.listings; let last = last" class="listing-container">
         <div class="listing-container-inner">
           <div *ngFor="let singleListing of listing" class="listing">
             <listing-preview-placeholder
-              [listingComponentType]="findListingPreviewComponentTypeFromListingType(singleListing.type)"
               [listing]="singleListing" class="col-xs-12 col-sm-6 col-md-12"
               (listingCreated)="updateListingCounter($event)"
               (showListingDetailView)="triggerDetailViewOverlay($event)">
@@ -43,4 +39,4 @@
     </div>
     <!-- EOF CONTROLS FOR THE LISTING WRAPPER -->
   </div>
-</div>
+</div> <!-- EOF Viewport -->

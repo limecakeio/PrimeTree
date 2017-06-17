@@ -1,6 +1,8 @@
 .listing-preview {
-width: 275px;
-height: 275px;
+/*width: 275px;
+height: 275px;*/
+width: 93vw;
+height: 100vw;
 background-color: #dddedf;
 background-image: url('./assets/images/listing-corner.png');
 background-repeat: no-repeat;

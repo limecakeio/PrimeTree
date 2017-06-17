@@ -1,10 +1,15 @@
 .listing-detail-content {
-  color: #fff;
+  display: table;
+  width: 65%;
+  margin: 2em auto;
+  background-color: #FFF8F0;
+  color: #57585A;
 }
 
 .listing-detail-header {
   padding: 5pt 0;
   position: relative;
+  color: #FFF8F0;
 }
 
 .listing-detail-header h1 {

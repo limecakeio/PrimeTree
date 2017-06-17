@@ -23,7 +23,7 @@ export class CloseDetailViewComponent {
 
   public closeDetailViewOverlay() : void {
     this.messageService.sendMessage({
-      message: 'hideDetailView'
+      message: 'resetViewport'
     });
   }
 

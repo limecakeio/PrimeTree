@@ -66,6 +66,7 @@ export class DateAndTimeFormComponent implements OnInit {
     })
   }
 
+  /**Checks whether the Input as well as the model is available and adds the property if it is missing. */
   private checkModel() : void {
     if (this.isInputAvailable && this.isModelAvailable) {
       if (!this.model[this.dateAndTimeProperty.name]) {
@@ -74,6 +75,7 @@ export class DateAndTimeFormComponent implements OnInit {
     }
   }
 
+  /**Adds the unix time of the selected date to the model. */
   public addDateAndTimeToModel() : void {
     if (this.day && this.month && this.year && this.hour && this.minute) {
       let unixDate : number = new Date(this.year, this.month, this.day, this.hour, this.minute).getTime();

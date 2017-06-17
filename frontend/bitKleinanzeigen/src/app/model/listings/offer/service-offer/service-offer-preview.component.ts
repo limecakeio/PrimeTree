@@ -1,8 +1,7 @@
 import {
   Component,
   Input,
-  OnInit,
-  AfterViewInit
+  OnInit
 } from '@angular/core';
 import { DomSanitizer, SafeStyle, SafeUrl } from '@angular/platform-browser';
 
@@ -10,6 +9,7 @@ import { ServiceOffer } from './service-offer.model';
 
 import { ListingPreviewComponent } from '../../listing/preview/listing-preview.component';
 import { PreviewService } from '../../../../view/preview/preview.service';
+import { MessageService, Message } from '../../../../shared/message.service';
 
 @Component({
   selector: 'service-offer-preview',
@@ -32,9 +32,10 @@ export class ServiceOfferPreviewComponent extends ListingPreviewComponent implem
 
   constructor(
     private domSanitizer : DomSanitizer,
-    public previewService : PreviewService
+    public previewService : PreviewService,
+    public messageService : MessageService
   ) {
-    super(previewService);
+    super(previewService, messageService);
   }
 
   ngOnInit() {

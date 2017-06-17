@@ -26,7 +26,7 @@ export class NotifyComponent {
     });
   }
 
-  public closeNotify() : void {
+  public hideNotify() : void {
     this.displayMessage = false;
     this.notifyMessage = '';
   };
