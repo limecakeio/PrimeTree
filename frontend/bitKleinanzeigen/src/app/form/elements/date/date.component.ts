@@ -62,6 +62,7 @@ export class DateFormComponent implements OnInit {
     }
   }
 
+  /**Creates an array filled with the numbers from x to y. */
   private createNumberArrayAscending(from : number, to : number) : number[] {
     let numbers : number[] = [];
     for (let i = from; i <= to; i++) {

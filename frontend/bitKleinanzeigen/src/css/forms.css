@@ -9,8 +9,10 @@ Controls/Overwrites all form displays for the bIT Kleinanzeigen web-application.
 /**GENERAL FORM SETTINGS*/
 .listing-form {
   display: table;
-  width:100%;
-  margin: 0 auto;
+  width:90%;
+  margin: 2em auto;
+  background-color: #FFF8F0;
+  border: 1px solid #ccc;
 }
 
 .form-title {
@@ -27,36 +29,8 @@ Controls/Overwrites all form displays for the bIT Kleinanzeigen web-application.
   margin: 0;
 }
 
-.form-title-controls {
-  position: absolute;
-  display: table;
-  width: 100%;
-  height: 100%;
-  top:0;
-  left: 0;
-}
-
-.form-title-controls .navigation {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.form-title-controls .navigation.back:before {
-  content: '<';
-  margin-left: 5pt;
-}
-
-.form-title-controls .navigation.exit {
-  text-align: right;
-}
-
-.form-title-controls .navigation.exit:before {
-  content: 'X';
-  margin-right: 5pt;
-}
-
 .form-group {
-  padding: 0pt 35pt;
+  padding: 1em;
 }
 
 /**FORM ELEMENTS AND INPUTS*/
@@ -85,4 +59,9 @@ textarea.form-control:focus {
 
 textarea.form-control {
   font-weight: normal;
+}
+
+/**SUBMIT*/
+.submit-button {
+  padding: 1em 0;
 }

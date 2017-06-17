@@ -19,6 +19,7 @@ export class ListingFactory {
     'isActive', 'location', 'title', 'type'
   ];
 
+  /**Returns an array of strings describing all missing properties. */
   protected findMissingProperties(body : any) : string[] {
     let missingProperties : string[] = [];
     this.vitalListingProperties.forEach((property : string) => {

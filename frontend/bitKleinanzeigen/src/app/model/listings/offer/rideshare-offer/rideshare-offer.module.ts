@@ -5,7 +5,6 @@ import { FormModule } from '../../../../form/form.module';
 import { PreviewModule } from '../../../../view/preview/preview.module';
 import { DetailModule } from '../../../../view/detail/detail.module';
 
-import { RideShareOfferCreateFormComponent } from './rideshare-offer-create-form.component';
 import { RideShareOfferComponent } from './rideshare-offer.component';
 import { RideShareOfferPreviewComponent } from './rideshare-offer-preview.component';
 import { RideshareOfferFormComponent } from './rideshare-offer-form.component';
@@ -17,13 +16,11 @@ import { RideshareOfferFormComponent } from './rideshare-offer-form.component';
     DetailModule
   ],
   declarations: [
-    RideShareOfferCreateFormComponent,
     RideShareOfferPreviewComponent,
     RideShareOfferComponent,
     RideshareOfferFormComponent
   ],
   exports: [
-    RideShareOfferCreateFormComponent,
     RideShareOfferPreviewComponent,
     RideShareOfferComponent,
     RideshareOfferFormComponent
@@ -33,4 +30,4 @@ import { RideshareOfferFormComponent } from './rideshare-offer-form.component';
 export class RideShareOfferModule {
 
 }
-export { RideShareOfferPreviewComponent, RideShareOfferComponent,  RideShareOfferCreateFormComponent, RideshareOfferFormComponent}
+export { RideShareOfferPreviewComponent, RideShareOfferComponent, RideshareOfferFormComponent}

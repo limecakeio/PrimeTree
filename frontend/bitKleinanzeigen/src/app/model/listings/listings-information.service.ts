@@ -10,7 +10,9 @@ import { BorrowRequestDescriptor } from './request/borrow-request/borrow-request
 import { PurchaseRequestDescriptor } from './request/purchase-request/purchase-request.descriptor';
 import { RideShareRequestDescriptor } from './request/rideshare-request/rideshare-request.descriptor';
 import { RecreationRequestDescriptor } from './request/recreation-request/recreation-request.descriptor';
+import { ServiceRequestDescriptor } from './request/service-request/service-request.descriptor';
 
+/**This service shares the listing information over all componets which share this service. */
 @Injectable()
 export class ListingInformationService {
 
@@ -27,6 +29,7 @@ export class ListingInformationService {
     this.listingDescriptorHandler.addListingDescriptorTypeof(PurchaseRequestDescriptor);
     this.listingDescriptorHandler.addListingDescriptorTypeof(RideShareRequestDescriptor);
     this.listingDescriptorHandler.addListingDescriptorTypeof(RecreationRequestDescriptor);
+    this.listingDescriptorHandler.addListingDescriptorTypeof(ServiceRequestDescriptor);
   }
 
 }

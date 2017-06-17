@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 
 import { ServiceOfferComponent } from './service-offer.component';
 import { ServiceOfferPreviewComponent } from './service-offer-preview.component';
-import { ServiceOfferCreateFormComponent } from './service-offer-create-form.component';
 import { ServiceOfferFormComponent } from './service-offer-form.component';
 
 import { FormModule } from '../../../../form/form.module';
@@ -14,13 +13,11 @@ import { DetailModule } from '../../../../view/detail/detail.module';
 @NgModule({
   declarations: [
     ServiceOfferPreviewComponent,
-    ServiceOfferCreateFormComponent,
     ServiceOfferComponent,
     ServiceOfferFormComponent
   ],
   exports: [
     ServiceOfferPreviewComponent,
-    ServiceOfferCreateFormComponent,
     ServiceOfferComponent,
     ServiceOfferFormComponent,
     RouterModule,
@@ -40,4 +37,4 @@ export class ServiceOfferModule {
 
 }
 
-export { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent, ServiceOfferComponent, ServiceOfferFormComponent }
+export { ServiceOfferPreviewComponent, ServiceOfferComponent, ServiceOfferFormComponent }

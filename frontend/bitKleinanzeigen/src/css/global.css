@@ -309,9 +309,27 @@ section {
   color: #242325;
   border-radius: 0;
   text-transform: uppercase;
+  transition: background-color 0.25s linear;
 }
 
 .btn-listing.btn-create {
   background-color: #e5143f;
   color:#fff;
+}
+
+.btn-listing.btn-create:hover,
+.btn-listing.btn-create:focus {
+  background-color: #eb4e6f;
+
+}
+
+.btn-listing-submit {
+  background-color: #175DA9;
+  color: #fff;
+}
+
+.btn-listing-submit:hover,
+.btn-listing-submit:focus {
+  background-color: #5185be;
+  color: #fff;
 }

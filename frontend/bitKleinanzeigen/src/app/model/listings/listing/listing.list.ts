@@ -1,5 +1,6 @@
 import { Listing } from './listing.model';
 
+/**A ListingList contains an array of listings as well as infomation about the listings. */
 export class ListingList {
 
   public price_min : number;
@@ -18,6 +19,7 @@ export class ListingListFactory {
     'price_min', 'price_max', 'listings', 'count'
   ];
 
+  /**Creates a new ListingList from the request body. */
   public createListingList(body : any) : ListingList {
     if (this.checkProperties(body)) {
       let listingList : ListingList = new ListingList();
@@ -27,6 +29,7 @@ export class ListingListFactory {
     throw new Error('Cannot create a ListingList:' + this.findMissingProperties(body).join(', ') + ' are missing!');
   }
 
+  /**Checks whether all properties are includede on the body. */
   private checkProperties(body : any) : boolean {
     this.listingListProperties.forEach((property : string) => {
       if (!body.hasOwnProperty(property)) {
@@ -36,6 +39,7 @@ export class ListingListFactory {
     return true;
   }
 
+  /**Returns an array of strings describing  all missing properties. */
   private findMissingProperties(body : any) : string[] {
     let missingProperties : string[] = [];
     this.listingListProperties.forEach((property : string) => {
@@ -46,6 +50,7 @@ export class ListingListFactory {
     return missingProperties;
   }
 
+  /**Assign all properties from the request body to the lsting. */
   private assignProperties(listingList : ListingList, body : any) : void {
     this.listingListProperties.forEach((property : string) => {
       listingList[property] = body[property];

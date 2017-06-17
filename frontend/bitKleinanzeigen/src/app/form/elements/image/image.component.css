@@ -1,6 +1,5 @@
 .main-image-wrapper {
   transition: height 0.35s linear;
-  border: 1pt solid #ccc;
 }
 
 
@@ -136,6 +135,8 @@
 
 .final-image-container {
   display:none;
+  padding: 0;
+  position: relative;
 }
 
 .final-image-container.active {
@@ -145,4 +146,10 @@
 .final-image-image img {
   width:100%;
   height: auto;
+}
+
+.final-image-remove {
+  position: absolute;
+  top: 0;
+  left: 0;
 }

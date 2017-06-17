@@ -2,9 +2,6 @@ import {
   Component,
   Type,
   Input,
-  OnInit,
-  Output,
-  EventEmitter,
   OnChanges,
   SimpleChanges
  } from '@angular/core';
@@ -22,19 +19,17 @@ import { Listing } from '../listing.model';
   templateUrl: './listing-detail-view.component.html',
   styleUrls: [ './listing-detail-view.component.css' ]
 })
-export class ListingDetailViewComponent implements OnInit, OnChanges {
+export class ListingDetailViewComponent implements OnChanges {
 
   @Input() listingID : number = 0;
-
-  @Output() closeOverlay : EventEmitter<void> = new EventEmitter<void>();
-
-  @Output() showOverlay : EventEmitter<void> = new EventEmitter<void>();
 
   public listingDescriptorHandler : ListingDescriptorHandler;
 
   public listingComponentType : Type<ListingComponent>;
 
   public listing : Listing;
+
+  public showListingDetailView : boolean = false;
 
   constructor(
     private activatedRoute : ActivatedRoute,
@@ -47,23 +42,7 @@ export class ListingDetailViewComponent implements OnInit, OnChanges {
   ngOnChanges(simpleChanges : SimpleChanges) : void {
     if (typeof simpleChanges['listingID']['currentValue'] === 'number') {
       this.setListingAndLisitingType(this.listingID);
-      this.showDetailViewOverlay();
     }
-  }
-
-  ngOnInit() : void {
-    // if (this.listingID >= 0) {
-    //   this.setListingAndLisitingType(this.listingID);
-    // } else {
-    //   this.setListingAndLisitingType(this.activatedRoute.snapshot.params['id']);
-    // }
-  }
-  public showDetailViewOverlay() : void {
-    this.showOverlay.emit();
-  }
-
-  public hideOverlay() : void {
-    // this.closeOverlay.emit();
   }
 
   private setListingAndLisitingType(listingID : number) {
@@ -71,6 +50,7 @@ export class ListingDetailViewComponent implements OnInit, OnChanges {
     .subscribe((listing : Listing) => {
       this.listing = listing;
       this.listingComponentType = this.listingDescriptorHandler.getListingComponentTypeFromListingType(listing.type);
+      this.showListingDetailView = true;
     }, (error : Error) => {
       console.error(error);
     }, () => {

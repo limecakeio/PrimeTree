@@ -74,6 +74,7 @@ export class UserAdminDashboardComponent {
   public appointAdmin(userID : number) : void {
     this.userController.appointAdmin(userID).subscribe(() => {
       this.users.find(user => user.userId === userID).isAdmin = true;
+      console.log(this.users.find(user => user.userId === userID))
     });
   }
 

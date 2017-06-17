@@ -1,50 +1,50 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { ListingCreateFormComponent } from '../../listing/create/listing-create-form.component';
-import { Condition } from '../../listing/condition.model';
+import { ListingFormComponent } from '../../listing/form/listing-form.component';
 
-import { FormService } from '../../../../form/forms.service';
-import { SaleOffer } from './sale-offer.model';
+import { FormContextService } from '../../../../form/form-context.service';
 
 import { ListingsImageController } from '../../listings-image.controller';
 
 @Component({
-  selector: 'sale-offer-create',
-  templateUrl: './sale-offer-create-form.component.html',
+  selector: 'service-request-form',
+  templateUrl: './service-request-form.component.html',
   providers: [
-    FormService,
+    FormContextService,
     ListingsImageController
   ],
   outputs: [
     'listingcreated'
   ]
 })
-export class SaleOfferCreateFormComponent extends ListingCreateFormComponent{
+export class ServiceRequestFormComponent extends ListingFormComponent {
 
   form : FormGroup;
 
+  public data : any;
+
+  public model : any;
+
 
   constructor(
-    private service : FormService,
+    public formContextService : FormContextService,
     private listingsImageController : ListingsImageController
   ) {
-    super(service);
-    this.service.form = new FormGroup({});
-    this.service.model = new SaleOffer();
-    this.service.data = {};
-    this.data = this.service.data;
-    this.form = this.service.form;
-    this.model = this.service.model;
+    super(formContextService);
+    this.model = this.listing;
+    // console.log('putIntoContext sale')
+    // this.formContextService.putIntoContext(this.listing);
+    this.data = this.formContextService.data;
+    this.form = this.formContextService.form;
+    this.model = this.formContextService.model;
   }
 
   submit() : void {
-    // this.model.condition = Condition.New;
-    // this.model.expiryDate = null;
     this.emitListing((id : number) => {
       if (this.data.imageAsFile) {
         this.listingsImageController.listingMainImageUpload(id, this.data.imageAsFile, this.data.imageFileType).subscribe(() => {
-          this.updateRepository();
+          this.updateRepositoryAfter();
         }, (error : Error) => {
           console.error(error);
         });
@@ -56,8 +56,9 @@ export class SaleOfferCreateFormComponent extends ListingCreateFormComponent{
           });
         }
       } else {
-        this.updateRepository();
+        this.updateRepositoryAfter();
       }
     });
   }
+
 }

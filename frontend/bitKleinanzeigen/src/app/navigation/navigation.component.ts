@@ -26,7 +26,10 @@ export class NavigationComponent {
 
   /**Navigates the router to listing/create. */
   create() : void {
-    this.router.navigate(['listing/create']);
+    // this.router.navigate(['listing/create/SaleOffer']);
+    this.messageService.sendMessage({
+      message: 'createListing'
+    })
   }
 
   /**Navigates the router to home. */
@@ -55,6 +58,8 @@ export class NavigationComponent {
         message: 'ListingSearch',
         payload: event.target.value
       });
+    } else {
+      this.router.navigate(['home']);
     }
   }
 

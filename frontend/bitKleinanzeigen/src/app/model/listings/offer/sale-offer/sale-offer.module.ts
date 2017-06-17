@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 
 import { SaleOfferComponent } from './sale-offer.component';
 import { SaleOfferPreviewComponent } from './sale-offer-preview.component';
-import { SaleOfferCreateFormComponent } from './sale-offer-create-form.component';
 import { SaleOfferFormComponent } from './sale-offer-form.component';
 
 import { FormModule } from '../../../../form/form.module';
@@ -14,14 +13,12 @@ import { DetailModule } from '../../../../view/detail/detail.module';
 @NgModule({
   declarations: [
     SaleOfferPreviewComponent,
-    SaleOfferCreateFormComponent,
     SaleOfferComponent,
     SaleOfferFormComponent
   ],
   exports: [
     SaleOfferComponent,
     SaleOfferPreviewComponent,
-    SaleOfferCreateFormComponent,
     RouterModule,
     PreviewModule,
     DetailModule,

@@ -27,12 +27,6 @@ export interface FilterCriteria {
 })
 export class ListingFilterComponent {
 
-  // public showOverlay : boolean = true;
-  //
-  // public hideFilterOverlay() {
-  //   this.showOverlay = !this.showOverlay;
-  // }
-
   public price_min : number;
 
   public price_max : number;
@@ -96,32 +90,25 @@ export class ListingFilterComponent {
 
   private listingRequest : ListingRequest;
 
-  @Output() hideOverlay : EventEmitter<void> = new EventEmitter<void>();
-
-  @Output() showOverlay : EventEmitter<void> = new EventEmitter<void>();
-
   constructor(
     private formService : FormService,
     private listingController : ListingController,
     private listingRepository : ListingRepository,
-    private statisticsService : StatisticsService
-    // private MessageService : MessageService
+    private statisticsService : StatisticsService,
+    private messageService : MessageService
   ) {
      this.listingRequest = this.listingController.listingRequest();
      this.formService.model = this.model;
-    //  this.loactionList = this.statisticsService.statistics.
-  }
-
-  public closeFilterOverlay() : void {
-    this.hideOverlay.emit();
-  }
-
-  public showFilterOverlay() : void {
-    this.showOverlay.emit();
   }
 
   public filterChanged() :  void {
     this.listingRepository.applyFilter(this.model);
+  }
+
+  public closeFilter() : void {
+    this.messageService.sendMessage({
+      message : "resetViewport"
+    });
   }
 
 }

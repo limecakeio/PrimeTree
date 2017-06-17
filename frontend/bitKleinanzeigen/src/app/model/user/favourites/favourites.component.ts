@@ -1,43 +1,66 @@
 import {
   Component,
-  Type
+  ElementRef,
+  Type,
+  ViewChild
 } from '@angular/core';
 
 import { ListingInformationService } from '../../listings/listings-information.service';
 
 import { Listing } from '../../listings/listing/listing.model';
 import { ListingController } from '../../listings/listing/listing.controller';
+import { MessageService, Message } from '../../../shared/message.service';
 
 import { UserController } from '../user.controller';
 
 @Component({
   selector: 'user-favourites',
   templateUrl: './favourites.component.html',
-  styleUrls: [ './favourites.component.css' ]
+  styleUrls: [ './favourites.component.css',
+  '../../../listings/listing/preview/listing-overview-viewport.component.css'
+]
 })
 export class FavouritesComponent {
 
   public favouriteListings : Listing[] = [];
 
-  windowWidth: number;
-  windowHeight: number;
-  scrollOffset: number;
-  listingWrapper: any;
-  listingWidth: number;
+  detailListingID : number;
   listingCounter : number = 0;
   listingCount : number = 0;
+
+  @ViewChild('listingDetailView') listingDetailView : ElementRef;
+  @ViewChild('listingViewport') listingViewport : ElementRef;
 
   constructor(
     private userController : UserController,
     private listingController : ListingController,
-    private listingInformationService : ListingInformationService
+    private listingInformationService : ListingInformationService,
+    private messageService : MessageService
   ) {
     this.getFavourites();
-
+    this.messageService.getObservable().subscribe((message:Message) => {
+      this.messageReceiver(message);
+    });
   }
 
-  public getListingPreviewTypeFromListingType(listingType : string) {
-    return this.listingInformationService.listingDescriptorHandler.getListingPreviewComponentTypeFromListingType(listingType);
+  /*
+   * Listens for incoming messages and manipulates the viewport beheaviour accordingly
+   */
+  private messageReceiver(message : Message) : void {
+    if (message.message === 'resetViewport') {
+      this.resetViewport();
+    } else if(message.message === 'displayListingDetail') {
+      this.loadListingDetailView(message.payload);
+      this.listingDetailView.nativeElement.classList.add("active");
+      this.listingViewport.nativeElement.classList.add('slide-away');
+    }
+  };
+
+  /*
+   * Sets the listing ID in order to load it into the view
+   */
+  private loadListingDetailView(listingID : number) : void {
+    this.detailListingID = listingID;
   }
 
   private getFavourites() : void {
@@ -57,54 +80,19 @@ export class FavouritesComponent {
 
   public updateListingCounter(id : number) : void {
     this.listingCounter++;
-    console.log('favourite listing Counter', this.listingCounter);
     if (this.listingCounter === this.listingCount) {
-      console.log(this.listingCounter)
-      this.setViewport();
+
     }
   }
 
-  public triggerDetailViewOverlay(e : any) : void {
-
-  }
-
-  setViewport(): void {
-    //Calculate the availble space for the viewport
-    const headerHeight = document.querySelector("#header").clientHeight;
-    const listingViewport = <any>document.querySelector("#listing-viewport");
-    const viewportHeight = this.windowHeight - headerHeight;
-    listingViewport.style.height = viewportHeight + "px";
-
-    /*Regardless of the device we are accessed from if a screen's height smaller
-    than 650px we display the listings on a single line*/
-    const viewPortMargin = 100; //Don't allow a listing to fill the entire container.
-
-    let listings = document.querySelectorAll(".listing");
-    let listingCubicSize;
-
-    if(viewportHeight < 650) {
-      //Display listings on a single row
-      for(let i = 0; i < listings.length; i++) {
-        listings[i].classList.add("single-row");
-      }
-      //Set the listing dimension
-      listingCubicSize = viewportHeight - viewPortMargin;
-    } else {
-      //Display listings wihtin two rows
-      for(let i = 0; i < listings.length; i++) {
-        listings[i].classList.remove("single-row");
-      }
-      listingCubicSize = (viewportHeight/2)- viewPortMargin;
-    }
-
-    //Apply the size to each listing and set its image-preview
-    let listingPreviews = <any>document.querySelectorAll(".listing-preview");
-    for(let i = 0; i < listings.length; i++) {
-      listingPreviews[i].style.width = listingCubicSize + "px";
-      listingPreviews[i].style.height = listingCubicSize + "px";
-      //Images to display in the OpenGraph ratio of 1:0.525
-      listingPreviews[i].querySelector(".listing-image").style.height = listingCubicSize * 0.525 + "px";
-    }
-  }
+  /*
+   * Sets all levels to be hidden and returns the viewport to its
+   * original state
+   */
+   private resetViewport() : void {
+     // Hide listing detail view
+     this.listingDetailView.nativeElement.classList.remove('active');
+     this.listingViewport.nativeElement.classList.remove('slide-away');
+   }
 
 }

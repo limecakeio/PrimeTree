@@ -5,7 +5,7 @@ import { MessageService, Message } from '../../../../shared/message.service';
 import { ListingList } from '../listing.list';
 import { ListingController } from '../listing.controller';
 
-// BUG: Angular bug or dump behavior: Angular creates services in @NgModule
+// BUG: Angular bug: Angular creates services in @NgModule
 // BUG: when the first component is instanciated that inject this service via dependancy injection.
 // BUG: An service that needs services itself cannot be created directly as a useValue.
 
@@ -18,7 +18,6 @@ export class ListingSearchService {
     private messageService : MessageService,
     private listingController : ListingController,
   ) {
-    // console.log('ListingSearchService')
     this.messageService.getObservable().subscribe((message : Message) => {
       if (message.message === 'ListingSearch') {
         console.log('searchMessage', message)

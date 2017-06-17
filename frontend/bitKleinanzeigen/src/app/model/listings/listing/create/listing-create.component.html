@@ -1,12 +1,18 @@
-<div class="section-header standard" (click)="returnForm()">
+<div class="section-header standard">
   <h1>Inserat Erstellen</h1>
+  <div class="navigation-control nav-back left" *ngIf="listingKind.length !== 0">
+    <span class="icon back" title="Zurück" (click)="returnForm()"></span>
+  </div>
+  <div class="navigation-control nav-cancel right" (click)="closeForm()">
+    <span class="icon exit" title="Schliessen"></span>
+  </div>
 </div>
 
 <div class="listing-create-kind-choose" *ngIf="listingKind.length === 0">
   <div class="listing-create-intro">
     <h2>Bitte wähle...</h2>
   </div>
-  <div class="listing-create-choices container">
+  <div class="listing-create-choices container-fluid">
     <div class="row">
       <div class="col-xs-12 col-sm-6">
         <div class="listing-create-wrapper">
@@ -36,7 +42,7 @@
       <h2>Wofür möchtest Du ein Angebot erstellen?</h2>
       <h2>Bitte wähle...</h2>
     </div>
-    <div class="listing-create-choices container">
+    <div class="listing-create-choices container-fluid">
       <div class="row">
         <div class="col-xs-12 col-sm-4">
           <div class="listing-create-wrapper">
@@ -74,7 +80,7 @@
       <h2>Wonach suchst Du?</h2>
       <h2>Bitte wähle...</h2>
     </div>
-    <div class="listing-create-choices container">
+    <div class="listing-create-choices container-fluid">
       <div class="row">
         <div class="col-xs-12 col-sm-4">
           <div class="listing-create-wrapper">

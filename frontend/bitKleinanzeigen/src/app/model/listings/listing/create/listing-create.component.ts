@@ -10,11 +10,12 @@ import { ListingDescriptorHandler } from '../listing-descriptor.handler';
 import { ListingInformationService } from '../../listings-information.service';
 import { UserService } from '../../../user/user.service';
 
-import { ListingCreateFormComponent } from './listing-create-form.component';
 import { ListingModule } from '../listing.module';
 import { ListingDescriptor } from '../listing.descriptor';
 import { Listing } from '../listing.model';
 import { ListingSubmit } from '../form/listing-form.component';
+
+import { MessageService, Message } from '../../../../shared/message.service';
 
 @Component({
   selector: 'listing-create',
@@ -45,29 +46,16 @@ export class ListingCreateComponent {
     private activatedRoute : ActivatedRoute,
     private router : Router,
     private userService : UserService,
-    private listingInformationService : ListingInformationService
+    private listingInformationService : ListingInformationService,
+    private messageService : MessageService
   ) {
-    // this.userLocation = this.userService.userInformation.location;
-    this.router.events.subscribe((event : any) => {
-      if (event instanceof NavigationEnd) {
-        if (
-          this.activatedRoute.snapshot.url.length === 2 &&
-          this.activatedRoute.snapshot.url[0].path === 'create'
-        ) {
-          // this.listingType = this.activatedRoute.snapshot.params['listingType'];
-          this.showOverlay.emit();
-        }
-      }
-    });
   }
 
   public setListingKind(listingKind : string) : void {
-    console.log(listingKind)
     this.listingKind = listingKind;
   }
 
   public setListingType(listingType : string) : void {
-    console.log(listingType)
     this.listingType = listingType;
     this.listing = this.listingInformationService.listingDescriptorHandler.getListingFromListingType(listingType);
   }
@@ -95,14 +83,18 @@ export class ListingCreateComponent {
   /** Calls the ListingRepository update method, hides the overlay and navigates to the overview page.*/
   public updateRepository() : void {
     this.listingRepository.update();
-    this.closeOverlay.emit();
-    this.router.navigate(['home']);
+    this.messageService.sendMessage({
+      message: "resetViewport"
+    });
   }
 
   public closeForm() : void {
     this.listingType = '';
     this.listingKind = '';
     this.closeOverlay.emit();
+    this.messageService.sendMessage({
+      message: 'resetViewport'
+    })
     this.router.navigate(['home']);
   }
 

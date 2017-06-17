@@ -4,7 +4,6 @@ import { ListingDescriptor } from './listing.descriptor';
 import { ListingFactory } from './listing.factory';
 import { ListingPreviewComponent } from './preview/listing-preview.component';
 import { ListingComponent } from './detail/listing.component';
-import { ListingCreateFormComponent } from './create/listing-create-form.component';
 import { ListingFormComponent } from './form/listing-form.component';
 import { Listing } from './listing.model';
 
@@ -31,10 +30,6 @@ export class ListingDescriptorHandler {
 /**Returns the type */
   public getListingPreviewComponentTypeFromListingType(listingType : string) : Type<ListingPreviewComponent> {
     return this.findListingDescriptorFromListingType(listingType).getListingPreviewComponentTypeClassName();
-  }
-
-  public getListingCreateFormComponentTypeFromLisitingType(listingType : string) : Type<ListingCreateFormComponent> {
-    return this.findListingDescriptorFromListingType(listingType).getListingCreateFormComponentTypeClassName();
   }
 
   public getListingFormComponentTypeFromLisitingType(listingType : string) : Type<ListingFormComponent> {
@@ -65,6 +60,7 @@ export class ListingDescriptorHandler {
     return this.nullListingDescriptor;
   }
 
+  /**Returns an array of ListingPreviewComponent types. */
   public getAllListingPreviewComponentTypes() : Type<ListingPreviewComponent>[] {
     let listingPreviewComponentTypes : Type<ListingPreviewComponent>[] = [];
     this.listingsDescriptors.forEach((listingsDescriptor : ListingDescriptor) => {
@@ -79,14 +75,6 @@ export class ListingDescriptorHandler {
       listingComponentTypes.push(listingsDescriptor.getListingComponentTypeClassName());
     });
     return listingComponentTypes;
-  }
-
-  public getAllListingCreateComponentTypes() : Type<ListingCreateFormComponent>[] {
-    let listingCreateFormComponentType : Type<ListingCreateFormComponent>[] = [];
-    this.listingsDescriptors.forEach((listingsDescriptor : ListingDescriptor) => {
-      listingCreateFormComponentType.push(listingsDescriptor.getListingCreateFormComponentTypeClassName());
-    });
-    return listingCreateFormComponentType;
   }
 
   public getAllComponentTypes() : Type<any>[] {

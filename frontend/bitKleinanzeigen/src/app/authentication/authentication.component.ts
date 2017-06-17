@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { AuthenticationController } from './authentication.controller';
 import { User, UserService, Employee } from '../model/user/user';
 
+import { Message, MessageService } from '../shared/message.service';
+
 @Component({
   selector: 'authentication',
   templateUrl: './authentication.component.html',
@@ -19,7 +21,8 @@ export class AuthenticationComponent {
   constructor(
     private authenticationController : AuthenticationController,
     private userService : UserService,
-    private router : Router
+    private router : Router,
+    private  messageService : MessageService
   ) {
     this.user = this.userService.user;
     this.form = new FormGroup({});
@@ -40,7 +43,10 @@ export class AuthenticationComponent {
       this.user.password = '';
       this.router.navigate(['home']);
     }, (error : Error) => {
-      console.error(error);
+      this.messageService.sendMessage({
+        message: 'notify',
+        payload: 'zu dumm zum tippem´n'
+      })
     }, () => {
 
     });
