@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { RecreationRequest } from './recreation-request.model';
 import { ListingPreviewComponent } from '../../listing/preview/listing-preview.component';
 import { PreviewService } from '../../../../view/preview/preview.service';
+import { MessageService, Message } from '../../../../shared/message.service';
 
 @Component({
   selector: 'recreation-request-preview',
@@ -39,9 +40,10 @@ export class RecreationRequestPreviewComponent extends ListingPreviewComponent i
   constructor(
     private domSanitizer : DomSanitizer,
     private router : Router,
-    public previewService : PreviewService
+    public previewService : PreviewService,
+    public messageService : MessageService
   ) {
-    super(previewService);
+    super(previewService, messageService);
   }
 
   ngOnInit() : void {

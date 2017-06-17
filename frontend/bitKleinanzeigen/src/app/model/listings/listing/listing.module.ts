@@ -20,7 +20,6 @@ import { ListingRepository } from './listing.repository';
 import { ListingOverviewViewportComponent } from './preview/listing-overview-viewport.component';
 import { ListingPreviewPlaceholderComponent } from './preview/listing-preview-placeholder.component';
 import { ListingCreateComponent } from './create/listing-create.component';
-import { ListingCreateFormPlaceholderComponent } from './create/listing-create-form-placeholder.component';
 import { ListingDetailViewComponent } from './detail/listing-detail-view.component';
 import { ListingDetailViewPlaceholderComponent } from './detail/listing-detail-view-placeholder.component';
 // import { ListingDetailViewOverlayComponent } from './detail/listing-detail-view-overlay.component';
@@ -39,15 +38,16 @@ import { ListingSearchComponent } from './search/search.component';
 import { ListingSearchService } from './search/search.service';
 
 // Add your own listing components in the entryComponents array
-import { ListingComponent, ListingPreviewComponent, ListingCreateFormComponent } from './listing.descriptor';
-import { SaleOfferPreviewComponent, SaleOfferCreateFormComponent, SaleOfferComponent, SaleOfferFormComponent } from '../offer/sale-offer/sale-offer.descriptor';
-import { ServiceOfferPreviewComponent, ServiceOfferCreateFormComponent, ServiceOfferComponent, ServiceOfferFormComponent } from '../offer/service-offer/service-offer.descriptor';
+import { ListingComponent, ListingPreviewComponent } from './listing.descriptor';
+import { SaleOfferPreviewComponent, SaleOfferComponent, SaleOfferFormComponent } from '../offer/sale-offer/sale-offer.descriptor';
+import { ServiceOfferPreviewComponent, ServiceOfferComponent, ServiceOfferFormComponent } from '../offer/service-offer/service-offer.descriptor';
 
-import { RideShareOfferModule, RideShareOfferPreviewComponent, RideShareOfferComponent, RideShareOfferCreateFormComponent, RideshareOfferFormComponent } from '../offer/rideshare-offer/rideshare-offer.module';
+import { RideShareOfferModule, RideShareOfferPreviewComponent, RideShareOfferComponent, RideshareOfferFormComponent } from '../offer/rideshare-offer/rideshare-offer.module';
 import { BorrowRequestComponent, BorrowRequestFormComponent, BorrowRequestPreviewComponent } from '../request/borrow-request/borrow-request.descriptor';
 import { PurchaseRequestComponent, PurchaseRequestFormComponent, PurchaseRequestPreviewComponent } from '../request/purchase-request/purchase-request.descriptor';
 import { RideShareRequestComponent, RideShareRequestPreviewComponent, RideshareRequestFormComponent } from '../request/rideshare-request/rideshare-request.descriptor';
 import { RecreationRequestComponent, RecreationRequestFormComponent, RecreationRequestPreviewComponent } from '../request/recreation-request/recreation-request.descriptor';
+import { ServiceRequestComponent, ServiceRequestFormComponent, ServiceRequestPreviewComponent } from '../request/service-request/service-request.descriptor';
 
 @NgModule({
   imports: [
@@ -57,12 +57,10 @@ import { RecreationRequestComponent, RecreationRequestFormComponent, RecreationR
     SharedModule
   ],
   declarations: [
-    ListingCreateFormComponent,
     ListingComponent,
     ListingPreviewComponent,
     ListingOverviewViewportComponent,
     ListingPreviewPlaceholderComponent,
-    ListingCreateFormPlaceholderComponent,
     ListingCreateComponent,
     ListingDetailViewComponent,
     ListingDetailViewPlaceholderComponent,
@@ -77,7 +75,6 @@ import { RecreationRequestComponent, RecreationRequestFormComponent, RecreationR
     SharedModule,
     ListingOverviewViewportComponent,
     ListingPreviewPlaceholderComponent,
-    ListingCreateFormPlaceholderComponent,
     ListingCreateComponent,
     ListingDetailViewComponent,
     ListingDetailViewPlaceholderComponent,
@@ -97,18 +94,15 @@ import { RecreationRequestComponent, RecreationRequestFormComponent, RecreationR
     ListingFormComponent,
 
     SaleOfferPreviewComponent,
-    SaleOfferCreateFormComponent,
     SaleOfferComponent,
     SaleOfferFormComponent,
 
     ServiceOfferPreviewComponent,
-    ServiceOfferCreateFormComponent,
     ServiceOfferComponent,
     ServiceOfferFormComponent,
 
     RideShareOfferPreviewComponent,
     RideShareOfferComponent,
-    RideShareOfferCreateFormComponent,
     RideshareOfferFormComponent,
 
     BorrowRequestComponent,
@@ -125,7 +119,11 @@ import { RecreationRequestComponent, RecreationRequestFormComponent, RecreationR
 
     RecreationRequestComponent,
     RecreationRequestFormComponent,
-    RecreationRequestPreviewComponent
+    RecreationRequestPreviewComponent,
+
+    ServiceRequestComponent,
+    ServiceRequestFormComponent,
+    ServiceRequestPreviewComponent
   ]
 })
 export class ListingModule {

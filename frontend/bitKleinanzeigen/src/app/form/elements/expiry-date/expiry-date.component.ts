@@ -51,7 +51,7 @@ export class ExpiryDateFormComponent {
   public addExpiryDateToModel() : void {
     if (this.day && this.month && this.year) {
       let unixDate : number = new Date(this.year, this.month, this.day).getTime();
-      this.model.expriyDate = unixDate;
+      this.model.expiryDate = unixDate;
     }
   }
 

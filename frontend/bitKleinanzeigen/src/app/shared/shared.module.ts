@@ -7,15 +7,19 @@ import { OverlayDirective } from './overlay.directive';
 import { StatisticsService } from './statistics.service';
 import { StatisticsController } from './statistics.controller';
 
+import { NotifyComponent } from './notify.component';
+
 @NgModule({
   declarations: [
-    OverlayDirective
+    OverlayDirective,
+    NotifyComponent
   ],
   exports: [
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    OverlayDirective
+    OverlayDirective,
+    NotifyComponent
   ],
   imports: [
     FormsModule,

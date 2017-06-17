@@ -1,7 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { ListingCreateFormComponent } from '../../listing/create/listing-create-form.component';
 import { ListingFormComponent } from '../../listing/form/listing-form.component';
 
 import { FormContextService } from '../../../../form/form-context.service';

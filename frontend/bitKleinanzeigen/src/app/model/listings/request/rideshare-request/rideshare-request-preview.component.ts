@@ -10,6 +10,7 @@ import { RideShareRequest } from './rideshare-request.model';
 
 import { ListingPreviewComponent } from '../../listing/preview/listing-preview.component';
 import { PreviewService } from '../../../../view/preview/preview.service';
+import { MessageService, Message } from '../../../../shared/message.service';
 
 @Component({
   selector: 'rideshare-request-preview',
@@ -25,9 +26,10 @@ export class RideShareRequestPreviewComponent extends ListingPreviewComponent im
   @Input() listing : RideShareRequest;
 
   constructor(
-    public previewService : PreviewService
+    public previewService : PreviewService,
+    public messageService : MessageService
   ) {
-    super(previewService);
+    super(previewService, messageService);
   }
 
   ngOnInit() {

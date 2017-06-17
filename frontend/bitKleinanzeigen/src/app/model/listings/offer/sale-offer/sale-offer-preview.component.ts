@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 
 import { SaleOffer } from './sale-offer.model';
 import { ListingPreviewComponent } from '../../listing/preview/listing-preview.component';
+import { Message, MessageService } from '../../../../shared/message.service';
 import { PreviewService } from '../../../../view/preview/preview.service';
 
 @Component({
@@ -39,9 +40,10 @@ export class SaleOfferPreviewComponent extends ListingPreviewComponent implement
   constructor(
     private domSanitizer : DomSanitizer,
     private router : Router,
-    public previewService : PreviewService
+    public previewService : PreviewService,
+    public messageService : MessageService
   ) {
-    super(previewService);
+    super(previewService, messageService);
   }
 
   ngOnInit() : void {

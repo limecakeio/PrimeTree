@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { BorrowRequest } from './borrow-request.model';
 import { ListingPreviewComponent } from '../../listing/preview/listing-preview.component';
 import { PreviewService } from '../../../../view/preview/preview.service';
+import { MessageService, Message } from '../../../../shared/message.service';
 
 import { DateProperty } from '../../../../view/preview/date/date.component';
 
@@ -51,9 +52,10 @@ export class BorrowRequestPreviewComponent extends ListingPreviewComponent imple
   constructor(
     private domSanitizer : DomSanitizer,
     private router : Router,
-    public previewService : PreviewService
+    public previewService : PreviewService,
+    public messageService : MessageService
   ) {
-    super(previewService);
+    super(previewService, messageService);
   }
 
   ngOnInit() : void {

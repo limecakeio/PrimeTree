@@ -13,6 +13,9 @@ export class ListingsImageController {
     private networkService : NetworkService
   ) {  }
 
+  /**Uploads the image to the server. Adds the neccesary header to determine the image file type. */
+  /**Accepts the corresponding listing id, the file that contains the image data as well as optional the file type. */
+  /**Returns an Observable which returns void if the listing image was uploaded succesfully or an exception if something went wrong. */
   public listingMainImageUpload(listingId : number, file : File, fileType ? : string) : Observable<void> {
     let formData : FormData = new FormData();
     formData.append('file', file);
@@ -42,6 +45,8 @@ export class ListingsImageController {
     });
   }
 
+  /**Uploads an image file to the server under the specific image id. */
+  /**Returns an Observable that re */
   public galleryImageUpload(listingId : number, imageId : number, file : File) : Observable<void> {
     let formData : FormData = new FormData();
     formData.append('file', file);
@@ -69,6 +74,7 @@ export class ListingsImageController {
     });
   }
 
+  /**Removes the whole gallery from the server. Returns an Observable that returns to voidd if everything went well or throws an error. */
   public removeGallery(listingId : number) : Observable<void> {
     let networkRequest : NetworkRequest = this.networkService.networkRequest();
     networkRequest

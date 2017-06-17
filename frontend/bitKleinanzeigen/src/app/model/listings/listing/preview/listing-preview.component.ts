@@ -10,6 +10,8 @@ import {
 
 import { PreviewService } from '../../../../view/preview/preview.service';
 
+import { MessageService, Message } from '../../../../shared/message.service';
+
 import { Listing } from '../listing.model';
 
 @Component({
@@ -24,26 +26,25 @@ export class ListingPreviewComponent implements OnChanges {
 
   @Input() listing : Listing = null;
 
-  @Output() showListingDetailView : EventEmitter<number> = new EventEmitter<number>();
-
   public listingDetailViewLink : string;
 
   constructor(
-    public previewService : PreviewService
+    public previewService : PreviewService,
+    public messageService : MessageService
   ) {
 
   }
 
-  public previewClick(event : Event) {
-    this.showListingDetailView.emit(this.listing.id);
-  }
-
-  // ngOnInit() : void {
-  //   this.listingDetailViewLink = '/listing/' + this.listing.id;
-  // }
-
   ngOnChanges(simpleChanges : SimpleChanges) : void {
     this.previewService.sendModelToObservers(this.listing);
+  }
+
+  /**Sends a  */
+  public displayListingDetail() {
+    this.messageService.sendMessage({
+      message: 'displayListingDetail',
+      payload: this.listing.id
+    });
   }
 
 }

@@ -3,9 +3,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { FormContextService } from '../../form-context.service';
 
-/**
- * Provides templates and models for adding a price to a listing.
- */
 @Component({
   selector: 'form-element-available-seats',
   templateUrl: './available-seats.component.html'
@@ -26,7 +23,7 @@ export class AvailableSeatsFormComponent {
     this.data = this.formContextService.data;
     this.form = this.formContextService.form;
     this.formContextService.getContext().subscribe(() => {
-      this.model = this.formContextService.model;
+      this.model = this.formContextService.model; // connect the shared model
       if (!this.model.availableSeats) {
         this.model.availableSeats = null;
       }

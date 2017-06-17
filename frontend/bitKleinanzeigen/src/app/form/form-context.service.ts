@@ -9,8 +9,10 @@ export class FormContextService extends AsyncContextService {
 
   form : FormGroup = new FormGroup({});
 
+  /**All properties of this object will be automatically send on submit. */
   model : any;
 
+  /**Use this object if you need to share additional properties between components which should not be send automatically on the first submit.*/
   data : any = {};
 
   constructor() {

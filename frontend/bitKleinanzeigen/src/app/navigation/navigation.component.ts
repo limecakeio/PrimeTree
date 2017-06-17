@@ -24,14 +24,20 @@ export class NavigationComponent {
     this.isAuthenticated = this.userService.authenticated;
   }
 
+  /**Navigates the router to listing/create. */
   create() : void {
-    this.router.navigate(['listing/create/SaleOffer']);
+    // this.router.navigate(['listing/create/SaleOffer']);
+    this.messageService.sendMessage({
+      message: 'createListing'
+    })
   }
 
+  /**Navigates the router to home. */
   home() : void {
     this.router.navigate(['home']);
   }
 
+  /**Discards the active users credentials and routes back to /user/login. */
   logout() : void {
     this.authenticationController.logout().subscribe(() => {
       this.userService.authenticated = false;
@@ -44,19 +50,20 @@ export class NavigationComponent {
     });
   }
 
+  /**Performs a search request if the search query contains at least two characters. Routes to /listing/search afterwards. */
   public search(event : any) : void {
     if (event.target.value.length >= 2) {
-      console.log('search')
       this.router.navigate(['listing/search']);
-
       this.messageService.sendMessage({
         message: 'ListingSearch',
         payload: event.target.value
       });
-      // this.router.navigate(['listing/search']);
+    } else {
+      this.router.navigate(['home']);
     }
   }
 
+  /**Toggls the filter component if the listing overview viewport component is visible. */
   public activateListingFilter() : void {
     this.messageService.sendMessage({
       message: 'toggleListingFilter'
