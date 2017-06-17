@@ -2,8 +2,11 @@
   <div class="listing-header service-offer">
     <p>Biete / Dienstleistung</p> <!-- Requires dynamic population -->
   </div>
-  <div class="listing-image">
+  <div class="listing-image service-offer-50">
     <view-preview-image></view-preview-image>
+    <div *ngIf="listing.mainImage.length === 0">
+      <span class="icon listing-service"></span>
+    </div>
     <view-preview-price></view-preview-price>
   </div>
   <div class="listing-heading">

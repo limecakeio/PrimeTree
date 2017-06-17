@@ -39,4 +39,4 @@ export class RideShareOfferDescriptor extends ListingDescriptor {
 
 }
 
-export { RideShareOfferPreviewComponent, RideShareOfferComponent,  RideShareOfferCreateFormComponent, RideshareOfferFormComponent}
+export { RideShareOfferPreviewComponent, RideShareOfferComponent, RideshareOfferFormComponent}

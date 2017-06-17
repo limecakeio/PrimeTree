@@ -7,26 +7,31 @@ novalidate
   <h1>Biete / Dienstleistung</h1>
 </div>
 
-<div class="form-group">
-  <form-element-image></form-element-image>
-  <form-element-title></form-element-title>
-  <form-element-description></form-element-description>
-  <form-element-price></form-element-price>
-  <form-element-expiry-date></form-element-expiry-date>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-xs-12 submit-button">
-        <button
-        type="button"
-        name="button"
-        (click) = "submit()"
-        class="btn btn-listing btn-listing-submit"
-        [disabled]="form.invalid">
-        Dienstleistunginserat {{formStateText}}
-      </button>
+<div class="container-fluid form-container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <form-element-image></form-element-image>
+        <form-element-title></form-element-title>
+        <form-element-description></form-element-description>
+        <form-element-price></form-element-price>
+        <form-element-expiry-date></form-element-expiry-date>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12 submit-button">
+              <button
+              type="button"
+              name="button"
+              (click) = "submit()"
+              class="btn btn-listing btn-listing-submit"
+              [disabled]="form.invalid">
+              <span class="icon listing-service"></span>Dienstleistunginserat {{formStateText}}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
+</div>
 </div>
 </form>

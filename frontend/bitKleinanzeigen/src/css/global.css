@@ -16,6 +16,12 @@ Web-application
 .sale-offer:before {
   background-color: #CA5F05!important;
 }
+.sale-offer-75 {
+  background-color: #d78743;
+}
+.sale-offer-50 {
+  background-color: #e4af82;
+}
 /*Corner of post-it*/
 .sale-offer.listing-create:after {
   border-left-color: #e4af82!important;
@@ -34,6 +40,12 @@ Web-application
 .service-offer:before {
   background-color: #B92784!important;
 }
+.service-offer-75 {
+  background-color: #ca5da2;
+}
+.service-offer-50 {
+  background-color: #dc93c1;
+}
 /*Corner of post-it*/
 .service-offer.listing-create:after {
   border-left-color: #dc93c1!important;
@@ -50,7 +62,13 @@ Web-application
  */
 .rideshare-offer,
 .rideshare-offer:before {
-  background-color: #674679!important;
+  background-color: #8d749a!important;
+}
+.rideshare-offer-75 {
+  background-color: #ca5da2;
+}
+.rideshare-offer-50 {
+  background-color: #b3a2bc;
 }
 /*Corner of post-it*/
 .rideshare-offer.listing-create:after {
@@ -332,4 +350,8 @@ section {
 .btn-listing-submit:focus {
   background-color: #5185be;
   color: #fff;
+}
+
+.btn-listing-submit span:before {
+  margin-right: 6pt;
 }

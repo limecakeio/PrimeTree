@@ -92,6 +92,8 @@ import { ServiceRequestComponent, ServiceRequestFormComponent, ServiceRequestPre
   ],
   entryComponents: [
     ListingFormComponent,
+    ListingPreviewComponent,
+    ListingComponent,
 
     SaleOfferPreviewComponent,
     SaleOfferComponent,

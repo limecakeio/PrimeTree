@@ -36,6 +36,11 @@ transition: width, height 0.15s ease-in-out;
   height: calc(300px * 0.525);
 }
 
+.listing-image span {
+  color: #fff;
+  font-size: 3em;
+}
+
 .listing-heading, .listing-body, .listing-footer {
   padding: 5pt;
 }

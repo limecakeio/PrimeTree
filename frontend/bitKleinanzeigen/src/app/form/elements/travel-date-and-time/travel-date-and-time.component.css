@@ -1,0 +1,20 @@
+.travel-container {
+  margin: 1em 0;
+}
+
+.column {
+  padding: 0;
+}
+
+.column select {
+  margin-right: 5pt;
+}
+
+.travel-date .input-group,
+.travel-time .input-group {
+  margin:0;
+}
+
+.expiry-date-label {
+  color: #57585A;
+}
