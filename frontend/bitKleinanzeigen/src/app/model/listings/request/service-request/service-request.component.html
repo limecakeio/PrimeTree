@@ -1,29 +1,39 @@
 <div class="listing-detail-header service-request">
-  <h1>Gesuch Dienstleistung</h1>
+  <h1>Suche / Dienstleistung</h1>
   <view-detail-close></view-detail-close>
 </div>
-<div class="container listing-detail-body">
+
+<div class="listing-image-plug service-request-50">
+  <view-detail-image></view-detail-image>
+  <div *ngIf="!listing.mainImage" class="fallback-image">
+    <img src="./assets/images/fallback.png" />
+    <div class="fallback-icon">
+      <span class="icon listing-service"></span>
+    </div>
+  </div>
+  <view-detail-price></view-detail-price>
+</div>
+
+<div class="container-fluid listing-detail-body">
   <div class="row">
-    <div class="col-xs-12 col-md-6 listing-detail-column">
-      <view-detail-image></view-detail-image>
-      <view-detail-price></view-detail-price>
+    <div class="col-xs-12 listing-detail-column">
       <view-detail-creator></view-detail-creator>
       <div class="container-fluid listing-title-cta-container">
         <div class="row">
-          <div class="col-xs-12 col-md-8 listing-title-column title-cta-col">
+          <div class="col-xs-12 col-sm-8 listing-title-column title-cta-col">
             <view-detail-title></view-detail-title>
           </div>
-          <div class="col-xs-12 col-md-4 listing-cta-column title-cta-col">
+          <div class="col-xs-12 col-sm-4 listing-cta-column title-cta-col">
             <div class="container-fluid action-buttons-container">
               <div class="row">
-                <div class="col-xs-6 col-md-12 action-buttons-column">
+                <div class="col-xs-6 col-sm-12 action-buttons-column">
                   <div class="cta-element listing-favourite">
                     <view-detail-favourite></view-detail-favourite>
                   </div>
                 </div>
-                <div class="col-xs-6 col-md-12 action-buttons-column">
+                <div class="col-xs-6 col-sm-12 action-buttons-column">
                   <div class="cta-element listing-cta">
-                    <view-detail-call-to-action [action]="'Dienstleistungsanfrage'" [listingIcon]="listingIcon"></view-detail-call-to-action>
+                    <view-detail-call-to-action [action]="'Anfragen'" [listingIcon]="listingIcon"></view-detail-call-to-action>
                   </div>
                 </div>
               </div>
@@ -32,7 +42,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-md-6 listing-detail-column">
+    <div class="col-xs-12 listing-detail-column">
       <view-detail-description></view-detail-description>
     </div>
   </div>

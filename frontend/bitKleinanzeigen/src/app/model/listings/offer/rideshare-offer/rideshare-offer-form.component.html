@@ -1,31 +1,37 @@
 <form
-novalidate
 [formGroup]="form"
 (ngSubmit)="submit()" class="listing-form">
-<div class="form-title">
+
+<div class="form-title rideshare-offer">
   <h1>Biete / Mitfahrgelegenheit</h1>
 </div>
+
 <div class="container-fluid form-container">
   <div class="row">
     <div class="col-xs-12">
       <div class="form-group">
-        <form-element-description></form-element-description>
         <form-element-location-from></form-element-location-from>
-        <form-element-journey-stops></form-element-journey-stops>>
+        <form-element-journey-stops></form-element-journey-stops>
         <form-element-location-to></form-element-location-to>
-        <form-element-available-seats></form-element-available-seats>
         <form-element-travel-date-and-time></form-element-travel-date-and-time>
+        <form-element-available-seats></form-element-available-seats>
+        <form-element-description></form-element-description>
         <form-element-expiry-date></form-element-expiry-date>
-        <button
-          type="button"
-          name="button"
-          (click) = "submit()"
-          class="btn btn-primary"
-          [disabled]="form.invalid">
-            Mitfahrgelegenheit {{formStateText}}
-        </button>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12 submit-button">
+              <button
+              type="button"
+              name="button"
+              (click) = "submit()"
+              class="btn btn-listing btn-listing-submit"
+              [disabled]="form.invalid">
+              <span class="icon listing-rideshare"></span>Mitfahrgelegenheit {{formStateText}}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  </div>
-</form>
+</div>
+</div>

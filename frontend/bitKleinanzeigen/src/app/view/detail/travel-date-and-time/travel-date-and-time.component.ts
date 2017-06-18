@@ -23,7 +23,7 @@ export class TravelDateAndTimeViewComponent {
   }
 
   getLocalizedTime(unixtime : number) : string {
-    let localTime : string = 'am ';
+    let localTime : string = 'Am ';
     let date : Date = new Date(unixtime);
     localTime += date.getDay() + '.' + date.getMonth() + '.' + date.getFullYear() + ' um ' + date.getHours() + ':' + date.getMinutes();
     return localTime;

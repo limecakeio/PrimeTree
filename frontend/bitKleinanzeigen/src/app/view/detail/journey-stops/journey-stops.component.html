@@ -1,5 +1,12 @@
 <div class="listing-detail-journey-stop" *ngIf="isDataAvailable">
-  <div class="" *ngFor="let journeyStop of model.journeyStops">
-    <span>{{journeyStop}}</span>
+  <div class="container-fluid stops-container">
+    <div class="row">
+      <div class="col-xs-4 label-column column">
+        <p><span class="glyphicon glyphicon-road"></span> Via:</p>
+      </div>
+      <div class="col-xs-8 column">
+        <span *ngFor="let journeyStop of model.journeyStops; let last = last;">{{journeyStop}}<span *ngIf="!last" class="glyphicon glyphicon-arrow-right next-stop"></span></span>
+      </div>
+    </div>
   </div>
 </div>

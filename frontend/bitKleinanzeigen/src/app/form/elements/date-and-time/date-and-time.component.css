@@ -1,0 +1,23 @@
+.date-time-wrapper {
+  margin: 1em 0;
+}
+
+.date-time-container {
+  margin: 1em 0;
+}
+
+.column {
+  padding: 0;
+}
+
+.column select {
+  margin-right: 5pt;
+}
+
+.date-time-container .input-group {
+  margin:0;
+}
+
+.date-label {
+  color: #57585A;
+}

@@ -31,13 +31,17 @@ Controls/Overwrites all form displays for the bIT Kleinanzeigen web-application.
 
 .form-group {
   padding: 1em;
+  display: table;
+  width: 90%;
+  margin: 0 auto;
 }
 
 /**FORM ELEMENTS AND INPUTS*/
 .input-group {
   margin: 10pt 0;
-  width: 60%;
+  width: 100%;
 }
+
 input.form-control,
 textarea.form-control {
   border-radius: 0px;
@@ -64,4 +68,9 @@ textarea.form-control {
 /**SUBMIT*/
 .submit-button {
   padding: 1em 0;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+
 }

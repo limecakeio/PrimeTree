@@ -1,4 +1,5 @@
-.listing-detail-image img {
+.listing-detail-image img,
+.fallback-image img {
   width: 100%;
   height: auto;
 }

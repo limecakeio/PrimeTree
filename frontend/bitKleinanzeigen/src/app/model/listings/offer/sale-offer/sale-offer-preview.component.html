@@ -2,8 +2,13 @@
   <div class="listing-header sale-offer">
     <p>Biete / Verkauf</p>
   </div>
-  <div class="listing-image">
+  <div class="listing-image sale-offer-50">
     <view-preview-image></view-preview-image>
+    <div *ngIf="!listing.mainImage">
+      <div class="fallback-icon">
+        <span class="icon listing-sell"></span>
+      </div>
+    </div>
     <view-preview-price></view-preview-price>
   </div>
   <div class="listing-heading">
@@ -13,7 +18,6 @@
     <view-preview-location></view-preview-location>
   </div>
   <div class="listing-footer">
-    <!-- MAY NEED TO ARRANGE A SEPARATE COMPONENT FOR THIS? -->
     <view-preview-favourite></view-preview-favourite>
   </div>
 </div>

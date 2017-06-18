@@ -1,3 +1,9 @@
 <div class="listing-detail-travel-date-and-time" *ngIf="isDataAvailable">
-  <h1>{{getLocalizedTime(model.travelDateAndTime)}}</h1>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 column">
+        <p><span class="glyphicon glyphicon-calendar"></span> {{getLocalizedTime(model.travelDateAndTime)}}</p>
+      </div>
+    </div>
+  </div>
 </div>
