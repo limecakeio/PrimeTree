@@ -22,6 +22,9 @@ Web-application
 .sale-offer-50 {
   background-color: #e4af82;
 }
+.sale-offer-25 {
+  background-color: #f1d7c1;
+}
 /*Corner of post-it*/
 .sale-offer.listing-create:after {
   border-left-color: #e4af82!important;
@@ -45,6 +48,9 @@ Web-application
 }
 .service-offer-50 {
   background-color: #dc93c1;
+}
+.service-offer-25 {
+  background-color: #edc9e0;
 }
 /*Corner of post-it*/
 .service-offer.listing-create:after {
@@ -70,6 +76,9 @@ Web-application
 .rideshare-offer-50 {
   background-color: #b3a2bc;
 }
+.rideshare-offer-25 {
+    background-color: #e2dce6;
+}
 /*Corner of post-it*/
 .rideshare-offer.listing-create:after {
   border-left-color: #b3a2bc!important;
@@ -87,6 +96,15 @@ Web-application
 .purchase-request,
 .purchase-request:before {
   background-color: #d78743!important;
+}
+.purchase-request-75 {
+  background-color: #e1a572;
+}
+.purchase-request-50 {
+  background-color: #ebc3a1;
+}
+.purchase-request-25 {
+    background-color: #f5e1d0;
 }
 
 /*Corner of post-it*/
@@ -108,6 +126,15 @@ Web-application
  .recreation-request:before {
    background-color: #20843c!important;
  }
+ .recreation-request-75 {
+   background-color: #57a26c;
+ }
+ .recreation-request-50 {
+   background-color: #8fc19d;
+ }
+ .recreation-request-25 {
+     background-color: #c7e0ce;
+ }
 
  /*Corner of post-it*/
  .recreation-request.listing-create:after {
@@ -127,6 +154,15 @@ Web-application
   .borrow-request,
   .borrow-request:before {
     background-color: #005a7d!important;
+  }
+  .borrow-request-75 {
+    background-color: #40839d;
+  }
+  .borrow-request-50 {
+    background-color: #80acbe;
+  }
+  .borrow-request-25 {
+      background-color: #c0d6de;
   }
 
   /*Corner of post-it*/
@@ -148,6 +184,15 @@ Web-application
    .rideshare-request:before {
      background-color: #b0a7d1!important;
    }
+   .rideshare-request-75 {
+     background-color: #c3bddc;
+   }
+   .rideshare-request-50 {
+     background-color: #d7d3e8;
+   }
+   .rideshare-request-25 {
+       background-color: #ebe9f3;
+   }
 
    /*Corner of post-it*/
    .rideshare-request.listing-create:after {
@@ -167,6 +212,15 @@ Web-application
     .service-request,
     .service-request:before {
       background-color: #e296c3!important;
+    }
+    .service-request-75 {
+      background-color: #e9b0d2;
+    }
+    .service-request-50 {
+      background-color: #f0cae1;
+    }
+    .service-request-25 {
+        background-color: #f7e5f0;
     }
 
     /*Corner of post-it*/
@@ -320,6 +374,15 @@ section {
   background-color: rgba(0,0,0,0.75);
   z-index: 9999;
   overflow-y: auto;
+}
+
+/**TRUNCATE -> Ensure to set the width in the truncated element*/
+@media (max-width: 768px) {
+  .truncate-mobile {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 /**Custom bIT Kleinanzeigen Button Styles*/

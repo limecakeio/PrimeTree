@@ -1,11 +1,16 @@
-<div class="listing-preview" (click)="displayListingDetail()">
-  <div class="listing-header purchase-request">
+<div class="listing-preview">
+  <div class="listing-header recreation-request">
     <p>Gesuch / Freizeit</p>
   </div>
-  <div class="listing-image">
+  <div class="listing-image recreation-request-50" (click)="displayListingDetail()">
     <view-preview-image></view-preview-image>
+    <div *ngIf="!listing.mainImage">
+      <div class="fallback-icon">
+        <span class="icon listing-recreation"></span>
+      </div>
+    </div>
   </div>
-  <div class="listing-heading">
+  <div class="listing-heading" (click)="displayListingDetail()">
     <view-preview-title></view-preview-title>
   </div>
   <div class="listing-body">

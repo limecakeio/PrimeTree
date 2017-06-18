@@ -16,8 +16,8 @@ export class FavouritePreviewViewComponent {
 
   public model : any;
 
-// TODO: Write user method to check whether the listing is a favourite.
   public favouriteStatus : string = '';
+  public favouriteHoverTitle : string = 'Inserat favorisieren.';
 
 
   constructor(
@@ -29,6 +29,7 @@ export class FavouritePreviewViewComponent {
       this.model = model;
       if (this.userService.isFavourite(this.model.id)) {
         this.favouriteStatus = 'active';
+        this.favouriteHoverTitle = 'Inserat unfavorisieren.';
       }
     });
   }
@@ -37,10 +38,12 @@ export class FavouritePreviewViewComponent {
     if (this.userService.isFavourite(this.model.id)) {
       this.userService.removeFavourite(this.model.id).subscribe(() => {
         this.favouriteStatus = '';
+        this.favouriteHoverTitle = 'Inserat favorisieren.';
       });
     } else {
       this.userService.addFavourite(this.model.id).subscribe(() => {
         this.favouriteStatus = 'active';
+        this.favouriteHoverTitle = 'Inserat unfavorisieren.';
       });
     }
   }

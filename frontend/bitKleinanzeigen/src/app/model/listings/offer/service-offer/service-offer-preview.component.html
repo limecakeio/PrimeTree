@@ -4,8 +4,10 @@
   </div>
   <div class="listing-image service-offer-50">
     <view-preview-image></view-preview-image>
-    <div *ngIf="listing.mainImage.length === 0">
-      <span class="icon listing-service"></span>
+    <div *ngIf="!listing.mainImage">
+      <div class="fallback-icon">
+        <span class="icon listing-service"></span>
+      </div>
     </div>
     <view-preview-price></view-preview-price>
   </div>

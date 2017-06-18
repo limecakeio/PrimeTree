@@ -144,7 +144,7 @@ export class MockServer {
     location: 'Nürnberg',
     title: 'Eisschrank für die kalte Seele',
     price : 123.45,
-    mainImage : 'http://medien.markt.de/bilder/2013/04/28/20/51c60de1/medium_image/0/alter_gruenderzeit_eisschrank.jpg',
+    mainImage : '',
     imageGallery : [ 'assets/images/bit-ka-logo.png' ],
     condition : 'Used'
   }, {
@@ -159,7 +159,7 @@ export class MockServer {
     location: 'mannheim',
     title: 'Test 6',
     price : 50000,
-    mainImage : 'assets/images/bit-ka-logo.png',
+    mainImage : '',
     imageGallery : [ 'assets/images/bit-ka-logo.png' ]
   }, {
     type: 'ServiceOffer',
@@ -173,7 +173,7 @@ export class MockServer {
     location: 'mannheim',
     title: 'Test 7',
     price : 50000,
-    mainImage : 'assets/images/bit-ka-logo.png',
+    mainImage : '',
     imageGallery : [ 'assets/images/bit-ka-logo.png' ]
   }, {
     type: 'ServiceOffer',
@@ -257,6 +257,7 @@ export class MockServer {
     title: 'RideShareRequest!',
     fromLocation: 'Mannheim',
     toLocation: 'Köln',
+    mainImage: '',
     travelDateAndTime: 1495804073888
   }, {
     type: 'RecreationRequest',
