@@ -61,12 +61,12 @@ export class UserProfilComponent implements OnInit {
     });
   }
 
-  public changeListing(listingID : number) {
+  public changeListing(listing : Listing) {
     this.router.navigate(['home']).then((fulfilled : boolean) => {
       if (fulfilled) {
         this.messageService.sendMessage({
           message : 'changeListing',
-          payload: listingID
+          payload: listing
         })
       }
     });

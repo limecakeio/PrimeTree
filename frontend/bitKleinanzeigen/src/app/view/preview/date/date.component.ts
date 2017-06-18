@@ -49,7 +49,9 @@ export class DatePreviewViewComponent implements OnInit {
     if (this.dateProperty) {
       this.dateDisplayPropertyName = this.dateProperty.propertyName;
       this.dateDisplayText = this.dateProperty.displayText;
-      this.isInputAvailable = true;
+      if (this.model[this.dateDisplayPropertyName]) {
+        this.isInputAvailable = true;
+      }
     }
   }
 

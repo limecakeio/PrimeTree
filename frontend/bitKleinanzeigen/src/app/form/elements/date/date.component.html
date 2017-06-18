@@ -1,13 +1,13 @@
 <div [formGroup]="form" *ngIf="isModelAvailable && isInputAvailable">
   <div class="input-group">
     <span class="date-overlay">{{datePropertyDisplay}}</span>
-    <select [(ngModel)]="day" formControlName="day" (change)="addDateToModel()">
+    <select [(ngModel)]="day" name="day" formControlName="day" (change)="addDateToModel()">
       <option [value]="day" *ngFor="let day of days">{{day}}</option>
     </select>
-    <select [(ngModel)]="month" formControlName="month" (change)="addDateToModel()">
+    <select [(ngModel)]="month" name="month" formControlName="month" (change)="addDateToModel()">
       <option [value]="month" *ngFor="let month of months">{{month}}</option>
     </select>
-    <select [(ngModel)]="year" formControlName="year" (change)="addDateToModel()">
+    <select [(ngModel)]="year" name="year" formControlName="year" (change)="addDateToModel()">
       <option [value]="year" *ngFor="let year of years">{{year}}</option>
     </select>
   </div>

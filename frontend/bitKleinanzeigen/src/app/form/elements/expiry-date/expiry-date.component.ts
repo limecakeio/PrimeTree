@@ -65,16 +65,22 @@ export class ExpiryDateFormComponent {
     this.formContextService.getContext().subscribe(() => {
       this.model = this.formContextService.model;
       if (!this.model.expiryDate) {
-        this.model.expiryDate = null;
+        this.expiryDate = null;
+      } else {
+        this.expiryDate = this.getExpiryDateFromUnixTime();
       }
       this.form.addControl('expiryDate', new FormControl(''))
       this.isModelAvailable = true;
     })
   }
 
+  /**Retranslates the expiry date unix time stemp to the selected time span. */
+  private getExpiryDateFromUnixTime() : number {
+    return this.model.expiryDate - this.model.createDate;
+  }
+
   /**Adds the expiryDate as unix time to the model. */
   public addExpiryDateToModel() : void {
-    console.log(this.expiryDate)
     this.model.expiryDate = this.expiryDate;
   }
 

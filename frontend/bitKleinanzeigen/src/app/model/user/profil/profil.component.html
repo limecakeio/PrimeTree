@@ -12,7 +12,7 @@
     <span>{{listing.title}}</span>
     <button type="button" name="button" (click)="activateListing(listing.id)" *ngIf="!listing.isActive">Aktivieren</button>
     <button type="button" name="button" (click)="deactivateListing(listing.id)" *ngIf="listing.isActive">Dektivieren</button>
-    <button type="button" name="button" (click)="changeListing(listing.id)">Ändern</button>
+    <button type="button" name="button" (click)="changeListing(listing)">Ändern</button>
     <button type="button" name="button" (click)="removeListing(listing.id)">Löschen</button>
   </div>
 </div>

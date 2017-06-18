@@ -48,9 +48,6 @@ export class DateFormComponent implements OnInit {
     this.form = this.formContextService.form;
     this.formContextService.getContext().subscribe(() => {
       this.model = this.formContextService.model;
-      this.form.addControl('day', new FormControl(''));
-      this.form.addControl('month', new FormControl(''));
-      this.form.addControl('year', new FormControl(''));
       this.isModelAvailable = true;
     })
   }
@@ -76,8 +73,22 @@ export class DateFormComponent implements OnInit {
     if (this.dateProperty) {
       this.datePropertyName = this.dateProperty.name;
       this.datePropertyDisplay = this.dateProperty.display;
+      if (this.model[this.datePropertyName]) {
+        this.setTimeFromUnixTime();
+      }
+      this.form.addControl('day', new FormControl(''));
+      this.form.addControl('month', new FormControl(''));
+      this.form.addControl('year', new FormControl(''));
       this.isInputAvailable = true;
     }
+  }
+
+  private setTimeFromUnixTime() : void {
+    let date : Date = new Date(this.model[this.datePropertyName]);
+    this.day = date.getDate();
+    this.month = date.getMonth();
+    this.year = date.getFullYear();
+    console.log(date, this.model)
   }
 
 }

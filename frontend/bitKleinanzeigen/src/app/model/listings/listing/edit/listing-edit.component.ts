@@ -4,6 +4,8 @@ import { FormContextService } from '../../../../form/form-context.service';
 
 import { UserService } from '../../../user/user.service';
 
+import { MessageService, Message } from '../../../../shared/message.service';
+
 import { ListingController } from '../listing.controller';
 import { ListingRepository } from '../listing.repository';
 import { Listing } from '../listing.model';
@@ -19,16 +21,17 @@ import { ListingSubmit } from '../form/listing-form.component';
 })
 export class ListingEditComponent implements OnChanges {
 
-  @Input() listingID : number;
+  @Input() listing : Listing;
 
   public listingType : string;
 
-  public listing : Listing;
+  // public listing : Listing;
 
   constructor(
     private listingController : ListingController,
     private listingRepository : ListingRepository,
-    private router : Router
+    private router : Router,
+    private messageService : MessageService
   ) {
 
   }
@@ -65,6 +68,9 @@ export class ListingEditComponent implements OnChanges {
   public closeForm() : void {
     this.listing = null;
     this.listingType = '';
+    this.messageService.sendMessage({
+      message: 'resetViewport'
+    })
   }
 
   public returnForm() : void {
@@ -74,8 +80,8 @@ export class ListingEditComponent implements OnChanges {
   }
 
   ngOnChanges() : void {
-    if (typeof this.listingID === 'number') {
-      this.getListingFromServer(this.listingID);
+    if (this.listing) {
+      this.listingType = this.listing.type;
     }
   }
 

@@ -37,15 +37,15 @@ export class DateAndTimeFormComponent implements OnInit {
   public hours : number[] = this.createNumberArrayAscending(0, 23);
   public minutes : number[] = [0, 15, 30, 45];
 
-  public day : number;
+  public day : number = 1;
 
-  public month : number;
+  public month : number = 1;
 
-  public year : number;
+  public year : number = new Date().getFullYear();
 
-  public hour : number;
+  public hour : number = 0;
 
-  public minute : number;
+  public minute : number = 0;
 
   constructor(
     private formContextService : FormContextService
@@ -90,6 +90,7 @@ export class DateAndTimeFormComponent implements OnInit {
   }
 
   public ngOnInit() : void {
+    console.log(this.model, this.dateAndTimeProperty)
     if (this.dateAndTimeProperty) {
       if (this.model[this.dateAndTimeProperty.name]) {
         this.setTimeFromUnixTime(this.model[this.dateAndTimeProperty.name]);
@@ -107,6 +108,7 @@ export class DateAndTimeFormComponent implements OnInit {
     this.year = date.getFullYear();
     this.hour = date.getHours();
     this.minute = date.getMinutes();
+    console.log(new Date(unixTime));
   }
 
 }

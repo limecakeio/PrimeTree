@@ -57,7 +57,7 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
 
   public detailListingID : number;
 
-  public editListingID : number;
+  public editListing : Listing;
 
   public lisitingDetailViewOverlayDisplayState : boolean = false;
 
@@ -69,8 +69,8 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
   }
 
   /**Triggers a listing edit form. */
-  public loadListingEdit(listingID : number) : void {
-    this.editListingID = listingID;
+  public loadListingEdit(listing : Listing) : void {
+    this.editListing = listing;
   }
 
   public findListingPreviewComponentTypeFromListingType(listingType : string) : Type<ListingPreviewComponent> {

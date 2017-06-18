@@ -1,3 +1,13 @@
+<div class="section-header standard">
+  <h1>Inserat Editieren</h1>
+  <div class="navigation-control nav-back left">
+    <span class="icon back" title="Zurück" (click)="returnForm()"></span>
+  </div>
+  <div class="navigation-control nav-cancel right" (click)="closeForm()">
+    <span class="icon exit" title="Schliessen"></span>
+  </div>
+</div>
+
 <listing-form-placeholder
   *ngIf="listingType"
   (listingSubmit)="submitListing($event)"

@@ -1,0 +1,38 @@
+.section-header {
+  padding: 5pt 0;
+  position: relative;
+}
+
+.section-header h1 {
+  color: #57585A;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.navigation-control {
+  position: absolute;
+  height: 100%;
+  top:0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #57585A;
+  transition: color 0.25s linear;
+  padding: 0 10pt;
+}
+
+.navigation-control:hover,
+.navigation-control:focus {
+  color: #818183;
+}
+
+.navigation-control.right {
+  right:0;
+}
+
+.navigation-control.left {
+  left:0;
+}

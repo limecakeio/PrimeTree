@@ -70,7 +70,7 @@ export class ListingCreateComponent {
     event.model.isActive = true;
     event.model.createDate = new Date().getTime();
     if (event.model.expiryDate) { // add the create Date
-      event.model.expiryDate = parseInt(event.model.expiryDate) + event.model.createDate;
+      event.model.expiryDate = parseInt(event.model.expiryDate) + parseInt(event.model.createDate);
     }
     this.listingController.createListing(event.model).subscribe((listingId : number) => {
       if (event.callback) {
@@ -100,7 +100,6 @@ export class ListingCreateComponent {
     this.messageService.sendMessage({
       message: 'resetViewport'
     })
-    this.router.navigate(['home']);
   }
 
   public returnForm() : void {
