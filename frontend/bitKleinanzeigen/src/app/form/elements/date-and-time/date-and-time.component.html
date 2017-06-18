@@ -1,20 +1,42 @@
-<div [formGroup]="form" *ngIf="isModelAvailable && isInputAvailable">
-  <div class="input-group">
-    <span class="date-overlay">{{datePropertyDisplay}}</span>
-    <select [(ngModel)]="day" formControlName="day" (change)="addDateAndTimeToModel()">
-      <option [value]="day" *ngFor="let day of days">{{day}}</option>
-    </select>
-    <select [(ngModel)]="month" formControlName="month" (change)="addDateAndTimeToModel()">
-      <option [value]="month" *ngFor="let month of months">{{month}}</option>
-    </select>
-    <select [(ngModel)]="year" formControlName="year" (change)="addDateAndTimeToModel()">
-      <option [value]="year" *ngFor="let year of years">{{year}}</option>
-    </select>
-    <select [(ngModel)]="hour" formControlName="hour" (change)="addDateAndTimeToModel()">
-      <option [value]="hour" *ngFor="let hour of hours">{{hour}}</option>
-    </select>
-    <select [(ngModel)]="minute" formControlName="minute" (change)="addDateAndTimeToModel()">
-      <option [value]="minute" *ngFor="let minute of minutes">{{minute}}</option>
-    </select>
+<div class="date-time-wrapper" [formGroup]="form" *ngIf="isModelAvailable && isInputAvailable">
+
+  <div class="container-fluid date-time-container">
+    <div class="row">
+      <div class="col-xs-2 column">
+        <span class="date-label">{{datePropertyDisplay}}</span>
+      </div>
+      <div class="col-xs-10 column">
+        <div class="input-group">
+          <select [(ngModel)]="day" formControlName="day" (change)="addDateAndTimeToModel()">
+            <option [value]="day" *ngFor="let day of days">{{day}}</option>
+          </select>
+          <select [(ngModel)]="month" formControlName="month" (change)="addDateAndTimeToModel()">
+            <option [value]="month" *ngFor="let month of months">{{month}}</option>
+          </select>
+          <select [(ngModel)]="year" formControlName="year" (change)="addDateAndTimeToModel()">
+            <option [value]="year" *ngFor="let year of years">{{year}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+
+  <div class="container-fluid date-time-container">
+    <div class="row">
+      <div class="col-xs-2 column">
+        <span class="expiry-date-label">Uhrzeit</span>
+      </div>
+      <div class="col-xs-10 column">
+        <div class="input-group">
+          <select [(ngModel)]="hour" formControlName="hour" (change)="addDateAndTimeToModel()">
+            <option [value]="hour" *ngFor="let hour of hours">{{hour}}</option>
+          </select>
+          <select [(ngModel)]="minute" formControlName="minute" (change)="addDateAndTimeToModel()">
+            <option [value]="minute" *ngFor="let minute of minutes">{{minute}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>

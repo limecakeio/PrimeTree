@@ -12,7 +12,8 @@ interface ReoccurenceOptions {
 
 @Component({
   selector: 'form-element-reoccurence',
-  templateUrl: './reoccurence.component.html'
+  templateUrl: './reoccurence.component.html',
+  styleUrls: ['./reoccurence.component.css']
 })
 export class ReoccurenceFormComponent {
 

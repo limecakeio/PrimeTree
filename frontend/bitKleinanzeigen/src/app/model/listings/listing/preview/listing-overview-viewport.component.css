@@ -102,6 +102,7 @@ display:none;
   position: absolute;
   height:100%;
   cursor: pointer;
+  z-index: 1000;
 }
 
 .listing-scroll-control span {

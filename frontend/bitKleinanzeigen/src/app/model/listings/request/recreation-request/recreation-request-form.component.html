@@ -1,33 +1,40 @@
 <form
-novalidate
 [formGroup]="form"
 (ngSubmit)="submit()" class="listing-form">
 
-<div class="form-title">
-  <h1>Inserat {{formStateText}}: Gesuch / Freizeit</h1>
-  <div class="form-title-controls">
-    <div class="navigation back" title="Zurück" (click)="returnForm()"></div>
-    <div class="navigation exit" title="Abbrechen" (click)="closeForm()"></div>
-  </div>
+<div class="form-title recreation-request">
+  <h1>Suche / Freizeitaktivität</h1>
 </div>
 
-<div class="form-group">
-  <form-element-image></form-element-image>
-  <form-element-title></form-element-title>
-  <form-element-description></form-element-description>
-  <form-element-location-activity></form-element-location-activity>
-  <form-element-category></form-element-category>
-  <form-element-date-and-time [dateAndTimeProperty]="startDateAndTime"></form-element-date-and-time>
-  <form-element-date-and-time [dateAndTimeProperty]="endDateAndTime"></form-element-date-and-time>
-  <form-element-reoccurence></form-element-reoccurence>
-  <form-element-expiry-date></form-element-expiry-date>
-  <button
-  type="button"
-  name="button"
-  (click) = "submit()"
-  class="btn btn-primary"
-  [disabled]="form.invalid">
-  Verkaufsinserat {{formStateText}}
-</button>
+<div class="container-fluid form-container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <form-element-image></form-element-image>
+        <form-element-title></form-element-title>
+        <form-element-description></form-element-description>
+        <form-element-location-activity></form-element-location-activity>
+        <form-element-category></form-element-category>
+        <form-element-date-and-time [dateAndTimeProperty]="startDateAndTime"></form-element-date-and-time>
+        <form-element-date-and-time [dateAndTimeProperty]="endDateAndTime"></form-element-date-and-time>
+        <form-element-reoccurence></form-element-reoccurence>
+        <form-element-expiry-date></form-element-expiry-date>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12 submit-button">
+              <button
+              type="button"
+              name="button"
+              (click) = "submit()"
+              class="btn btn-listing btn-listing-submit"
+              [disabled]="form.invalid">
+              <span class="icon listing-recreation"></span>Freizeitaktivität {{formStateText}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 </form>

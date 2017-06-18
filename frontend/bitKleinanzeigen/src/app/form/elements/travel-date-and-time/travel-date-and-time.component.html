@@ -1,21 +1,22 @@
 <div [formGroup]="form" *ngIf="isModelAvailable">
+
   <div class="container-fluid travel-date travel-container">
     <div class="row">
       <div class="col-xs-2 column">
-        <span class="expiry-date-label">Reisezeit </span>
+        <span class="expiry-date-label">Reisedatum </span>
       </div>
       <div class="col-xs-10 column">
         <div class="input-group">
-        <select [(ngModel)]="day" formControlName="day" (change)="addTravelDateAndTimeToModel()">
-          <option [value]="day" *ngFor="let day of days">{{day}}</option>
-        </select>
-        <select [(ngModel)]="month" formControlName="month" (change)="addTravelDateAndTimeToModel()">
-          <option [value]="month" *ngFor="let month of months">{{month}}</option>
-        </select>
-        <select [(ngModel)]="year" formControlName="year" (change)="addTravelDateAndTimeToModel()">
-          <option [value]="year" *ngFor="let year of years">{{year}}</option>
-        </select>
-      </div>
+          <select [(ngModel)]="day" formControlName="day" (change)="addTravelDateAndTimeToModel()">
+            <option [value]="day" *ngFor="let day of days">{{day}}</option>
+          </select>
+          <select [(ngModel)]="month" formControlName="month" (change)="addTravelDateAndTimeToModel()">
+            <option [value]="month" *ngFor="let month of months">{{month}}</option>
+          </select>
+          <select [(ngModel)]="year" formControlName="year" (change)="addTravelDateAndTimeToModel()">
+            <option [value]="year" *ngFor="let year of years">{{year}}</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>
@@ -37,4 +38,5 @@
       </div>
     </div>
   </div>
+
 </div>

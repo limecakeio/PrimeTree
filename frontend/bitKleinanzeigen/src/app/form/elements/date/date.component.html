@@ -1,14 +1,22 @@
 <div [formGroup]="form" *ngIf="isModelAvailable && isInputAvailable">
-  <div class="input-group">
-    <span class="date-overlay">{{datePropertyDisplay}}</span>
-    <select [(ngModel)]="day" formControlName="day" (change)="addDateToModel()">
-      <option [value]="day" *ngFor="let day of days">{{day}}</option>
-    </select>
-    <select [(ngModel)]="month" formControlName="month" (change)="addDateToModel()">
-      <option [value]="month" *ngFor="let month of months">{{month}}</option>
-    </select>
-    <select [(ngModel)]="year" formControlName="year" (change)="addDateToModel()">
-      <option [value]="year" *ngFor="let year of years">{{year}}</option>
-    </select>
+  <div class="container-fluid date-container">
+    <div class="row">
+      <div class="col-xs-3 column">
+        <span class="date-label">{{datePropertyDisplay}}</span>
+      </div>
+      <div class="col-xs-9 column">
+        <div class="input-group">
+          <select [(ngModel)]="day" formControlName="day" (change)="addDateToModel()">
+            <option [value]="day" *ngFor="let day of days">{{day}}</option>
+          </select>
+          <select [(ngModel)]="month" formControlName="month" (change)="addDateToModel()">
+            <option [value]="month" *ngFor="let month of months">{{month}}</option>
+          </select>
+          <select [(ngModel)]="year" formControlName="year" (change)="addDateToModel()">
+            <option [value]="year" *ngFor="let year of years">{{year}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

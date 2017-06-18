@@ -1,14 +1,22 @@
 <div [formGroup]="form" *ngIf="isModelAvailable">
-  <div class="input-group">
-    <span class="reoccurence-background">Wiederholung </span>
-    <select
-    formControlName="reoccurence"
-    class=""
-    name="reoccurence"
-    [(ngModel)]="model.reoccurence"
-    formControlName="reoccurence"
-    >
-      <option [value]="reoccurenceOption.value" *ngFor="let reoccurenceOption of reoccurenceOptions">{{reoccurenceOption.name}}</option>
-    </select>
+  <div class="container-fluid reoccurence-container">
+    <div class="row">
+      <div class="col-xs-3 column">
+        <span class="reoccurence-label">Wiederholung</span>
+      </div>
+      <div class="col-xs-9 column">
+        <div class="input-group">
+          <select
+          formControlName="reoccurence"
+          class=""
+          name="reoccurence"
+          [(ngModel)]="model.reoccurence"
+          formControlName="reoccurence"
+          >
+            <option [value]="reoccurenceOption.value" *ngFor="let reoccurenceOption of reoccurenceOptions">{{reoccurenceOption.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

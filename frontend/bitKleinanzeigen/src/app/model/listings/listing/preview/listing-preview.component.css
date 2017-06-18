@@ -11,12 +11,12 @@ background-size: 50px auto;
 margin: 10pt;
 transition: width, height 0.15s ease-in-out;
 position: relative;
-z-index: 10;
 }
 
 .listing-header p, .listing-title {
   text-transform: uppercase;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .listing-header {
@@ -32,6 +32,7 @@ z-index: 10;
 .listing-image {
   position:relative;
   height: calc(300px * 0.525);
+  cursor: pointer;
 }
 
 .fallback-icon {
@@ -57,7 +58,6 @@ z-index: 10;
   position: absolute;
   bottom: 10pt;
   right: 55pt;
-  z-index: 100;
 }
 
 

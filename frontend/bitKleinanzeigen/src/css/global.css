@@ -377,11 +377,15 @@ section {
 }
 
 /**TRUNCATE -> Ensure to set the width in the truncated element*/
-@media (max-width: 768px) {
+.truncate-mobile {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 768px) {
   .truncate-mobile {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal; /*No mobile no*/
   }
 }
 
