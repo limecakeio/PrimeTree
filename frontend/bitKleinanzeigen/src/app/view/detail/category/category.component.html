@@ -1,3 +1,12 @@
 <div class="listing-detail-category" *ngIf="isDataAvailable">
-  <h1>{{getCategoryDisplayTextFromCategory(model.category)}}</h1>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-4 column">
+        <p><span class="glyphicon glyphicon-th"></span> Kategorie</p>
+      </div>
+      <div class="col-xs-8 column">
+        <p>{{getCategoryDisplayTextFromCategory(model.category)}}</p>
+      </div>
+    </div>
+  </div>
 </div>

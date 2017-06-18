@@ -35,12 +35,14 @@ export class BorrowRequestComponent extends ListingComponent implements OnInit {
 
   public borrowFromDate : BorrowDate = {
     propertyName : 'borrowFromDate',
-    displayText: 'Ausleihbar vom: '
+    displayText: 'Von: ',
+    displayIcon: 'listing-request'
   }
 
   public borrowToDate : BorrowDate = {
     propertyName : 'borrowFromDate',
-    displayText: 'Ausleihbar bis: '
+    displayText: 'Bis: ',
+    displayIcon: 'listing-offer'
   }
 
   constructor(

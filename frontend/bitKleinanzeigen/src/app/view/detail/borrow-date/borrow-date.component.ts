@@ -5,6 +5,7 @@ import { DetailViewService } from '../detail.service';
 export interface BorrowDate {
   propertyName : string;
   displayText : string;
+  displayIcon : string;
 }
 
 @Component({
@@ -19,6 +20,8 @@ export class BorrowDateViewComponent implements OnInit {
   public borrowDatePropertyName : string;
 
   public borrowDateDisplayText : string;
+
+  public borrowIconName : string;
 
   public isInputAvailable : boolean = false;
 
@@ -39,14 +42,15 @@ export class BorrowDateViewComponent implements OnInit {
     if (this.borrowDate) {
       this.borrowDateDisplayText = this.borrowDate.displayText;
       this.borrowDatePropertyName = this.borrowDate.propertyName;
+      this.borrowIconName = this.borrowDate.displayIcon;
       this.isInputAvailable = true;
     }
   }
 
   getLocalizedTime(property : string) : string {
-    let localTime : string = 'am ';
+    let localTime : string = '';
     let date : Date = new Date(this.model[property]);
-    localTime += date.getDay() + '.' + date.getMonth() + '.' + date.getFullYear() + ' um ' + date.getHours() + ':' + date.getMinutes();
+    localTime += date.getDay() + '.' + date.getMonth() + '.' + date.getFullYear();
     return localTime;
   }
 

@@ -34,12 +34,12 @@ export class RecreationRequestComponent extends ListingComponent implements OnIn
 
   public startDateAndTime : DateAndTimeProperty = {
     name: 'startDateAndTime',
-    displayText: 'Startdatum'
+    displayText: 'Von:'
   };
 
   public endDateAndTime : DateAndTimeProperty = {
     name: 'endDateAndTime',
-    displayText: 'Endzeit'
+    displayText: 'Bis:'
   };
 
   constructor(

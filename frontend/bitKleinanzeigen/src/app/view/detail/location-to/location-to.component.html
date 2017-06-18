@@ -1,3 +1,12 @@
 <div class="listing-detail-location-to" *ngIf="isDataAvailable">
-  <span>{{model.toLocation}}</span>
+  <div class="container-fluid stops-container">
+    <div class="row">
+      <div class="col-xs-4 label-column column">
+        <p><span class="icon location"></span> Nach:</p>
+      </div>
+      <div class="col-xs-8 column">
+        <p>{{model.toLocation}}</p>
+      </div>
+    </div>
+  </div>
 </div>

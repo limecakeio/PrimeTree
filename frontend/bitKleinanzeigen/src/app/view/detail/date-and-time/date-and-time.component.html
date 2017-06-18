@@ -1,3 +1,12 @@
 <div class="listing-detail-date-and-time" *ngIf="isDataAvailable && isInputAvailable">
-  <h1>{{dateAndTimePropertyDisplayText}}{{getLocalizedTime(dateAndTimePropertyName)}}</h1>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-4 column">
+        <p><span class="glyphicon glyphicon-calendar"></span> {{dateAndTimePropertyDisplayText}}</p>
+      </div>
+      <div class="col-xs-8 column">
+        <p>{{getLocalizedTime(dateAndTimePropertyName)}}</p>
+      </div>
+    </div>
+  </div>
 </div>

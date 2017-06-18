@@ -1,8 +1,7 @@
 import { Component, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeStyle, SafeUrl } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
-// import * as html2canvas from "html2canvas"; // original 03062017
-// import html2canvas from 'html2canvas';
+import { MessageService, Message } from '../../../shared/message.service'
 
 
 import { FormService } from '../../forms.service';
@@ -20,7 +19,8 @@ export class ImageFormComponent {
 
   constructor(
     private formContextService : FormContextService,
-    private domSanitizer : DomSanitizer
+    private domSanitizer : DomSanitizer,
+    private messageService : MessageService
   ) {
     this.formContextService.getContext().subscribe(() => {
       this.data = this.formContextService.data;
@@ -378,8 +378,12 @@ export class ImageFormComponent {
         this.imgWidth +
         "px breit und " +
         this.imgHeight +
-        "px hoch."
-        throw new Error(errorMsg);
+        "px hoch.";
+        //Send error message
+        this.messageService.sendMessage({
+          message: 'notify-error',
+          payload: errorMsg
+        })
       }
   }
 

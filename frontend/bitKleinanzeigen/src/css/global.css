@@ -10,6 +10,14 @@ Web-application
 /**Listing colours -> Managing the colour behaviour for the different listing types*/
 
 /*
+ * BOOTSTRAP OVERRIDES
+ */
+
+ .column {/*Remove paddings from col-XX-XX elements*/
+   padding: 0;
+ }
+
+/*
  * SALE OFFER
  */
 .sale-offer,
