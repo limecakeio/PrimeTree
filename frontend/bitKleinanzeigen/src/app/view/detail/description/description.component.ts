@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 
@@ -14,7 +14,7 @@ import { NetworkService } from '../../../network/network.service';
   templateUrl: './description.component.html',
   styleUrls: [ './description.component.css' ]
 })
-export class DescriptionDetailViewComponent {
+export class DescriptionDetailViewComponent implements OnDestroy {
 
   public isDataAvailable : boolean = false;
 
@@ -23,6 +23,8 @@ export class DescriptionDetailViewComponent {
   public form : FormGroup = new FormGroup({});
 
   public commentText : string = '';
+
+  private commentUpdateTimerID : number;
 
   constructor(
     private detailViewService : DetailViewService,
@@ -39,26 +41,22 @@ export class DescriptionDetailViewComponent {
           }
       });
       this.form.addControl('comment', new FormControl('comment', Validators.required));
+      this.commentUpdateTimerID = window.setInterval(() => { // checks for comments every 5 seconds
+        this.updateComments();
+      }, 5000);
     });
   }
 
   public removeComment(commentID : number) : void {
     this.listingController.removeComment(this.model.id, commentID).subscribe(() => {
-      this.model.comments.splice(commentID - 1, 1);
+      this.updateComments();
     });
   }
 
   public addCommment() : void {
     this.listingController.createComment(this.model.id, this.commentText).subscribe(() => {
       this.commentText = '';
-      this.listingController.getListing(this.model.id).subscribe((listing : Listing) => {
-        this.model.comments = listing.comments;
-        this.model.comments.forEach((comment : any) => {
-            if (comment.userImage.indexOf('http') === -1) {
-              comment.userImage = this.networkService.getServerAddress() + comment.userImage;
-            }
-        });
-      });
+      this.updateComments();
     });
   }
 
@@ -83,6 +81,23 @@ export class DescriptionDetailViewComponent {
     let seconds : number = date.getSeconds();
     time += (seconds < 10) ? '0' + seconds : seconds;
     return time;
+  }
+
+  private updateComments() : void {
+    this.listingController.getListing(this.model.id).subscribe((listing : Listing) => {
+      if (this.model.comments.length !== listing.comments.length) {
+        this.model.comments = listing.comments;
+        this.model.comments.forEach((comment : any) => {
+            if (comment.userImage.indexOf('http') === -1) {
+              comment.userImage = this.networkService.getServerAddress() + comment.userImage;
+            }
+        });
+      }
+    });
+  }
+
+  ngOnDestroy() : void {
+    window.clearInterval(this.commentUpdateTimerID);
   }
 
 }

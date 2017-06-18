@@ -2,10 +2,9 @@
   <div class="listing-create level-down" #listingCreate>
     <listing-create></listing-create>
   </div>
-  <listing-edit
-  class="listing-edit level-down"
-  >
-  </listing-edit>
+  <div class="listing-edit level-down" #listingEdit>
+    <listing-edit [listingID]="editListingID"></listing-edit>
+  </div>
   <div class="listing-detail-view level-down" #listingDetailView>
     <listing-detail-view  [listingID]="detailListingID" #listingDetailViewComponent></listing-detail-view>
   </div>

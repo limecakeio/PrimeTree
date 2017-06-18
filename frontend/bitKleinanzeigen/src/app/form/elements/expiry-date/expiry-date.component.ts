@@ -3,9 +3,11 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { FormContextService } from '../../form-context.service';
 
-/**
- * Provides templates and models for adding a description to a listing.
- */
+interface ExpiryDateOption {
+  displayText: string,
+  timeInMilliseconds: number
+}
+
 @Component({
   selector: 'form-element-expiry-date',
   templateUrl: './expiry-date.component.html',
@@ -14,6 +16,30 @@ import { FormContextService } from '../../form-context.service';
 export class ExpiryDateFormComponent {
 
   public isModelAvailable : boolean = false;
+
+  public expiryDateOptions : ExpiryDateOption[] = [
+    {
+      displayText: 'ein Tag',
+      timeInMilliseconds: 1440000
+    }, {
+      displayText: 'eine Woche',
+      timeInMilliseconds: 10080000
+    }, {
+      displayText: 'zwei Wochen',
+      timeInMilliseconds: 20160000
+    }, {
+      displayText: 'einen Monat',
+      timeInMilliseconds: 40320000
+    }, {
+      displayText: 'drei Monate',
+      timeInMilliseconds: 8035200000
+    }, {
+      displayText: 'kein Ablaufdatum',
+      timeInMilliseconds: null
+    }
+  ];
+
+  public expiryDate : number = null;
 
   form : FormGroup;
 
@@ -41,20 +67,19 @@ export class ExpiryDateFormComponent {
       if (!this.model.expiryDate) {
         this.model.expiryDate = null;
       }
-      this.form.addControl('day', new FormControl('day'));
-      this.form.addControl('month', new FormControl('month'));
-      this.form.addControl('year', new FormControl('year'));
+      this.form.addControl('expiryDate', new FormControl(''))
       this.isModelAvailable = true;
     })
   }
 
+  /**Adds the expiryDate as unix time to the model. */
   public addExpiryDateToModel() : void {
-    if (this.day && this.month && this.year) {
-      let unixDate : number = new Date(this.year, this.month, this.day).getTime();
-      this.model.expiryDate = unixDate;
-    }
+    console.log(this.expiryDate)
+    this.model.expiryDate = this.expiryDate;
   }
 
+
+  /**Creates an ascending numeric array with: form <= x <= to */
   private createNumberArrayAscending(from : number, to : number) : number[] {
     let numbers : number[] = [];
     for (let i = from; i <= to; i++) {
@@ -62,5 +87,6 @@ export class ExpiryDateFormComponent {
     }
     return numbers;
   }
+
 
 }

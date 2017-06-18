@@ -1,6 +1,8 @@
 import { Component, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeStyle, SafeUrl } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
+
+import { NetworkService } from '../../../network/network.service';
 // import * as html2canvas from "html2canvas"; // original 03062017
 // import html2canvas from 'html2canvas';
 
@@ -20,7 +22,8 @@ export class ImageFormComponent {
 
   constructor(
     private formContextService : FormContextService,
-    private domSanitizer : DomSanitizer
+    private domSanitizer : DomSanitizer,
+    private networkService : NetworkService
   ) {
     this.formContextService.getContext().subscribe(() => {
       this.data = this.formContextService.data;
@@ -81,6 +84,9 @@ export class ImageFormComponent {
    * Generates and presents a preview from the image located at the path.
    */
   private loadImageFromPath(path : string) : void {
+    if (path.indexOf('http') === -1) {
+      path = this.networkService.getServerAddress() + path;
+    }
     this.finalImage.nativeElement.src = path;
     this.imageInputContainer.nativeElement.classList.remove('active');
     this.finalImageContainer.nativeElement.classList.add('active');
@@ -128,7 +134,7 @@ export class ImageFormComponent {
   private preloadImage(imageFile : File) : void {
     this.validateImageFile(imageFile);
 
-    this.data.imageAsFile = imageFile;
+    // this.data.imageAsFile = imageFile;
     /*GENERATE IMAGE PREVIEW*/
     let imageResult = new Image();
     imageResult.src = URL.createObjectURL(imageFile);

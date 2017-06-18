@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router'
-
+import { Component, EventEmitter, Input, OnChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormContextService } from '../../../../form/form-context.service';
 
 import { UserService } from '../../../user/user.service';
@@ -18,11 +17,9 @@ import { ListingSubmit } from '../form/listing-form.component';
     FormContextService
   ]
 })
-export class ListingEditComponent {
+export class ListingEditComponent implements OnChanges {
 
-  @Output() showOverlay : EventEmitter<void> = new EventEmitter<void>();
-
-  @Output() closeOverlay : EventEmitter<void> = new EventEmitter<void>();
+  @Input() listingID : number;
 
   public listingType : string;
 
@@ -31,23 +28,12 @@ export class ListingEditComponent {
   constructor(
     private listingController : ListingController,
     private listingRepository : ListingRepository,
-    private router : Router,
-    private activatedRoute : ActivatedRoute
+    private router : Router
   ) {
-    this.router.events.subscribe((event : any) => {
-      if (event instanceof NavigationEnd) {
-        if (
-          this.activatedRoute.snapshot.url.length === 2 &&
-          this.activatedRoute.snapshot.url[0].path === 'edit'
-        ) {
-          this.getListingFromServer(this.activatedRoute.snapshot.params['listingID'])
-          this.showOverlay.emit();
-        }
-      }
-    });
+
   }
 
-  public getListingFromServer(listingID : number) : void {
+  private getListingFromServer(listingID : number) : void {
     this.listingController.getListing(listingID).subscribe((listing : Listing) => {
       this.listing = listing;
       this.listingType = listing.type;
@@ -59,6 +45,9 @@ export class ListingEditComponent {
    * Execute possible callback functions in ListingFormEventModel.
    */
   public submitListing(event : ListingSubmit) : void {
+    if (event.model.expiryDate) { // add the create Date
+      event.model.expiryDate = parseInt(event.model.expiryDate) + event.model.createDate;
+    }
     this.listingController.editListing(event.model).subscribe(() => {
       if (event.callback) {
         event.callback(event.model.id);
@@ -71,20 +60,23 @@ export class ListingEditComponent {
   /** Calls the ListingRepository update method, hides the overlay and navigates to the overview page.*/
   public updateRepository() : void {
     this.listingRepository.update();
-    this.closeOverlay.emit();
-    this.router.navigate(['home']);
   }
 
   public closeForm() : void {
     this.listing = null;
     this.listingType = '';
-    this.router.navigate(['home']);
   }
 
   public returnForm() : void {
     this.listing = null;
     this.listingType = '';
     this.router.navigate(['user', 'profil']);
+  }
+
+  ngOnChanges() : void {
+    if (typeof this.listingID === 'number') {
+      this.getListingFromServer(this.listingID);
+    }
   }
 
 }

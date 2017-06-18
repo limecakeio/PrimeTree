@@ -1,6 +1,8 @@
 import { Employee } from './employee.model';
 
+/**EmployeeFactory handels  the creation of Employee objects from request bodies as well as other objecs which include the neccesary properties. */
 export class EmployeeFactory {
+
 
   private employeeProperties : string[] = [
     'userID', 'userImage', 'firstName',
@@ -8,6 +10,7 @@ export class EmployeeFactory {
     'location', 'position', 'eMail'
   ];
 
+  /**Checks whether all neccesary properties are included in the body. */
   private checkProperties(body : any) : boolean {
     this.employeeProperties.forEach((employeeProperty : string) => {
       if (!body.hasOwnProperty(employeeProperty)) {
@@ -17,6 +20,7 @@ export class EmployeeFactory {
     return true;
   }
 
+  /**Returns a string array containing  all missing properties which are not included in the body. */
   private findMissingProperties(body : any) : string[] {
     let missingProperties : string[] = [];
     this.employeeProperties.forEach((employeeProperty : string) => {

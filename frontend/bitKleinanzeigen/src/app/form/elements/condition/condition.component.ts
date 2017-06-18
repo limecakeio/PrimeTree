@@ -5,15 +5,15 @@ import { FormContextService } from '../../form-context.service';
 
 import { Condition } from '../../../model/listings/listing/condition.model';
 
-
+/**
+ * @member {name} The name of the option that will be displayed in the select list.
+ * @member {value} The value which will be added to the model when the name item is selected.
+ */
 interface SelectOptions {
   name : string;
   value : string;
 }
 
-/**
- * Provides templates and models for adding a description to a listing.
- */
 @Component({
   selector: 'form-element-condition',
   templateUrl: './condition.component.html',

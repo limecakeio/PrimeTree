@@ -44,8 +44,10 @@ export class TravelDateAndTimeFormComponent {
     this.form = this.formContextService.form;
     this.formContextService.getContext().subscribe(() => {
       this.model = this.formContextService.model;
-      if (!this.model.expiryDate) {
-        this.model.expiryDate = null;
+      if (!this.model.travelDateAndTime) {
+        this.model.travelDateAndTime = null;
+      } else {
+        this.setTimeFromUnixTime(this.model.travelDateAndTime);
       }
       this.form.addControl('day', new FormControl('', Validators.required));
       this.form.addControl('month', new FormControl('', Validators.required));
@@ -69,6 +71,15 @@ export class TravelDateAndTimeFormComponent {
       numbers.push(i);
     }
     return numbers;
+  }
+
+  private setTimeFromUnixTime(unixTime : number) {
+    let date : Date = new Date(unixTime);
+    this.day = date.getDate();
+    this.month = date.getMonth();
+    this.year = date.getFullYear();
+    this.hour = date.getHours();
+    this.minute = date.getMinutes();
   }
 
 }

@@ -229,6 +229,7 @@ export class MockServer {
     id: 10,
     isActive: true,
     location: 'mannheim',
+    mainImage : 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Jaguar.jpg/1200px-Jaguar.jpg',
     title: 'Brauche funktionierendes Angular!',
     borrowFromDate: 1886709600000,
     borrowToDate: 1883858400000

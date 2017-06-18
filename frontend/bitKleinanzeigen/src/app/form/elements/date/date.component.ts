@@ -4,8 +4,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FormContextService } from '../../form-context.service';
 
 export interface DateProperty {
-  name : string,
-  display : string
+  name : string, // property name
+  display : string // display text which will be placed before the date select as a description
 }
 
 @Component({
@@ -55,6 +55,7 @@ export class DateFormComponent implements OnInit {
     })
   }
 
+  /**Adds the date as unix time to the model under the DateProperty.name property. */
   public addDateToModel() : void {
     if (this.day && this.month && this.year) {
       let unixDate : number = new Date(this.year, this.month, this.day).getTime();

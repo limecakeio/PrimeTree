@@ -25,11 +25,30 @@ export class StartDateAndTimePreviewViewComponent {
     });
   }
 
-  getLocalizedTime(unixtime : number) : string {
-    let localTime : string = 'am ';
-    let date : Date = new Date(unixtime);
-    localTime += date.getDay() + '.' + date.getMonth() + '.' + date.getFullYear() + ' um ' + date.getHours() + ':' + date.getMinutes();
-    return localTime;
+  getLocalizedTime(unixTime : number) : string {
+    let time : string = 'Am ';
+    let date : Date = new Date(unixTime);
+    let dateOfMonth : number = date.getDate();
+    let month : number = date.getMonth();
+    let year : number = date.getFullYear();
+    let hours : number = date.getHours();
+    let minutes : number = date.getMinutes();
+    let seconds : number = date.getSeconds();
+
+    time += this.prefixTime(dateOfMonth) + '.' + this.prefixTime(month) + '.' + year;
+
+    if (hours > 0 || minutes > 0 || seconds > 0) {
+      time += ' um ' + this.prefixTime(hours) + ':' + this.prefixTime(minutes);
+      if (seconds > 0) {
+        time += ':' + this.prefixTime(seconds);
+      }
+    }
+
+    return time;
+  }
+
+  private prefixTime(time : number) : string {
+    return (time < 10) ? '0' + time : '' + time;
   }
 
 }

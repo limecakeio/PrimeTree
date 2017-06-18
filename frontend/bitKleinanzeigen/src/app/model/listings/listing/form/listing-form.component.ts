@@ -53,6 +53,7 @@ export class ListingFormComponent implements OnChanges, OnInit {
       model: this.formContextService.model,
       callback: callback
     });
+    this.formContextService.form.reset();
   }
 
   /** Calls the update method of the listing repository.*/

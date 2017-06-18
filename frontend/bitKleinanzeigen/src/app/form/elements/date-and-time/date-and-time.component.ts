@@ -4,13 +4,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FormContextService } from '../../form-context.service';
 
 export interface DateAndTimeProperty {
-  name : string,
-  displayText : string
+  name : string, // property name
+  displayText : string // displayed description befor the date select
 }
 
-/**
- * Provides templates and models for adding a description to a listing.
- */
 @Component({
   selector: 'form-element-date-and-time',
   templateUrl: './date-and-time.component.html',
@@ -83,6 +80,7 @@ export class DateAndTimeFormComponent implements OnInit {
     }
   }
 
+  /**Creates and returns an numeric ascending array with from <= x <= to */
   private createNumberArrayAscending(from : number, to : number) : number[] {
     let numbers : number[] = [];
     for (let i = from; i <= to; i++) {
@@ -93,10 +91,22 @@ export class DateAndTimeFormComponent implements OnInit {
 
   public ngOnInit() : void {
     if (this.dateAndTimeProperty) {
+      if (this.model[this.dateAndTimeProperty.name]) {
+        this.setTimeFromUnixTime(this.model[this.dateAndTimeProperty.name]);
+      }
       this.dateAndTimePropertyDisplayText = this.dateAndTimeProperty.displayText;
       this.dateAndTimePropertyName = this.dateAndTimeProperty.name;
       this.isInputAvailable = true;
     }
+  }
+
+  private setTimeFromUnixTime(unixTime : number) {
+    let date : Date = new Date(unixTime);
+    this.day = date.getDate();
+    this.month = date.getMonth();
+    this.year = date.getFullYear();
+    this.hour = date.getHours();
+    this.minute = date.getMinutes();
   }
 
 }
