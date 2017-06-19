@@ -18,8 +18,8 @@ import { DateAndTimeProperty } from '../../../../view/detail/date-and-time/date-
 @Component({
   selector: 'listing-detail-view-recreation-request',
   templateUrl: './recreation-request.component.html',
-  // styleUrls: ['../../../listing/detail/listing-detail-view.component.css'], // JIT
-  styleUrls: ['../../listing/detail/listing-detail-view.component.css'], // AOT
+  styleUrls: ['../../../listing/detail/listing-detail-view.component.css'], // JIT
+  // styleUrls: ['../../listing/detail/listing-detail-view.component.css'], // AOT
   providers: [
     DetailViewService
   ]

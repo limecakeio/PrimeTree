@@ -18,8 +18,8 @@ import { EMail } from '../../../../view/detail/call-to-action/call-to-action.com
 @Component({
   selector: 'listing-detail-view-sale-offer',
   templateUrl: './sale-offer.component.html',
-  // styleUrls: ['../../../listing/detail/listing-detail-view.component.css'], // JIT
-  styleUrls: ['../../listing/detail/listing-detail-view.component.css'], // AOT
+  styleUrls: ['../../../listing/detail/listing-detail-view.component.css'], // JIT
+  // styleUrls: ['../../listing/detail/listing-detail-view.component.css'], // AOT
   providers: [
     DetailViewService
   ]

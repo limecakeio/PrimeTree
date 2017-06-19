@@ -17,8 +17,8 @@ import { UserController } from '../user.controller';
   selector: 'user-favourites',
   templateUrl: './favourites.component.html',
   styleUrls: [ './favourites.component.css',
-  // '../../../listings/listing/preview/listing-overview-viewport.component.css' // JIZ
-  '../../listings/listing/preview/listing-overview-viewport.component.css' // AOT
+  '../../../listings/listing/preview/listing-overview-viewport.component.css' // JIZ
+  // '../../listings/listing/preview/listing-overview-viewport.component.css' // AOT
 ]
 })
 export class FavouritesComponent {
