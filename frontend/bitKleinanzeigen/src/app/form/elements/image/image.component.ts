@@ -130,38 +130,49 @@ export class ImageFormComponent {
   * @imageFile the file submitted by the uploader
   */
   private preloadImage(imageFile : File) : void {
-    this.validateImageFile(imageFile);
+    try {
+      this.validateImageFile(imageFile);
+      /*GENERATE IMAGE PREVIEW*/
+      let imageResult = new Image();
+      imageResult.src = URL.createObjectURL(imageFile);
 
-    // this.data.imageAsFile = imageFile;
-    /*GENERATE IMAGE PREVIEW*/
-    let imageResult = new Image();
-    imageResult.src = URL.createObjectURL(imageFile);
+      let ImageComponent : ImageFormComponent = this; //Binding "this" to async method
 
-    let ImageComponent : ImageFormComponent = this; //Binding "this" to async method
+      imageResult.onload = function() {
+        /**Save the image*/
+        ImageComponent.imageElement = imageResult;
+        /*Set the images dimensions*/
+        ImageComponent.imgWidth = imageResult.width;
+        ImageComponent.imgHeight = imageResult.height;
 
-    imageResult.onload = function() {
-      /**Save the image*/
-      ImageComponent.imageElement = imageResult;
-      /*Set the images dimensions*/
-      ImageComponent.imgWidth = imageResult.width;
-      ImageComponent.imgHeight = imageResult.height;
+        try {
+          ImageComponent.validateImageDimensions();
+          /*Set the image's ratio*/
+          ImageComponent.imgRatio = imageResult.height / imageResult.width;
 
-      ImageComponent.validateImageDimensions();
+          /*Hide the image upload*/
+          ImageComponent.imageInputContainer.nativeElement.classList.remove("active");
 
-      /*Set the image's ratio*/
-      ImageComponent.imgRatio = imageResult.height / imageResult.width;
+          /*Show the image preview - HAVE TO DO THIS FIRST TO GRAB CONTAINER DIMENSIONS LATER*/
+          ImageComponent.resultImage.nativeElement.classList.add("active");
 
-      /*Hide the image upload*/
-      ImageComponent.imageInputContainer.nativeElement.classList.remove("active");
+          ImageComponent.setImageContainerDimensions();
 
-      /*Show the image preview - HAVE TO DO THIS FIRST TO GRAB CONTAINER DIMENSIONS LATER*/
-      ImageComponent.resultImage.nativeElement.classList.add("active");
-
-      ImageComponent.setImageContainerDimensions();
-
-      /*Inject image into preview as a background image*/
-      ImageComponent.resultImage.nativeElement.style.backgroundImage = "url('" + imageResult.src + "')";
-      ImageComponent.setDimensionsAndZoomer();
+          /*Inject image into preview as a background image*/
+          ImageComponent.resultImage.nativeElement.style.backgroundImage = "url('" + imageResult.src + "')";
+          ImageComponent.setDimensionsAndZoomer();
+        } catch(error) { // Validate Dimensions
+          ImageComponent.messageService.sendMessage({
+            message: 'notify-error',
+            payload: error
+          });
+        }
+      }
+    } catch(error) {//Validate File
+      this.messageService.sendMessage({
+        message: 'notify-error',
+        payload: error
+      });
     }
   }
 
@@ -383,11 +394,7 @@ export class ImageFormComponent {
         "px breit und " +
         this.imgHeight +
         "px hoch.";
-        //Send error message
-        this.messageService.sendMessage({
-          message: 'notify-error',
-          payload: errorMsg
-        })
+        throw new Error(errorMsg);
       }
   }
 

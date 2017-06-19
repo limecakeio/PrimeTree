@@ -39,7 +39,7 @@ export class DatePreviewViewComponent implements OnInit {
   }
 
   getLocalizedTime(property : string) : string {
-    let localTime : string = 'am ';
+    let localTime : string = '';
     let date : Date = new Date(this.model[property]);
     localTime += this.prefixTime(date.getDate()) + '.' + this.prefixTime(date.getMonth()) + '.' + date.getFullYear();
     return localTime;

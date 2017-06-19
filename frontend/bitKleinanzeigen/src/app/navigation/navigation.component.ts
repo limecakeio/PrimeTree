@@ -70,4 +70,8 @@ export class NavigationComponent {
     });
   }
 
+  public navigateToDashboard() : void {
+    this.router.navigate(['admin', 'dashboard']);
+  }
+
 }

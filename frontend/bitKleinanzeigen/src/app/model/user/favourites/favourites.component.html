@@ -1,3 +1,6 @@
+<div class="pompous-title">
+  <h1><span class="icon favourite"></span> Meine Merkliste</h1>
+</div>
 <div id="listing-viewport" class="listing-viewport" #listingViewport>
   <div class="listing-detail-view level-down" #listingDetailView>
     <listing-detail-view  [listingID]="detailListingID" #listingDetailViewComponent></listing-detail-view>
@@ -9,6 +12,14 @@
         [listing]="favouriteListing"
         (listingCreated)="updateListingCounter($event)">
       </listing-preview-placeholder>
+    </div>
+    <div class="empty-set-container" *ngIf="favouriteListings?.length === 0">
+      <div class="empty-set-wrapper">
+        <div class="empty-set">
+          <span class="icon favourite"></span>
+          <p>Du hast noch keine Inserate zu Deiner Merkliste hinzugefügt.</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

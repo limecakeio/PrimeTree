@@ -29,5 +29,4 @@ export class ListingSearchComponent {
   public updateListingCounter(event : any) : void {
     console.log(event);
   }
-
 }

@@ -1,6 +1,23 @@
-<div class="" *ngFor="let searchResult of listingSearchService.listingSearchResults?.listings">
-  <listing-preview-placeholder
-    [listing]="searchResult" class="col-xs-12 col-sm-6 col-md-12"
-    (listingCreated)="updateListingCounter($event)">
-  </listing-preview-placeholder>
+<div class="pompous-title">
+  <h1><span class="icon search"></span> Suchresultate</h1>
+</div>
+<div class="search-results-wrapper">
+<div class="search-results-container container-fluid">
+  <div class="row">
+    <div class="search-result col-xs-12 col-sm-6 col-md-4 column" *ngFor="let searchResult of listingSearchService.listingSearchResults?.listings">
+      <listing-preview-placeholder
+        [listing]="searchResult"
+        (listingCreated)="updateListingCounter($event)">
+      </listing-preview-placeholder>
+    </div>
+    <div class="empty-set-container" *ngIf="listingSearchService.listingSearchResults?.listings?.length === 0">
+      <div class="empty-set-wrapper">
+        <div class="empty-set">
+          <span class="icon search"></span>
+          <p>Leider gibt es keine Resultate für "{{listingSearchService.searchTerm}}", probier es doch mit was anderem.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </div>

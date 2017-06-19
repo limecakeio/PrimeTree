@@ -6,6 +6,15 @@ Team: Prime Tree
 Controls/Overwrites all form displays for the bIT Kleinanzeigen web-application.
 */
 
+/*
+ * BS-OVERRIDES
+ */
+
+ .navbar-form {
+   padding-top: 0;
+   padding-left: 0;
+ }
+
 /**GENERAL FORM SETTINGS*/
 .listing-form {
   display: table;

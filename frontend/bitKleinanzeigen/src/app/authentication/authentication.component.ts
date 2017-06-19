@@ -42,13 +42,17 @@ export class AuthenticationComponent {
       this.form.reset();
       this.router.navigate(['home']);
     }, (error : Error) => {
-      this.messageService.sendMessage({
-        message: 'notify',
-        payload: 'zu dumm zum tippem´n'
-      })
-    }, () => {
-
-    });
-  }
-
+      if(error.toString().indexOf('401') > -1) {
+        this.messageService.sendMessage({
+          message: 'notify-error',
+          payload: 'Falscher Benutzername oder Kennwort.'
+        })
+      } else {
+        this.messageService.sendMessage({
+          message: 'notify-error',
+          payload: 'Die Verbindung zum Server ist gescheitert.'
+        })
+      }
+  });
+}
 }

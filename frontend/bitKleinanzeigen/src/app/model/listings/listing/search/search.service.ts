@@ -13,6 +13,7 @@ import { ListingController } from '../listing.controller';
 export class ListingSearchService {
 
   public listingSearchResults : ListingList;
+  public searchTerm : string;
 
   constructor(
     private messageService : MessageService,
@@ -20,8 +21,8 @@ export class ListingSearchService {
   ) {
     this.messageService.getObservable().subscribe((message : Message) => {
       if (message.message === 'ListingSearch') {
-        console.log('searchMessage', message)
         this.listingController.searchListings(message.payload).subscribe((listingList : ListingList) => {
+          this.searchTerm = message.payload;
           this.listingSearchResults = listingList;
         });
       }

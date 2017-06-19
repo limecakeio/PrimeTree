@@ -266,6 +266,7 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
         this.loadMoreListings()
       }
     }, true);
+
   }
 
   @HostListener('window:resize', ['$event'])

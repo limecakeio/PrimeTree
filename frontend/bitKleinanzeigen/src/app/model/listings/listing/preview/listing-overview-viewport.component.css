@@ -48,7 +48,8 @@ left: 100%;
 
 .listing-wrapper {
   white-space: nowrap;
-  overflow:auto;
+  overflow:hidden;
+  width: 100%;
 }
 
 .listing-container {
@@ -106,23 +107,45 @@ display:none;
 }
 
 .listing-scroll-control span {
-  color: #000000;
+  width: 3em;
+  border-radius: 50%;
+  height: 3em;
+  text-align: center;
+  padding-top: 10pt;
+  color: #fff;
+  font-size: 1em;
+  line-height: 1em;
+  background-color: #175DA9;
+  transition: background-color 0.25s linear;
+}
+
+.listing-scroll-control span:hover,
+.listing-scroll-control span:focus {
+  background-color: #5185be;
 }
 
 .listing-scroll-control.active {
   display:flex;
 }
-.listing-scroll-control:hover {
 
+.listing-scroll-container .backward {
+  transition: left 0.35s ease;
+  left: -5em;
 }
 
-.listing-scroll-control.backward {
-  left: 0;
+.listing-scroll-container .forward {
+  transition: right 0.35s ease;
+  right: -5em;
 }
 
-.listing-scroll-control.forward {
-  right: 0;
+.listing-scroll-container:hover .backward {
+  left: 0em;
 }
+
+.listing-scroll-container:hover .forward {
+  right: 0em;
+}
+
 
 /**LOADER FOR LISTINGS*/
 @keyframes rotateElement {
@@ -196,6 +219,10 @@ display:none;
   }
   .slide-away .main-viewport {
     left: 60%;
+  }
+
+  .slide-away .listing-scroll-container .forward {
+    right: 60%;
   }
 
 }
