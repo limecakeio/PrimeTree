@@ -26,10 +26,11 @@ export class NavigationComponent {
 
   /**Navigates the router to listing/create. */
   create() : void {
-    // this.router.navigate(['listing/create/SaleOffer']);
-    this.messageService.sendMessage({
-      message: 'createListing'
-    })
+    this.router.navigate(['home']).then(() => {
+      this.messageService.sendMessage({
+        message: 'createListing'
+      });
+    });
   }
 
   /**Navigates the router to home. */

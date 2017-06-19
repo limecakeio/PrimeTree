@@ -44,7 +44,6 @@ export class SaleOfferFactory extends ListingFactory {
       this.assignProperties(listing, body);
       return listing;
     } else {
-      console.log(body)
       throw new Error('Cannot create SaleOffer from body: ' + this.findMissingProperties(body).join(', ') + ' are missing.');
     }
   }

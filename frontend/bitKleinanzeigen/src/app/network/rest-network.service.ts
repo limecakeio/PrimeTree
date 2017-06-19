@@ -28,7 +28,6 @@ export class RESTNetworkService extends NetworkService {
     if (this.securityActive) {
       request.addHeader(this.securityHeader.field, this.securityHeader.value);
     }
-    console.log(request, request.getUrl());
     let headerArray = request.getHeaders()
     if (headerArray.length > 0) {
       let headers = new Headers();

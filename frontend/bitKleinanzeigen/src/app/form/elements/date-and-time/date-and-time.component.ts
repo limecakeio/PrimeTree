@@ -17,6 +17,8 @@ export class DateAndTimeFormComponent implements OnInit {
 
   @Input() dateAndTimeProperty : DateAndTimeProperty;
 
+  @Input() required : boolean = false;
+
   public dateAndTimePropertyName : string;
 
   public dateAndTimePropertyDisplayText : string;
@@ -37,28 +39,28 @@ export class DateAndTimeFormComponent implements OnInit {
   public hours : number[] = this.createNumberArrayAscending(0, 23);
   public minutes : number[] = [0, 15, 30, 45];
 
-  public day : number = 1;
+  public day : number;
+  public dayControlName : string;
 
-  public month : number = 1;
+  public month : number;
+  public monthControlName : string;
 
-  public year : number = new Date().getFullYear();
+  public year : number;
+  public yearControlName : string;
 
-  public hour : number = 0;
+  public hour : number;
+  public hourControlName : string;
 
-  public minute : number = 0;
+  public minute : number;
+  public minuteControlName : string;
 
   constructor(
-    private formContextService : FormContextService
+    private formContextService : FormContextService,
   ) {
     this.data = this.formContextService.data;
     this.form = this.formContextService.form;
     this.formContextService.getContext().subscribe(() => {
       this.model = this.formContextService.model;
-      this.form.addControl('day', new FormControl('', Validators.required));
-      this.form.addControl('month', new FormControl('', Validators.required));
-      this.form.addControl('year', new FormControl('', Validators.required));
-      this.form.addControl('hour', new FormControl('', Validators.required));
-      this.form.addControl('minute', new FormControl('', Validators.required));
       this.isModelAvailable = true;
     })
   }
@@ -90,14 +92,44 @@ export class DateAndTimeFormComponent implements OnInit {
   }
 
   public ngOnInit() : void {
-    console.log(this.model, this.dateAndTimeProperty)
     if (this.dateAndTimeProperty) {
       if (this.model[this.dateAndTimeProperty.name]) {
         this.setTimeFromUnixTime(this.model[this.dateAndTimeProperty.name]);
       }
+      // this.dateAndTimePropertyDisplayText = this.dateAndTimeProperty.displayText;
+      // this.dateAndTimePropertyName = this.dateAndTimeProperty.name;
+      // this.dayControlName = 'day' + this.dateAndTimePropertyName;
+      // this.form.addControl(this.dayControlName, new FormControl('', Validators.required));
+      // this.monthControlName = 'month' + this.dateAndTimePropertyName;
+      // this.form.addControl(this.monthControlName, new FormControl('', Validators.required));
+      // this.yearControlName = 'year' + this.dateAndTimePropertyName;
+      // this.form.addControl(this.yearControlName, new FormControl('', Validators.required));
+      // this.hourControlName = 'hour' + this.dateAndTimePropertyName;
+      // this.form.addControl(this.hourControlName, new FormControl('', Validators.required));
+      // this.minuteControlName = 'minute' + this.dateAndTimePropertyName;
+      // this.form.addControl(this.minuteControlName, new FormControl('', Validators.required));
       this.dateAndTimePropertyDisplayText = this.dateAndTimeProperty.displayText;
       this.dateAndTimePropertyName = this.dateAndTimeProperty.name;
+
+      this.dayControlName = 'day' + this.dateAndTimePropertyName;
+      this.addFormControl(this.dayControlName);
+      this.monthControlName = 'month' + this.dateAndTimePropertyName;
+      this.addFormControl(this.monthControlName);
+      this.yearControlName = 'year' + this.dateAndTimePropertyName;
+      this.addFormControl(this.yearControlName);
+      this.hourControlName = 'hour' + this.dateAndTimePropertyName;
+      this.addFormControl(this.hourControlName);
+      this.minuteControlName = 'minute' + this.dateAndTimePropertyName;
+      this.addFormControl(this.minuteControlName);
       this.isInputAvailable = true;
+    }
+  }
+
+  private addFormControl(controlName: string) : void {
+    if (this.required) {
+      this.form.addControl(controlName, new FormControl('', Validators.required));
+    } else {
+      this.form.addControl(controlName, new FormControl(''));
     }
   }
 
@@ -108,7 +140,6 @@ export class DateAndTimeFormComponent implements OnInit {
     this.year = date.getFullYear();
     this.hour = date.getHours();
     this.minute = date.getMinutes();
-    console.log(new Date(unixTime));
   }
 
 }

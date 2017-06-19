@@ -7,6 +7,8 @@ export interface DateAndTimeProperty {
   displayText : string;
 }
 
+import { DateService } from '../../../shared/date.service';
+
 @Component({
   selector: 'view-detail-date-and-time',
   templateUrl: './date-and-time.component.html',
@@ -24,10 +26,13 @@ export class DateAndTimeViewComponent implements OnInit {
 
   public isInputAvailable : boolean = false;
 
+  public isPropertyAvailable : boolean = false;
+
   public model : any;
 
   constructor(
-    private detailViewService : DetailViewService
+    private detailViewService : DetailViewService,
+    public dateService : DateService
   ) {
     this.detailViewService.getModel().subscribe((model : any) => {
       this.model = model;
@@ -35,23 +40,14 @@ export class DateAndTimeViewComponent implements OnInit {
     });
   }
 
-  public getLocalizedTime(property : string) : string {
-    let localTime : string = '';
-    let date : Date = new Date(this.model[property]);
-    localTime += date.getDay() + '.' + date.getMonth() + '.' + date.getFullYear() + ' um ' + date.getHours() + ':' + date.getMinutes() + " Uhr.";
-    return localTime;
-  }
-
   public ngOnInit() : void {
     if (this.dateAndTimeProperty) {
       this.dateAndTimePropertyDisplayText = this.dateAndTimeProperty.displayText;
       this.dateAndTimePropertyName = this.dateAndTimeProperty.name;
-      console.log(this.dateAndTimePropertyDisplayText, this.dateAndTimePropertyName, this.model)
       if (this.model[this.dateAndTimePropertyName]) {
         this.isInputAvailable = true;
       }
     }
   }
-
 
 }

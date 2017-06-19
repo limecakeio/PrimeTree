@@ -63,6 +63,7 @@ export class ListingEditComponent implements OnChanges {
   /** Calls the ListingRepository update method, hides the overlay and navigates to the overview page.*/
   public updateRepository() : void {
     this.listingRepository.update();
+    this.closeForm();
   }
 
   public closeForm() : void {

@@ -46,12 +46,13 @@ export class CategoryViewComponent {
   }
 
   public getCategoryDisplayTextFromCategory(category : Category) : string {
+    let listingCategory : Category = null;
     this.categoryOptions.forEach((categoryOption : CategoryOption) => {
       if (categoryOption.value === category) {
-        return categoryOption.displayText;
+        listingCategory = category;
       }
     })
-    return null;
+    return listingCategory;
   }
 
 

@@ -47,12 +47,14 @@ export class DescriptionDetailViewComponent implements OnDestroy {
     });
   }
 
+  /**Sends a request to update the server reccourse and calls updateComments(). */
   public removeComment(commentID : number) : void {
     this.listingController.removeComment(this.model.id, commentID).subscribe(() => {
       this.updateComments();
     });
   }
 
+  /**Sends a request to update the server reccourse and calls updateComments(). */
   public addCommment() : void {
     this.listingController.createComment(this.model.id, this.commentText).subscribe(() => {
       this.commentText = '';
@@ -83,11 +85,12 @@ export class DescriptionDetailViewComponent implements OnDestroy {
     return time;
   }
 
+  /**Sends a request to the server and updates the comments on the model. */
   private updateComments() : void {
     this.listingController.getListing(this.model.id).subscribe((listing : Listing) => {
       if (this.model.comments.length !== listing.comments.length) {
         this.model.comments = listing.comments;
-        this.model.comments.forEach((comment : any) => {
+        this.model.comments.forEach((comment : Comment) => {
             if (comment.userImage.indexOf('http') === -1) {
               comment.userImage = this.networkService.getServerAddress() + comment.userImage;
             }

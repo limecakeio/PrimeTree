@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 
 import { DetailViewService } from '../detail.service';
 
+import { DateService } from '../../../shared/date.service';
+
 @Component({
   selector: 'view-detail-travel-date-and-time',
   templateUrl: './travel-date-and-time.component.html',
@@ -14,20 +16,15 @@ export class TravelDateAndTimeViewComponent {
   public model : any;
 
   constructor(
-    private detailViewService : DetailViewService
+    private detailViewService : DetailViewService,
+    public dateService : DateService
   ) {
     this.detailViewService.getModel().subscribe((model : any) => {
       this.model = model;
-      this.isDataAvailable = true;
+      if (this.model.travelDateAndTime) {
+        this.isDataAvailable = true;
+      }
     });
   }
-
-  getLocalizedTime(unixtime : number) : string {
-    let localTime : string = 'Am ';
-    let date : Date = new Date(unixtime);
-    localTime += date.getDay() + '.' + date.getMonth() + '.' + date.getFullYear() + ' um ' + date.getHours() + ':' + date.getMinutes();
-    return localTime;
-  }
-
 
 }

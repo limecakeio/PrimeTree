@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { PreviewService } from '../preview.service';
 
+import { DateService } from '../../../shared/date.service';
+
 export interface DateProperty {
   propertyName : string;
   displayText : string;
@@ -30,19 +32,13 @@ export class DatePreviewViewComponent implements OnInit {
   public isInputAvailable : boolean = false;
 
   constructor(
-    private previewService : PreviewService
+    private previewService : PreviewService,
+    private dateService : DateService
   ) {
     this.previewService.getModelObservable().subscribe((model : any) => {
-      this.isModelAvailable = true;
       this.model = model;
+      this.isModelAvailable = true;
     });
-  }
-
-  getLocalizedTime(property : string) : string {
-    let localTime : string = 'am ';
-    let date : Date = new Date(this.model[property]);
-    localTime += this.prefixTime(date.getDate()) + '.' + this.prefixTime(date.getMonth()) + '.' + date.getFullYear();
-    return localTime;
   }
 
   public ngOnInit() : void {
@@ -55,8 +51,8 @@ export class DatePreviewViewComponent implements OnInit {
     }
   }
 
-  private prefixTime(time : number) : string {
-    return (time < 10) ? '0' + time : '' + time;
+  public getTimeStringFromModelProperty(propertyName : string) : string {
+    return this.dateService.dateFromUnixTime(this.model[propertyName]);
   }
 
 }

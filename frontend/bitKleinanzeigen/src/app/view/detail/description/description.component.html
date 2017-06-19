@@ -17,7 +17,7 @@
             </div>
             <div class="col-xs-10 comment-column comment-message-column">
               <div class="comment-info">
-                <p>Am {{getTimeFromUnixTime(comment.createDate)}}: </p>
+                <p>Am {{getTimeFromUnixTime(comment.createDate)}}, schrieb {{comment.userFirstName}} {{comment.userLastName}}: </p>
                 <!-- <p>{{user.firstName}} schrieb:</p> -->
               </div>
               <p>{{comment.message}}</p>

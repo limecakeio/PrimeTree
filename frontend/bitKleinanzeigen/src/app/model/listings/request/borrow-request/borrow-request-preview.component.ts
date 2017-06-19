@@ -23,8 +23,8 @@ import { DateProperty } from '../../../../view/preview/date/date.component';
 @Component({
   selector: 'borrow-request-preview',
   templateUrl: './borrow-request-preview.component.html',
-  styleUrls: [ '../../../listing/preview/listing-preview.component.css' ], // JIT
-  // styleUrls: [ '../../listing/preview/listing-preview.component.css' ], // AOT
+  // styleUrls: [ '../../../listing/preview/listing-preview.component.css' ], // JIT
+  styleUrls: [ '../../listing/preview/listing-preview.component.css' ], // AOT
   providers: [
     PreviewService
   ]

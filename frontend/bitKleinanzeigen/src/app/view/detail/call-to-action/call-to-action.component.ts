@@ -4,6 +4,11 @@ import { DetailViewService } from '../detail.service';
 import { UserController } from '../../../model/user/user.controller';
 import { Employee } from '../../../model/user/employee.model';
 
+export interface EMail {
+  subject: string,
+  body: string,
+}
+
 @Component({
   selector: 'view-detail-call-to-action',
   templateUrl: './call-to-action.component.html',
@@ -14,6 +19,8 @@ export class CallToActionDetailViewComponent {
   @Input() action : string = 'hat nicht funktioniert';
 
   @Input() listingIcon : string = '';
+
+  @Input() eMail : EMail;
 
   public isDataAvailable : boolean = false;
 
@@ -34,10 +41,12 @@ export class CallToActionDetailViewComponent {
     });
   }
 
+  /**Creates the mail and activates the mailto. */
   public mailTo() : void {
     let a : HTMLAnchorElement = document.createElement('a');
-    a.href = 'mailto:' + this.creator.eMail + '?subject=Kaufanfrage für Artikel ' + this.model.id + " bei bIT Kleinanzeigen";
-    a.href += '&body=Hallo, ich möchte gerne Deinen Artikel: ' + this.model.title + ' ... von dir kaufen.'; 
+    a.href = 'mailto:' + this.creator.eMail;
+    a.href += '?subject=' + this.eMail.subject;
+    a.href += '&body=' + this.eMail.body;
     a.click();
   }
 

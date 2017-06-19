@@ -43,9 +43,10 @@ export class AuthenticationComponent {
       this.router.navigate(['home']);
     }, (error : Error) => {
       this.messageService.sendMessage({
-        message: 'notify',
-        payload: 'zu dumm zum tippem´n'
-      })
+        message: 'notify-error',
+        payload: 'Falsche Authorisierungsdaten'
+      });
+      this.form.reset();
     }, () => {
 
     });

@@ -88,7 +88,6 @@ export class DateFormComponent implements OnInit {
     this.day = date.getDate();
     this.month = date.getMonth();
     this.year = date.getFullYear();
-    console.log(date, this.model)
   }
 
 }

@@ -54,7 +54,7 @@ export class ListingDetailViewComponent implements OnChanges {
     }, (error : Error) => {
       console.error(error);
     }, () => {
-      console.log('get request finished')
+
     })
   }
 

@@ -50,29 +50,29 @@ export class ListingFilterComponent {
 
   public lisitingTypes : FilterListItem[] = [
     {
-      displayText: 'Gegenstandsangebot',
+      displayText: 'Verkauf',
       value: 'SaleOffer'
-    } , {
-      displayText: 'Dienstleistungsangebote',
-      value: 'ServiceOffer'
     } , {
       displayText: 'Mitfahrgelegenheitsangebot',
       value: 'RideShareOffer'
     } , {
-      displayText: 'Verleih',
-      value: 'BorrowRequest'
+      displayText: 'Dienstleistungsangebote',
+      value: 'ServiceOffer'
     } , {
-      displayText: 'Gegenstandsgesuch',
+      displayText: 'Kaufanfrage',
       value: 'PurchaseRequest'
+    } , {
+      displayText: 'Freizeitaktivität',
+      value: 'RecreationRequest'
+    } , {
+      displayText: 'Dienstleistungsgesuch',
+      value: 'ServiceRequest'
+    } , {
+      displayText: 'Ausleihe',
+      value: 'BorrowRequest'
     } , {
       displayText: 'Mitfahrgelegenheitsgesuch',
       value: 'RideShareRequest'
-    } , {
-      displayText: 'Freizeitangebote (wiederkehrend)',
-      value: 'ReoccuringRecreationRequest'
-    } , {
-      displayText: 'Freizeitangebote (einmalig)',
-      value: 'SingleRecreationRequest'
     }
   ];
 

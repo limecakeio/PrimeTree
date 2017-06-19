@@ -181,7 +181,6 @@ export class ListingController {
     return this.networkService.send(networkRequest).map((response : Response) => {
       if (response.status === 200) {
         let listing : Listing = this.listingCreator.createListing(response.json())
-        console.log('resolve finished')
         return listing;
       }
       throw new Error(''  + response.status);

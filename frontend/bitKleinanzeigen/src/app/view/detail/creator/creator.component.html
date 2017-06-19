@@ -17,7 +17,7 @@
         <p>Anzeigenummer: {{model.id}}</p>
       </div>
       <div class="profile-data expires-on">
-        <p>Ablaufdatum: {{model.expiryDate}}</p>
+        <p>Ablaufdatum: {{getTimeStringFromUnixTime(model.expiryDate)}}</p>
       </div>
     </div>
   </div>
