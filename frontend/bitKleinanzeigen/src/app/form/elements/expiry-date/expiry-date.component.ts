@@ -20,19 +20,19 @@ export class ExpiryDateFormComponent {
   public expiryDateOptions : ExpiryDateOption[] = [
     {
       displayText: 'ein Tag',
-      timeInMilliseconds: 1440000
+      timeInMilliseconds: 86400000
     }, {
       displayText: 'eine Woche',
-      timeInMilliseconds: 10080000
+      timeInMilliseconds: 604800000
     }, {
       displayText: 'zwei Wochen',
-      timeInMilliseconds: 20160000
+      timeInMilliseconds: 1209600000
     }, {
       displayText: 'einen Monat',
-      timeInMilliseconds: 40320000
+      timeInMilliseconds: 2592000000
     }, {
       displayText: 'drei Monate',
-      timeInMilliseconds: 8035200000
+      timeInMilliseconds: 7776000000
     }, {
       displayText: 'kein Ablaufdatum',
       timeInMilliseconds: null

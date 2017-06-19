@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
 
+import { Router } from '@angular/router';
+
 import { UserController } from '../../user.controller';
 import { ListingController } from '../../../listings/listing/listing.controller';
 import { StatisticsService } from '../../../../shared/statistics.service';
+
+import { MessageService, Message } from '../../../../shared/message.service';
 
 import { UserMin } from '../../user-min.model';
 import { Listing } from '../../../listings/listing/listing.model';
@@ -24,7 +28,9 @@ export class UserAdminDashboardComponent {
   constructor(
     private userController : UserController,
     private listingController : ListingController,
-    private statisticsService : StatisticsService
+    private statisticsService : StatisticsService,
+    private router : Router,
+    private messageService : MessageService
   ) {
     this.listingController.getListings().subscribe((page : Page) => {
       this.page = page;
@@ -68,16 +74,28 @@ export class UserAdminDashboardComponent {
     });
   }
 
+  /**Sends a request and deactivates the listing with the corresponding listing. */
   public deactivateListing(listingID : number) : void {
     this.listingController.activateListing(listingID).subscribe(() => {
       this.listings.find(listing => listing.id === listingID).isActive = false;
     });
   }
 
+  /**Appoints the employee with the userID to an admin. */
   public appointAdmin(userID : number) : void {
     this.userController.appointAdmin(userID).subscribe(() => {
       this.users.find(user => user.userId === userID).isAdmin = true;
     });
+  }
+
+  /**Routes to the listing overview and opens an edit form for the argument listing. */
+  public editListing(listing : Listing) : void {
+    this.router.navigate(['home']).then(() => {
+      this.messageService.sendMessage({
+        message : 'changeListing',
+        payload: listing
+      })
+    })
   }
 
 }

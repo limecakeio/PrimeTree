@@ -5,6 +5,7 @@
   <button type="button" name="button" (click)="activateListing(listing.id)" *ngIf="!listing.isActive">Aktivieren</button>
   <button type="button" name="button" (click)="deactivateListing(listing.id)" *ngIf="listing.isActive">Deaktivieren</button>
   <button type="button" name="button" (click)="removeListing(listing.id)">Löschen</button>
+  <button type="button" name="button" (click)="editListing(listing)"></button>
 </div>
 <div class="" *ngIf="listings">
   <p (click)="loadMoreListings()">Weitere Inserate anzeigen</p>

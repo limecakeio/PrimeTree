@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { DetailViewService } from '../detail.service';
 
+import { DateService } from '../../../shared/date.service';
+
 export interface BorrowDate {
   propertyName : string;
   displayText : string;
@@ -30,7 +32,8 @@ export class BorrowDateViewComponent implements OnInit {
   public model : any;
 
   constructor(
-    private detailViewService : DetailViewService
+    private detailViewService : DetailViewService,
+    private dateService : DateService
   ) {
     this.detailViewService.getModel().subscribe((model : any) => {
       this.model = model;
@@ -47,11 +50,9 @@ export class BorrowDateViewComponent implements OnInit {
     }
   }
 
+  /**Returns a proper formatted time string which are equal to the unix time stamp */
   getLocalizedTime(property : string) : string {
-    let localTime : string = '';
-    let date : Date = new Date(this.model[property]);
-    localTime += date.getDay() + '.' + date.getMonth() + '.' + date.getFullYear();
-    return localTime;
+    return this.dateService.dateFromUnixTime(this.model[property]);
   }
 
 }

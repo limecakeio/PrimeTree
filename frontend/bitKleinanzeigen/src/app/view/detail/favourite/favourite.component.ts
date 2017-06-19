@@ -5,6 +5,8 @@ import { UserService } from '../../../model/user/user.service';
 import { ListingController } from '../../../model/listings/listing/listing.controller';
 import { Listing } from '../../../model/listings/listing/listing.model';
 
+import { MessageService, Message } from '../../../shared/message.service';
+
 @Component({
   selector: 'view-detail-favourite',
   templateUrl: './favourite.component.html',
@@ -21,7 +23,8 @@ export class FavouriteDetailViewComponent {
 
   constructor(
     private detailViewService : DetailViewService,
-    private userService : UserService
+    private userService : UserService,
+    private messageService : MessageService
   ) {
     this.detailViewService.getModel().subscribe((model : any) => {
       this.isDataAvailable = true;
@@ -36,10 +39,18 @@ export class FavouriteDetailViewComponent {
     if (this.userService.isFavourite(this.model.id)) {
       this.userService.removeFavourite(this.model.id).subscribe(() => {
         this.favouriteStatus = '';
+        this.messageService.sendMessage({
+          message: 'favourite-toogle-off',
+          payload: this.model.id
+        });
       });
     } else {
       this.userService.addFavourite(this.model.id).subscribe(() => {
         this.favouriteStatus = 'active';
+        this.messageService.sendMessage({
+          message: 'favourite-toogle-on',
+          payload: this.model.id
+        });
       });
     }
   }

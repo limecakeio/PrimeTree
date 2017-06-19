@@ -36,10 +36,13 @@ export class DateFormComponent implements OnInit {
   public years : number[] = this.createNumberArrayAscending(new Date().getFullYear(), new Date().getFullYear() + 20);
 
   public day : number;
+  public dayControlName : string;
 
   public month : number;
+  public monthControlName : string;
 
   public year : number;
+  public yearControlName : string;
 
   constructor(
     private formContextService : FormContextService
@@ -76,10 +79,14 @@ export class DateFormComponent implements OnInit {
       if (this.model[this.datePropertyName]) {
         this.setTimeFromUnixTime();
       }
-      this.form.addControl('day', new FormControl(''));
-      this.form.addControl('month', new FormControl(''));
-      this.form.addControl('year', new FormControl(''));
+      this.dayControlName = 'day' + this.datePropertyName;
+      this.form.addControl(this.dayControlName, new FormControl(''));
+      this.monthControlName = 'month' + this.datePropertyName;
+      this.form.addControl(this.monthControlName, new FormControl(''));
+      this.yearControlName = 'year' + this.datePropertyName;
+      this.form.addControl(this.yearControlName, new FormControl(''));
       this.isInputAvailable = true;
+      console.log(this.model);
     }
   }
 

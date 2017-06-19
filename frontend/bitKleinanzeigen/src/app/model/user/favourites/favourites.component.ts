@@ -54,6 +54,18 @@ export class FavouritesComponent {
       this.loadListingDetailView(message.payload);
       this.listingDetailView.nativeElement.classList.add("active");
       this.listingViewport.nativeElement.classList.add('slide-away');
+    } else if (message.message === 'favourite-toogle-off') {
+      let found : boolean = false;
+      for (let i = 0; i < this.favouriteListings.length && !found; i++) {
+        if (this.favouriteListings[i].id === message.payload) {
+          this.favouriteListings.splice(i, 1);
+          found = true;
+        }
+      }
+      console.log('favourite delete', found, message.payload)
+    } else if (message.message === 'favourite-toogle-on') {
+      this.getFavourites();
+      console.log('favourite appont', message.payload)
     }
   };
 
@@ -64,7 +76,9 @@ export class FavouritesComponent {
     this.detailListingID = listingID;
   }
 
+  /**Updates the intern favourites property. */
   private getFavourites() : void {
+    this.favouriteListings = [];
     this.userController.getFavourites().subscribe((listingIDs : number[]) => {
       this.listingCount = listingIDs.length;
       listingIDs.forEach((listingID : number) => {

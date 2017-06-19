@@ -39,7 +39,7 @@ export class BorrowRequestPreviewComponent extends ListingPreviewComponent imple
   }
 
   public borrowToDate : DateProperty = {
-    propertyName : 'borrowFromDate',
+    propertyName : 'borrowToDate',
     displayText: 'Ausleihbar bis: '
   }
 

@@ -11,8 +11,8 @@
       <div class="user-actions">
         <form class="navbar-form navbar-left">
           <div class="input-group header-search-bar">
-            <input type="text" class="form-control" (input)="search($event)">
-            <div class="input-group-btn">
+            <input type="text" class="form-control" (input)="searchOnInput($event)">
+            <div class="input-group-btn" (click)="searchOnButton()" >
               <button class="btn btn-default" type="submit">
                 <i class="icon search"></i>
               </button>

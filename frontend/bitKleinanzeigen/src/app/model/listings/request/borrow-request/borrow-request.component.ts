@@ -40,7 +40,7 @@ export class BorrowRequestComponent extends ListingComponent implements OnInit {
   }
 
   public borrowToDate : BorrowDate = {
-    propertyName : 'borrowFromDate',
+    propertyName : 'borrowToDate',
     displayText: 'Bis: ',
     displayIcon: 'listing-offer'
   }
