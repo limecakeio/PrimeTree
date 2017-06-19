@@ -1,3 +1,16 @@
-.listing-title {
+.listing-preview-title span {
   color: #58585a;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: color 0.25s linear;
+  font-size: 15pt;
+  display: block;
+  margin-top: 10pt;
+  cursor: pointer;
+}
+
+.listing-preview-title span:hover,
+.listing-preview-title span:focus {
+  color: #818183;
+  text-decoration: none;
 }

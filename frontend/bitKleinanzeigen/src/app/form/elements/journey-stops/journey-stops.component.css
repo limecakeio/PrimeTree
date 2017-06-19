@@ -1,0 +1,40 @@
+.journey-stops-wrapper {
+  width:60%;
+}
+
+.journey-stops-toggler {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 11pt;
+  color: #175DA9;
+  margin-bottom: 1em;
+  cursor: pointer;
+  margin-bottom: 1em;
+}
+
+.journey-stops-toggler span:after {
+  font-size:12px;
+}
+
+.journey-stops-toggler.collapsed span:after {
+  content: "\e250";
+}
+
+.journey-stops-toggler span:after {
+  content: "\e252";
+}
+
+.journey-stops-container ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.journey-stop span.warn {
+  color: #e5143f;
+  cursor: pointer;
+}
+
+.journey-stops-add {
+  padding:0;
+}

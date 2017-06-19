@@ -49,12 +49,15 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
   @ViewChild("listingFilter") listingFilter : ElementRef;
   @ViewChild("listingCreate") listingCreate : ElementRef;
   @ViewChild("listingDetailView") listingDetailView : ElementRef;
+  @ViewChild('listingEdit') listingEdit : ElementRef;
 
   levels : ElementRef[];
 
 
 
   public detailListingID : number;
+
+  public editListing : Listing;
 
   public lisitingDetailViewOverlayDisplayState : boolean = false;
 
@@ -63,6 +66,11 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
    */
   public loadListingDetailView(id : number) : void {
     this.detailListingID = id;
+  }
+
+  /**Triggers a listing edit form. */
+  public loadListingEdit(listing : Listing) : void {
+    this.editListing = listing;
   }
 
   public findListingPreviewComponentTypeFromListingType(listingType : string) : Type<ListingPreviewComponent> {
@@ -97,6 +105,9 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
     } else if(message.message === 'displayListingDetail') {
       this.loadListingDetailView(message.payload);
       this.displayLevel(this.listingDetailView);
+    } else if (message.message === 'changeListing') {
+      this.loadListingEdit(message.payload);
+      this.displayLevel(this.listingEdit)
     }
   };
 
@@ -241,7 +252,8 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
     this.levels = [
        this.listingFilter,
        this.listingCreate,
-       this.listingDetailView
+       this.listingDetailView,
+       this.listingEdit
      ];
 
     /*

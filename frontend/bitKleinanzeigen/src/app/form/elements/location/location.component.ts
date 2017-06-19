@@ -39,7 +39,7 @@ export class LocationFormComponent implements OnInit {
 
   /** Checks whether an input property name was submitted and throws an Error if not.*/
   public ngOnInit() : void {
-    this.form.addControl(this.location.property, new FormControl(this.location.property, Validators.required));
+    this.form.addControl(this.location.property, new FormControl('', Validators.required));
     this.locationProperty = this.location.property;
     this.locationDisplay = this.location.display;
   }

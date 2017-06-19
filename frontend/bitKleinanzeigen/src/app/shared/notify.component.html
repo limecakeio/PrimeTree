@@ -1,3 +1,9 @@
-<div class="" *ngIf="displayMessage" (click)="hideNotify()">
-  <h1>{{notifyMessage}}</h1>
+<div class="notify-wrapper">
+  <div class="notify-contaier">
+    <div *ngFor="let message of messageBoard">
+      <div class="{{message.type}}">
+        <p>{{message.notification}}</p>
+      </div>
+    </div>
+  </div>
 </div>

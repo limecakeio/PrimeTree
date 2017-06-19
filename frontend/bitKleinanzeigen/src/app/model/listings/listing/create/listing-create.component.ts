@@ -69,6 +69,9 @@ export class ListingCreateComponent {
     event.model.type = this.listingType;
     event.model.isActive = true;
     event.model.createDate = new Date().getTime();
+    if (event.model.expiryDate) { // add the create Date
+      event.model.expiryDate = parseInt(event.model.expiryDate) + parseInt(event.model.createDate);
+    }
     this.listingController.createListing(event.model).subscribe((listingId : number) => {
       if (event.callback) {
         event.callback(listingId);
@@ -82,6 +85,8 @@ export class ListingCreateComponent {
 
   /** Calls the ListingRepository update method, hides the overlay and navigates to the overview page.*/
   public updateRepository() : void {
+    this.listingKind = '';
+    this.listingType = '';
     this.listingRepository.update();
     this.messageService.sendMessage({
       message: "resetViewport"
@@ -95,7 +100,6 @@ export class ListingCreateComponent {
     this.messageService.sendMessage({
       message: 'resetViewport'
     })
-    this.router.navigate(['home']);
   }
 
   public returnForm() : void {

@@ -1,5 +1,6 @@
 .location-element p {
   text-transform: capitalize;
+  margin: 0;
 }
 
 .location-element span {

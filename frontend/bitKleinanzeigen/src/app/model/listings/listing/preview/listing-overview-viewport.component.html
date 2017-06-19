@@ -2,10 +2,9 @@
   <div class="listing-create level-down" #listingCreate>
     <listing-create></listing-create>
   </div>
-  <listing-edit
-  class="listing-edit level-down"
-  >
-  </listing-edit>
+  <div class="listing-edit level-down" #listingEdit>
+    <listing-edit [listing]="editListing"></listing-edit>
+  </div>
   <div class="listing-detail-view level-down" #listingDetailView>
     <listing-detail-view  [listingID]="detailListingID" #listingDetailViewComponent></listing-detail-view>
   </div>
@@ -13,7 +12,6 @@
   <div class="listing-filter level-down" #listingFilter>
     <listing-filter></listing-filter>
   </div>
-
 
   <div class="listing-scroll-container main-viewport">
     <div class="listing-wrapper" #listingScroller id="listing-wrapper">

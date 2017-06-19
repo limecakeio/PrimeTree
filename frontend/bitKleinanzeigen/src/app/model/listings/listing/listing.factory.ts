@@ -71,6 +71,9 @@ export class ListingFactory {
     this.vitalListingProperties.forEach((property : string) => {
       listing[property] = body[property];
     });
+    if (listing.expiryDate === -1) {
+      listing.expiryDate = null;
+    }
   }
 
 }

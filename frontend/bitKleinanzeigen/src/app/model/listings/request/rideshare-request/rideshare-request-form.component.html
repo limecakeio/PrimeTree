@@ -1,30 +1,37 @@
 <form
-novalidate
 [formGroup]="form"
 (ngSubmit)="submit()" class="listing-form">
 
-<div class="form-title">
-  <h1>Inserat {{formStateText}}: Gesuch / Mitfahrgelegenheit</h1>
-  <div class="form-title-controls">
-    <div class="navigation back" title="Zurück" (click)="returnForm()"></div>
-    <div class="navigation exit" title="Abbrechen" (click)="closeForm()"></div>
-  </div>
+<div class="form-title rideshare-request">
+  <h1>Suche / Mitfahrgelegenheit</h1>
 </div>
 
-<div class="form-group">
-  <form-element-title></form-element-title>
-  <form-element-description></form-element-description>
-  <form-element-location-from></form-element-location-from>
-  <form-element-location-to></form-element-location-to>
-  <form-element-travel-date-and-time></form-element-travel-date-and-time>
-  <form-element-expiry-date></form-element-expiry-date>
-  <button
-  type="button"
-  name="button"
-  (click) = "submit()"
-  class="btn btn-primary"
-  [disabled]="form.invalid">
-  Mitfahrgelegenheit {{formStateText}}
-</button>
+<div class="container-fluid form-container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <form-element-title></form-element-title>
+        <form-element-description></form-element-description>
+        <form-element-location-from></form-element-location-from>
+        <form-element-location-to></form-element-location-to>
+        <form-element-travel-date-and-time></form-element-travel-date-and-time>
+        <form-element-expiry-date></form-element-expiry-date>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12 submit-button">
+              <button
+              type="button"
+              name="button"
+              (click) = "submit()"
+              class="btn btn-listing btn-listing-submit"
+              [disabled]="form.invalid">
+              <span class="icon listing-rideshare"></span>Mitfahrgesuch {{formStateText}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 </form>

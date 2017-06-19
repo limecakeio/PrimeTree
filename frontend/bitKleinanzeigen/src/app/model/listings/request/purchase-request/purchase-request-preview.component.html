@@ -1,9 +1,14 @@
 <div class="listing-preview" (click)="displayListingDetail()">
   <div class="listing-header purchase-request">
-    <p>Gesuch / Gegenstand</p>
+    <p>Gesuch / Kaufen</p>
   </div>
-  <div class="listing-image">
+  <div class="listing-image purchase-request-50">
     <view-preview-image></view-preview-image>
+    <div *ngIf="!listing.mainImage">
+      <div class="fallback-icon">
+        <span class="icon listing-sell"></span>
+      </div>
+    </div>
   </div>
   <div class="listing-heading">
     <view-preview-title></view-preview-title>

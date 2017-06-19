@@ -38,6 +38,9 @@ export class UserAdminDashboardComponent {
   }
 
   public loadMoreListings() : void {
+    if (this.page.pageNumber === this.page.pages) { // check whether there are more Pages available
+      return;
+    }
     this.listingController.loadNewPageSite(this.page).subscribe((page : Page) => {
       this.page = page;
       page.listings.forEach((listing : Listing) => {

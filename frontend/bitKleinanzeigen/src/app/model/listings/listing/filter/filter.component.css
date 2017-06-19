@@ -1,25 +1,27 @@
 
 .listing-filter-content {
-  color: #fff;
-  text-transform: uppercase;
+  color: #57585A;
+  display: table;
+  width: 90%;
+  margin: 2em auto;
+  background-color: #fff;
 }
 
 .listing-filter-content h1 {
   margin: 1em 0 2em 0;
   font-size: 15pt;
+  text-transform: uppercase;
 }
 .listing-filter-content h2 {
   font-size: 12pt;
   font-weight: bold;
   margin: 1em 0;
+  text-transform: uppercase;
 }
 .listing-filter-content h3 {
   font-size: 10pt;
   text-align: right;
   padding: 5pt;
   cursor: pointer;
-}
-
-span.close-filter {
-  color: #fff;
+  text-transform: uppercase;
 }

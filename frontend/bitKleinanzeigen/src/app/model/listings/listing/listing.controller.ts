@@ -34,7 +34,7 @@ export class ListingController {
   /**Loads a new page site with the same filter criteria as the param Page. */
   public loadNewPageSite(page : Page) : Observable<Page> {
     let networkRequest : NetworkRequest = page.networkRequest;
-    networkRequest.addQuery('page', page.pageNumber + '');
+    networkRequest.addQuery('page', page.pageNumber +  1 + '');
     return this.networkService.send(networkRequest).map((response : Response) => {
       if (response.status === 200) {
         let page : Page = this.pageFactory.createPage(response.json());
@@ -341,7 +341,12 @@ export class ListingController {
     .addPath('own');
     return this.networkService.send(networkRequest).map((response : Response) => {
       if (response.status === 200) {
-        return response.json().listings;
+        let bodies : any[] = response.json().listings;
+        let listings : Listing[] = [];
+        bodies.forEach((body : any) => {
+          listings.push(this.listingCreator.createListing(body));
+        });
+        return listings;
       } else if (response.status === 401) {
         throw new Error('User must be authenticated to use this method!');
       }

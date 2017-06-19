@@ -28,14 +28,21 @@ export class JourneyStopsFormComponent {
         this.model.journeyStops = [];
       }
       this.model = this.formContextService.model;
-      this.form.addControl('journeyStop', new FormControl('journeyStop', Validators.required));
+      this.form.addControl('journeyStop', new FormControl('', Validators.required));
       this.isModelAvailable = true;
     })
   }
 
+  /**Adds the new journey stop to the array of existing array stops. Resets the text field for the active journey stop. */
   public createJourneyStop() : void {
-    this.model.journeyStops.push(this.journeyStop);
-    this.journeyStop = '';
+    if (this.journeyStop.length > 0) {
+      this.model.journeyStops.push(this.journeyStop);
+      this.journeyStop = '';  
+    }
+  }
+
+  public removeJourneyStop(index : number) : void {
+    this.model.journeyStops.splice(index, 1);
   }
 
 }

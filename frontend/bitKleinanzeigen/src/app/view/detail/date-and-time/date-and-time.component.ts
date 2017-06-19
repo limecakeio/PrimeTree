@@ -36,9 +36,9 @@ export class DateAndTimeViewComponent implements OnInit {
   }
 
   public getLocalizedTime(property : string) : string {
-    let localTime : string = 'am ';
+    let localTime : string = '';
     let date : Date = new Date(this.model[property]);
-    localTime += date.getDay() + '.' + date.getMonth() + '.' + date.getFullYear() + ' um ' + date.getHours() + ':' + date.getMinutes();
+    localTime += date.getDay() + '.' + date.getMonth() + '.' + date.getFullYear() + ' um ' + date.getHours() + ':' + date.getMinutes() + " Uhr.";
     return localTime;
   }
 

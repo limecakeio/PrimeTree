@@ -1,16 +1,22 @@
 <div [formGroup]="form" *ngIf="isModelAvailable">
-  <div class="input-group">
-    <span class="condition-background">Zustand </span>
-    <select
-    formControlName="condition"
-    class=""
-    name="condition"
-    [(ngModel)]="model.condition"
-    formControlName="condition"
-    >
-      <!-- <option value="New">Neu</option>
-      <option value="Used">Gebraucht</option> -->
-      <option [value]="conditionOption.value" *ngFor="let conditionOption of conditionOptions">{{conditionOption.name}}</option>
-    </select>
+  <div class="container-fluid condition-container">
+    <div class="row">
+      <div class="col-xs-2 column">
+        <span class="condition-label">Zustand </span>
+      </div>
+      <div class="col-xs-10 column">
+        <div class="input-group">
+          <select
+          formControlName="condition"
+          class=""
+          name="condition"
+          [(ngModel)]="model.condition"
+          formControlName="condition"
+          >
+            <option [value]="conditionOption.value" *ngFor="let conditionOption of conditionOptions">{{conditionOption.name}}</option>
+          </select>
+        </div>
+      </div>
+      </div>
+    </div>
   </div>
-</div>

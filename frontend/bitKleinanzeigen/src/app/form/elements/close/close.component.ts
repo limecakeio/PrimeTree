@@ -21,6 +21,7 @@ export class CloseDetailViewComponent {
     })
   }
 
+// TODO: Change to a meaningful name
   public closeDetailViewOverlay() : void {
     this.messageService.sendMessage({
       message: 'hideListingForm'

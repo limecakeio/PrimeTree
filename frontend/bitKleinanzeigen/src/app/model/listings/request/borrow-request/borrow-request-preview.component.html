@@ -2,8 +2,13 @@
   <div class="listing-header borrow-request">
     <p>Gesuch / Ausleihe</p>
   </div>
-  <div class="listing-image">
+  <div class="listing-image borrow-request-50">
     <view-preview-image></view-preview-image>
+    <div *ngIf="!listing.mainImage">
+      <div class="fallback-icon">
+        <span class="icon listing-borrow"></span>
+      </div>
+    </div>
   </div>
   <div class="listing-heading">
     <view-preview-title></view-preview-title>
@@ -13,7 +18,6 @@
     <view-preview-date [dateProperty]="borrowToDate"></view-preview-date>
   </div>
   <div class="listing-footer">
-    <!-- MAY NEED TO ARRANGE A SEPARATE COMPONENT FOR THIS? -->
     <view-preview-favourite></view-preview-favourite>
   </div>
 </div>

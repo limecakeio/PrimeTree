@@ -27,7 +27,7 @@ export class AvailableSeatsFormComponent {
       if (!this.model.availableSeats) {
         this.model.availableSeats = null;
       }
-      this.form.addControl('availableSeats', new FormControl('availableSeats'));
+      this.form.addControl('availableSeats', new FormControl(''));
       this.isModelAvailable = true;
     })
   }

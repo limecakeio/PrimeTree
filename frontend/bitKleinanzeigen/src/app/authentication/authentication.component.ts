@@ -39,8 +39,7 @@ export class AuthenticationComponent {
     this.authenticationController.authenticate(this.user).subscribe((employee : Employee) => {
       this.userService.userInformation = employee;
       this.userService.authenticated = true;
-      this.user.username = '';
-      this.user.password = '';
+      this.form.reset();
       this.router.navigate(['home']);
     }, (error : Error) => {
       this.messageService.sendMessage({

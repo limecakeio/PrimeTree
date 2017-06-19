@@ -1,3 +1,12 @@
 <div class="listing-detail-category" *ngIf="isDataAvailable">
-  <h1>{{getReoccurenceDisplayTextFromCategory(model.reoccurence)}}</h1>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-4 column">
+        <p><span class="glyphicon glyphicon-repeat"></span> Häufigkeit:</p>
+      </div>
+      <div class="col-xs-8 column">
+        <p>{{getReoccurenceDisplayTextFromCategory(model.reoccurence)}}</p>
+      </div>
+    </div>
+  </div>
 </div>

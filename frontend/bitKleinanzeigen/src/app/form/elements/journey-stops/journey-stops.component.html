@@ -1,25 +1,40 @@
-<!-- <div class="" *ngIf="true">
-  <div class="" *ngFor="let journeyStop of model.journeyStops; let index">
-    <span>Zwischenhalt</span>
-    <input type="text" name="" value="" [(ngModel)]="model.journeyStops[index]">
-  </div>
-  <label for="createNewJourneyStop">Neuer Zwischenstopp</label>
-  <button id="createNewJourneyStop" type="button" name="button"></button>
-</div> -->
-<div class="" *ngIf="isModelAvailable" [formGroup]="form">
-  <div class="" *ngFor="let journeyStop of model.journeyStops">
-    <span>{{journeyStop}}</span>
-  </div>
-  <div class="">
-    <input
-      type="text"
-      name="journeyStop"
-      formControlName="journeyStop"
-      class="form-control"
-      aria-label="Zwischenhalt"
-      placeholder="Zwischenhalt"
-      [(ngModel)]="journeyStop"
-    >
-    <button type="button" name="button" (click)="createJourneyStop()">+</button>
+<div class="journey-stops-wrapper" *ngIf="isModelAvailable" [formGroup]="form">
+
+  <h3 class="journey-stops-toggler collapsed" data-toggle="collapse" data-target="#journey-stops-container">
+    Zwischenhalte <span class="glyphicon"></span>
+  </h3>
+  <div class="journey-stops-container collapse" id="journey-stops-container">
+    <ul>
+      <li class="journey-stop" *ngFor="let journeyStop of model.journeyStops">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-8"><p><span class="icon location"></span> {{journeyStop}}</p></div>
+            <div class="col-xs-4 delete-stop"><span class="icon exit warn" title="Zwischenstop entfernen"></span></div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="container-fluid journey-stops-add">
+      <div class="row">
+        <div class="col-xs-10 col-md-7">
+          <input
+          type="text"
+          name="journeyStop"
+          formControlName="journeyStop"
+          class="form-control"
+          placeholder="Zwischenhalt hinzufügen"
+          [(ngModel)]="journeyStop"
+          >
+        </div>
+        <div class="col-xs-2 col-md-5 add-stop">
+          <button
+          type="button"
+          name="button"
+          class="btn btn-listing btn-listing-submit"
+          (click)="createJourneyStop()">
+          <i class="icon add"></i>
+        </button>
+        </div>
+      </div>
   </div>
 </div>

@@ -2,8 +2,13 @@
   <div class="listing-header service-request">
     <p>Gesuch / Dienstleistung</p> <!-- Requires dynamic population -->
   </div>
-  <div class="listing-image">
+  <div class="listing-image service-request-50">
     <view-preview-image></view-preview-image>
+    <div *ngIf="!listing.mainImage">
+      <div class="fallback-icon">
+        <span class="icon listing-service"></span>
+      </div>
+    </div>
     <view-preview-price></view-preview-price>
   </div>
   <div class="listing-heading">

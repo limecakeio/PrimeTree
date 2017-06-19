@@ -1,14 +1,14 @@
 <div [formGroup]="form" *ngIf="isModelAvailable">
   <div class="input-group">
-    <span class="expiry-date-overlay">Verfallsdatum </span>
-    <select [(ngModel)]="day" formControlName="day" (change)="addExpiryDateToModel()">
-      <option [value]="day" *ngFor="let day of days">{{day}}</option>
-    </select>
-    <select [(ngModel)]="month" formControlName="month" (change)="addExpiryDateToModel()">
-      <option [value]="month" *ngFor="let month of months">{{month}}</option>
-    </select>
-    <select [(ngModel)]="year" formControlName="year" (change)="addExpiryDateToModel()">
-      <option [value]="year" *ngFor="let year of years">{{year}}</option>
+    <span class="expiry-date-background">Ablaufdatum </span>
+    <select
+    formControlName="expiryDate"
+    class=""
+    name="expiryDate"
+    [(ngModel)]="expiryDate"
+    formControlName="expiryDate"
+    >
+      <option [ngValue]="expiryDateOption.timeInMilliseconds" *ngFor="let expiryDateOption of expiryDateOptions">{{expiryDateOption.displayText}}</option>
     </select>
   </div>
 </div>

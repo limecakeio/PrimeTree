@@ -1,11 +1,11 @@
 <form
-id="listing-create-sellitem-form"
-novalidate
 [formGroup]="form"
 (ngSubmit)="submit()" class="listing-form">
-<div class="form-title">
+
+<div class="form-title sale-offer">
   <h1>Biete / Verkauf</h1>
 </div>
+
 <div class="container-fluid form-container">
   <div class="row">
     <div class="col-xs-12">
@@ -16,14 +16,20 @@ novalidate
         <form-element-price></form-element-price>
         <form-element-condition></form-element-condition>
         <form-element-expiry-date></form-element-expiry-date>
-        <button
-        type="button"
-        name="button"
-        (click) = "submit()"
-        class="btn btn-primary"
-        [disabled]="form.invalid">
-        Verkaufsinserat {{formStateText}}
-      </button>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12 submit-button">
+              <button
+              type="button"
+              name="button"
+              (click) = "submit()"
+              class="btn btn-listing btn-listing-submit"
+              [disabled]="form.invalid">
+              <span class="icon listing-sell"></span>Verkaufsinserat {{formStateText}}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

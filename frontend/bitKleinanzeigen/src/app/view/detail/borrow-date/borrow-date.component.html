@@ -1,3 +1,3 @@
 <div class="listing-detail-borrow-date" *ngIf="isDataAvailable && isInputAvailable">
-  <span>{{borrowDateDisplayText}} {{getLocalizedTime(borrowDatePropertyName)}}</span>
+  <p><span [class]= "borrowIconName + ' icon'"></span> {{borrowDateDisplayText}} {{getLocalizedTime(borrowDatePropertyName)}}</p>
 </div>
