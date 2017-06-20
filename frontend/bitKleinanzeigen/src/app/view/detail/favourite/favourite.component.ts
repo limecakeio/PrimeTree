@@ -33,6 +33,17 @@ export class FavouriteDetailViewComponent {
         this.favouriteStatus = 'active';
       }
     });
+    this.messageService.getObservable().subscribe((message : Message) => { // check if the listing was followed or unfollowed in the detail view
+      if (message.message === 'favourite-toogle-off') {
+        if (message.payload === this.model.id) {
+          this.favouriteStatus = '';
+        }
+      } else if (message.message === 'favourite-toogle-on') {
+        if (message.payload === this.model.id) {
+          this.favouriteStatus = 'active';
+        }
+      }
+    });
   }
 
   public toggleFavourite() : void {

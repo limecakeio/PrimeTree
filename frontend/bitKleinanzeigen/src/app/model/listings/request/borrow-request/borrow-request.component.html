@@ -3,21 +3,12 @@
   <view-detail-close></view-detail-close>
 </div>
 
-<!-- <div class="listing-image-plug borrow-request-50">
-  <div class="fallback-image">
-    <img src="./assets/images/fallback.png" />
-    <div class="fallback-icon">
-      <span class="icon listing-borrow"></span>
-    </div>
-  </div>
-</div> -->
-
 <div class="listing-image-plug borrow-request-50">
   <view-detail-image></view-detail-image>
   <div *ngIf="!listing.mainImage" class="fallback-image">
     <img src="./assets/images/fallback.png" />
     <div class="fallback-icon">
-      <span class="icon listing-sell"></span>
+      <span class="icon listing-borrow"></span>
     </div>
   </div>
 </div>

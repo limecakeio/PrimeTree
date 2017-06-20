@@ -12,6 +12,8 @@ import { UserMin } from '../../user-min.model';
 import { Listing } from '../../../listings/listing/listing.model';
 import { Page } from '../../../listings/listing/page.model';
 
+import { DateService } from '../../../../shared/date.service';
+
 @Component({
   selector: 'user-admin-dashboard',
   templateUrl: './dashboard.component.html',
@@ -21,7 +23,7 @@ export class UserAdminDashboardComponent {
 
   public listings : Listing[] = [];
 
-  private page : Page;
+  public page : Page;
 
   public users : UserMin[];
 
@@ -30,7 +32,8 @@ export class UserAdminDashboardComponent {
     private listingController : ListingController,
     private statisticsService : StatisticsService,
     private router : Router,
-    private messageService : MessageService
+    private messageService : MessageService,
+    public dateService : DateService
   ) {
     this.listingController.getListings().subscribe((page : Page) => {
       this.page = page;
@@ -66,32 +69,58 @@ export class UserAdminDashboardComponent {
           this.listings.splice(i, 1);
         }
       }
-    });
+      let notification = "Inserat " + listingID + " wurde erfolgreich gelöscht.";
+      this.listingStatusMessage('notify-success', notification);
+    }), (error: Error) => {
+      let notification = "Das Inserat " + listingID + " konnte nicht gelöscht werden. Grund: " + error;
+      this.listingStatusMessage('notify-error', notification);
+    };
   }
 
-  /**Sends a request to activate jte listing with the listingID. Changes the isActive property if sucessful. */
-  public activeListing(listingID : number) : void {
+  public activateListing(listingID : number) : void {
     this.listingController.activateListing(listingID).subscribe(() => {
       this.listings.find(listing => listing.id === listingID).isActive = true;
-    });
+      let notification = "Inserat " + listingID + " wurde erfolgreich aktiviert.";
+      this.listingStatusMessage('notify-success', notification);
+    }), (error: Error) => {
+      let notification = "Das Inserat " + listingID + " konnte nicht aktiviert werden. Grund: " + error;
+      this.listingStatusMessage('notify-error', notification);
+    };
   }
 
   /**Sends a request and deactivates the listing with the corresponding listing. */
   public deactivateListing(listingID : number) : void {
     this.listingController.activateListing(listingID).subscribe(() => {
       this.listings.find(listing => listing.id === listingID).isActive = false;
-    });
+      let notification = "Inserat " + listingID + " wurde erfolgreich deaktiviert.";
+      this.listingStatusMessage('notify-success', notification);
+    }), (error: Error) => {
+      let notification = "Das Inserat " + listingID + " konnte nicht deaktiviert werden. Grund: " + error;
+      this.listingStatusMessage('notify-error', notification);
+    };
   }
 
   /**Appoints the employee with the userID to an admin. */
   public appointAdmin(userID : number) : void {
     this.userController.appointAdmin(userID).subscribe(() => {
       this.users.find(user => user.userId === userID).isAdmin = true;
+      let notification = "Der Benutzer mit der ID:" + userID + " wurde erfolgreich zum Administrator ernannt.";
+      this.listingStatusMessage('notify-success', notification);
+    }), (error : Error) => {
+      let notification = "Der Benutzer mit der ID: " + userID + " konnte nicht zum Administrator ernannt werden. Grund: " + error;
+      this.listingStatusMessage('notify-error', notification);
+    };
+  }
+
+  private listingStatusMessage(message:string, payload:string ) : void {
+    this.messageService.sendMessage({
+      message: message,
+      payload: payload
     });
   }
 
   /**Routes to the listing overview and opens an edit form for the argument listing. */
-  public editListing(listing : Listing) : void {
+  public changeListing(listing : Listing) : void {
     this.router.navigate(['home']).then(() => {
       this.messageService.sendMessage({
         message : 'changeListing',

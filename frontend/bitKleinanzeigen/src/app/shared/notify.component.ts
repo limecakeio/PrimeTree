@@ -23,13 +23,9 @@ export class NotifyComponent {
       }
       let notification : string;
       let notificationType : string;
-      if (message.message === 'notify-sucess') {
-        // this.displayMessage = true;
-        // this.notifyMessage = message.payload;
+      if (message.message === 'notify-success') {
         notificationType = 'success'
       } else if (message.message === 'notify-error') {
-        // this.displayMessage = true;
-        // this.notifyMessage = message.payload;
         notificationType= 'error';
       }
       notification = message.payload;

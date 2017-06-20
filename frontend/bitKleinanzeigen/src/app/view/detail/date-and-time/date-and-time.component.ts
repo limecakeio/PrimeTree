@@ -44,10 +44,17 @@ export class DateAndTimeViewComponent implements OnInit {
     if (this.dateAndTimeProperty) {
       this.dateAndTimePropertyDisplayText = this.dateAndTimeProperty.displayText;
       this.dateAndTimePropertyName = this.dateAndTimeProperty.name;
+      this.isInputAvailable = true;
+      console.log(this.dateAndTimeProperty, this.model)
       if (this.model[this.dateAndTimePropertyName]) {
-        this.isInputAvailable = true;
+        this.isPropertyAvailable = true;
       }
     }
+  }
+
+  /**Converts the unix time stamp located in the model property to an formatted date and time string.*/
+  public getDateAndTimeStringFromProperty(property : string) : string {
+    return this.dateService.fullDateFromUnixTime(this.model[property], ' um ');
   }
 
 }

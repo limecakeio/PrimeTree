@@ -9,24 +9,32 @@
         </button>
       </div>
       <div class="user-actions">
-        <form class="navbar-form navbar-left">
-          <div class="input-group header-search-bar">
-            <input type="text" class="form-control" (input)="searchOnInput($event)">
-            <div class="input-group-btn" (click)="searchOnButton()" >
-              <button class="btn btn-default" type="submit">
-                <i class="icon search"></i>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-10 col-sm-8">
+              <form class="navbar-form navbar-left">
+                <div class="input-group header-search-bar">
+                  <input type="text" class="form-control" (input)="searchOnInput($event)">
+                  <div class="input-group-btn" (click)="searchOnButton()">
+                    <button class="btn btn-default" type="submit">
+                      <i class="icon search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="col-xs-2 col-sm-4">
+              <button class="btn btn-listing btn-create navbar-btn" (click)="create()">
               </button>
             </div>
           </div>
-        </form>
-        <button class="btn btn-listing btn-create navbar-btn" (click)="create()">
-          Inserat Erstellen
-        </button>
+        </div>
       </div>
     </div>
     <div class="collapse navbar-collapse navbar-icon-links-container" id="bitNavbar">
       <!-- BOF ICON MENU [WILL BE REPLACED WITH CUSTOM LOGOS!]-->
       <ul class="nav navbar-nav navbar-right icon-menu">
+        <li><a routerLine="admin/dashboard" title="Zum Administrationsbereich." *ngIf="userService.userInformation.isAdmin" (click)="navigateToDashboard()"><span class="icon dashboard"></span></a></li>
         <li><a title="Filter"><span class="icon filter" (click)="activateListingFilter()"></span></a></li>
         <li><a href="#" title="Meine Merkliste" routerLink="user/favourites"><span class="icon favourite"></span></a></li>
         <li><a href="#" title="Mein Profil" routerLink="user/profil"><span class="icon account"></span></a></li>

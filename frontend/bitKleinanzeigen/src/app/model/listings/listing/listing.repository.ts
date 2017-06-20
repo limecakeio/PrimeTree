@@ -111,6 +111,7 @@ export class ListingRepository {
 
   /** Loads more listings from the server. The Observable returns true if the loading was successful else false*/
   public getNextListings() : Observable<boolean> {
+    console.log('pageNumber: ' + this.page.pageNumber, 'pages: ' + this.page.pages);
     if (this.page.pageNumber < this.page.pages && this.state === State.WAITING) {
       this.state = State.WORKING;
       this.listingController.loadNewPageSite(this.page).subscribe((page : Page) => {

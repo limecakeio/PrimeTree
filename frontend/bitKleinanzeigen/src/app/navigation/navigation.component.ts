@@ -66,11 +66,14 @@ export class NavigationComponent {
   }
 
   private search(query : string) : void {
+    console.log(query)
     if (query.length >= 2) {
-      this.router.navigate(['listing/search']);
-      this.messageService.sendMessage({
-        message: 'ListingSearch',
-        payload: query
+      this.router.navigate(['listing/search']).then(() => {
+        console.log('send')
+        this.messageService.sendMessage({
+          message: 'ListingSearch',
+          payload: query
+        });
       });
     } else {
       this.router.navigate(['home']);
@@ -82,6 +85,10 @@ export class NavigationComponent {
     this.messageService.sendMessage({
       message: 'toggleListingFilter'
     });
+  }
+
+  public navigateToDashboard() : void {
+    this.router.navigate(['admin', 'dashboard']);
   }
 
 }

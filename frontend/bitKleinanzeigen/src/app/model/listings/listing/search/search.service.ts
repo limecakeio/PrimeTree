@@ -13,15 +13,19 @@ import { ListingController } from '../listing.controller';
 export class ListingSearchService {
 
   public listingSearchResults : ListingList;
+  public searchTerm : string;
 
   constructor(
     private messageService : MessageService,
     private listingController : ListingController,
   ) {
+    console.log('ListingSearchService instanciated')
     this.messageService.getObservable().subscribe((message : Message) => {
+      console.log(message)
       if (message.message === 'ListingSearch') {
-        console.log('searchMessage', message)
+        console.log('search')
         this.listingController.searchListings(message.payload).subscribe((listingList : ListingList) => {
+          this.searchTerm = message.payload;
           this.listingSearchResults = listingList;
         });
       }

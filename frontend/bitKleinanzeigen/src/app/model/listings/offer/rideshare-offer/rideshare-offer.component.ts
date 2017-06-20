@@ -33,10 +33,7 @@ export class RideShareOfferComponent extends ListingComponent implements OnInit 
   isOwner : boolean = false;
   listingIcon : string = "listing-rideshare";
 
-  public eMail : EMail = {
-    subject: '',
-    body: ''
-  };
+  public eMail : EMail;
 
   constructor(
     private detailViewService : DetailViewService,
@@ -47,7 +44,9 @@ export class RideShareOfferComponent extends ListingComponent implements OnInit 
 
   ngOnInit() {
     this.detailViewService.sendModelToSubscribers(this.listing);
-    this.eMail.subject = 'Mitfahrgelegenheit ' + this.listing.title + ' am ' + this.dateService.dateFromUnixTime(this.listing.travelDateAndTime) + ' um ' + this.dateService.timeFromUnixTime(this.listing.travelDateAndTime);
-    this.eMail.body = 'Hallo ich möchte mitfahren!';
+    this.eMail = {
+      subject : 'Anfrage für die Mitfahrgelegenheit von ' + this.listing.toLocation + ' bis ' + this.listing.fromLocation +  ' am ' + this.dateService.dateFromUnixTime(this.listing.travelDateAndTime) + ' um ' + this.dateService.timeFromUnixTime(this.listing.travelDateAndTime),
+      body : 'Hallo, ich würde gerne bei Ihnen,%0A...%0A%0AMit freundlichen Grüßen%0A%0A'
+    }
   }
 }

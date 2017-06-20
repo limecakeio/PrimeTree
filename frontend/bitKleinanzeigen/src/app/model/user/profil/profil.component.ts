@@ -11,6 +11,7 @@ import { MessageService } from '../../../shared/message.service';
 @Component({
   selector: 'user-profil',
   templateUrl: './profil.component.html',
+  styleUrls: ['./profil.component.css']
 })
 export class UserProfilComponent implements OnInit {
 
@@ -32,9 +33,13 @@ export class UserProfilComponent implements OnInit {
 
   public activateListing(listingID : number) : void {
     this.listingController.activateListing(listingID).subscribe(() => {
-    // TODO: mark listing as activated
       this.ownListings.filter(listing => listingID === listing.id)[0].isActive = true;
       this.listingRepository.update();
+      let notification = "Inserat " + listingID + " wurde erfolgreich aktiviert.";
+      this.listingStatusMessage('notify-success', notification);
+    }, (error : Error) => {
+      let notification = "Aktivierung des Inserates " + listingID + " ist fehlgeschlagen. Grund: " + error;
+      this.listingStatusMessage('notify-error', notification);
     });
   }
 
@@ -43,7 +48,12 @@ export class UserProfilComponent implements OnInit {
       // TODO: mark listing as deactivated
       this.ownListings.filter(listing => listingID === listing.id)[0].isActive = false;
       this.listingRepository.update();
-    });
+      let notification = "Inserat " + listingID + " wurde erfolgreich deaktiviert.";
+      this.listingStatusMessage('notify-success', notification);
+    }), (error : Error) => {
+      let notification = "Deaktivierung des Inserates " + listingID + " ist fehlgeschlagen. Grund: " + error;
+      this.listingStatusMessage('notify-error', notification);
+    };
   }
 
   public removeListing(listingID : number) : void {
@@ -58,7 +68,12 @@ export class UserProfilComponent implements OnInit {
       if (found) {
         this.listingRepository.update();
       }
-    });
+      let notification = "Inserat " + listingID + " wurde erfolgreich gelöscht.";
+      this.listingStatusMessage('notify-success', notification);
+    }), (error : Error) => {
+      let notification = "Das Inserat " + listingID + " konnte nicht gelöscht werden. Grund: " + error;
+      this.listingStatusMessage('notify-error', notification);
+    };
   }
 
   public changeListing(listing : Listing) {
@@ -69,6 +84,13 @@ export class UserProfilComponent implements OnInit {
           payload: listing
         })
       }
+    });
+  }
+
+  private listingStatusMessage(message:string, payload:string ) : void {
+    this.messageService.sendMessage({
+      message: message,
+      payload: payload
     });
   }
 
