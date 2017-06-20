@@ -27,6 +27,13 @@ Web-application
   display:         flex;
 }
 
+.row-vert-align {
+  -webkit-flex-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
 
 /*
  * SALE OFFER
@@ -414,9 +421,8 @@ section {
  */
  .pompous-title {
    width:100%;
-   min-height: 200px;
-   display: flex;
-   align-items: center;
+   min-height: 125px;
+   margin-top: 2em;
    font-size: 25pt;
    color: #57585A;
  }
@@ -452,7 +458,7 @@ section {
   padding-right: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .navbar-btn:before {
     content: "Inserat Erstellen";
   }

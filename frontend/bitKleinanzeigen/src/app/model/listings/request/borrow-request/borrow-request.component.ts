@@ -15,6 +15,11 @@ import { DetailViewService } from '../../../../view/detail/detail.service';
 
 import { BorrowDate } from '../../../../view/detail/borrow-date/borrow-date.component';
 
+import { EMail } from '../../../../view/detail/call-to-action/call-to-action.component';
+
+import { Employee } from '../../../user/employee.model';
+import { UserController } from '../../../user/user.controller';
+
 @Component({
   selector: 'listing-detail-view-borrow-request',
   templateUrl: './borrow-request.component.html',
@@ -33,6 +38,11 @@ export class BorrowRequestComponent extends ListingComponent implements OnInit {
   //TODO Insert a callToAction String to be used throughout the listings like the listingIcon
   image : SafeStyle;
 
+  public eMail : EMail = {
+    subject: '',
+    body: ''
+  };
+
   public borrowFromDate : BorrowDate = {
     propertyName : 'borrowFromDate',
     displayText: 'Von: ',
@@ -46,12 +56,18 @@ export class BorrowRequestComponent extends ListingComponent implements OnInit {
   }
 
   constructor(
-    private detailViewService : DetailViewService
+    private detailViewService : DetailViewService,
+    private userController : UserController,
+    private userService : UserService
   ) {
     super();
   }
 
   ngOnInit() {
     this.detailViewService.sendModelToSubscribers(this.listing);
+    this.userController.getUser(this.listing.creatorID).subscribe((employee : Employee) => {
+      this.eMail.subject = 'Ausleihanfrage für ' + this.listing.id;
+      this.eMail.body = 'Hallo ' + employee.firstName + ',%0Aich möchte dein ' + this.listing.title + ' ausleihen.%0A%0AMit freundlichen Grüßen%0A' + this.userService.userInformation.firstName + ' ' + this.userService.userInformation.lastName;
+    });
   }
 }

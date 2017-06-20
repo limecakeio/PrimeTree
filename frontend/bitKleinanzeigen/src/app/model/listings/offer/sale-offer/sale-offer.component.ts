@@ -15,6 +15,9 @@ import { DetailViewService } from '../../../../view/detail/detail.service';
 
 import { EMail } from '../../../../view/detail/call-to-action/call-to-action.component';
 
+import { Employee } from '../../../user/employee.model';
+import { UserController } from '../../../user/user.controller';
+
 @Component({
   selector: 'listing-detail-view-sale-offer',
   templateUrl: './sale-offer.component.html',
@@ -39,14 +42,18 @@ export class SaleOfferComponent extends ListingComponent implements OnInit {
   };
 
   constructor(
-    private detailViewService : DetailViewService
+    private detailViewService : DetailViewService,
+    private userController : UserController,
+    private userService : UserService
   ) {
     super();
   }
 
   ngOnInit() {
     this.detailViewService.sendModelToSubscribers(this.listing);
-    this.eMail.subject = 'Kaufanfrage für ' + this.listing.title;
-    this.eMail.body = 'Hallo ich möchte kaufen!';
+    this.userController.getUser(this.listing.creatorID).subscribe((employee : Employee) => {
+      this.eMail.subject = 'Kaufanfrage für ' + this.listing.title;
+      this.eMail.body = 'Hallo ' + employee.firstName + ',%0Aich möchte dein ' + this.listing.title + 'kaufen.%0A%0AMit freundlichen Grüßen%0A' + this.userService.userInformation.firstName + ' ' + this.userService.userInformation.lastName; 
+    });
   }
 }
