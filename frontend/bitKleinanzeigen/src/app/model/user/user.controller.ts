@@ -27,11 +27,13 @@ export class UserController {
     .setHttpMethod(RequestMethod.Get)
     .addPath('users');
     return this.networkService.send(networkRequest).map((response : Response) => {
+      console.log(response.status);
       if (response.status === 200) {
         return response.json().users;
       } else if (response.status === 401) {
         throw new Error('User must be authenticated to use this method!');
       } else if (response.status === 403) {
+        console.log(403)
           throw new Error('User must be an admin to use this method!');
       } else {
         throw new Error(response.toString());

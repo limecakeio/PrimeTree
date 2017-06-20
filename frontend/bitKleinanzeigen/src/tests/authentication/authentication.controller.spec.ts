@@ -34,8 +34,7 @@ describe('AuthenticationController', () => {
       });
     });
 
-  it(
-    'should autenticate a user with valid credentionals',
+  it('should autenticate a user with valid credentionals',
   inject([AuthenticationController, XHRBackend],
   (AuthenticationController : AuthenticationController, mockBackend : MockBackend) => {
   it('should authenticate a valid user', ()=>{
