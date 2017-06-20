@@ -13,6 +13,8 @@ import { MessageService, Message } from '../shared/message.service';
 })
 export class NavigationComponent {
 
+  private searchQuery : string = '';
+
   isAuthenticated : boolean;
 
   constructor(
@@ -26,10 +28,11 @@ export class NavigationComponent {
 
   /**Navigates the router to listing/create. */
   create() : void {
-    // this.router.navigate(['listing/create/SaleOffer']);
-    this.messageService.sendMessage({
-      message: 'createListing'
-    })
+    this.router.navigate(['home']).then(() => {
+      this.messageService.sendMessage({
+        message: 'createListing'
+      });
+    });
   }
 
   /**Navigates the router to home. */
@@ -51,12 +54,26 @@ export class NavigationComponent {
   }
 
   /**Performs a search request if the search query contains at least two characters. Routes to /listing/search afterwards. */
-  public search(event : any) : void {
-    if (event.target.value.length >= 2) {
-      this.router.navigate(['listing/search']);
-      this.messageService.sendMessage({
-        message: 'ListingSearch',
-        payload: event.target.value
+  public searchOnInput(event : any) : void {
+    console.log('searchOnInput')
+    this.searchQuery = event.target.value;
+    this.search(this.searchQuery);
+  }
+
+  public searchOnButton() : void {
+    console.log('searchOnButton')
+    this.search(this.searchQuery);
+  }
+
+  private search(query : string) : void {
+    console.log(query)
+    if (query.length >= 2) {
+      this.router.navigate(['listing/search']).then(() => {
+        console.log('send')
+        this.messageService.sendMessage({
+          message: 'ListingSearch',
+          payload: query
+        });
       });
     } else {
       this.router.navigate(['home']);
@@ -68,6 +85,10 @@ export class NavigationComponent {
     this.messageService.sendMessage({
       message: 'toggleListingFilter'
     });
+  }
+
+  public navigateToDashboard() : void {
+    this.router.navigate(['admin', 'dashboard']);
   }
 
 }

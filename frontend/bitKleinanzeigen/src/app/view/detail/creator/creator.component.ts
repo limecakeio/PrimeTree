@@ -4,6 +4,8 @@ import { DetailViewService } from '../detail.service';
 import { UserController } from '../../../model/user/user.controller';
 import { Employee } from '../../../model/user/employee.model';
 
+import { DateService } from '../../../shared/date.service';
+
 import { NetworkService } from '../../../network/network.service';
 
 @Component({
@@ -22,7 +24,8 @@ export class CreatorDetailViewComponent {
   constructor(
     private detailViewService : DetailViewService,
     private userController : UserController,
-    private networkService : NetworkService
+    private networkService : NetworkService,
+    public dateService : DateService
   ) {
     this.detailViewService.getModel().subscribe((model : any) => {
       this.model = model;
@@ -37,8 +40,11 @@ export class CreatorDetailViewComponent {
   }
 
   public getTimeStringFromUnixTime(unixTime : number) : string {
-    let date : Date = new Date(unixTime);
-    return date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear();
+    if (unixTime) {
+      return this.dateService.dateFromUnixTime(unixTime);
+    } else {
+      return '∞'
+    }
   }
 
 }

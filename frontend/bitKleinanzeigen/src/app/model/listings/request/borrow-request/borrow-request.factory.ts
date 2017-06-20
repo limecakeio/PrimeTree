@@ -60,8 +60,14 @@ export class BorrowRequestFactory extends ListingFactory {
     if (body.hasOwnProperty('borrowFromDate')) {
       listing.borrowFromDate = body.borrowFromDate;
     }
+    if (listing.borrowFromDate === -1) {
+      listing.borrowFromDate = null;
+    }
     if (body.hasOwnProperty('borrowToDate')) {
       listing.borrowToDate = body.borrowToDate;
+    }
+    if (listing.borrowToDate === -1) {
+      listing.borrowToDate = null;
     }
   }
 

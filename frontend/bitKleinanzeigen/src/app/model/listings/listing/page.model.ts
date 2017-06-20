@@ -1,16 +1,9 @@
 import { Listing } from './listing.model';
 import { NetworkRequest } from '../../../network/network.request';
 
+/**Describes  a server side page with the all listings in the page as well as information about all existing listings. */
 export class Page {
   public listings : Listing[];
-
-  /**
-   * adds a listing
-   * @param {Listing} listing
-   */
-  public addListing(listing : Listing) : void {
-    this.listings.push(listing);
-  }
 
 
 

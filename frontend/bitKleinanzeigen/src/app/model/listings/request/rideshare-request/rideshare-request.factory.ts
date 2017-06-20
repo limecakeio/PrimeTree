@@ -60,6 +60,9 @@ export class RideShareRequestFactory extends ListingFactory {
     if (body.hasOwnProperty('travelDateAndTime')) {
       listing.travelDateAndTime = body.travelDateAndTime;
     }
+    if (listing.travelDateAndTime === -1) {
+      listing.travelDateAndTime = null;
+    }
   }
 
 }

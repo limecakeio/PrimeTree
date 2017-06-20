@@ -17,6 +17,8 @@ import { ListingSubmit } from '../form/listing-form.component';
 
 import { MessageService, Message } from '../../../../shared/message.service';
 
+/**Presents a listing type choose dialog as well as the listing form of the choosen type.*/
+/** */
 @Component({
   selector: 'listing-create',
   templateUrl: './listing-create.component.html',
@@ -27,9 +29,11 @@ import { MessageService, Message } from '../../../../shared/message.service';
 })
 export class ListingCreateComponent {
 
-  @Output() showOverlay : EventEmitter<void> = new EventEmitter<void>();
+  // TODO: Remove this
 
-  @Output() closeOverlay : EventEmitter<void> = new EventEmitter<void>();
+  // @Output() showOverlay : EventEmitter<void> = new EventEmitter<void>();
+  //
+  // @Output() closeOverlay : EventEmitter<void> = new EventEmitter<void>();
 
   public createActive : boolean = false;
 
@@ -65,6 +69,7 @@ export class ListingCreateComponent {
    * Execute possible callback functions in ListingFormEventModel.
    */
   public submitListing(event : ListingSubmit) : void {
+    // add information to the listing that dont belong in the listing form
     event.model.location = this.userService.userInformation.location;
     event.model.type = this.listingType;
     event.model.isActive = true;
@@ -73,7 +78,7 @@ export class ListingCreateComponent {
       event.model.expiryDate = parseInt(event.model.expiryDate) + parseInt(event.model.createDate);
     }
     this.listingController.createListing(event.model).subscribe((listingId : number) => {
-      if (event.callback) {
+      if (event.callback) { // call the callback function if one is emitted
         event.callback(listingId);
       } else {
         this.updateRepository();
@@ -93,15 +98,17 @@ export class ListingCreateComponent {
     });
   }
 
+  /**Closes the form and resets the viewport of the active parent component. */
   public closeForm() : void {
     this.listingType = '';
     this.listingKind = '';
-    this.closeOverlay.emit();
+    // this.closeOverlay.emit();
     this.messageService.sendMessage({
       message: 'resetViewport'
     })
   }
 
+  /**Sets the model dialog as well as the form back */
   public returnForm() : void {
     if (this.listingType) {
       this.listingType = '';

@@ -8,6 +8,10 @@ import { MessageService, Message } from '../../../shared/message.service';
 
 declare var google : any;
 
+declare var window : any;
+// declare var window.google : any;
+
+
 interface LocationStatistic {
   address : string;
   count : string;
@@ -52,7 +56,7 @@ export class FilterGoogleMapsComponent {
 
   /** Loads the google maps api files async and appeds the neccesarrily script tag to the body */
   public loadGoogleMapsApi() : void {
-    if (typeof google !== 'undefined') {
+    if (window.google && window.google.maps) {
       this.initMap();
       return;
     }

@@ -7,4 +7,6 @@ export class Comment {
   createDate : number;
   message : string;
   userImage : string;
+  userFirstName : string;
+  userLastName : string;
 }

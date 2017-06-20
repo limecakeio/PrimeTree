@@ -17,6 +17,7 @@ import { ListingFormComponent, ListingSubmit, ListingFormState } from './listing
 
 import { ListingInformationService } from '../../listings-information.service';
 
+/**This class represemts a placeholder for the actual listing form. It creates the listing form after  */
 @Component({
   selector: 'listing-form-placeholder',
   template: ''
@@ -51,7 +52,6 @@ export class ListingFormPlaceholderComponent implements OnChanges {
 
   /**Clears the view and creates a new listing form component. */
   private createListingFormComponent() : void {
-    console.log('createListingFormComponent')
     this.viewContainerRef.clear();
     let componentType : Type<ListingFormComponent> = this.listingInformationService.listingDescriptorHandler.getListingFormComponentTypeFromLisitingType(this.listingType);
 

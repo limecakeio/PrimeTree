@@ -3,9 +3,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { FormContextService } from '../../form-context.service';
 
-/**
- * Provides templates and models for adding a description to a listing.
- */
 @Component({
   selector: 'form-element-travel-date-and-time',
   templateUrl: './travel-date-and-time.component.html',

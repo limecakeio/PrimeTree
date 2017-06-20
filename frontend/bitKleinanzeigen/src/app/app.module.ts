@@ -28,9 +28,6 @@ import { RoutingModule } from './routing/routing.module';
   declarations: [ AppComponent ],
   bootstrap:    [ AppComponent ],
 })
-export class AppModule implements OnInit {
+export class AppModule {
 
-  ngOnInit() {
-    // console.log(this);
-  }
 }

@@ -8,14 +8,9 @@ div.bit-header::before, div.bit-header::after { /*HEADER ITEMS TO GO TO THE EDGE
   background: transparent;
 }
 
-.logo-container {
-  display: table;
-  width:100%;
-}
-
-.logo-link {
-  height: 50pt;
-  padding: 5px 0 5px 15px;
+.navbar-toggle {
+  position: absolute;
+  right: 0;
 }
 
 .user-actions {
@@ -30,8 +25,9 @@ div.bit-header::before, div.bit-header::after { /*HEADER ITEMS TO GO TO THE EDGE
 }
 
 .logo-container img {
-  width: auto;
-  height: 100%;
+  width: 100%;
+  height: auto;
+  max-width: 150px;
 }
 
 .header-search-bar {
@@ -60,6 +56,14 @@ div.bit-header::before, div.bit-header::after { /*HEADER ITEMS TO GO TO THE EDGE
   box-shadow: none;
 }
 
+.logo-menu-container {
+  margin: 1em 0;
+}
+
+.menu-icon-container button {
+  margin: 0;
+}
+
 .icon-menu .icon {
   color: #8a8a88;
   font-size: 16pt;
@@ -70,56 +74,62 @@ div.bit-header::before, div.bit-header::after { /*HEADER ITEMS TO GO TO THE EDGE
   color: #61615f;
 }
 
-/*MOBILE GREYZONE*/
-@media only screen and (min-width : 480px) {
-  .user-actions {
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
-
 /*TABLET SETTINGS*/
 @media only screen and (min-width : 768px) {
-  .bit-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .row {
     width:100%;
   }
 
-  .logo-container {
-    width:auto;
+  .logo-container img {
+    max-width: 190px;
+  }
+  .user-actions {
+    position: relative;
+    padding: auto;
+  }
+  .logo-menu-container {
+    margin: 0;
+  }
+  .icon-menu a {
+    /*padding: 10px 8px*/
   }
 
-  .user-actions {
-    position: static;
-    padding: auto;
+  .icon-menu .icon {
+    /*font-size: 12pt;*/
   }
 }
 
 /**DESKTOP SETTINGS*/
 @media only screen and (min-width : 992px) {
-  .logo-link {
-    height:70pt;
-  }
-
   .header-nav {
     display: flex;
     align-items: center;
+    height: 70pt;
   }
 
+  .icon-menu a {
+    padding: 10px 15px
+  }
+
+  .icon-menu .icon {
+    font-size: 16pt;
+  }
+}
+
+/**DESKTOP SETTINGS*/
+@media only screen and (min-width : 1200px) {
   .bit-header {
-    justify-content: flex-start;
+    width: 700px;
+  }
+  .bit-nav {
+    width: 460px;
+    float:right;
+  }
+  .logo-column {
+    width: 190px;
+  }
+  .user-action-column {
+    width: 480px;
   }
 
-  .user-actions {
-    display: block;
-  }
-
-  .navbar-icon-links-container {
-    width: 100%;
-    padding: 0;
-  }
 }

@@ -1,0 +1,34 @@
+.notify-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 25%;
+}
+
+.notify-container {
+  display: table;
+  width: 80%;
+  margin: 1em auto;
+  padding: 1em;
+}
+
+.notification {
+  padding: 1em;
+  border: 1px solid #b2b2b2;
+  margin-bottom: 1em;
+}
+
+.notification:before {
+  text-align: center;
+  margin: 1em 0;
+  width: 100%;
+  display: block;
+}
+
+.notification.error {
+  background-color: #EF6461;
+}
+
+.notification.success {
+  background-color: #7EE081;
+}

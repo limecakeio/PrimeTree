@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 
+import { RouterModule } from '@angular/router';
+
 import { ListingsModule } from '../listings/listings.module';
 
 import { UserService } from './user.service';
@@ -13,7 +15,8 @@ import { UserAdminDashboardComponent } from './admin/dashboard/dashboard.compone
 @NgModule({
   imports: [
     UserRoutingModule,
-    ListingsModule
+    ListingsModule,
+    RouterModule
   ],
   declarations: [
     FavouritesComponent,
@@ -24,7 +27,8 @@ import { UserAdminDashboardComponent } from './admin/dashboard/dashboard.compone
     FavouritesComponent,
     UserProfilComponent,
     UserAdminDashboardComponent,
-    UserRoutingModule
+    UserRoutingModule,
+    RouterModule
   ],
   providers: [
     UserService,

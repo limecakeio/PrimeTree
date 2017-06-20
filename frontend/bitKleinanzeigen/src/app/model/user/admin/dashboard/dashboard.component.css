@@ -1,0 +1,35 @@
+.own-listings-container {
+  display: table;
+  border: 1px solid #b2b2b2;
+}
+
+.listing-row {
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+  border-bottom: 1px solid #b2b2b2;
+}
+
+.listing-title {
+  margin-bottom: 2em;
+}
+
+.listing-title h3 {
+  margin-top: 1em;
+  text-align: left;
+}
+
+.status-active {
+  color: #7EE081;
+}
+
+.status-inactive {
+  color: #EF6461;
+}
+
+.stats {
+  margin:0;
+}
+
+.more-listings {
+  text-align: center;
+}

@@ -39,10 +39,13 @@ export class AuthenticationController {
     .setBody(user);
     return this.networkService.send(request).map((response : Response) => {
       if (response.status === 200) {
-        // this.networkService.setSecurityHeader('api_key', response.headers.get('api_key'));
+        this.networkService.setSecurityHeader('X-API-KEY', response.headers.get('X-API-KEY'));
+        console.log(response.headers.get('X-API-KEY'))
         this.userService.updateFavourites();
         this.statisticsService.updateStatistics();
-        return this.employeeFactory.createEmployee(response.json());
+        let activeUser : Employee = this.employeeFactory.createEmployee(response.json());
+        activeUser.userImage = this.networkService.getServerAddress() + activeUser.userImage;
+        return activeUser;
       }
       throw new Error('Some or all user credentials are wrong!');
     });

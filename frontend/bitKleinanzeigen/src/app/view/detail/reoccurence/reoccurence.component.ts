@@ -51,13 +51,14 @@ export class ReoccurenceViewComponent {
     });
   }
 
-  public getReoccurenceDisplayTextFromCategory(reoccurence : Reoccurence) : string {
+  public getReoccurenceDisplayTextFromReoccurence(reoccurence : Reoccurence) : string {
+    let reoccurenceDisplayText : string = '';
     this.reoccurenceOptions.forEach((reoccurenceOption : ReoccurenceOption) => {
       if (reoccurenceOption.value === reoccurence) {
-        return reoccurenceOption.displayText;
+        reoccurenceDisplayText = reoccurenceOption.displayText;
       }
     })
-    return null;
+    return reoccurenceDisplayText;
   }
 
 

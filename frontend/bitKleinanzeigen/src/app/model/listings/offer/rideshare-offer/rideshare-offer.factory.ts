@@ -63,6 +63,10 @@ export class RideShareOfferFactory extends ListingFactory {
     if (body.hasOwnProperty('availableSeats')) {
       listing.availableSeats = body['availableSeats'];
     }
+
+    if (listing.travelDateAndTime === -1) {
+      listing.travelDateAndTime = null;
+    }
   }
 
 }

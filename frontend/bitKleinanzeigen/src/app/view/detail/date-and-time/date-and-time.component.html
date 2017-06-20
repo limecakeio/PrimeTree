@@ -1,11 +1,11 @@
-<div class="listing-detail-date-and-time" *ngIf="isDataAvailable && isInputAvailable">
+<div class="listing-detail-date-and-time" *ngIf="isDataAvailable && isInputAvailable && isPropertyAvailable">
   <div class="container-fluid">
     <div class="row">
       <div class="col-xs-4 column">
         <p><span class="glyphicon glyphicon-calendar"></span> {{dateAndTimePropertyDisplayText}}</p>
       </div>
       <div class="col-xs-8 column">
-        <p>{{getLocalizedTime(dateAndTimePropertyName)}}</p>
+        <p>{{getDateAndTimeStringFromProperty(dateAndTimePropertyName)}}</p>
       </div>
     </div>
   </div>

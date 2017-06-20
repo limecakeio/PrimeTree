@@ -6,13 +6,15 @@ import { ListingFormComponent } from '../../listing/form/listing-form.component'
 import { FormContextService } from '../../../../form/form-context.service';
 
 import { DateAndTimeProperty } from '../../../../form/elements/date-and-time/date-and-time.component';
+import { ListingsImageController } from '../../listings-image.controller';
 
 @Component({
   selector: 'recreation-request-form',
   templateUrl: './recreation-request-form.component.html',
   styleUrls: [ './recreation-request-form.component.css' ],
   providers: [
-    FormContextService
+    FormContextService,
+    ListingsImageController
   ]
 })
 export class RecreationRequestFormComponent extends ListingFormComponent {
@@ -34,7 +36,8 @@ export class RecreationRequestFormComponent extends ListingFormComponent {
   };
 
   constructor(
-    public formContextService : FormContextService
+    public formContextService : FormContextService,
+    private listingsImageController : ListingsImageController
   ) {
     super(formContextService);
     this.model = this.listing;
@@ -44,7 +47,17 @@ export class RecreationRequestFormComponent extends ListingFormComponent {
   }
 
   submit() : void {
-    this.emitListing();
+    this.emitListing((id : number) => {
+      if (this.data.imageAsFile) { // mainImage is not required
+        this.listingsImageController.listingMainImageUpload(id, this.data.imageAsFile, this.data.imageFileType).subscribe(() => {
+          this.updateRepositoryAfter();
+        }, (error : Error) => {
+          console.error(error);
+        });
+      } else {
+        this.updateRepositoryAfter();
+      }
+    });
   }
 
 }

@@ -9,6 +9,7 @@ import { FilterListItem } from '../../../../form/elements/filter-list/filter-lis
 
 import { StatisticsService } from '../../../../shared/statistics.service';
 
+/**An uniform filter criteria interface. All form elements work on a singelton object that implements this interface. */
 export interface FilterCriteria {
   location : string[];
   type : string[];
@@ -39,40 +40,31 @@ export class ListingFilterComponent {
     type : []
   }
 
-  public loactionList : string[] = [
-    "Mannheim",
-    "Heidelberg",
-    "Köln",
-    "Nürnberg",
-    "München",
-    "Zug"
-  ];
-
   public lisitingTypes : FilterListItem[] = [
     {
-      displayText: 'Gegenstandsangebot',
+      displayText: 'Verkauf',
       value: 'SaleOffer'
-    } , {
-      displayText: 'Dienstleistungsangebote',
-      value: 'ServiceOffer'
     } , {
       displayText: 'Mitfahrgelegenheitsangebot',
       value: 'RideShareOffer'
     } , {
-      displayText: 'Verleih',
-      value: 'BorrowRequest'
+      displayText: 'Dienstleistungsangebote',
+      value: 'ServiceOffer'
     } , {
-      displayText: 'Gegenstandsgesuch',
+      displayText: 'Kaufanfrage',
       value: 'PurchaseRequest'
+    } , {
+      displayText: 'Freizeitaktivität',
+      value: 'RecreationRequest'
+    } , {
+      displayText: 'Dienstleistungsgesuch',
+      value: 'ServiceRequest'
+    } , {
+      displayText: 'Ausleihe',
+      value: 'BorrowRequest'
     } , {
       displayText: 'Mitfahrgelegenheitsgesuch',
       value: 'RideShareRequest'
-    } , {
-      displayText: 'Freizeitangebote (wiederkehrend)',
-      value: 'ReoccuringRecreationRequest'
-    } , {
-      displayText: 'Freizeitangebote (einmalig)',
-      value: 'SingleRecreationRequest'
     }
   ];
 
@@ -101,10 +93,12 @@ export class ListingFilterComponent {
      this.formService.model = this.model;
   }
 
+  /**Let the listing repository apply the filter criteria. */
   public filterChanged() :  void {
     this.listingRepository.applyFilter(this.model);
   }
 
+  /**Closes the filter and resets the overview component view. */
   public closeFilter() : void {
     this.messageService.sendMessage({
       message : "resetViewport"

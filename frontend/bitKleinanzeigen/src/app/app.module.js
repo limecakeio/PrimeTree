@@ -19,9 +19,6 @@ var routing_module_1 = require("./routing/routing.module");
 var AppModule = (function () {
     function AppModule() {
     }
-    AppModule.prototype.ngOnInit = function () {
-        // console.log(this);
-    };
     return AppModule;
 }());
 AppModule = __decorate([

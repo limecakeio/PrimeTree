@@ -1,8 +1,6 @@
 .listing-preview {
-/*width: 275px;
-height: 275px;*/
 width: 93vw;
-height: 100vw;
+height: 90vw;
 background-color: #dddedf;
 background-image: url('./assets/images/listing-corner.png');
 background-repeat: no-repeat;
@@ -11,6 +9,7 @@ background-size: 50px auto;
 margin: 10pt;
 transition: width, height 0.15s ease-in-out;
 position: relative;
+text-align: left;
 }
 
 .listing-header p, .listing-title {
@@ -109,7 +108,7 @@ position: relative;
   .listing-preview {
   width: 350px;
   height: 350px;
-  background-size: calc(350px / 6) auto;
+  background-size: calc(310px / 6) auto;
   }
   .listing-image {
     height: calc(350px * 0.525);

@@ -4,7 +4,11 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnIni
 import { FormContextService } from '../../../../form/form-context.service';
 import { Listing } from '../listing.model';
 
-/** */
+/**Tells the container which actions to take.*/
+/**The model property will be send as a edit or create action. */
+/**An optional callback will be called afterwards. */
+/**The listing repository will be updated and the form container closed if no callback is present.*/
+/**Emit updateRepository if all additional tasks are completed to update the listing repository and close the form. */
 export interface ListingSubmit {
   model : any;
   callback?: (listingID : number) => void
@@ -14,6 +18,7 @@ export enum ListingFormState {
   CREATE, EDIT
 }
 
+/**All listings that inherit from this interface can act as a create as well as an edit form.*/
 @Component({
   selector: 'listing-form',
   templateUrl: './listing-form.component.html',

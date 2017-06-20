@@ -64,6 +64,9 @@ export class RecreationRequestFactory extends ListingFactory {
     if (body.hasOwnProperty('endDateAndTime')) {
       listing.endDateAndTime = body.endDateAndTime;
     }
+    if (listing.endDateAndTime === -1) {
+      listing.endDateAndTime = null;
+    }
   }
 
 

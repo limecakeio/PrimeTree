@@ -18,7 +18,6 @@ export class JourneyStopsViewComponent {
   ) {
     this.detailViewService.getModel().subscribe((model : any) => {
       this.model = model;
-      console.log(model.journeyStops)
       this.isDataAvailable = true;
     });
   }

@@ -1,14 +1,60 @@
-<h1>Admin Dashboard</h1>
+<div class="pompous-title">
+  <h1><span class="icon dashboard"></span> Administrationsbereich</h1>
+</div>
+
 <h2>Inserate</h2>
-<div class="" *ngFor="let listing of listings">
-  <span>{{listing.title}}</span>
-  <button type="button" name="button" (click)="activateListing(listing.id)" *ngIf="!listing.isActive">Aktivieren</button>
-  <button type="button" name="button" (click)="deactivateListing(listing.id)" *ngIf="listing.isActive">Deaktivieren</button>
-  <button type="button" name="button" (click)="removeListing(listing.id)">Löschen</button>
+<div class="container-fluid own-listings-container">
+  <div class="" *ngFor="let listing of listings">
+    <div class="row listing-row">
+      <div class="listing-title col-xs-12">
+        <h3 class="sub-heading">{{listing.title}}
+        <span *ngIf="listing.isActive" class="glyphicon glyphicon-ok-sign status-active" title="Aktiv"></span>
+        <span *ngIf="!listing.isActive" class="glyphicon glyphicon-minus-sign status-inactive" title="Inaktiv"></span>
+      </h3>
+        <p class="stats"><span class="glyphicon glyphicon-calendar"></span> Erstelldatum: {{dateService.dateFromUnixTime(listing.createDate)}}</p>
+        <p class="stats"><span class="glyphicon glyphicon-time"></span> Ablaufdatum: <span *ngIf="!listing.expiryDate" title="Kein Ablaufdatum">-</span><span *ngIf="listing.expiryDate">{{dateService.dateFromUnixTime(listing.expiryDate)}}</span></p>
+      </div>
+      <div class="listing-edit col-xs-12 col-sm-4">
+        <button
+        type="button"
+        name="button"
+        class="btn btn-listing btn-sm"
+        (click)="changeListing(listing)">Ändern</button>
+      </div>
+      <div class="listing-toggle" class="col-xs- 12 col-sm-4">
+        <button
+        type="button"
+        name="button"
+        class="btn btn-listing btn-sm"
+        (click)="activateListing(listing.id)"
+        *ngIf="!listing.isActive">Aktivieren</button>
+        <button
+        type="button"
+        name="button"
+        class="btn btn-listing btn-sm"
+        (click)="deactivateListing(listing.id)"
+        *ngIf="listing.isActive">Deaktivieren</button>
+      </div>
+      <div class="listing-delete col-xs-12 col-sm-4">
+        <button
+        type="button"
+        name="button"
+        class="btn btn-listing btn-sm"
+        (click)="removeListing(listing.id)">Löschen</button>
+      </div>
+    </div>
+  </div>
+  <div class="more-listings" *ngIf="listings">
+    <button
+    type="button"
+    name="button"
+    class="btn btn-listing btn-listing-submit"
+    *ngIf="page?.pages !== page?.pageNumber"
+    (click)="loadMoreListings()">Weitere Inserate anzeigen</button>
+  </div>
 </div>
-<div class="" *ngIf="listings">
-  <p (click)="loadMoreListings()">Weitere Inserate anzeigen</p>
-</div>
+
+
 <h2>Mitarbeiter</h2>
 <div class="" *ngFor="let user of users">
   <span>{{user.firstName}} {{user.lastName}}</span>

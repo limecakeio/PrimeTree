@@ -7,8 +7,14 @@
     name="expiryDate"
     [(ngModel)]="expiryDate"
     formControlName="expiryDate"
+    (change)="addExpiryDateToModel()"
     >
-      <option [ngValue]="expiryDateOption.timeInMilliseconds" *ngFor="let expiryDateOption of expiryDateOptions">{{expiryDateOption.displayText}}</option>
+      <option
+        [ngValue]="expiryDateOption.timeInMilliseconds"
+        *ngFor="let expiryDateOption of expiryDateOptions"
+        (change)="addExpiryDateToModel()">
+          {{expiryDateOption.displayText}}
+      </option>
     </select>
   </div>
 </div>

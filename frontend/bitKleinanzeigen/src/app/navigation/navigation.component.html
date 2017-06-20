@@ -1,38 +1,65 @@
 <!--  BOF NAVBAR -->
 <nav class="navbar" *ngIf="userService.authenticated" id="header">
   <div class="container-fluid header-nav">
-    <div class="navbar-header navbar-left bit-header">
-      <div class="logo-container">
-        <a class="navbar-brand logo-link" routerLink="/home"><img src="./assets/images/bit-ka-logo.png" /></a>
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bitNavbar">
-          <span class="glyphicon glyphicon-menu-hamburger"></span>
-        </button>
-      </div>
-      <div class="user-actions">
-        <form class="navbar-form navbar-left">
-          <div class="input-group header-search-bar">
-            <input type="text" class="form-control" (input)="search($event)">
-            <div class="input-group-btn">
-              <button class="btn btn-default" type="submit">
-                <i class="icon search"></i>
-              </button>
-            </div>
+    <div class="row">
+      <div class="navbar-header navbar-left bit-header col-xs-12 col-sm-7 col-md-8 col-lg-6 column">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12 col-sm-5 col-md-4 logo-column column">
+              <div class="logo-container">
+                <div class="container-fluid logo-menu-container">
+                  <div class="row-eq-height row-vert-align">
+                    <div class="col-xs-9 col-sm-12 column">
+                      <a class="logo-link" routerLink="/home"><img src="./assets/images/bit-ka-logo.png" /></a>
+                    </div>
+
+                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bitNavbar">
+                        <span class="icon menu"></span>
+                      </button>
+
+                  </div>
+                </div>
+              </div>
+            </div><!-- EOF LOGO -->
+            <div class="col-xs-12 col-sm-7 col-md-8 user-action-column column">
+              <div class="user-actions">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-xs-10 col-sm-10 col-md-7">
+                      <form class="navbar-form navbar-left">
+                        <div class="input-group header-search-bar">
+                          <input type="text" class="form-control" (input)="search($event)" (input)="searchOnInput($event)">
+                          <div class="input-group-btn" (click)="searchOnButton()">
+                            <button class="btn btn-default" type="submit">
+                              <i class="icon search"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-5 column">
+                      <button class="btn btn-listing btn-create navbar-btn btn-block" (click)="create()">
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- EOF SEARCH + ACTION -->
           </div>
-        </form>
-        <button class="btn btn-listing btn-create navbar-btn" (click)="create()">
-          Inserat Erstellen
-        </button>
+        </div>
       </div>
-    </div>
-    <div class="collapse navbar-collapse navbar-icon-links-container" id="bitNavbar">
-      <!-- BOF ICON MENU [WILL BE REPLACED WITH CUSTOM LOGOS!]-->
-      <ul class="nav navbar-nav navbar-right icon-menu">
-        <li><a title="Filter"><span class="icon filter" (click)="activateListingFilter()"></span></a></li>
-        <li><a href="#" title="Meine Merkliste" routerLink="user/favourites"><span class="icon favourite"></span></a></li>
-        <li><a href="#" title="Mein Profil" routerLink="user/profil"><span class="icon account"></span></a></li>
-        <li><a href="#" routerLink="user/login" (click)="logout()" title="Logoff"><span class="icon logout"></span></a></li>
-      </ul>
-      <!-- EOF ICON MENU -->
+      <div class="col-xs-12 col-sm-5 col-md-4 col-lg-6 bit-nav column">
+        <div class="collapse navbar-collapse  navbar-icon-links-container" id="bitNavbar">
+          <ul class="nav navbar-nav navbar-right icon-menu">
+            <li><a routerLine="admin/dashboard" title="Zum Administrationsbereich." *ngIf="userService.userInformation.isAdmin" (click)="navigateToDashboard()"><span class="icon dashboard"></span></a></li>
+            <li><a title="Filter"><span class="icon filter" (click)="activateListingFilter()"></span></a></li>
+            <li><a href="#" title="Meine Merkliste" routerLink="user/favourites"><span class="icon favourite"></span></a></li>
+            <li><a href="#" title="Mein Profil" routerLink="user/profil"><span class="icon account"></span></a></li>
+            <li><a href="#" routerLink="user/login" (click)="logout()" title="Logoff"><span class="icon logout"></span></a></li>
+          </ul>
+        </div><!-- EOF ICON MENU -->
+      </div>
+
     </div>
   </div><!-- /.container-fluid -->
 </nav>

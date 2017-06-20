@@ -5,5 +5,5 @@ export class RideShareOffer extends Offer {
   journeyStops : string[];
   toLocation : string;
   availableSeats : number;
-  travelDateAndTime : Date;
+  travelDateAndTime : number;
 }

@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { MessageService, Message } from './message.service';
+import { DateService } from './date.service';
 import { OverlayDirective } from './overlay.directive';
 import { StatisticsService } from './statistics.service';
 import { StatisticsController } from './statistics.controller';
@@ -29,7 +30,8 @@ import { NotifyComponent } from './notify.component';
   providers: [
     MessageService,
     StatisticsService,
-    StatisticsController
+    StatisticsController,
+    DateService
   ]
 })
 export class SharedModule {

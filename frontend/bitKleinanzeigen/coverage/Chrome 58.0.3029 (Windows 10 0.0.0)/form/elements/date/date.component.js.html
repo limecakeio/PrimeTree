@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">73.47% </span>
+        <span class="strong">61.67% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>36/49</span>
+        <span class='fraction'>37/60</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">63.89% </span>
+        <span class="strong">60.53% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>23/36</span>
+        <span class='fraction'>23/38</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">62.5% </span>
+        <span class="strong">55.56% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>5/8</span>
+        <span class='fraction'>5/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">73.33% </span>
+        <span class="strong">60.71% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>33/45</span>
+        <span class='fraction'>34/56</span>
       </div>
     </div>
   </div>
@@ -111,7 +111,21 @@
 66
 67
 68
-69</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-yes">2×</span>
@@ -138,9 +152,7 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -162,7 +174,23 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -205,12 +233,10 @@ var DateFormComponent = (function () {
         this.form = this.formContextService.form;
         this.formContextService.getContext().subscribe(<span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >            _this.model = _this.formContextService.model;</span>
-<span class="cstat-no" title="statement not covered" >            _this.form.addControl('day', new forms_1.FormControl('day'));</span>
-<span class="cstat-no" title="statement not covered" >            _this.form.addControl('month', new forms_1.FormControl('month'));</span>
-<span class="cstat-no" title="statement not covered" >            _this.form.addControl('year', new forms_1.FormControl('year'));</span>
 <span class="cstat-no" title="statement not covered" >            _this.isModelAvailable = true;</span>
         });
     }
+    /**Adds the date as unix time to the model under the DateProperty.name property. */
     DateFormComponent.prototype.addDateToModel = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >        if (this.day &amp;&amp; this.month &amp;&amp; this.year) {</span>
 <span class="cstat-no" title="statement not covered" >            var unixDate = new Date(this.year, this.month, this.day).getTime();</span>
@@ -229,8 +255,24 @@ var DateFormComponent = (function () {
 <span class="cstat-no" title="statement not covered" >        if (this.dateProperty) {</span>
 <span class="cstat-no" title="statement not covered" >            this.datePropertyName = this.dateProperty.name;</span>
 <span class="cstat-no" title="statement not covered" >            this.datePropertyDisplay = this.dateProperty.display;</span>
+<span class="cstat-no" title="statement not covered" >            if (this.model[this.datePropertyName]) {</span>
+<span class="cstat-no" title="statement not covered" >                this.setTimeFromUnixTime();</span>
+            }
+<span class="cstat-no" title="statement not covered" >            this.dayControlName = 'day' + this.datePropertyName;</span>
+<span class="cstat-no" title="statement not covered" >            this.form.addControl(this.dayControlName, new forms_1.FormControl(''));</span>
+<span class="cstat-no" title="statement not covered" >            this.monthControlName = 'month' + this.datePropertyName;</span>
+<span class="cstat-no" title="statement not covered" >            this.form.addControl(this.monthControlName, new forms_1.FormControl(''));</span>
+<span class="cstat-no" title="statement not covered" >            this.yearControlName = 'year' + this.datePropertyName;</span>
+<span class="cstat-no" title="statement not covered" >            this.form.addControl(this.yearControlName, new forms_1.FormControl(''));</span>
 <span class="cstat-no" title="statement not covered" >            this.isInputAvailable = true;</span>
+<span class="cstat-no" title="statement not covered" >            console.log(this.model);</span>
         }
+    };
+    DateFormComponent.prototype.setTimeFromUnixTime = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var date = new Date(this.model[this.datePropertyName]);</span>
+<span class="cstat-no" title="statement not covered" >        this.day = date.getDate();</span>
+<span class="cstat-no" title="statement not covered" >        this.month = date.getMonth();</span>
+<span class="cstat-no" title="statement not covered" >        this.year = date.getFullYear();</span>
     };
     return DateFormComponent;
 }());
@@ -253,7 +295,7 @@ exports.DateFormComponent = DateFormComponent;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Jun 17 2017 15:26:54 GMT+0200 (Mitteleuropäische Sommerzeit)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jun 20 2017 12:27:49 GMT+0200 (Mitteleuropäische Sommerzeit)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

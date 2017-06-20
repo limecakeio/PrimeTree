@@ -3,9 +3,9 @@
 */
 .listing-viewport {
   display:flex;
-  height: 84vh;
+  height: 75vh;
   align-items: center;
-  overflow: hidden;
+  overflow-x: auto;
   position: relative;
   background-color: #F4FAFF;
 }
@@ -37,7 +37,8 @@
 }
 
 .listing-scroll-container {
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   display: flex;
   align-items: center;
 }
@@ -48,7 +49,8 @@ left: 100%;
 
 .listing-wrapper {
   white-space: nowrap;
-  overflow:auto;
+  overflow:hidden;
+  width: 100%;
 }
 
 .listing-container {
@@ -106,23 +108,45 @@ display:none;
 }
 
 .listing-scroll-control span {
-  color: #000000;
+  width: 3em;
+  border-radius: 50%;
+  height: 3em;
+  text-align: center;
+  padding-top: 10pt;
+  color: #fff;
+  font-size: 1em;
+  line-height: 1em;
+  background-color: #175DA9;
+  transition: background-color 0.25s linear;
+}
+
+.listing-scroll-control span:hover,
+.listing-scroll-control span:focus {
+  background-color: #5185be;
 }
 
 .listing-scroll-control.active {
   display:flex;
 }
-.listing-scroll-control:hover {
 
+.listing-scroll-container .backward {
+  transition: left 0.35s ease;
+  left: -5em;
 }
 
-.listing-scroll-control.backward {
-  left: 0;
+.listing-scroll-container .forward {
+  transition: right 0.35s ease;
+  right: -5em;
 }
 
-.listing-scroll-control.forward {
-  right: 0;
+.listing-scroll-container:hover .backward {
+  left: 0em;
 }
+
+.listing-scroll-container:hover .forward {
+  right: 0em;
+}
+
 
 /**LOADER FOR LISTINGS*/
 @keyframes rotateElement {
@@ -180,8 +204,13 @@ display:none;
   .listing-viewport {
     position: absolute;
     width: 100%;
-    top: 75pt;
+    top: 60pt;
     bottom: 0;
+    height: 90vh;
+    overflow: hidden;
+  }
+  .listing-scroll-container {
+    overflow: hidden;
   }
 }
 
@@ -197,7 +226,9 @@ display:none;
   .slide-away .main-viewport {
     left: 60%;
   }
-
+  .slide-away .listing-scroll-container .forward {
+    right: 60%;
+  }
 }
 @media (min-width: 1200px) { /*XXL Desktops*/
 

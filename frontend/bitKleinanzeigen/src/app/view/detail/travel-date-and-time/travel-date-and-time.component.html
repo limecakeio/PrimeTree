@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-xs-12 column">
-        <p><span class="glyphicon glyphicon-calendar"></span> {{getLocalizedTime(model.travelDateAndTime)}}</p>
+        <p><span class="glyphicon glyphicon-calendar"></span> {{dateService.fullDateFromUnixTime(model.travelDateAndTime, ' um ')}}</p>
       </div>
     </div>
   </div>
