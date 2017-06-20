@@ -14,6 +14,7 @@ import { ListingController } from '../listing.controller';
 import { ListingInformationService } from '../../listings-information.service';
 import { Listing } from '../listing.model';
 
+/**This class acts as a container for the actual listing component.  */
 @Component({
   selector: 'listing-detail-view',
   templateUrl: './listing-detail-view.component.html',
@@ -45,6 +46,7 @@ export class ListingDetailViewComponent implements OnChanges {
     }
   }
 
+  /**Retrives the listing with the listingID and set the listing type property accordingly. */
   private setListingAndLisitingType(listingID : number) {
     this.listingController.getListing(listingID)
     .subscribe((listing : Listing) => {

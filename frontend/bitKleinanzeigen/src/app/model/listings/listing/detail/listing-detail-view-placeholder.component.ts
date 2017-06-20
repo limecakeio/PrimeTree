@@ -15,6 +15,7 @@ import {
 import { Listing } from '../listing.model';
 import { ListingComponent } from './listing.component';
 
+/**This class provides */
 @Component({
   selector: 'listing-detail-view-placeholder',
   template: ''
@@ -36,33 +37,13 @@ export class ListingDetailViewPlaceholderComponent implements OnChanges {
 
   }
 
-
   ngOnChanges(simpleChanges : SimpleChanges) {
-    // console.log(simpleChanges, 'simpleChanges')
-    // if (simpleChanges['listingComponentType'] && simpleChanges['listingComponentType']['currentValue']) {
-    //   if (this.listingDetailViewCreated) { // destroy an existing component
-    //     this.listingDetailViewComponentRef.destroy();
-    //   }
-    //   this.viewContainerRef.clear();
-    //   let listingDetailViewComponentFactory : ComponentFactory<ListingComponent> = this.componentFactoryResolver.resolveComponentFactory(this.listingComponentType);
-    //   this.listingDetailViewComponentRef = this.viewContainerRef.createComponent(listingDetailViewComponentFactory);
-    //   // Inject it into the view
-    //   (<ListingComponent>this.listingDetailViewComponentRef.instance).listing = this.listing;
-    //   this.listingDetailViewCreated = true;
-    // }
     if (this.listing) {
       this.buildAndDisplayListingDetailViewComponent();
     }
-
-    // if (typeof this.listingComponentType !== 'undefined') {
-    //   console.log(this.listing)
-    //   let listingPreviewComponentFactory : ComponentFactory<ListingComponent> = this.componentFactoryResolver.resolveComponentFactory(this.listingComponentType);
-    //   let listingPreviewComponentRef : ComponentRef<ListingComponent> = this.viewContainerRef.createComponent(listingPreviewComponentFactory);
-    //   // Inject it into the view
-    //   (<ListingComponent>listingPreviewComponentRef.instance).listing = this.listing;
-    // }
   }
 
+  /**Creates the proper listing component which matches the listing type.*/
   private buildAndDisplayListingDetailViewComponent() : void {
     if (this.listingDetailViewCreated) { // destroy an existing component
       this.listingDetailViewComponentRef.destroy();

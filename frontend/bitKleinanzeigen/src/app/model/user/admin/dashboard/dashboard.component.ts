@@ -55,6 +55,7 @@ export class UserAdminDashboardComponent {
     });
   }
 
+  /**Sends a request to remove the listing with the corresponding id. Splices the listing array if successful. */
   public removeListing(listingID : number) : void {
     this.listingController.removeListing(listingID).subscribe(() => {
       // Cannot use .splice(listingID, 1) because listings with an id less than listingID could have been removed before
@@ -68,6 +69,7 @@ export class UserAdminDashboardComponent {
     });
   }
 
+  /**Sends a request to activate jte listing with the listingID. Changes the isActive property if sucessful. */
   public activeListing(listingID : number) : void {
     this.listingController.activateListing(listingID).subscribe(() => {
       this.listings.find(listing => listing.id === listingID).isActive = true;

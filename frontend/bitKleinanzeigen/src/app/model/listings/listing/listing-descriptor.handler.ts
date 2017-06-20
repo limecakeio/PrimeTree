@@ -41,7 +41,6 @@ export class ListingDescriptorHandler {
     return this.findListingDescriptorFromListingType(listingType).getListingComponentTypeClassName();
   }
 
-
   public getListingFromListingType(listingType : string) : Listing {
     return this.findListingDescriptorFromListingType(listingType).getListing();
   }

@@ -1,5 +1,7 @@
 import { NetworkRequest, NetworkService } from '../../../network/network';
 
+/**Acts as a contractor between the listing filter criterias and the server. */
+/**It translates every choosen filter criteria in a rest request. */
 export class ListingRequest {
 
   private networkRequest : NetworkRequest;
@@ -10,6 +12,7 @@ export class ListingRequest {
     this.networkRequest = networkRequest;
   }
 
+  /**Returns a request which paths and queries are set accordingly of the filter criteria. */
   public getRequest() : NetworkRequest {
     return this.networkRequest;
   }

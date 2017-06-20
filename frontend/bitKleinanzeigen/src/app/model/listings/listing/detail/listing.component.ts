@@ -11,7 +11,7 @@ import { ListingModule } from '../listing.module';
 import { ListingController } from '../listing.controller';
 import { Listing } from '../listing.model';
 
-
+/**Base listing detail view component. */
 @Component({
   selector: 'listing',
   templateUrl: './listing.component.html',
@@ -19,11 +19,14 @@ import { Listing } from '../listing.model';
 })
 export class ListingComponent {
 
-  @Output() closeOverlay : EventEmitter<void> = new EventEmitter<void>();
+  // TODO: remove this, lock up the spelling
+  // IDEA: Use this component or the whole Listing type as a type for miscancalios listings.
+
+  // @Output() closeOverlay : EventEmitter<void> = new EventEmitter<void>();
 
   @Input() listing : Listing;
 
-  
+
 
   constructor(
 

@@ -39,7 +39,7 @@ export class ListingPreviewComponent implements OnChanges {
     this.previewService.sendModelToObservers(this.listing);
   }
 
-  /**Sends a  */
+  /**Sends a message to display the listing detail view.*/
   public displayListingDetail() {
     this.messageService.sendMessage({
       message: 'displayListingDetail',

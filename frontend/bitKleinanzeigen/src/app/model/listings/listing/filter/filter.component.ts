@@ -9,6 +9,7 @@ import { FilterListItem } from '../../../../form/elements/filter-list/filter-lis
 
 import { StatisticsService } from '../../../../shared/statistics.service';
 
+/**An uniform filter criteria interface. All form elements work on a singelton object that implements this interface. */
 export interface FilterCriteria {
   location : string[];
   type : string[];
@@ -38,15 +39,6 @@ export class ListingFilterComponent {
     price_min: 0,
     type : []
   }
-
-  public loactionList : string[] = [
-    "Mannheim",
-    "Heidelberg",
-    "Köln",
-    "Nürnberg",
-    "München",
-    "Zug"
-  ];
 
   public lisitingTypes : FilterListItem[] = [
     {
@@ -101,10 +93,12 @@ export class ListingFilterComponent {
      this.formService.model = this.model;
   }
 
+  /**Let the listing repository apply the filter criteria. */
   public filterChanged() :  void {
     this.listingRepository.applyFilter(this.model);
   }
 
+  /**Closes the filter and resets the overview component view. */
   public closeFilter() : void {
     this.messageService.sendMessage({
       message : "resetViewport"

@@ -17,6 +17,7 @@ import { ListingFormComponent, ListingSubmit, ListingFormState } from './listing
 
 import { ListingInformationService } from '../../listings-information.service';
 
+/**This class represemts a placeholder for the actual listing form. It creates the listing form after  */
 @Component({
   selector: 'listing-form-placeholder',
   template: ''

@@ -130,6 +130,7 @@ export class ListingRepository {
     return this.loadingObservable;
   }
 
+  /**Builds arrays of pairs of listings and saves them in the listings property. */
   private buildPairArraysFromPage(page : Page) {
     let i = 0;
     let pairArray : Listing[] = [];
