@@ -19,11 +19,8 @@ export class ListingSearchService {
     private messageService : MessageService,
     private listingController : ListingController,
   ) {
-    console.log('ListingSearchService instanciated')
     this.messageService.getObservable().subscribe((message : Message) => {
-      console.log(message)
       if (message.message === 'ListingSearch') {
-        console.log('search')
         this.listingController.searchListings(message.payload).subscribe((listingList : ListingList) => {
           this.searchTerm = message.payload;
           this.listingSearchResults = listingList;

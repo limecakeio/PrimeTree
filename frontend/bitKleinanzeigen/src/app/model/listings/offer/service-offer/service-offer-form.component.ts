@@ -33,8 +33,6 @@ export class ServiceOfferFormComponent extends ListingFormComponent {
   ) {
     super(formContextService);
     this.model = this.listing;
-    // console.log('putIntoContext sale')
-    // this.formContextService.putIntoContext(this.listing);
     this.data = this.formContextService.data;
     this.form = this.formContextService.form;
     this.model = this.formContextService.model;

@@ -63,8 +63,8 @@ export class RecreationRequestComponent extends ListingComponent implements OnIn
   ngOnInit() {
     this.detailViewService.sendModelToSubscribers(this.listing);
     this.userController.getUser(this.listing.creatorID).subscribe((employee : Employee) => {
-      this.eMail.subject = 'Kaufsanfrage für ' + this.listing.id;
-      this.eMail.body = 'Hallo ' + employee.firstName + ',%0Aich habe Interesse an dein Inserat (' + this.listing.title + ') und möchte es dir gerne verkaufen.%0A%0AMit freundlichen Grüßen%0A' + this.userService.userInformation.firstName + ' ' + this.userService.userInformation.lastName;
+      this.eMail.subject = this.listing.title;
+      this.eMail.body = 'Hallo ' + employee.firstName + ',%0Aich habe Interesse an dein Inserat (' + this.listing.title + ') und würde gerne teilnehmen.%0A%0AMit freundlichen Grüßen%0A' + this.userService.userInformation.firstName + ' ' + this.userService.userInformation.lastName;
     });
   }
 }

@@ -39,8 +39,7 @@ export class AuthenticationController {
     .setBody(user);
     return this.networkService.send(request).map((response : Response) => {
       if (response.status === 200) {
-        this.networkService.setSecurityHeader('X-API-KEY', response.headers.get('X-API-KEY'));
-        console.log(response.headers.get('X-API-KEY'))
+        this.networkService.setSecurityHeader('X-API-Key', response.headers.get('X-API-Key'));
         this.userService.updateFavourites();
         this.statisticsService.updateStatistics();
         let activeUser : Employee = this.employeeFactory.createEmployee(response.json());

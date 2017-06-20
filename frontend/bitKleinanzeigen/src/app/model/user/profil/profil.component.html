@@ -20,6 +20,7 @@
     </div>
   </div>
 </div>
+<button type="button" name="button" *ngIf="userService.userInformation.isAdmin" (click)="retireAsAdmin()">Auslöschen</button>
 
 
 <div class="container-fluid own-listings-container">
@@ -31,8 +32,8 @@
         <span *ngIf="listing.isActive" class="glyphicon glyphicon-ok-sign status-active" title="Aktiv"></span>
         <span *ngIf="!listing.isActive" class="glyphicon glyphicon-minus-sign status-inactive" title="Inaktiv"></span>
       </h3>
-        <p class="stats"><span class="glyphicon glyphicon-calendar"></span> Erstelldatum: {{listing.createDate}}</p>
-        <p class="stats"><span class="glyphicon glyphicon-time"></span> Ablaufdatum: <span *ngIf="!listing.expiryDate" title="Kein Ablaufdatum">-</span>{{listing.expiryDate}}</p>
+        <p class="stats"><span class="glyphicon glyphicon-calendar"></span> Erstelldatum: {{dateService.dateFromUnixTime(listing.createDate)}}</p>
+        <p class="stats"><span class="glyphicon glyphicon-time"></span> Ablaufdatum: <span *ngIf="!listing.expiryDate" title="Kein Ablaufdatum">-</span><span *ngIf="listing.expiryDate">{{dateService.dateFromUnixTime(listing.expiryDate)}}</span></p>
       </div>
       <div class="listing-edit col-xs-12 col-sm-4">
         <button
@@ -65,3 +66,4 @@
     </div>
   </div>
 </div>
+<button type="button" name="button" *ngIf="userService.userInformation.isAdmin" (click)="retireAsAdmin()">Auslöschen</button>
