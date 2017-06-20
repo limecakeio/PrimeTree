@@ -1,19 +1,32 @@
-.own-listings-container {
+.dashboard-nav {
+  display: table;
+  margin: 0 auto 1em auto;
+}
+
+.dashboard-nav li {
+  margin: 0 2em;
+}
+
+.all-listings-container,
+.all-users-container {
   display: table;
   border: 1px solid #b2b2b2;
 }
 
-.listing-row {
+.listing-row,
+.user-row {
   margin-bottom: 1em;
   padding-bottom: 1em;
   border-bottom: 1px solid #b2b2b2;
 }
 
-.listing-title {
+.listing-title,
+.user-name {
   margin-bottom: 2em;
 }
 
-.listing-title h3 {
+.listing-title h3,
+.user-name h3 {
   margin-top: 1em;
   text-align: left;
 }
@@ -24,6 +37,14 @@
 
 .status-inactive {
   color: #EF6461;
+}
+
+.user-make-admin {
+  text-align: center;
+}
+
+.user-make-admin p {
+  color: #7EE081;
 }
 
 .stats {

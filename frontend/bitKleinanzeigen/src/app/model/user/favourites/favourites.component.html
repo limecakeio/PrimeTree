@@ -7,7 +7,7 @@
       <h1><span class="icon favourite"></span> Meine Merkliste</h1>
     </div>
     <div class="row"></div>
-    <div class="listing col-xs-12 col-sm-6 col-md-3 col-lg-4" *ngFor="let favouriteListing of favouriteListings">
+    <div class="listing col-xs-12 col-sm-6 col-md-3 col-lg-4 column" *ngFor="let favouriteListing of favouriteListings">
       <listing-preview-placeholder
         [listing]="favouriteListing"
         (listingCreated)="updateListingCounter($event)">

@@ -1,3 +1,13 @@
 .search-result {
   text-align:center;
 }
+
+.search-results-container {
+  padding-bottom: 50px;
+}
+
+@media (min-width: 768px) {
+  .search-results-container {
+    padding-bottom:0;
+  }
+}

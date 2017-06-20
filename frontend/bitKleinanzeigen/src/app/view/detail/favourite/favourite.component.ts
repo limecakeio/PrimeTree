@@ -35,11 +35,11 @@ export class FavouriteDetailViewComponent {
     });
     this.messageService.getObservable().subscribe((message : Message) => { // check if the listing was followed or unfollowed in the detail view
       if (message.message === 'favourite-toogle-off') {
-        if (message.payload === this.model.id) {
+        if (message.payload.id === this.model.id) {
           this.favouriteStatus = '';
         }
       } else if (message.message === 'favourite-toogle-on') {
-        if (message.payload === this.model.id) {
+        if (message.payload.id === this.model.id) {
           this.favouriteStatus = 'active';
         }
       }
@@ -52,7 +52,7 @@ export class FavouriteDetailViewComponent {
         this.favouriteStatus = '';
         this.messageService.sendMessage({
           message: 'favourite-toogle-off',
-          payload: this.model.id
+          payload: this.model
         });
       });
     } else {
@@ -60,7 +60,7 @@ export class FavouriteDetailViewComponent {
         this.favouriteStatus = 'active';
         this.messageService.sendMessage({
           message: 'favourite-toogle-on',
-          payload: this.model.id
+          payload: this.model
         });
       });
     }

@@ -1,58 +1,65 @@
 .user-profile-wrapper {
-  padding: 2em 0;
-  background-color: #F4FAFF;
+  padding-bottom: 50px;
 }
 
-.user-profile-container {
-  display: table;
-  width: 50%;
-  margin: 0 auto;
-}
-
-.user-profile-data {
-  padding: 3em;
-  color: #57585A;
-}
-
-.user-profile-image img {
-  width:auto;
-  height: 100%;
-  border-radius: 3% 0 0 3%
-}
-
-.user-data-column {
-  background-color: #fff;
-  border-radius: 0% 3% 3% 0%;
-}
-
-.own-listings-container {
-  display: table;
+.user-profile-image {
+  padding: 5pt;
   border: 1px solid #b2b2b2;
 }
 
+.user-profile-image img {
+  width: 100%;
+  height: auto;
+  }
+
+.user-data-list,
+.listing-data {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user-profile-name h2 {
+text-transform: uppercase;
+font-size: 15pt;
+font-weight: bold;
+margin-top: 10pt;
+}
+
 .listing-row {
-  margin-bottom: 1em;
-  padding-bottom: 1em;
-  border-bottom: 1px solid #b2b2b2;
+  padding: 5pt;
+  background-color: #F4FAFF;
+  border: 1px solid #b2b2b2;
+  margin-bottom: 10pt;
 }
 
-.listing-title {
-  margin-bottom: 2em;
-}
-
-.listing-title h3 {
-  margin-top: 1em;
+.sub-heading {
   text-align: left;
-}
-
-.status-active {
-  color: #7EE081;
+  margin-bottom: 5pt;
 }
 
 .status-inactive {
   color: #EF6461;
 }
 
+.status-active {
+  color: #7EE081;
+}
+
 .stats {
-  margin:0;
+  margin: 0;
+}
+
+.listing-actions {
+  margin: 1em 0;
+}
+
+.listing-action {
+  margin: 5pt 0;
+}
+
+@media (min-width: 768px) {
+  .user-profile-wrapper {
+    padding-bottom: 0;
+  }
 }
