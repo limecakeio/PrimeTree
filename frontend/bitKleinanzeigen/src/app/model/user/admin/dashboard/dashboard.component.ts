@@ -108,8 +108,6 @@ export class UserAdminDashboardComponent {
   /**Appoints the employee with the userID to an admin. */
   public appointAdmin(userID : number) : void {
     this.userController.appointAdmin(userID).subscribe(() => {
-      console.log(this.users, userID, this.users.filter(user => user.userID == userID)[0])
-      // this.users.find(user => user.userId === userID).isAdmin = true;
       this.users.filter(user => user.userID == userID)[0].isAdmin = true;
       let notification = "Der Benutzer mit der ID:" + userID + " wurde erfolgreich zum Administrator ernannt.";
       this.listingStatusMessage('notify-success', notification);

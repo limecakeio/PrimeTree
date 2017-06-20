@@ -54,8 +54,6 @@ export class SaleOfferComponent extends ListingComponent implements OnInit {
     this.userController.getUser(this.listing.creatorID).subscribe((employee : Employee) => {
       this.eMail.subject = 'Kaufanfrage für ' + this.listing.title;
       this.eMail.body = 'Hallo ' + employee.firstName + ',%0Aich möchte dein ' + this.listing.title + ' kaufen.%0A%0AMit freundlichen Grüßen%0A' + this.userService.userInformation.firstName + ' ' + this.userService.userInformation.lastName;
-    }, (error : Error) => {
-      console.log(error)
     });
   }
 }

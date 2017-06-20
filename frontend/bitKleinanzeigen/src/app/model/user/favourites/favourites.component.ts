@@ -62,10 +62,8 @@ export class FavouritesComponent {
           found = true;
         }
       }
-      console.log('favourite delete', found, message.payload)
     } else if (message.message === 'favourite-toogle-on') {
       this.getFavourites();
-      console.log('favourite appont', message.payload)
     }
   };
 
