@@ -1,11 +1,11 @@
-<div class="pompous-title">
-  <h1><span class="icon favourite"></span> Meine Merkliste</h1>
-</div>
 <div id="listing-viewport" class="listing-viewport" #listingViewport>
   <div class="listing-detail-view level-down" #listingDetailView>
     <listing-detail-view  [listingID]="detailListingID" #listingDetailViewComponent></listing-detail-view>
   </div>
   <div class="listing-standard-container main-viewport container-fluid">
+    <div class="pompous-title">
+      <h1><span class="icon favourite"></span> Meine Merkliste</h1>
+    </div>
     <div class="row"></div>
     <div class="listing col-xs-12 col-sm-6 col-md-3 col-lg-4" *ngFor="let favouriteListing of favouriteListings">
       <listing-preview-placeholder
