@@ -45,7 +45,6 @@ export class DateAndTimeViewComponent implements OnInit {
       this.dateAndTimePropertyDisplayText = this.dateAndTimeProperty.displayText;
       this.dateAndTimePropertyName = this.dateAndTimeProperty.name;
       this.isInputAvailable = true;
-      console.log(this.dateAndTimeProperty, this.model)
       if (this.model[this.dateAndTimePropertyName]) {
         this.isPropertyAvailable = true;
       }

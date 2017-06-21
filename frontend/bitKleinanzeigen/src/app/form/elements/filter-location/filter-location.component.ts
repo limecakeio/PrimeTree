@@ -41,7 +41,7 @@ export class LocationFilter  implements OnChanges {
   }
 
   public triggerFilter(location : string) : void {
-    console.log(location);
+    
   }
 
   ngOnChanges(simpleChanges : SimpleChanges) : void {

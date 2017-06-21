@@ -21,8 +21,8 @@ import { UserController } from '../../../user/user.controller';
 @Component({
   selector: 'listing-detail-view-service-offer',
   templateUrl: './service-offer.component.html',
-  styleUrls: [ '../../../listing/detail/listing-detail-view.component.css' ], // JIT
-  // styleUrls: [ '../../listing/detail/listing-detail-view.component.css' ], // AOT
+  // styleUrls: [ '../../../listing/detail/listing-detail-view.component.css' ], // JIT
+  styleUrls: [ '../../listing/detail/listing-detail-view.component.css' ], // AOT
   providers: [
     DetailViewService
   ]
@@ -52,8 +52,8 @@ export class ServiceOfferComponent extends ListingComponent implements OnInit {
   ngOnInit() {
     this.detailViewService.sendModelToSubscribers(this.listing);
     this.userController.getUser(this.listing.creatorID).subscribe((employee : Employee) => {
-      this.eMail.subject = 'Dienstanfrage für ' + this.listing.id;
-      this.eMail.body = 'Hallo ' + employee.firstName + ',%0Aich möchte dein ' + this.listing.title + 'kaufen.%0A%0AMit freundlichen Grüßen%0A' + this.userService.userInformation.firstName + ' ' + this.userService.userInformation.lastName;
+      this.eMail.subject = 'Dienstanfrage für ' + this.listing.title;
+      this.eMail.body = 'Hallo ' + employee.firstName + ',%0Aich möchte deine ' + this.listing.title + ' in Anspruch nehmen.%0A%0AMit freundlichen Grüßen%0A' + this.userService.userInformation.firstName + ' ' + this.userService.userInformation.lastName;
     })
   }
 }

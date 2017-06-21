@@ -1,6 +1,6 @@
 .listing-detail-content {
   display: table;
-  width: 65%;
+  width: 90%;
   margin: 2em auto;
   background-color: #FFF8F0;
   color: #57585A;
@@ -58,6 +58,9 @@
 
 /*Responsive settings*/
 @media (min-width: 768px) {
+  .listing-detail-content {
+    width: 60%;
+  }
   .cta-element {
     margin-top: 0;
     text-align: right;

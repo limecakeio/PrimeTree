@@ -51,7 +51,6 @@ export class FilterRadioComponent implements OnChanges {
   }
 
   public changeFilterValue(event : Event) : void {
-    console.log(this.filterValueChecked, this.filterPropertyName, this.filterPropertyValue, this.filterString)
     event.preventDefault();
     if (this.filterValueChecked) { // filter is set
       if (this.model[this.filterPropertyName] === this.filterPropertyValue) { // if filter value is from this checkbox

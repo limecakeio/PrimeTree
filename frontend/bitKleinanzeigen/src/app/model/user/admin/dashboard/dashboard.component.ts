@@ -14,6 +14,8 @@ import { Page } from '../../../listings/listing/page.model';
 
 import { DateService } from '../../../../shared/date.service';
 
+import { ListingRepository } from '../../../listings/listing/listing.repository';
+
 @Component({
   selector: 'user-admin-dashboard',
   templateUrl: './dashboard.component.html',
@@ -33,7 +35,8 @@ export class UserAdminDashboardComponent {
     private statisticsService : StatisticsService,
     private router : Router,
     private messageService : MessageService,
-    public dateService : DateService
+    public dateService : DateService,
+    private listingRepository : ListingRepository
   ) {
     this.listingController.getListings().subscribe((page : Page) => {
       this.page = page;
@@ -71,12 +74,14 @@ export class UserAdminDashboardComponent {
       }
       let notification = "Inserat " + listingID + " wurde erfolgreich gelöscht.";
       this.listingStatusMessage('notify-success', notification);
+      this.listingRepository.update();
     }), (error: Error) => {
       let notification = "Das Inserat " + listingID + " konnte nicht gelöscht werden. Grund: " + error;
       this.listingStatusMessage('notify-error', notification);
     };
   }
 
+  /**Activates the listing with the listing id and informs the user through an information notify overlay. */
   public activateListing(listingID : number) : void {
     this.listingController.activateListing(listingID).subscribe(() => {
       this.listings.find(listing => listing.id === listingID).isActive = true;
@@ -103,7 +108,7 @@ export class UserAdminDashboardComponent {
   /**Appoints the employee with the userID to an admin. */
   public appointAdmin(userID : number) : void {
     this.userController.appointAdmin(userID).subscribe(() => {
-      this.users.find(user => user.userId === userID).isAdmin = true;
+      this.users.filter(user => user.userID == userID)[0].isAdmin = true;
       let notification = "Der Benutzer mit der ID:" + userID + " wurde erfolgreich zum Administrator ernannt.";
       this.listingStatusMessage('notify-success', notification);
     }), (error : Error) => {

@@ -9,7 +9,6 @@ import { MessageService, Message } from '../../../shared/message.service';
 declare var google : any;
 
 declare var window : any;
-// declare var window.google : any;
 
 
 interface LocationStatistic {
@@ -56,7 +55,7 @@ export class FilterGoogleMapsComponent {
 
   /** Loads the google maps api files async and appeds the neccesarrily script tag to the body */
   public loadGoogleMapsApi() : void {
-    if (window.google && window.google.maps) {
+    if (window.google && window.google.maps && window['initMap']) {
       this.initMap();
       return;
     }
@@ -65,6 +64,10 @@ export class FilterGoogleMapsComponent {
     }
     let script : HTMLScriptElement = document.createElement('script');
     script.id = 'googleMaps';
+    if (document.querySelector('#googleMaps')) {
+      this.initMap();
+      return;
+    }
     script.src = 'https://maps.googleapis.com/maps/api/js?key=' + this.googleMapsApiKey + '&libraries=places&callback=initMap'
     document.body.appendChild(script);
   }

@@ -1,4 +1,3 @@
-"use strict";
 var User = (function () {
     function User() {
         this.username = '';
@@ -6,5 +5,5 @@ var User = (function () {
     }
     return User;
 }());
-exports.User = User;
+export { User };
 //# sourceMappingURL=user.model.js.map

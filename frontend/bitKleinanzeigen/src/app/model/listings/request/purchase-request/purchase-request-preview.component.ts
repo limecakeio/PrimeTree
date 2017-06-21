@@ -21,8 +21,8 @@ import { MessageService, Message } from '../../../../shared/message.service';
 @Component({
   selector: 'purchase-request-preview',
   templateUrl: './purchase-request-preview.component.html',
-  styleUrls: [ '../../../listing/preview/listing-preview.component.css' ], // JIT
-  // styleUrls: [ '../../listing/preview/listing-preview.component.css' ], // AOT
+  // styleUrls: [ '../../../listing/preview/listing-preview.component.css' ], // JIT
+  styleUrls: [ '../../listing/preview/listing-preview.component.css' ], // AOT
   providers: [
     PreviewService
   ]

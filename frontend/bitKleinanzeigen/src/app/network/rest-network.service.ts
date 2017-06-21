@@ -9,7 +9,7 @@ import { NetworkRequest } from './network.request';
 export class RESTNetworkService extends NetworkService {
 
   private protocol : string = 'http';
-  private hostname : string = '141.19.145.176';
+  private hostname : string = 'localhost';
   private port : number = 8080;
   private basePath : string = 'bitServer';
 

@@ -55,21 +55,17 @@ export class NavigationComponent {
 
   /**Performs a search request if the search query contains at least two characters. Routes to /listing/search afterwards. */
   public searchOnInput(event : any) : void {
-    console.log('searchOnInput')
     this.searchQuery = event.target.value;
     this.search(this.searchQuery);
   }
 
   public searchOnButton() : void {
-    console.log('searchOnButton')
     this.search(this.searchQuery);
   }
 
   private search(query : string) : void {
-    console.log(query)
     if (query.length >= 2) {
       this.router.navigate(['listing/search']).then(() => {
-        console.log('send')
         this.messageService.sendMessage({
           message: 'ListingSearch',
           payload: query

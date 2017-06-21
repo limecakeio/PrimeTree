@@ -1,1 +1,19 @@
+.listing-viewport .listing-standard-container {
+  padding: 0px;
+  height: auto;
+}
 
+.pompous-title {
+  margin-top: 0;
+}
+
+@media (min-width: 768px) {
+  .pompous-title {
+    margin-top: 2em;
+  }
+  .listing-viewport .listing-standard-container {
+    padding: inherit;
+    height: 100%;
+  }
+
+}

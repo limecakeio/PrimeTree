@@ -5,11 +5,11 @@
   </h3>
   <div class="journey-stops-container collapse" id="journey-stops-container">
     <ul>
-      <li class="journey-stop" *ngFor="let journeyStop of model.journeyStops">
+      <li class="journey-stop" *ngFor="let journeyStop of model.journeyStops; let index">
         <div class="container-fluid">
           <div class="row">
             <div class="col-xs-8"><p><span class="icon location"></span> {{journeyStop}}</p></div>
-            <div class="col-xs-4 delete-stop"><span class="icon exit warn" title="Zwischenstop entfernen"></span></div>
+            <div class="col-xs-4 delete-stop" (click)="removeJourneyStop(index)"><span class="icon exit warn" title="Zwischenstop entfernen"></span></div>
           </div>
         </div>
       </li>

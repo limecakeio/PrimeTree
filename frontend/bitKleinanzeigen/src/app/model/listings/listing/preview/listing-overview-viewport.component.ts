@@ -186,7 +186,10 @@ export class ListingOverviewViewportComponent implements AfterViewInit {
         this.setSliderControls();
         loadScreen.classList.remove("active");
       } else {
-        console.log(' No more listings! -> Need to make a message out of this! ')
+        // this.messageService.sendMessage({
+        //   message: 'notify-success',
+        //   payload: 'Alle exsistierenden Inserate wurden geladen.'
+        // })
         loadScreen.classList.remove("active");
       }
       loadScreen.classList.remove("active");

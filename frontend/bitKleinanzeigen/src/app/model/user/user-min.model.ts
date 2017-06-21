@@ -1,5 +1,5 @@
 export class UserMin {
-  userId : number;
+  userID : number;
   userImage : string;
   firstName : string;
   lastName : string;

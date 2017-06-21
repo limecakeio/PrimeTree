@@ -1,42 +1,41 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var core_1 = require("@angular/core");
-var platform_browser_1 = require("@angular/platform-browser");
-var authentication_module_1 = require("./authentication/authentication.module");
-var navigation_1 = require("./navigation/navigation");
-var listings_module_1 = require("./model/listings/listings.module");
-var user_1 = require("./model/user/user");
-var shared_module_1 = require("./shared/shared.module");
-var network_module_1 = require("./network/network.module");
-var app_component_1 = require("./app.component");
-var router_1 = require("@angular/router");
-var routing_module_1 = require("./routing/routing.module");
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { NavigationModule } from './navigation/navigation';
+import { ListingsModule } from './model/listings/listings.module';
+import { UserModule } from './model/user/user';
+import { SharedModule } from './shared/shared.module';
+import { NetworkModule } from './network/network.module';
+import { AppComponent } from './app.component';
+import { RouterModule } from '@angular/router';
+import { RoutingModule } from './routing/routing.module';
 var AppModule = (function () {
     function AppModule() {
     }
     return AppModule;
 }());
 AppModule = __decorate([
-    core_1.NgModule({
+    NgModule({
         imports: [
-            platform_browser_1.BrowserModule,
-            network_module_1.NetworkModule,
-            router_1.RouterModule,
-            routing_module_1.RoutingModule,
-            authentication_module_1.AuthenticationModule,
-            navigation_1.NavigationModule,
-            listings_module_1.ListingsModule,
-            user_1.UserModule,
-            shared_module_1.SharedModule
+            BrowserModule,
+            NetworkModule,
+            RouterModule,
+            RoutingModule,
+            AuthenticationModule,
+            NavigationModule,
+            ListingsModule,
+            UserModule,
+            SharedModule
         ],
-        declarations: [app_component_1.AppComponent],
-        bootstrap: [app_component_1.AppComponent],
+        declarations: [AppComponent],
+        bootstrap: [AppComponent],
     })
 ], AppModule);
-exports.AppModule = AppModule;
+export { AppModule };
 //# sourceMappingURL=app.module.js.map

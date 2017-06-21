@@ -1,67 +1,86 @@
-<div class="page-title standard">
-  <h1><span class="icon account"></span> User Profil</h1>
-</div>
-<div class="user-profile-wrapper">
-  <div class="container-fluid user-profile-container">
-    <div class="row-eq-height">
-      <div class="col-xs-12 col-sm-4 column">
+<div class="profile-wrapper">
+  <div class="pompous-title">
+    <h1><span class="icon account"></span> User Profil</h1>
+  </div>
+
+  <div class="container-fluid user-profile-wrapper">
+    <div class="row">
+      <div class="col-xs-6 col-sm-4 col-md-3 user-details-column">
         <div class="user-profile-image">
           <img src="{{userService.userInformation.userImage}}" />
         </div>
-      </div>
-      <div class="col-xs-12 col-sm-8 column user-data-column">
-        <div class="user-profile-data">
+        <div class="user-profile-name">
           <h2>{{userService.userInformation.firstName}} {{userService.userInformation.lastName}}</h2>
-          <p class="sub-text">{{userService.userInformation.position}} // {{userService.userInformation.location}}</p>
-          <p class="data-field"><span class="glyphicon glyphicon-envelope"></span> <a href="mailto:{{userService.userInformation.eMail}}">{{userService.userInformation.eMail}}</a></p>
-          <p class="data-field"><span class="glyphicon glyphicon-phone"></span> <a href="tel:{{userService.userInformation.phone}}">{{userService.userInformation.phone}}</a></p>
+        </div>
+        <div class="user-profile-position">
+          <p class="sub-text">{{userService.userInformation.position}}</p>
+        </div>
+        <div class="user-secondary-data">
+          <ul class="user-data-list">
+            <li><p><span class="icon location"></span> {{userService.userInformation.location}}</p></li>
+            <li><p><span class="glyphicon glyphicon-envelope"></span> <a href="mailto:{{userService.userInformation.eMail}}">{{userService.userInformation.eMail}}</a></p>
+              <li><p><span class="glyphicon glyphicon-phone"></span> <a href="tel:{{userService.userInformation.phone}}">{{userService.userInformation.phone}}</a></p></li>
+            </ul>
+          </div>
+          <div class="cancel-admin" *ngIf="userService.userInformation.isAdmin">
+            <button
+            type="button"
+            name="button"
+            class="btn btn-listing btn-create"
+            (click)="retireAsAdmin()"> Als Administrator zurücktreten </button>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-9">
+          <div class="container-fluid own-listings-container">
+            <div class="" *ngFor="let listing of ownListings">
+              <div class="row listing-row">
+                <div class="listing-title col-xs-12">
+                  <h3 class="sub-heading">{{listing.title}}
+                    <span *ngIf="listing.isActive" class="glyphicon glyphicon-ok-sign status-active" title="Aktiv"></span>
+                    <span *ngIf="!listing.isActive" class="glyphicon glyphicon-minus-sign status-inactive" title="Inaktiv"></span>
+                  </h3>
+                  <ul class="listing-data">
+                    <li><p class="stats"><span class="glyphicon glyphicon-calendar"></span> Erstelldatum: {{dateService.dateFromUnixTime(listing.createDate)}}</p></li>
+                    <li><p class="stats"><span class="glyphicon glyphicon-time"></span> Ablaufdatum: <span *ngIf="!listing.expiryDate" title="Kein Ablaufdatum">-</span><span *ngIf="listing.expiryDate">{{dateService.dateFromUnixTime(listing.expiryDate)}}</span></p></li>
+                    <li><p class="stats"><span class="glyphicon glyphicon-pushpin"></span> Inseratnr.: {{listing.id}}</p></li>
+                  </ul>
+                </div>
+                <div class="listing-actions container-fluid">
+                  <div class="row">
+                    <div class="listing-edit listing-action col-xs-12 col-sm-4">
+                      <button
+                      type="button"
+                      name="button"
+                      class="btn btn-listing btn-sm"
+                      (click)="changeListing(listing)">Ändern</button>
+                    </div>
+                    <div class="listing-toggle listing-action col-xs-12 col-sm-4">
+                      <button
+                      type="button"
+                      name="button"
+                      class="btn btn-listing btn-sm"
+                      (click)="activateListing(listing.id)"
+                      *ngIf="!listing.isActive">Aktivieren</button>
+                      <button
+                      type="button"
+                      name="button"
+                      class="btn btn-listing btn-sm"
+                      (click)="deactivateListing(listing.id)"
+                      *ngIf="listing.isActive">Deaktivieren</button>
+                    </div>
+                    <div class="listing-delete listing-action col-xs-12 col-sm-4">
+                      <button
+                      type="button"
+                      name="button"
+                      class="btn btn-listing btn-sm"
+                      (click)="removeListing(listing.id)">Löschen</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-
-<div class="container-fluid own-listings-container">
-  <h2 class="sub-heading">Deine Inserate</h2>
-  <div class="" *ngFor="let listing of ownListings">
-    <div class="row listing-row">
-      <div class="listing-title col-xs-12">
-        <h3 class="sub-heading">{{listing.title}}
-        <span *ngIf="listing.isActive" class="glyphicon glyphicon-ok-sign status-active" title="Aktiv"></span>
-        <span *ngIf="!listing.isActive" class="glyphicon glyphicon-minus-sign status-inactive" title="Inaktiv"></span>
-      </h3>
-        <p class="stats"><span class="glyphicon glyphicon-calendar"></span> Erstelldatum: {{listing.createDate}}</p>
-        <p class="stats"><span class="glyphicon glyphicon-time"></span> Ablaufdatum: <span *ngIf="!listing.expiryDate" title="Kein Ablaufdatum">-</span>{{listing.expiryDate}}</p>
-      </div>
-      <div class="listing-edit col-xs-12 col-sm-4">
-        <button
-        type="button"
-        name="button"
-        class="btn btn-listing btn-sm"
-        (click)="changeListing(listing)">Ändern</button>
-      </div>
-      <div class="listing-toggle" class="col-xs- 12 col-sm-4">
-        <button
-        type="button"
-        name="button"
-        class="btn btn-listing btn-sm"
-        (click)="activateListing(listing.id)"
-        *ngIf="!listing.isActive">Aktivieren</button>
-        <button
-        type="button"
-        name="button"
-        class="btn btn-listing btn-sm"
-        (click)="deactivateListing(listing.id)"
-        *ngIf="listing.isActive">Deaktivieren</button>
-      </div>
-      <div class="listing-delete col-xs-12 col-sm-4">
-        <button
-        type="button"
-        name="button"
-        class="btn btn-listing btn-sm"
-        (click)="removeListing(listing.id)">Löschen</button>
-      </div>
-    </div>
-  </div>
 </div>

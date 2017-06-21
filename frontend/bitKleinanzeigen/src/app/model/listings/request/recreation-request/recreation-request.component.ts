@@ -23,8 +23,8 @@ import { UserController } from '../../../user/user.controller';
 @Component({
   selector: 'listing-detail-view-recreation-request',
   templateUrl: './recreation-request.component.html',
-  styleUrls: ['../../../listing/detail/listing-detail-view.component.css'], // JIT
-  // styleUrls: ['../../listing/detail/listing-detail-view.component.css'], // AOT
+  // styleUrls: ['../../../listing/detail/listing-detail-view.component.css'], // JIT
+  styleUrls: ['../../listing/detail/listing-detail-view.component.css'], // AOT
   providers: [
     DetailViewService
   ]
@@ -63,8 +63,8 @@ export class RecreationRequestComponent extends ListingComponent implements OnIn
   ngOnInit() {
     this.detailViewService.sendModelToSubscribers(this.listing);
     this.userController.getUser(this.listing.creatorID).subscribe((employee : Employee) => {
-      this.eMail.subject = 'Kaufsanfrage für ' + this.listing.id;
-      this.eMail.body = 'Hallo ' + employee.firstName + ',%0Aich habe Interesse an dein Inserat (' + this.listing.title + ') und möchte es dir gerne verkaufen.%0A%0AMit freundlichen Grüßen%0A' + this.userService.userInformation.firstName + ' ' + this.userService.userInformation.lastName;
+      this.eMail.subject = this.listing.title;
+      this.eMail.body = 'Hallo ' + employee.firstName + ',%0Aich habe Interesse an dein Inserat (' + this.listing.title + ') und würde gerne teilnehmen.%0A%0AMit freundlichen Grüßen%0A' + this.userService.userInformation.firstName + ' ' + this.userService.userInformation.lastName;
     });
   }
 }

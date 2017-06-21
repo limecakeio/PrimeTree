@@ -86,7 +86,6 @@ export class DateFormComponent implements OnInit {
       this.yearControlName = 'year' + this.datePropertyName;
       this.form.addControl(this.yearControlName, new FormControl(''));
       this.isInputAvailable = true;
-      console.log(this.model);
     }
   }
 

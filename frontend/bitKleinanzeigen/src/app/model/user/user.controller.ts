@@ -126,7 +126,7 @@ export class UserController {
   public appointAdmin(userId : number) : Observable<void> {
     let networkRequest : NetworkRequest = this.networkService.networkRequest();
     networkRequest
-    .setHttpMethod(RequestMethod.Get)
+    .setHttpMethod(RequestMethod.Post)
     .addPath('user')
     .addPath('' + userId)
     .addPath('admin');
@@ -148,9 +148,8 @@ export class UserController {
   public relieveAdmin(userId : number) : Observable<void> {
     let networkRequest : NetworkRequest = this.networkService.networkRequest();
     networkRequest
-    .setHttpMethod(RequestMethod.Get)
+    .setHttpMethod(RequestMethod.Delete)
     .addPath('user')
-    .addPath('' + userId)
     .addPath('admin');
     return this.networkService.send(networkRequest).map((response : Response) => {
       if (response.status === 200) {

@@ -28,7 +28,9 @@ export class DescriptionFormComponent {
       if (!this.model.description) {
         this.model.description = '';
       }
-      this.form.addControl('description', new FormControl('', Validators.required));
+      this.form.addControl('description', new FormControl('', Validators.compose([
+        Validators.required, Validators.minLength(1), Validators.maxLength(1024)
+      ])));
       this.isModelAvailable = true;
     })
   }
