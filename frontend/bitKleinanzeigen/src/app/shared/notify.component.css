@@ -1,21 +1,15 @@
 .notify-wrapper {
   position: fixed;
-  bottom: 0;
+  bottom: 50px;
   left: 0;
-  width: 25%;
-}
-
-.notify-container {
-  display: table;
-  width: 80%;
-  margin: 1em auto;
-  padding: 1em;
+  width: 100%;
+  z-index: 9999;
 }
 
 .notification {
   padding: 1em;
   border: 1px solid #b2b2b2;
-  margin-bottom: 1em;
+  margin-top: 1em;
 }
 
 .notification:before {
@@ -31,4 +25,11 @@
 
 .notification.success {
   background-color: #7EE081;
+}
+
+@media (min-width: 768px) {
+  .notify-wrapper {
+    width: 30%;
+    bottom: 0px;
+  }
 }

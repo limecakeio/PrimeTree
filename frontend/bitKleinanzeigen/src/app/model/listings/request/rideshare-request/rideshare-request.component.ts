@@ -23,8 +23,8 @@ import { DateService } from '../../../../shared/date.service';
 @Component({
   selector: 'listing-detail-view-rideshare-request',
   templateUrl: './rideshare-request.component.html',
-  styleUrls: ['../../../listing/detail/listing-detail-view.component.css'], // JIT
-  // styleUrls: ['../../listing/detail/listing-detail-view.component.css'], // AOT
+  // styleUrls: ['../../../listing/detail/listing-detail-view.component.css'], // JIT
+  styleUrls: ['../../listing/detail/listing-detail-view.component.css'], // AOT
   providers: [
     DetailViewService
   ]

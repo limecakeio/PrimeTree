@@ -38,7 +38,7 @@ export class NotifyComponent {
         this.messageBoard = this.messageBoard.filter((message) => {
           return message !== announcement;
         });
-      }, 5000);
+      }, 3500);
     });
   }
 

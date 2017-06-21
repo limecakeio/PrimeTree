@@ -1,62 +1,86 @@
-<div class="pompous-title">
-  <h1><span class="icon dashboard"></span> Administrationsbereich</h1>
-</div>
+<div class="admin-wrapper">
+  <div class="pompous-title">
+    <h1><span class="icon dashboard"></span> Administrationsbereich</h1>
+  </div>
 
-<h2>Inserate</h2>
-<div class="container-fluid own-listings-container">
-  <div class="" *ngFor="let listing of listings">
-    <div class="row listing-row">
-      <div class="listing-title col-xs-12">
-        <h3 class="sub-heading">{{listing.title}}
-        <span *ngIf="listing.isActive" class="glyphicon glyphicon-ok-sign status-active" title="Aktiv"></span>
-        <span *ngIf="!listing.isActive" class="glyphicon glyphicon-minus-sign status-inactive" title="Inaktiv"></span>
-      </h3>
-        <p class="stats"><span class="glyphicon glyphicon-calendar"></span> Erstelldatum: {{dateService.dateFromUnixTime(listing.createDate)}}</p>
-        <p class="stats"><span class="glyphicon glyphicon-time"></span> Ablaufdatum: <span *ngIf="!listing.expiryDate" title="Kein Ablaufdatum">-</span><span *ngIf="listing.expiryDate">{{dateService.dateFromUnixTime(listing.expiryDate)}}</span></p>
+  <ul class="nav nav-pills dashboard-nav">
+    <li class="active"><a data-toggle="pill" href="#all-listings">Inserate</a></li>
+    <li><a data-toggle="pill" href="#all-users">Benutzer</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="all-listings" class="tab-pane fade in active">
+      <div class="container-fluid all-listings-container">
+        <div class="row listing-row" *ngFor="let listing of listings">
+
+            <div class="listing-title col-xs-12">
+              <h3 class="sub-heading">{{listing.title}}
+              <span *ngIf="listing.isActive" class="glyphicon glyphicon-ok-sign status-active" title="Aktiv"></span>
+              <span *ngIf="!listing.isActive" class="glyphicon glyphicon-minus-sign status-inactive" title="Inaktiv"></span>
+            </h3>
+              <p class="stats"><span class="glyphicon glyphicon-calendar"></span> Erstelldatum: {{dateService.dateFromUnixTime(listing.createDate)}}</p>
+              <p class="stats"><span class="glyphicon glyphicon-time"></span> Ablaufdatum: <span *ngIf="!listing.expiryDate" title="Kein Ablaufdatum">-</span><span *ngIf="listing.expiryDate">{{dateService.dateFromUnixTime(listing.expiryDate)}}</span></p>
+            </div>
+            <div class="listing-edit col-xs-12 col-sm-4">
+              <button
+              type="button"
+              name="button"
+              class="btn btn-listing btn-sm"
+              (click)="changeListing(listing)">Ändern</button>
+            </div>
+            <div class="listing-toggle" class="col-xs- 12 col-sm-4">
+              <button
+              type="button"
+              name="button"
+              class="btn btn-listing btn-sm"
+              (click)="activateListing(listing.id)"
+              *ngIf="!listing.isActive">Aktivieren</button>
+              <button
+              type="button"
+              name="button"
+              class="btn btn-listing btn-sm"
+              (click)="deactivateListing(listing.id)"
+              *ngIf="listing.isActive">Deaktivieren</button>
+            </div>
+            <div class="listing-delete col-xs-12 col-sm-4">
+              <button
+              type="button"
+              name="button"
+              class="btn btn-listing btn-sm"
+              (click)="removeListing(listing.id)">Löschen</button>
+            </div>
+        </div>
+        <div class="more-listings" *ngIf="listings">
+          <button
+          type="button"
+          name="button"
+          class="btn btn-listing btn-listing-submit"
+          *ngIf="page?.pages !== page?.pageNumber"
+          (click)="loadMoreListings()">Weitere Inserate anzeigen</button>
+        </div>
       </div>
-      <div class="listing-edit col-xs-12 col-sm-4">
-        <button
-        type="button"
-        name="button"
-        class="btn btn-listing btn-sm"
-        (click)="changeListing(listing)">Ändern</button>
-      </div>
-      <div class="listing-toggle" class="col-xs- 12 col-sm-4">
-        <button
-        type="button"
-        name="button"
-        class="btn btn-listing btn-sm"
-        (click)="activateListing(listing.id)"
-        *ngIf="!listing.isActive">Aktivieren</button>
-        <button
-        type="button"
-        name="button"
-        class="btn btn-listing btn-sm"
-        (click)="deactivateListing(listing.id)"
-        *ngIf="listing.isActive">Deaktivieren</button>
-      </div>
-      <div class="listing-delete col-xs-12 col-sm-4">
-        <button
-        type="button"
-        name="button"
-        class="btn btn-listing btn-sm"
-        (click)="removeListing(listing.id)">Löschen</button>
+    </div>
+
+    <div id="all-users" class="tab-pane fade">
+      <div class="container-fluid all-users-container">
+        <div class="row user-row" *ngFor="let user of users">
+          <div class="user-name col-xs-12 col-sm-7">
+            <h3 class="sub-heading">{{user.firstName}} {{user.lastName}}</h3>
+          </div>
+          <div class="user-make-admin col-xs-12 col-sm-5">
+            <button
+            class="btn btn-listing btn-sm"
+            type="button"
+            name="button"
+            (click)="appointAdmin(user.userID)"
+            *ngIf="!user.isAdmin">ernennen</button>
+            <div class="is-admin" *ngIf="user.isAdmin">
+              <span class="icon account"></span>
+              <p>Administrator</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="more-listings" *ngIf="listings">
-    <button
-    type="button"
-    name="button"
-    class="btn btn-listing btn-listing-submit"
-    *ngIf="page?.pages !== page?.pageNumber"
-    (click)="loadMoreListings()">Weitere Inserate anzeigen</button>
-  </div>
-</div>
-
-
-<h2>Mitarbeiter</h2>
-<div class="" *ngFor="let user of users">
-  <span>{{user.firstName}} {{user.lastName}}</span>
-  <button type="button" name="button" (click)="appointAdmin(user.userID)" *ngIf="!user.isAdmin">ernennen</button>
 </div>

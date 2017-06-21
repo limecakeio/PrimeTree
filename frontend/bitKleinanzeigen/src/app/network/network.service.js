@@ -1,4 +1,3 @@
-"use strict";
 var NetworkService = (function () {
     function NetworkService() {
         this.securityActive = false;
@@ -15,5 +14,5 @@ var NetworkService = (function () {
     };
     return NetworkService;
 }());
-exports.NetworkService = NetworkService;
+export { NetworkService };
 //# sourceMappingURL=network.service.js.map

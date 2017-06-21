@@ -34,6 +34,8 @@
   background-color: #fff;
   transition: left 0.5s ease-in-out;
   z-index: 1000;
+  padding-bottom: 50px;
+  overflow-y: auto;
 }
 
 .listing-scroll-container {
@@ -49,7 +51,7 @@ left: 100%;
 
 .listing-wrapper {
   white-space: nowrap;
-  overflow:hidden;
+  overflow-x:auto;
   width: 100%;
 }
 
@@ -201,6 +203,12 @@ display:none;
 }
 
 @media (min-width: 768px) {
+  .listing-standard-container {
+    padding-bottom: 0;
+  }
+  .listing-wrapper {
+    overflow:hidden;
+  }
   .listing-viewport {
     position: absolute;
     width: 100%;
